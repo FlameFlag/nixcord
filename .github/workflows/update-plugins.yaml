@@ -201,7 +201,7 @@ jobs:
         run: |
           set -eo pipefail
           echo "::group::Generating plugin options"
-          nix run .#generatePluginOptions
+          nix run .#generate
           echo "::endgroup::"
 
       - name: Detect changes
