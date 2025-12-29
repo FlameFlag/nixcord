@@ -4,6 +4,8 @@
   lib,
   nodejs,
   pnpm_10,
+  fetchPnpmDeps, 
+  pnpmConfigHook,
   stdenv,
   buildWebExtension ? false,
   writeShellApplication,
@@ -32,7 +34,7 @@ stdenv.mkDerivation (finalAttrs: {
     inherit hash;
   };
 
-  pnpmDeps = pnpm_10.fetchDeps {
+  pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;
     pnpm = pnpm_10;
     hash = pnpmDeps;
@@ -43,7 +45,7 @@ stdenv.mkDerivation (finalAttrs: {
     git
     nodejs
     pnpm_10
-    pnpm_10.configHook
+    pnpmConfigHook
   ];
 
   env = {
