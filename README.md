@@ -180,7 +180,7 @@ first launch and login
 It is highly recommend configuring Nixcord with an open Vencord, Equicord,
 Vesktop, or Equibop client to look through available plugins and options.
 A list of all available options is available in the online documentation
-[here](https://kaylorben.github.io/nixcord/).
+[here](https://flameflag.github.io/nixcord/).
 
 ### Choosing Between Vencord and Equicord
 
