@@ -4,15 +4,15 @@
   cfg,
   config,
   mkVencordCfg,
+  wrapScript,
 }:
 let
-  inherit (lib.hm.dag) entryAfter;
-  attrsets = lib.attrsets;
-
-  dagAfterWrite = script: entryAfter [ "writeBoundary" ] script;
+  userName = cfg.user;
+  userHome = if pkgs.stdenvNoCC.isDarwin then "/Users/${userName}" else "/home/${userName}";
+  xdgHome = "${userHome}/.config";
 in
 {
-  disableDiscordUpdates = dagAfterWrite ''
+  disableDiscordUpdates = wrapScript ''
     set -euo pipefail
     mkdir -p "${cfg.discord.configDir}"
     config_dir="${cfg.discord.configDir}"
@@ -23,14 +23,11 @@ in
     fi
   '';
 
-  fixDiscordModules = dagAfterWrite ''
+  fixDiscordModules = wrapScript ''
     set -euo pipefail
 
     config_base="${
-      if pkgs.stdenvNoCC.isDarwin then
-        "${config.home.homeDirectory}/Library/Application Support"
-      else
-        "${config.xdg.configHome}"
+      if pkgs.stdenvNoCC.isDarwin then "${userHome}/Library/Application Support" else "${xdgHome}"
     }"
 
     for branch in discord discord-ptb discord-canary discord-development; do
@@ -55,14 +52,14 @@ in
     done
   '';
 
-  setupDorionVencordSettings = dagAfterWrite ''
+  setupDorionVencordSettings = wrapScript ''
     set -euo pipefail
 
     webkit_base_dir="${
       if pkgs.stdenvNoCC.isDarwin then
-        "${config.home.homeDirectory}/Library/WebKit/com.spikehd.dorion/WebsiteData/Default"
+        "${userHome}/Library/WebKit/com.spikehd.dorion/WebsiteData/Default"
       else
-        "${config.home.homeDirectory}/.local/share/dorion/profiles/default/webdata/localstorage"
+        "${userHome}/.local/share/dorion/profiles/default/webdata/localstorage"
     }"
 
     encode_utf16le() {
@@ -70,7 +67,7 @@ in
       echo -n "$input" | ${lib.getExe' pkgs.iconv "iconv"} -f UTF-8 -t UTF-16LE | ${lib.getExe pkgs.xxd} -p | tr -d '\n' | tr '[:lower:]' '[:upper:]'
     }
 
-    vencord_settings='${builtins.toJSON (mkVencordCfg (attrsets.recursiveUpdate cfg.config cfg.extraConfig))}'
+    vencord_settings='${builtins.toJSON (mkVencordCfg (lib.attrsets.recursiveUpdate cfg.config cfg.extraConfig))}'
 
     sqlite_paths=()
     for sqlite_file in $(find "$webkit_base_dir" \( -name "*.sqlite3" -o -name "*.localstorage" \) -type f 2>/dev/null); do

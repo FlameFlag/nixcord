@@ -1,32 +1,25 @@
 # Introduction {#sec-introduction}
 
-Manage Vencord and Equicord settings and plugins declaratively with Nix!
+Nixcord lets you manage Vencord, Equicord, and clients like Vesktop and Dorion declaratively
 
-## What is Nixcord? {#what-is-nixcord}
+Instead of configuring your plugins via the UI (and losing them when you reinstall), you define everything in Nix. It handles patching the client, injecting the config, and keeping your setup reproducible
 
-Nixcord allows you to:
-
-- **Install and manage Discord variants**: Support for Discord stable, PTB, canary, and development branches
-- **Integrate Vencord**: Automatically apply Vencord modifications to Discord for enhanced functionality
-- **Use Vesktop**: A cross-platform Discord client that supports more features than the official client
-- **Use Equibop**: A Vesktop fork with Equicord preinstalled and performance tweaks
-- **Configure Dorion**: Another Discord client alternative with unique features
-- **Manage user plugins**: Easily add and configure custom Vencord plugins
-- **Declarative configuration**: All settings managed through Nix configuration files
+It supports:
+* **Standard Discord** (Stable, PTB, Canary, Dev)
+* **Vesktop** & **Equibop**
+* **Dorion**
 
 ## Getting Started {#getting-started}
 
-To start using Nixcord, add it to your Home Manager configuration:
+Enable it in your Home Manager config:
 
 ```nix
 {
   programs.nixcord = {
     enable = true;
-    discord.enable = true;
-    vesktop.enable = true;
-    equibop.enable = true;
+    
+    # Pick your client
+    discord.enable = true; 
+    # vesktop.enable = true;
   };
 }
-```
-
-This will install Discord with Vencord plus Vesktop and Equibop with sensible defaults. For more detailed configuration options, see the [Configuration Options](#sec-options) section.

@@ -41,7 +41,23 @@ let
 
   modules = [
     baseHMConfig
-    ../modules/hm-module.nix
+    # Define options directly with mock config
+    (
+      {
+        config,
+        lib,
+        pkgs,
+        ...
+      }:
+      {
+        options.programs.nixcord = (
+          import ../modules/options.nix {
+            inherit lib pkgs;
+            dop = with lib.types; coercedTo package (a: a.outPath) pathInStore;
+          }
+        );
+      }
+    )
     dontCheckModules
   ];
 
@@ -60,7 +76,7 @@ let
         map (
           decl:
           if (lib.hasPrefix nixcordPath (toString decl)) then
-            (githubDeclaration "KaylorBen" "nixcord" "main" (
+            (githubDeclaration "FlameFlag" "nixcord" "main" (
               lib.removePrefix "/" (lib.removePrefix nixcordPath (toString decl))
             ))
           else
@@ -70,7 +86,7 @@ let
     };
 
   buildOptionsDocs = (
-    args@{ modules, ... }:
+    { modules, ... }:
     let
       opts =
         (lib.evalModules {

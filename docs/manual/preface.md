@@ -2,24 +2,14 @@
 
 ## Prerequisites {#prerequisites}
 
-Before using Nixcord, you should have:
-
-- A working Nix installation (either standalone Nix or NixOS)
-- Home Manager set up and configured
-- Basic understanding of Nix configuration syntax
-- Discord account
+You'll need a working Nix installation (standalone or NixOS) and Home Manager. Being comfortable with basic Nix syntax will help, though the examples should get you most of the way there
 
 ## Reporting Issues {#reporting-issues}
 
-If you encounter issues with Nixcord or this documentation, please follow these steps:
+Found a bug? Check the [issue tracker](https://github.com/FlameFlag/nixcord/issues) first to see if we're already working on it
 
-- **Check existing reports**: Browse the [GitHub Issues](https://github.com/KaylorBen/nixcord/issues) to see if your issue has already been reported or resolved
-- **Report new issues**: If you can't find a solution, create a new GitHub issue with:
-   - A clear description of the problem
-   - Steps to reproduce the issue
-   - Your system configuration (OS, Nix version, etc.)
-   - Relevant error messages or logs
+If it's new, open a ticket with your config, system info, and logs. The more details you give us, the faster we can fix it
 
-## Contributing {#contributing}
+## Contributing
 
-Contributions to Nixcord and its documentation are welcome!
+PRs are always welcome, whether it's for the code or just fixing a typo in the docs

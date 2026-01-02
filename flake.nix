@@ -16,12 +16,27 @@
         "x86_64-darwin"
       ];
       perSystem =
-        { pkgs, system, ... }:
-        {
-          _module.args.pkgs = import inputs.nixpkgs {
+        { system, inputs', ... }:
+        let
+          pkgs = import inputs.nixpkgs {
             inherit system;
             config.allowUnfree = true;
           };
+        in
+        {
+          _module.args.pkgs = pkgs;
+          checks =
+            let
+              hm-eval = import ./modules/tests/hm-eval.nix { inherit pkgs; };
+              nixos-eval = import ./modules/tests/nixos-eval.nix { inherit pkgs; };
+              darwin-eval = import ./modules/tests/darwin-eval.nix { inherit pkgs; };
+            in
+            {
+              inherit hm-eval nixos-eval;
+            }
+            // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+              inherit darwin-eval;
+            };
 
           packages = {
             discord = pkgs.callPackage ./pkgs/discord.nix { };
@@ -32,45 +47,27 @@
             vencord = pkgs.callPackage ./pkgs/vencord.nix { };
             vencord-unstable = pkgs.callPackage ./pkgs/vencord.nix { unstable = true; };
             equicord = pkgs.callPackage ./pkgs/equicord.nix { };
-            generatePluginOptions = pkgs.callPackage ./pkgs/generate-options.nix {
-              vencord = pkgs.callPackage ./pkgs/vencord.nix { unstable = false; };
-              equicord = pkgs.callPackage ./pkgs/equicord.nix { };
-            };
+
             docs-html =
               (import ./docs {
-                inherit pkgs;
+                pkgs = pkgs;
                 lib = pkgs.lib;
               }).html;
             docs-json =
               (import ./docs {
-                inherit pkgs;
+                pkgs = pkgs;
                 lib = pkgs.lib;
               }).json;
           };
 
-          apps.docs = {
-            type = "app";
-            program = "${pkgs.writeShellScript "open-docs" ''
-              if command -v xdg-open >/dev/null 2>&1; then
-                xdg-open "${inputs.self.packages.${system}.docs-html}/share/doc/nixcord/index.xhtml"
-              elif command -v open >/dev/null 2>&1; then
-                open "${inputs.self.packages.${system}.docs-html}/share/doc/nixcord/index.xhtml"
-              else
-                echo "Documentation available at: ${
-                  inputs.self.packages.${system}.docs-html
-                }/share/doc/nixcord/index.xhtml"
-              fi
-            ''}";
-          };
-
-          apps.generatePluginOptions = {
+          apps.generate = {
             type = "app";
             program = pkgs.lib.getExe (
               pkgs.writeShellApplication {
                 name = "generate-plugin-options";
                 runtimeInputs = [ pkgs.nixfmt-rfc-style ];
                 text = ''
-                  nix build .#generatePluginOptions --out-link ./result
+                  nix build .#generate --out-link ./result
                   mkdir -p ./modules/plugins
                   cp -R ./result/plugins/. ./modules/plugins/
                   chmod -R u+w ./modules/plugins
@@ -80,11 +77,16 @@
             );
           };
         };
+
       flake = {
-        homeModules = {
-          default = inputs.self.homeModules.nixcord;
-          nixcord = import ./modules/hm-module.nix;
-        };
+        darwinModules.default = import ./modules/darwin;
+        darwinModules.nixcord = inputs.self.darwinModules.default;
+
+        homeModules.default = import ./modules/hm;
+        homeModules.nixcord = inputs.self.homeModules.default;
+
+        nixosModules.default = import ./modules/nixos;
+        nixosModules.nixcord = inputs.self.nixosModules.default;
       };
     };
 }

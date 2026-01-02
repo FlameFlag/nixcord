@@ -1,18 +1,18 @@
 {
   lib,
   pkgs,
-  config,
   dop,
-  defaultVencord,
+  applyPostPatch ? null,
 }:
 let
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    types
-    ;
+  inherit (lib) mkEnableOption mkOption types;
 in
 {
+  user = mkOption {
+    type = types.str;
+    description = "Target username";
+  };
+
   enable = mkEnableOption "Enables Discord with Vencord";
   discord = {
     enable = mkOption {
@@ -46,24 +46,6 @@ in
     };
     configDir = mkOption {
       type = types.path;
-      default =
-        let
-          branch = config.programs.nixcord.discord.branch;
-          baseConfigPath =
-            if pkgs.stdenvNoCC.isLinux then
-              config.xdg.configHome
-            else
-              "${config.home.homeDirectory}/Library/Application Support";
-          branchDirName =
-            {
-              stable = "discord";
-              ptb = "discordptb";
-              canary = "discordcanary";
-              development = "discorddevelopment";
-            }
-            .${branch};
-        in
-        "${baseConfigPath}/${branchDirName}";
       description = "Config path for Discord";
     };
     vencord = {
@@ -74,7 +56,8 @@ in
       };
       package = mkOption {
         type = types.package;
-        default = defaultVencord;
+        default = pkgs.callPackage ../pkgs/vencord.nix { unstable = false; };
+        defaultText = lib.literalExpression "pkgs.callPackage ../pkgs/vencord.nix { unstable = false; }";
         description = ''
           The Vencord package to use
         '';
@@ -135,12 +118,6 @@ in
     };
     configDir = mkOption {
       type = types.path;
-      default = "${
-        if pkgs.stdenvNoCC.isLinux then
-          config.xdg.configHome
-        else
-          "${config.home.homeDirectory}/Library/Application Support"
-      }/vesktop";
       description = "Config path for Vesktop";
     };
     settings = mkOption {
@@ -187,12 +164,6 @@ in
     };
     configDir = mkOption {
       type = types.path;
-      default = "${
-        if pkgs.stdenvNoCC.isLinux then
-          config.xdg.configHome
-        else
-          "${config.home.homeDirectory}/Library/Application Support"
-      }/equibop";
       description = "Config path for Equibop";
     };
     settings = mkOption {
@@ -228,12 +199,6 @@ in
     };
     configDir = mkOption {
       type = types.path;
-      default = "${
-        if pkgs.stdenvNoCC.isLinux then
-          config.xdg.configHome
-        else
-          "${config.home.homeDirectory}/Library/Application Support"
-      }/dorion";
       description = "Config path for Dorion";
     };
     theme = mkOption {
@@ -439,16 +404,6 @@ in
   };
   configDir = mkOption {
     type = types.path;
-    default =
-      let
-        base =
-          if pkgs.stdenvNoCC.isLinux then
-            config.xdg.configHome
-          else
-            "${config.home.homeDirectory}/Library/Application Support";
-        dirName = if config.programs.nixcord.discord.equicord.enable then "Equicord" else "Vencord";
-      in
-      "${base}/${dirName}";
     description = "Config directory for the selected client (Vencord or Equicord)";
   };
   vesktopConfigDir = mkOption {
