@@ -250,10 +250,12 @@ in
         };
 
         home.packages = [
-          (mkIf cfg.discord.enable cfg.finalPackage.discord)
-          (mkIf cfg.vesktop.enable cfg.finalPackage.vesktop)
-          (mkIf (cfg.equibop.enable && cfg.finalPackage.equibop != null) cfg.finalPackage.equibop)
-          (mkIf cfg.dorion.enable cfg.finalPackage.dorion)
+          (mkIf (cfg.discord.enable && cfg.discord.installPackage) cfg.finalPackage.discord)
+          (mkIf (cfg.vesktop.enable && cfg.vesktop.installPackage) cfg.finalPackage.vesktop)
+          (mkIf (
+            cfg.equibop.enable && cfg.finalPackage.equibop != null && cfg.equibop.installPackage
+          ) cfg.finalPackage.equibop)
+          (mkIf (cfg.dorion.enable cfg.dorion.installPackage) cfg.finalPackage.dorion)
         ];
       }
       (mkIf cfg.discord.enable (mkMerge [

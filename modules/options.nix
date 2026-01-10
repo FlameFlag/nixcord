@@ -23,6 +23,11 @@ in
         Disable to only install Vesktop
       '';
     };
+    installPackage = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether to add `cfg.finalPackage.discord` to `home.packages`.";
+    };
     package = mkOption {
       type = types.package;
       default = pkgs.callPackage ../pkgs/discord.nix (
@@ -121,6 +126,11 @@ in
     enable = mkEnableOption ''
       Whether to enable Vesktop
     '';
+    installPackage = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether to add `cfg.finalPackage.vesktop` to `home.packages`.";
+    };
     package = mkOption {
       type = types.package;
       default = pkgs.vesktop;
@@ -167,6 +177,11 @@ in
     enable = mkEnableOption ''
       Whether to enable Equibop
     '';
+    installPackage = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether to add `cfg.finalPackage.equibop` to `home.packages`.";
+    };
     package = mkOption {
       type = types.nullOr types.package;
       default =
@@ -219,6 +234,11 @@ in
     enable = mkEnableOption ''
       Whether to enable Dorion
     '';
+    installPackage = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether to add `cfg.finalPackage.dorion` to `home.packages`.";
+    };
     package = mkOption {
       type = types.package;
       default = pkgs.callPackage ../pkgs/dorion.nix { };
