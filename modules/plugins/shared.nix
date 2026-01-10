@@ -1483,6 +1483,11 @@ in
       description = ''Speed of Da Cat :3'';
       type = types.int;
     };
+    fps = mkOption {
+      default = 24;
+      description = ''Fps of Da Cat :3'';
+      type = types.int;
+    };
   };
   openInApp = {
     enable = mkEnableOption ''Open links in their respective apps instead of your browser (Shared between Vencord and Equicord)'';
