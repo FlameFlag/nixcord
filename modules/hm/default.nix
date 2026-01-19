@@ -74,10 +74,10 @@ in
 
       allPlugins =
         cfg.config.plugins
-        // cfg.extraConfig.plugins
-        // cfg.vencordConfig.plugins
-        // cfg.equicordConfig.plugins
-        // cfg.equibopConfig.plugins;
+        // (cfg.extraConfig.plugins or { })
+        // (cfg.vencordConfig.plugins or { })
+        // (cfg.equicordConfig.plugins or { })
+        // (cfg.equibopConfig.plugins or { });
 
       deprecatedPlugins = collectDeprecatedPlugins { plugins = allPlugins; };
     in
