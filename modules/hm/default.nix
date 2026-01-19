@@ -73,10 +73,10 @@ in
       isQuickCssUsed = mkIsQuickCssUsed { inherit cfg; };
 
       allPlugins =
-        cfg.config.plugin
-        // cfg.extraConfig.plugin
-        // cfg.vencordConfig.plugin
-        // cfg.equicordConfig.plugin
+        cfg.config.plugins
+        // cfg.extraConfig.plugins
+        // cfg.vencordConfig.plugins
+        // cfg.equicordConfig.plugins
         // cfg.equibopConfig.plugins;
 
       deprecatedPlugins = collectDeprecatedPlugins { plugins = allPlugins; };
