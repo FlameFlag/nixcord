@@ -98,7 +98,6 @@ let
         if cfg.equibop.package != null then
           cfg.equibop.package.override {
             withMiddleClickScroll = cfg.equibop.autoscroll.enable;
-            inherit equicord;
           }
         else
           null;
