@@ -1,0 +1,11 @@
+{
+  "name": "@nixcord/git-analyzer",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "pathe": "^2.0.3"
+  }
+}

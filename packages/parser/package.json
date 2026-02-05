@@ -1,0 +1,20 @@
+{
+  "name": "@nixcord/parser",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@nixcord/ast": "^1.0.0",
+    "@nixcord/shared": "^1.0.0",
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.4",
+    "p-limit": "^7.3.0",
+    "pathe": "^2.0.3",
+    "ts-morph": "^27.0.2",
+    "ts-pattern": "^5.9.0",
+    "type-fest": "^5.4.4",
+    "zod": "^4.3.6"
+  }
+}

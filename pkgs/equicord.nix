@@ -25,6 +25,7 @@ let
     inherit owner repo;
     tag = version;
     inherit hash;
+    leaveDotGit = true;
   };
   updateScript = writeShellApplication {
     name = "equicord-update";

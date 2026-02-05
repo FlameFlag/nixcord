@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --build",
+    "clean": "rm -rf packages/*/dist",
+    "format": "prettier --write \"packages/*/src/**/*.{ts,tsx,json}\" \"packages/*/tests/**/*.{ts,tsx,json}\"",
+    "format:check": "prettier --check \"packages/*/src/**/*.{ts,tsx,json}\" \"packages/*/tests/**/*.{ts,tsx,json}\""
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^24.12.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/ui": "^4.0.9",
+    "fast-check": "^4.5.3",
+    "prettier": "^3.8.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.9"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@nixcord/ast",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@nixcord/shared": "^1.0.0",
+    "ts-morph": "^27.0.2",
+    "ts-pattern": "^5.9.0"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/shared" },
+    { "path": "packages/ast" },
+    { "path": "packages/git-analyzer" },
+    { "path": "packages/parser" },
+    { "path": "packages/nix-generator" },
+    { "path": "packages/cli" }
+  ]
+}

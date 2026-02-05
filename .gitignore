@@ -111,3 +111,4 @@ build/
 coverage/
 *.log
 .DS_Store
+tsconfig.tsbuildinfo

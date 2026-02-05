@@ -1,58 +1,47 @@
 {
-  stdenvNoCC,
+  stdenv,
   lib,
-  buildNpmPackage,
   nodejs,
-  cacert,
+  importNpmLock,
   vencord,
   equicord,
   nix,
 }:
-stdenvNoCC.mkDerivation {
+stdenv.mkDerivation {
   name = "nixcord-plugin-options";
   version = "generated";
 
-  src = buildNpmPackage {
-    pname = "generate-plugin-options";
-    version = "1.0.0";
-
-    src = lib.cleanSource ../scripts/generate-plugin-options;
-
-    npmDepsHash = "sha256-7jmEzHS9Xk5PSwfq9P40YTXSZiBqDFhCxZrg3E7AWX8=";
-
-    dontNpmBuild = true;
-
-    installPhase = ''
-      mkdir -p "$out"
-
-      items=(
-        src
-        tests
-        package.json
-        tsconfig.json
-        vitest.config.ts
-        node_modules
-      )
-
-      for i in "''${items[@]}"; do
-        cp -r "$i" "$out/"
-      done
-    '';
+  src = lib.cleanSourceWith {
+    src = ../.;
+    filter =
+      path: type:
+      let
+        baseName = baseNameOf path;
+        relPath = lib.removePrefix (toString ../. + "/") (toString path);
+      in
+      baseName == "package.json"
+      || baseName == "package-lock.json"
+      || baseName == "tsconfig.base.json"
+      || baseName == "vitest.workspace.ts"
+      || relPath == "packages"
+      ||
+        lib.hasPrefix "packages/" relPath
+        && !(lib.hasInfix "node_modules" relPath)
+        && !(lib.hasInfix "/dist/" relPath);
   };
 
   nativeBuildInputs = [
     nodejs
-    cacert
     nix
+    importNpmLock.hooks.npmConfigHook
   ];
+
+  npmDeps = importNpmLock { npmRoot = ../.;  };
 
   doCheck = true;
 
   checkPhase = ''
     runHook preCheck
-    cp -r $src $TMPDIR/test-src
-    chmod -R +w $TMPDIR/test-src
-    cd $TMPDIR/test-src
     ./node_modules/.bin/vitest run
     runHook postCheck
   '';
@@ -60,7 +49,7 @@ stdenvNoCC.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    ${lib.getExe nodejs} --import tsx src/index.ts \
+    ${lib.getExe nodejs} --import tsx packages/cli/src/index.ts \
       --vencord "${vencord.src}" \
       --vencord-plugins src/plugins \
       --equicord "${equicord.src}" \
@@ -68,20 +57,16 @@ stdenvNoCC.mkDerivation {
       --output "$out/dummy.nix" \
       --verbose
 
-    NIX_EVAL_USER="''${USER:-nix-eval}"
-    NIX_EVAL_STATE_DIR="$TMPDIR/nix-eval-state"
-    mkdir -p \
-      "$NIX_EVAL_STATE_DIR" \
-      "$NIX_EVAL_STATE_DIR/profiles/per-user/$NIX_EVAL_USER" \
-      "$NIX_EVAL_STATE_DIR/gcroots/per-user/$NIX_EVAL_USER" \
-      "$NIX_EVAL_STATE_DIR/temproots" \
-      "$NIX_EVAL_STATE_DIR/logs"
+    runHook postInstall
+  '';
 
-    export USER="$NIX_EVAL_USER"
-    export HOME="''${HOME:-$TMPDIR}"
-    export NIX_REMOTE="''${NIX_REMOTE:-local}"
-    export NIX_STATE_DIR="$NIX_EVAL_STATE_DIR"
-    export NIX_LOG_DIR="$NIX_EVAL_STATE_DIR/logs"
+  doInstallCheck = true;
+
+  installCheckPhase = ''
+    runHook preInstallCheck
+
+    export NIX_STATE_DIR="$TMPDIR/nix-state"
+    mkdir -p "$NIX_STATE_DIR"
 
     for nixFile in "$out/plugins"/*.nix; do
       if ! nix-instantiate --parse "$nixFile" > /dev/null 2>&1; then
@@ -91,6 +76,6 @@ stdenvNoCC.mkDerivation {
       fi
     done
 
-    runHook postInstall
+    runHook postInstallCheck
   '';
 }

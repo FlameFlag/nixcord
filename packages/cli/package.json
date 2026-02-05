@@ -1,0 +1,25 @@
+{
+  "name": "@nixcord/cli",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "generate-plugin-options": "./src/index.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@nixcord/git-analyzer": "^1.0.0",
+    "@nixcord/nix-generator": "^1.0.0",
+    "@nixcord/parser": "^1.0.0",
+    "@nixcord/shared": "^1.0.0",
+    "commander": "^14.0.3",
+    "fs-extra": "^11.3.4",
+    "ora": "^9.3.0",
+    "pathe": "^2.0.3",
+    "ts-pattern": "^5.9.0",
+    "type-fest": "^5.4.4",
+    "zod": "^4.3.6",
+    "zod-validation-error": "^5.0.0"
+  }
+}
