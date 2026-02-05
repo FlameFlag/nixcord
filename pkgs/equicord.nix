@@ -30,6 +30,7 @@ stdenv.mkDerivation (finalAttrs: {
     repo = "Equicord";
     tag = "${finalAttrs.version}";
     inherit hash;
+    leaveDotGit = true;
   };
 
   pnpmDeps = pnpm_10.fetchDeps {

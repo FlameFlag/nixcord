@@ -1,33 +1,44 @@
 /**
- * Type inference orchestrator.
+ * Unified type inference - single-pass classifier.
  *
- * Infers the Nix type and enum values for a plugin setting.
- * Runs a multi-step pipeline where the order matters.
+ * Replaces complex 4-pass pipeline with a single classification step.
+ * Determines Nix type based on TypeScript annotations and default values.
  */
 
 import type { TypeChecker, Program, ObjectLiteralExpression, Node } from 'ts-morph';
-import { inferInitialType } from './initial.js';
-import { coerceComponentOrCustomTypes } from './component-coercion.js';
-import { inferArrayTypes } from './array-inference.js';
-import { applyFinalFallbacks } from './fallbacks.js';
-import type { TypeInferenceResult, SettingProperties } from './types.js';
+import { SyntaxKind } from 'ts-morph';
+import { isEmpty } from 'remeda';
+import { z } from 'zod';
+import { tsTypeToNixType } from '../../parser.js';
+import { extractSelectOptions } from '../select/index.js';
+import {
+  NIX_TYPE_BOOL,
+  NIX_TYPE_STR,
+  NIX_TYPE_ATTRS,
+  NIX_TYPE_LIST_OF_STR,
+  NIX_TYPE_LIST_OF_ATTRS,
+  NIX_TYPE_NULL_OR_STR,
+  OPTION_TYPE_COMPONENT,
+  OPTION_TYPE_CUSTOM,
+  BOOLEAN_ENUM_LENGTH,
+} from '../constants.js';
+import {
+  hasStringArrayDefault,
+  resolveIdentifierArrayDefault,
+  hasObjectArrayDefault,
+  hasEmptyArrayWithTypeAnnotation,
+} from '../default-value-checks/index.js';
+import { getDefaultPropertyInitializer, isCustomType } from '../type-helpers.js';
+import type { SettingProperties as SP } from './types.js';
 
-export type { SettingProperties, TypeInferenceResult } from './types.js';
+export type SettingProperties = SP;
 
-/**
- * Infers the Nix type and enum values for a plugin setting.
- *
- * Runs a multi-step pipeline where the order matters:
- * 1. Initial type inference - establishes baseline from TypeScript types
- * 2. COMPONENT/CUSTOM coercion - runs before array inference
- * 3. Array type inference - runs after coercion
- * 4. Final fallbacks - runs last to catch edge cases
- *
- * If you change the order, COMPONENT types with string arrays can be inferred as ATTRS
- * instead of listOf str. CUSTOM types with identifier defaults can end up as STR instead
- * of ATTRS if fallbacks don't run last. String defaults in COMPONENT types can be lost
- * if coercion runs in the wrong order.
- */
+export interface TypeInferenceResult {
+  finalNixType: string;
+  selectEnumValues: readonly (string | number | boolean)[] | undefined;
+  defaultValue: unknown;
+}
+
 export function inferNixTypeAndEnumValues(
   valueObj: ObjectLiteralExpression,
   props: SettingProperties,
@@ -45,32 +56,158 @@ export function inferNixTypeAndEnumValues(
   pluginName?: string,
   settingName?: string
 ): TypeInferenceResult {
-  // Step 1: Read whatever the TS annotations and option arrays already tell us
-  let state = inferInitialType(
-    valueObj,
-    props,
-    rawSetting,
-    checker,
-    program,
-    pluginName,
-    settingName
-  );
+  const { nixType: baseType, enumValues } = tsTypeToNixType(rawSetting, program, checker);
 
-  // Step 2: Normalize COMPONENT/CUSTOM types into attrs when they clearly represent objects
-  // Do this before array inference so the list logic sees the right base type
-  state = coerceComponentOrCustomTypes(valueObj, props, state, checker);
+  const astEnumResult = extractSelectOptions(valueObj, checker);
+  const astEnumLiterals = astEnumResult.isOk ? astEnumResult.value.values : [];
+  const hasAstEnumValues = !isEmpty(astEnumLiterals);
 
-  // Step 3: If the default is an array, decide whether it's strings or objects
-  // Needs the coerced type so COMPONENT + string arrays become `listOf str`
-  state = inferArrayTypes(valueObj, props, state, checker);
+  const selectEnumValues =
+    enumValues && !isEmpty(enumValues)
+      ? enumValues
+      : hasAstEnumValues
+        ? astEnumLiterals
+        : undefined;
 
-  // Step 4: Apply last-ditch fallbacks (e.g., CUSTOM without defaults -> attrs) after all other
-  // passes so nothing overwrites them
-  state = applyFinalFallbacks(valueObj, props, state);
+  const BooleanSchema = z.boolean();
+  const isBooleanEnum =
+    selectEnumValues !== undefined &&
+    selectEnumValues.length === BOOLEAN_ENUM_LENGTH &&
+    selectEnumValues.every((value) => BooleanSchema.safeParse(value).success) &&
+    new Set(selectEnumValues).size === BOOLEAN_ENUM_LENGTH;
+
+  if (isBooleanEnum) {
+    return {
+      finalNixType: NIX_TYPE_BOOL,
+      selectEnumValues: undefined,
+      defaultValue: props.defaultLiteralValue,
+    };
+  }
+
+  if (selectEnumValues !== undefined) {
+    return {
+      finalNixType: 'types.enum',
+      selectEnumValues,
+      defaultValue: props.defaultLiteralValue,
+    };
+  }
+
+  const classification = classifySetting(valueObj, props, baseType, checker);
 
   return {
-    finalNixType: state.finalNixType,
-    selectEnumValues: state.selectEnumValues,
-    defaultValue: state.defaultValue,
+    finalNixType: classification.nixType,
+    selectEnumValues,
+    defaultValue: classification.defaultValue ?? props.defaultLiteralValue,
   };
+}
+
+interface Classification {
+  nixType: string;
+  defaultValue: unknown;
+}
+
+function classifySetting(
+  valueObj: ObjectLiteralExpression,
+  props: SettingProperties,
+  baseType: string,
+  checker: TypeChecker
+): Classification {
+  const defaultValue = props.defaultLiteralValue;
+  const isComponentOrCustom =
+    props.typeNode?.isJust === true &&
+    (props.typeNode.value.getText().includes(OPTION_TYPE_COMPONENT) ||
+      props.typeNode.value.getText().includes(OPTION_TYPE_CUSTOM));
+
+  const hasStringArray = hasStringArrayDefault(valueObj);
+  const hasIdentifierStringArray =
+    defaultValue === undefined && resolveIdentifierArrayDefault(valueObj);
+  const hasObjectArray = hasObjectArrayDefault(valueObj, checker);
+  const hasEmptyTypedArray = hasEmptyArrayWithTypeAnnotation(valueObj);
+
+  if (hasStringArray || hasIdentifierStringArray) {
+    return { nixType: NIX_TYPE_LIST_OF_STR, defaultValue: [] };
+  }
+
+  if (hasObjectArray) {
+    const init = getDefaultPropertyInitializer(valueObj);
+    const isIdentifierDefault = init?.getKind() === SyntaxKind.Identifier;
+
+    if (!isIdentifierDefault) {
+      return { nixType: NIX_TYPE_LIST_OF_ATTRS, defaultValue: [] };
+    }
+  }
+
+  if (hasEmptyTypedArray) {
+    const typeNodeText = props.typeNode?.isJust === true ? props.typeNode.value.getText() : '';
+    return typeNodeText.includes(OPTION_TYPE_CUSTOM)
+      ? { nixType: NIX_TYPE_LIST_OF_ATTRS, defaultValue: [] }
+      : { nixType: NIX_TYPE_LIST_OF_STR, defaultValue: [] };
+  }
+
+  const init = getDefaultPropertyInitializer(valueObj);
+  if (init && init.getKind() === SyntaxKind.ArrayLiteralExpression) {
+    const arr = init.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
+    if (arr.getElements().length === 0) {
+      return { nixType: NIX_TYPE_LIST_OF_STR, defaultValue: [] };
+    }
+  }
+
+  if (isComponentOrCustom) {
+    return classifyComponentOrCustom(valueObj, props, baseType, defaultValue);
+  }
+
+  return { nixType: baseType, defaultValue };
+}
+
+function classifyComponentOrCustom(
+  valueObj: ObjectLiteralExpression,
+  props: SettingProperties,
+  baseType: string,
+  defaultValue: unknown
+): Classification {
+  const defPropNode = valueObj.getProperty('default');
+  if (defPropNode?.getKind() === SyntaxKind.GetAccessor) {
+    return { nixType: NIX_TYPE_NULL_OR_STR, defaultValue: null };
+  }
+
+  const init = getDefaultPropertyInitializer(valueObj);
+  if (init?.getKind() === SyntaxKind.StringLiteral) {
+    return { nixType: NIX_TYPE_STR, defaultValue };
+  }
+
+  if (typeof defaultValue === 'string') {
+    return { nixType: NIX_TYPE_STR, defaultValue };
+  }
+
+  if (init?.getKind() === SyntaxKind.Identifier) {
+    const minimalProps: SettingProperties = {
+      typeNode: { isJust: false } as any,
+      description: undefined,
+      placeholder: undefined,
+      restartNeeded: false,
+      hidden: { isJust: false } as any,
+      defaultLiteralValue: undefined,
+    };
+
+    if (isCustomType(valueObj, minimalProps)) {
+      return { nixType: NIX_TYPE_ATTRS, defaultValue };
+    }
+  }
+
+  if (
+    baseType === NIX_TYPE_ATTRS ||
+    baseType === NIX_TYPE_LIST_OF_ATTRS ||
+    baseType === NIX_TYPE_LIST_OF_STR
+  ) {
+    return { nixType: baseType, defaultValue };
+  }
+
+  if (
+    defaultValue === undefined ||
+    (typeof defaultValue === 'object' && !Array.isArray(defaultValue))
+  ) {
+    return { nixType: NIX_TYPE_ATTRS, defaultValue };
+  }
+
+  return { nixType: baseType, defaultValue };
 }

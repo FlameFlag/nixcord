@@ -4,7 +4,6 @@ import { basename, dirname, normalize, join } from 'pathe';
 import fse from 'fs-extra';
 import fg from 'fast-glob';
 import { Maybe } from 'true-myth';
-import { asyncMap, asyncToArray, asyncFind } from 'iter-tools';
 import {
   pipe,
   map,
@@ -27,63 +26,23 @@ import { extractSettingsFromCall } from '../ast/extractor/settings-extractor.js'
 import { CLI_CONFIG } from '../../shared/config.js';
 
 const PLUGIN_SOURCE_FILE_PATTERNS = ['index.tsx', 'index.ts', 'settings.ts'] as const;
-const TYPES_FILE_PATH = 'src/utils/types.ts';
-const DISCORD_ENUMS_DIR = 'packages/discord-types/enums';
 const TSCONFIG_FILE_NAME = 'tsconfig.json';
 const PARALLEL_PROCESSING_LIMIT = 5;
 const PROGRESS_REPORT_INTERVAL = 10;
-
 const PLUGIN_DIR_SEPARATOR_PATTERN = /[-_]/;
 const PLUGIN_FILE_GLOB_PATTERN = '*/index.{ts,tsx}';
 const CURRENT_DIRECTORY = '.';
-
 const ParsePluginsOptionsSchema = z.object({
   vencordPluginsDir: z.string().min(1).optional(),
   equicordPluginsDir: z.string().min(1).optional(),
 });
 
-/**
- * Build a ts-morph project that matches how Vencord and Equicord structure their sources.
- * We skip tsconfig crawling for speed, then cherry-pick the handful of files we rely on
- * (global types, Discord enums, shiki theme blobs). If either upstream repo shifts paths,
- * fix them here first or the extractor starts hallucinating defaults.
- */
-/**
- * Creates a ts-morph Project configured for parsing Vencord/Equicord plugins.
- *
- * Configuration:
- * - Sets `tsConfigFilePath` to use compiler options (including baseUrl and paths) from tsconfig
- * - Sets `skipAddingFilesFromTsConfig: true` to avoid auto-adding all files (performance)
- * - Sets `skipFileDependencyResolution: true` to avoid auto-resolving imports (performance)
- * - Manually adds only the files we need (types, enums, plugins)
- *
- * Path mappings from tsconfig ARE used by the TypeChecker for symbol resolution,
- * even though we manually add files. This allows the TypeChecker to resolve imports
- * like `@api/Settings` and `@utils/types` using the path mappings.
- */
 async function createProject(sourcePath: string): Promise<Project> {
   const tsConfigPath = normalize(join(sourcePath, TSCONFIG_FILE_NAME));
-  const projectOptions: {
-    skipAddingFilesFromTsConfig: boolean;
-    skipFileDependencyResolution: boolean;
-    skipLoadingLibFiles: boolean;
-    compilerOptions: {
-      target: number;
-      module: number;
-      jsx: number;
-      allowJs: boolean;
-      skipLibCheck: boolean;
-    };
-    tsConfigFilePath?: string;
-  } = {
-    // Equicord and Vencord repositories ship ten thousand+ files. Adding only the files we care
-    // about keeps ts-morph from choking while still letting us hand-pick plugin sources later
+  const project = new Project({
     skipAddingFilesFromTsConfig: true,
-    // Dependency resolution would drag in Discord's entire bundler output. We skip it and rely on
-    // manual `project.addSourceFileAtPath` plus path mappings for anything we truly need
     skipFileDependencyResolution: true,
     skipLoadingLibFiles: true,
-    // Baseline compiler options; each repo's tsconfig still wins once we wire it in below
     compilerOptions: {
       target: ts.ScriptTarget.ES2022,
       module: ts.ModuleKind.ESNext,
@@ -91,58 +50,37 @@ async function createProject(sourcePath: string): Promise<Project> {
       allowJs: true,
       skipLibCheck: true,
     },
-  };
+    tsConfigFilePath: (await fse.pathExists(tsConfigPath)) ? tsConfigPath : undefined,
+  });
 
-  // Point ts-morph at the repo's tsconfig so `baseUrl`, `paths`, and friends match the real build
-  // Even with dependency resolution disabled, the checker respects those mappings
-  if (await fse.pathExists(tsConfigPath)) {
-    projectOptions.tsConfigFilePath = tsConfigPath;
-  }
+  const typesPath = normalize(join(sourcePath, 'src/utils/types.ts'));
+  if (await fse.pathExists(typesPath)) project.addSourceFileAtPath(typesPath);
 
-  const project = new Project(projectOptions);
-
-  const typesPath = normalize(join(sourcePath, TYPES_FILE_PATH));
-  if (await fse.pathExists(typesPath)) {
-    project.addSourceFileAtPath(typesPath);
-  }
-
-  // Plugins love to reference `ActivityType.PLAYING` or `ChannelType.GUILD_TEXT` inside defaults
-  // Rather than hardcoding numbers, pull in every file under packages/discord-types/enums so the
-  // checker can resolve the actual enum values while we still keep dependency resolution disabled
-  const discordEnumsDir = normalize(join(sourcePath, DISCORD_ENUMS_DIR));
+  const discordEnumsDir = normalize(join(sourcePath, 'packages/discord-types/enums'));
   if (await fse.pathExists(discordEnumsDir)) {
-    const enumFiles = await fg('**/*.ts', {
+    for (const file of await fg('**/*.ts', {
       cwd: discordEnumsDir,
       absolute: false,
       onlyFiles: true,
-    });
-
-    for (const file of enumFiles) {
+    })) {
       project.addSourceFileAtPath(normalize(join(discordEnumsDir, file)));
     }
   }
 
-  // Equicord’s `shikiCodeblocks.desktop` plugin constructs theme URLs at runtime; add its helper
-  // file so enum extraction can see the literal values instead of emitting “<computed>”
   const shikiThemesPath = normalize(
     join(sourcePath, 'src/plugins/shikiCodeblocks.desktop/api/themes.ts')
   );
-  if (await fse.pathExists(shikiThemesPath)) {
-    project.addSourceFileAtPath(shikiThemesPath);
-  }
+  if (await fse.pathExists(shikiThemesPath)) project.addSourceFileAtPath(shikiThemesPath);
 
   return project;
 }
 
 async function findPluginSourceFile(pluginPath: string): Promise<Maybe<string>> {
-  const found = await asyncFind(async (pattern: string) => {
+  for (const pattern of PLUGIN_SOURCE_FILE_PATTERNS) {
     const filePath = normalize(join(pluginPath, pattern));
-    return await fse.pathExists(filePath);
-  }, PLUGIN_SOURCE_FILE_PATTERNS);
-
-  return match(found)
-    .with(P.string, (path) => Maybe.just(normalize(join(pluginPath, path))))
-    .otherwise(() => Maybe.nothing<string>());
+    if (await fse.pathExists(filePath)) return Maybe.just(filePath);
+  }
+  return Maybe.nothing<string>();
 }
 
 async function parseSinglePlugin(
@@ -153,112 +91,94 @@ async function parseSinglePlugin(
 ): Promise<Maybe<[string, PluginConfig]>> {
   const filePath = await findPluginSourceFile(pluginPath);
   const path = filePath.unwrapOr(null);
+  if (!path) return Maybe.nothing();
 
-  if (!path) {
-    return Maybe.nothing();
-  }
   const sourceFile = project.addSourceFileAtPath(path);
+  if (!sourceFile) return Maybe.nothing();
   const pluginInfo = extractPluginInfo(sourceFile, typeChecker);
+
+  // Derive plugin name from directory if not explicitly defined
   const pluginName =
-    pluginInfo.name ??
+    pluginInfo.name ||
     pipe(
       pluginDir.split(PLUGIN_DIR_SEPARATOR_PATTERN),
-      map((s: string) => s.charAt(0).toUpperCase() + s.slice(1))
+      map((s) => s.charAt(0).toUpperCase() + s.slice(1))
     ).join('');
 
-  if (!pluginName) {
-    return Maybe.nothing();
-  }
+  // If we still don't have a plugin name, skip this plugin
+  if (!pluginName) return Maybe.nothing();
 
   let settingsCall = findDefinePluginSettings(sourceFile);
-
   if (settingsCall.isNothing) {
-    const settingsPath = normalize(join(pluginPath, 'settings.ts'));
-    const pathExists = await fse.pathExists(settingsPath);
-    settingsCall = match(pathExists)
-      .with(true, () => {
-        const settingsFile = project.addSourceFileAtPath(settingsPath);
-        return findDefinePluginSettings(settingsFile);
-      })
-      .with(false, () => Maybe.nothing<CallExpression>())
-      .exhaustive();
+    // Try settings.tsx first, then settings.ts
+    const settingsPathTsx = normalize(join(pluginPath, 'settings.tsx'));
+    const settingsPathTs = normalize(join(pluginPath, 'settings.ts'));
+    
+    const settingsPath = (await fse.pathExists(settingsPathTsx))
+      ? settingsPathTsx
+      : (await fse.pathExists(settingsPathTs))
+        ? settingsPathTs
+        : null;
+    
+    if (settingsPath) {
+      settingsCall = findDefinePluginSettings(project.addSourceFileAtPath(settingsPath));
+    }
   }
 
   const settings = settingsCall
-    .map((call) => extractSettingsFromCall(call, typeChecker, project.getProgram(), pluginName))
+    .map((call) => extractSettingsFromCall(call, typeChecker, project.getProgram(), true))
     .unwrapOr({});
 
   const pluginConfig: PluginConfig = {
     name: pluginName,
     settings,
     directoryName: pluginDir,
-    ...match(pluginInfo.description)
-      .with(P.string, (desc) => ({ description: desc }))
-      .otherwise(() => ({})),
+    ...(pluginInfo.description ? { description: pluginInfo.description } : {}),
+    ...(pluginInfo.isModified !== undefined ? { isModified: pluginInfo.isModified } : {}),
   };
 
   return Maybe.just<[string, PluginConfig]>([pluginName, pluginConfig]);
 }
 
-/**
- * Parse every plugin found under a given directory (Vencord or Equicord).
- *
- * Uses `fast-glob` to find every plugin folder that exposes an `index.tsx` (or .ts),
- * kicks `parseSinglePlugin` in a bounded parallel pool (p-limit) to avoid melting the CPU,
- * and returns a
- * record keyed by plugin name. Non-TTY runs print progress every ten plugins so CI
- * logs show whether we stalled on a specific repository.
- */
 async function parsePluginsFromDirectory(
   pluginsPath: string,
   project: Project,
   typeChecker: ReturnType<Project['getTypeChecker']>,
   isTTY: boolean
 ): Promise<ReadonlyDeep<Record<string, PluginConfig>>> {
-  const files = await fg(PLUGIN_FILE_GLOB_PATTERN, {
-    cwd: pluginsPath,
-    absolute: false,
-    onlyFiles: true,
-  });
-
   const pluginDirsArray = pipe(
-    files,
-    map((file: string) => dirname(file)),
+    await fg(PLUGIN_FILE_GLOB_PATTERN, { cwd: pluginsPath, absolute: false, onlyFiles: true }),
+    map(dirname),
     unique(),
-    filter((dir: string) => dir !== CURRENT_DIRECTORY)
+    filter((dir) => dir !== CURRENT_DIRECTORY)
   );
 
-  if (!isTTY) {
-    const dirName = basename(pluginsPath);
-    console.log(`Found ${pluginDirsArray.length} plugin directories in ${dirName}`);
-  }
+  if (!isTTY)
+    console.log(`Found ${pluginDirsArray.length} plugin directories in ${basename(pluginsPath)}`);
 
   const limit = pLimit(PARALLEL_PROCESSING_LIMIT);
   let processed = 0;
 
-  const results = await asyncToArray(
-    asyncMap(async (pluginDir: string) => {
-      const pluginPath = normalize(join(pluginsPath, pluginDir));
+  const results = await Promise.all(
+    pluginDirsArray.map(async (pluginDir) => {
       const result = await limit(() =>
-        parseSinglePlugin(pluginDir, pluginPath, project, typeChecker)
+        parseSinglePlugin(pluginDir, normalize(join(pluginsPath, pluginDir)), project, typeChecker)
       );
       processed++;
       if (!isTTY && processed % PROGRESS_REPORT_INTERVAL === 0) {
         console.log(`Processed ${processed}/${pluginDirsArray.length} plugins...`);
       }
       return result;
-    }, pluginDirsArray)
+    })
   );
 
-  const validResults = pipe(
+  return pipe(
     results,
     filter((maybe) => maybe.isJust),
-    map((maybe) => (maybe as Extract<typeof maybe, { isJust: true }>).value)
-  );
-
-  return pipe(validResults, fromEntries, pickBy(isNonNull)) as ReadonlyDeep<
-    Record<string, PluginConfig>
-  >;
+    map((maybe) => (maybe as Extract<typeof maybe, { isJust: true }>).value),
+    fromEntries,
+    pickBy(isNonNull)
+  ) as ReadonlyDeep<Record<string, PluginConfig>>;
 }
 
 export type ParsePluginsOptions = SetOptional<
@@ -269,15 +189,6 @@ export type ParsePluginsOptions = SetOptional<
   'vencordPluginsDir' | 'equicordPluginsDir'
 >;
 
-/**
- * Parse all plugin directories for a given repo root.
- *
- * Accepts optional overrides for the Vencord and Equicord plugin directories, but
- * defaults to whatever `CLI_CONFIG` says (usually `src/plugins` and `src/equicordplugins`).
- * The function builds one ts-morph project, then parses each directory that actually exists.
- * Missing directories just return `{}` so users can run against Vencord-only or Equicord-only
- * trees without touching flags.
- */
 export async function parsePlugins(
   sourcePath: string,
   options: ParsePluginsOptions = {}
@@ -287,7 +198,6 @@ export async function parsePlugins(
     validatedOptions.vencordPluginsDir ?? CLI_CONFIG.directories.vencordPlugins;
   const equicordPluginsDir =
     validatedOptions.equicordPluginsDir ?? CLI_CONFIG.directories.equicordPlugins;
-
   const pluginsPath = normalize(join(sourcePath, vencordPluginsDir));
   const equicordPluginsPath = normalize(join(sourcePath, equicordPluginsDir));
 
@@ -295,6 +205,11 @@ export async function parsePlugins(
     fse.pathExists(pluginsPath),
     fse.pathExists(equicordPluginsPath),
   ]);
+  if (!hasVencordPlugins && !hasEquicordPlugins) {
+    throw new Error(
+      `No plugins directories found. Expected one of:\n  - ${pluginsPath}\n  - ${equicordPluginsPath}`
+    );
+  }
 
   const project = await createProject(sourcePath);
   const typeChecker = project.getTypeChecker();
@@ -305,19 +220,10 @@ export async function parsePlugins(
   const parseEquicordPlugins = () =>
     parsePluginsFromDirectory(equicordPluginsPath, project, typeChecker, isTTY);
 
-  const [vencordPlugins, equicordPlugins] = await match<
-    [boolean, boolean],
-    Promise<
-      [ReadonlyDeep<Record<string, PluginConfig>>, ReadonlyDeep<Record<string, PluginConfig>>]
-    >
-  >([hasVencordPlugins, hasEquicordPlugins])
-    .with([false, false], () => {
-      throw new Error(
-        `No plugins directories found. Expected one of:\n` +
-          `  - ${pluginsPath}\n` +
-          `  - ${equicordPluginsPath}`
-      );
-    })
+  const [vencordPlugins, equicordPlugins] = await match([
+    hasVencordPlugins,
+    hasEquicordPlugins,
+  ] as const)
     .with([true, true], async () => [await parseVencordPlugins(), await parseEquicordPlugins()])
     .with([true, false], async () => [
       await parseVencordPlugins(),
@@ -327,101 +233,34 @@ export async function parsePlugins(
       {} as ReadonlyDeep<Record<string, PluginConfig>>,
       await parseEquicordPlugins(),
     ])
+    .with([false, false], () => {
+      throw new Error('unreachable');
+    })
     .exhaustive();
 
-  return {
-    vencordPlugins,
-    equicordPlugins,
-  };
+  return { vencordPlugins, equicordPlugins };
 }
 
-/**
- * Plugin rename mappings between Vencord and Equicord.
- * Key: Vencord plugin name, Value: Equicord plugin name
- */
-const PLUGIN_RENAME_MAP: Record<string, string> = {
-  oneko: 'CursorBuddy',
-};
+const PLUGIN_RENAME_MAP: Record<string, string> = { oneko: 'CursorBuddy' };
 
-/**
- * Extract migration information from migratePluginToSettings calls
- */
-export async function extractMigrations(
-  sourcePath: string
-): Promise<Record<string, string | null>> {
+export async function extractMigrations(repoPath: string): Promise<Record<string, string | null>> {
   try {
-    // Check if the source path exists and has TypeScript files
-    const tsconfigPath = join(sourcePath, 'tsconfig.json');
-    if (!(await fse.pathExists(tsconfigPath))) {
-      // If no tsconfig.json, fall back to hardcoded known migrations
-      // This handles cases where TypeScript parsing fails in build environments
-      return getKnownMigrations();
-    }
-
-    const project = await createProject(sourcePath);
-
-    // Find all TypeScript files
-    const tsFiles = await fg('**/*.{ts,tsx}', {
-      cwd: sourcePath,
-      absolute: false,
-    });
-
-    if (tsFiles.length === 0) {
-      return getKnownMigrations(); // No TypeScript files found, use known migrations
-    }
+    const { extractDeprecationsFromGit } = await import('../git-analyzer/index.js');
+    const deprecations = await extractDeprecationsFromGit(repoPath);
 
     const migrations: Record<string, string | null> = {};
 
-    for (const file of tsFiles) {
-      try {
-        const sourceFile = project.addSourceFileAtPath(normalize(join(sourcePath, file)));
-        const calls = sourceFile.getDescendantsOfKind(ts.SyntaxKind.CallExpression);
-
-        for (const call of calls) {
-          const expression = call.getExpression();
-          if (expression.getText() === 'migratePluginToSettings') {
-            const args = call.getArguments();
-            if (args.length >= 3 && args[1] && args[2]) {
-              // migratePluginToSettings(deleteOldSettings, newPluginName, oldPluginName, ...settings)
-              const newPluginName = args[1].getText().replace(/['"]/g, '');
-              const oldPluginName = args[2].getText().replace(/['"]/g, '');
-
-              // For now, map to the new plugin name (even though it's now a setting)
-              // In the future, we could be smarter about this
-              migrations[oldPluginName] = newPluginName;
-            }
-          }
-        }
-      } catch (fileError) {
-        // Skip files that can't be parsed
-        continue;
-      }
+    for (const dep of deprecations) {
+      const key = `${dep.plugin}.${dep.setting}`;
+      migrations[key] = null;
     }
 
-    // If we found migrations via TypeScript parsing, return them
-    // Otherwise, fall back to known migrations
-    return Object.keys(migrations).length > 0 ? migrations : getKnownMigrations();
-  } catch (error) {
-    // If migration extraction fails entirely, fall back to known migrations
-    // This ensures the build doesn't fail due to migration extraction issues
-    return getKnownMigrations();
+    return migrations;
+  } catch {
+    return {};
   }
 }
 
-/**
- * Fallback function that returns known migrations when TypeScript parsing fails
- */
-function getKnownMigrations(): Record<string, string | null> {
-  return {
-    AmITyping: 'TypingTweaks',
-    AllCallTimers: 'CallTimer',
-    QuestCompleter: 'Questify',
-  };
-}
-
-/**
- * Update the deprecated.nix file with migration information
- */
 export async function updateDeprecatedPlugins(
   migrations: Record<string, string | null>,
   pluginsDir: string,
@@ -430,45 +269,33 @@ export async function updateDeprecatedPlugins(
 ): Promise<void> {
   try {
     const deprecatedPath = join(pluginsDir, 'deprecated.nix');
-
-    // Read existing deprecated file or create empty one
     let existingDeprecated: Record<string, string | null> = {};
+
     if (await fse.pathExists(deprecatedPath)) {
       try {
         const content = await fse.readFile(deprecatedPath, 'utf-8');
-        // Parse Nix attrset - this is a simple parser for { key = value; ... }
         const attrsetMatch = content.match(/\{\s*([^}]*)\s*\}/);
-        if (attrsetMatch && attrsetMatch[1]) {
-          const entries = attrsetMatch[1].split(';').filter((line) => line.trim());
-          for (const entry of entries) {
+        if (attrsetMatch?.[1]) {
+          for (const entry of attrsetMatch[1].split(';').filter((line) => line.trim())) {
             const match = entry.trim().match(/(\w+)\s*=\s*(null|"[^"]*");?/);
-            if (match && match[1] && match[2]) {
-              const [, key, value] = match;
-              existingDeprecated[key] = value === 'null' ? null : value.replace(/"/g, '');
-            }
+            if (match?.[1] && match?.[2])
+              existingDeprecated[match[1]] =
+                match[2] === 'null' ? null : match[2].replace(/"/g, '');
           }
         }
-      } catch (e) {
-        if (verbose) {
-          logger.warn(`Failed to parse existing deprecated.nix: ${e}`);
-        }
+      } catch (error) {
+        if (verbose) logger.warn(`Failed to parse existing deprecated.nix: ${error}`);
       }
     }
 
-    // If no new migrations and no existing file, skip
-    if (Object.keys(migrations).length === 0 && Object.keys(existingDeprecated).length === 0) {
+    if (Object.keys(migrations).length === 0 && Object.keys(existingDeprecated).length === 0)
       return;
-    }
 
-    // Merge existing deprecations with new migrations
     const updatedDeprecated = { ...existingDeprecated, ...migrations };
-
-    // Generate Nix code
-    const entries = Object.entries(updatedDeprecated)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([oldName, newName]) => `  ${oldName} = ${newName === null ? 'null' : `"${newName}"`};`)
-      .join('\n');
-
+    const entries = pipe(
+      Object.entries(updatedDeprecated),
+      map(([oldName, newName]) => `  ${oldName} = ${newName === null ? 'null' : `"${newName}"`};`)
+    ).join('\n');
     const nixCode = `# This file is auto-generated by scripts/generate-plugin-options\n# DO NOT EDIT this file directly; instead update the generator\n\n{\n${entries}\n}\n`;
 
     await fse.writeFile(deprecatedPath, nixCode);
@@ -477,18 +304,10 @@ export async function updateDeprecatedPlugins(
       logger.info(`Updated deprecated.nix with ${Object.keys(migrations).length} migrations`);
     }
   } catch (error) {
-    // If updating deprecated plugins fails, don't fail the entire build
-    if (verbose) {
-      logger.warn(`Failed to update deprecated.nix: ${error}`);
-    }
+    if (verbose) logger.warn(`Failed to update deprecated.nix: ${error}`);
   }
 }
 
-/**
- * Figure out which plugins are shared, Vencord-only, or Equicord-only. Matching happens
- * by plugin name first, then by directory slug because Equicord occasionally renames
- * things while keeping the same folder. That mirrors how humans think about the repos.
- */
 export function categorizePlugins(
   vencordResult: Readonly<ParsedPluginsResult>,
   equicordResult?: Readonly<ParsedPluginsResult>
@@ -501,8 +320,6 @@ export function categorizePlugins(
   const equicordSharedPlugins = equicordResult?.vencordPlugins ?? {};
   const equicordOnlyPlugins = equicordResult?.equicordPlugins ?? {};
 
-  // Equicord occasionally renames plugins without touching the folder (e.g., `statusEverywhere` vs
-  // `StatusEverywhere`). Build a directory-name map so we can still line shared plugins up.
   const equicordDirectoryMap = pipe(
     entries(equicordSharedPlugins),
     filter(([, config]) => config.directoryName !== undefined),
@@ -515,32 +332,33 @@ export function categorizePlugins(
   const pluginMatches = pipe(
     entries(vencordPlugins),
     map(([name, config]) => {
-      const equicordConfig = match(equicordSharedPlugins[name])
-        .with(undefined, () => {
-          // Check for plugin rename mapping
-          const renamedPlugin = PLUGIN_RENAME_MAP[name];
-          if (renamedPlugin) {
-            return equicordOnlyPlugins[renamedPlugin] || equicordSharedPlugins[renamedPlugin];
+      const getEquicordConfig = (): PluginConfig | undefined => {
+        const existing = equicordSharedPlugins[name];
+        if (existing) return existing;
+
+        const renamedPlugin = PLUGIN_RENAME_MAP[name];
+        if (renamedPlugin) {
+          return equicordOnlyPlugins[renamedPlugin] || equicordSharedPlugins[renamedPlugin];
+        }
+
+        const dirName = config?.directoryName;
+        if (typeof dirName === 'string') {
+          const equicordName = equicordDirectoryMap.get(dirName.toLowerCase());
+          if (equicordName) {
+            return equicordSharedPlugins[equicordName];
           }
+        }
 
-          return match(config?.directoryName)
-            .with(P.string, (dirName) => {
-              const equicordName = equicordDirectoryMap.get(dirName.toLowerCase());
-              return match(equicordName)
-                .with(undefined, () => undefined)
-                .otherwise((equicordName) => equicordSharedPlugins[equicordName]);
-            })
-            .otherwise(() => undefined);
-        })
-        .otherwise((cfg) => cfg);
+        return undefined;
+      };
 
-      return { name, config, equicordConfig };
+      return { name, config, equicordConfig: getEquicordConfig() };
     })
   );
 
   const [genericMatches, vencordMatches] = pipe(
     pluginMatches,
-    partition(({ equicordConfig }) => equicordConfig !== undefined)
+    partition(({ equicordConfig }) => equicordConfig !== undefined && !equicordConfig.isModified)
   );
 
   const genericTuples = pipe(
@@ -553,7 +371,6 @@ export function categorizePlugins(
     map(({ name, config }) => [name, config] as [string, PluginConfig])
   );
 
-  // Collect names of Equicord plugins that were matched to Vencord plugins
   const matchedEquicordPluginNames = new Set(
     pipe(
       genericMatches,
@@ -562,10 +379,26 @@ export function categorizePlugins(
     )
   );
 
-  // Remove matched Equicord plugins from equicordOnly
+  const modifiedEquicordSharedPluginNames = new Set(
+    pipe(
+      pluginMatches,
+      map(({ equicordConfig }) => equicordConfig?.name),
+      filter((name): name is string => name !== undefined)
+    )
+  );
+
   const filteredEquicordOnly = pipe(
     entries(equicordOnlyPlugins),
-    filter(([name]) => !matchedEquicordPluginNames.has(name)),
+    filter(
+      ([name]) =>
+        !matchedEquicordPluginNames.has(name) && !modifiedEquicordSharedPluginNames.has(name)
+    ),
+    fromEntries
+  );
+
+  const modifiedSharedPlugins = pipe(
+    entries(equicordSharedPlugins),
+    filter(([name]) => modifiedEquicordSharedPluginNames.has(name)),
     fromEntries
   );
 
@@ -576,8 +409,9 @@ export function categorizePlugins(
     vencordOnly: pipe(vencordTuples, fromEntries, pickBy(isNonNull)) as ReadonlyDeep<
       Record<string, PluginConfig>
     >,
-    equicordOnly: pickBy(filteredEquicordOnly, isNonNull) as ReadonlyDeep<
-      Record<string, PluginConfig>
-    >,
+    equicordOnly: pickBy(
+      { ...filteredEquicordOnly, ...modifiedSharedPlugins },
+      isNonNull
+    ) as ReadonlyDeep<Record<string, PluginConfig>>,
   };
 }

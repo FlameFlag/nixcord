@@ -29,6 +29,7 @@ export type ExtractedDefaultValue =
 export const ExtractedPluginInfoSchema = z.object({
   name: z.string().optional(),
   description: z.string().optional(),
+  isModified: z.boolean().optional(),
 });
 
 /**
@@ -77,6 +78,43 @@ export function createExtractionError(
   context?: Record<string, unknown> | undefined
 ): ExtractionError {
   return { kind, message, node, context };
+}
+
+export const extractionErrors = {
+  invalidNodeType: (expected: string, node: Node): SelectOptionsResult =>
+    Result.err(
+      createExtractionError(ExtractionErrorKind.InvalidNodeType, `Expected ${expected}`, node)
+    ),
+  missingProperty: (propName: string, node: Node): SelectOptionsResult =>
+    Result.err(
+      createExtractionError(
+        ExtractionErrorKind.MissingProperty,
+        `Missing '${propName}' property`,
+        node
+      )
+    ),
+  unresolvableSymbol: (symbolName: string, node: Node): SelectOptionsResult =>
+    Result.err(
+      createExtractionError(
+        ExtractionErrorKind.UnresolvableSymbol,
+        `Cannot resolve symbol: ${symbolName}`,
+        node
+      )
+    ),
+  unsupportedPattern: (pattern: string, node: Node): SelectOptionsResult =>
+    Result.err(createExtractionError(ExtractionErrorKind.UnsupportedPattern, pattern, node)),
+  cannotEvaluate: (reason: string, node: Node): SelectOptionsResult =>
+    Result.err(createExtractionError(ExtractionErrorKind.CannotEvaluate, reason, node)),
+};
+
+export function createSelectOptionsResult(
+  values: readonly EnumLiteral[],
+  labels: Record<string, string> = {}
+): SelectOptionsResult {
+  return Result.ok({
+    values: Object.freeze(values),
+    labels: Object.freeze(labels) as ReadonlyDeep<Record<string, string>>,
+  });
 }
 
 /**

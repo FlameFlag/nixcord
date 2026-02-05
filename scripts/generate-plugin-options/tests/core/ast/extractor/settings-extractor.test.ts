@@ -298,7 +298,8 @@ describe('extractSettingsFromCall()', () => {
     const result = extractSettingsFromCall(callExpr, checker, program);
     expect(result.config).toBeDefined();
     if (result.config && 'settings' in result.config) {
-      expect(result.config.settings.nested).toBeDefined();
+      const settings = result.config.settings as Record<string, unknown>;
+      expect(settings.nested).toBeDefined();
     }
   });
 
@@ -701,7 +702,8 @@ describe('extractSettingsFromObject()', () => {
     expect(result.level1).toBeDefined();
     expect(result.level1?.name).toBe('level1');
     if (result.level1 && 'settings' in result.level1) {
-      expect(result.level1.settings.level2).toBeDefined();
+      const settings = result.level1.settings as Record<string, unknown>;
+      expect(settings.level2).toBeDefined();
     }
   });
 
@@ -730,11 +732,13 @@ describe('extractSettingsFromObject()', () => {
     expect(result.config).toBeDefined();
     expect(result.config?.name).toBe('config');
     if (result.config && 'settings' in result.config) {
-      expect(result.config.settings.deep).toBeDefined();
-      const deep = result.config.settings.deep;
+      const settings = result.config.settings as Record<string, unknown>;
+      expect(settings.deep).toBeDefined();
+      const deep = settings.deep as Record<string, unknown>;
       if (deep && 'settings' in deep) {
-        expect(deep.settings.deeper).toBeDefined();
-        const deeper = deep.settings.deeper;
+        const deepSettings = deep.settings as Record<string, unknown>;
+        expect(deepSettings.deeper).toBeDefined();
+        const deeper = deepSettings.deeper as Record<string, unknown>;
         if (deeper && 'type' in deeper) {
           expect(deeper.type).toBe('types.int');
           expect(deeper.default).toBe(42);
@@ -781,13 +785,16 @@ describe('extractSettingsFromObject()', () => {
     expect(result.group2).toBeDefined();
     expect(result.group3).toBeDefined();
     if (result.group1 && 'settings' in result.group1) {
-      expect(result.group1.settings.nested1).toBeDefined();
+      const settings = result.group1.settings as Record<string, unknown>;
+      expect(settings.nested1).toBeDefined();
     }
     if (result.group2 && 'settings' in result.group2) {
-      expect(result.group2.settings.nested2).toBeDefined();
+      const settings = result.group2.settings as Record<string, unknown>;
+      expect(settings.nested2).toBeDefined();
     }
     if (result.group3 && 'settings' in result.group3) {
-      expect(result.group3.settings.nested3).toBeDefined();
+      const settings = result.group3.settings as Record<string, unknown>;
+      expect(settings.nested3).toBeDefined();
     }
   });
 
@@ -979,29 +986,32 @@ describe('extractSettingsFromObject()', () => {
     expect(result.level1).toBeDefined();
     const level1 = result.level1;
     if (level1 && 'settings' in level1) {
-      expect(level1.settings.level2).toBeDefined();
-      const level2 = level1.settings.level2;
+      const level1Settings = level1.settings as Record<string, unknown>;
+      expect(level1Settings.level2).toBeDefined();
+      const level2 = level1Settings.level2 as Record<string, unknown>;
       if (level2 && 'settings' in level2) {
-        expect(level2.settings.level3).toBeDefined();
-        const level3 = level2.settings.level3;
+        const level2Settings = level2.settings as Record<string, unknown>;
+        expect(level2Settings.level3).toBeDefined();
+        const level3 = level2Settings.level3 as Record<string, unknown>;
         if (level3 && 'settings' in level3) {
-          expect(level3.settings.level4).toBeDefined();
-          const level4 = level3.settings.level4;
+          const level3Settings = level3.settings as Record<string, unknown>;
+          expect(level3Settings.level4).toBeDefined();
+          const level4 = level3Settings.level4 as Record<string, unknown>;
           if (level4 && 'type' in level4) {
             expect(level4.type).toBe('types.str');
             expect(level4.default).toBe('deep-value');
           }
 
-          expect(level3.settings.level4b).toBeDefined();
-          const level4b = level3.settings.level4b;
+          expect(level3Settings.level4b).toBeDefined();
+          const level4b = level3Settings.level4b as Record<string, unknown>;
           if (level4b && 'type' in level4b) {
             expect(level4b.type).toBe('types.int');
             expect(level4b.default).toBe(42);
           }
         }
 
-        expect(level2.settings.level3b).toBeDefined();
-        const level3b = level2.settings.level3b;
+        expect(level2Settings.level3b).toBeDefined();
+        const level3b = level2Settings.level3b as Record<string, unknown>;
         if (level3b && 'type' in level3b) {
           expect(level3b.type).toBe('types.bool');
           expect(level3b.default).toBe(true);

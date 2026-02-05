@@ -6,6 +6,182 @@ let
   inherit (lib) types mkEnableOption mkOption;
 in
 {
+  AutoDNDWhilePlaying = {
+    enable = mkEnableOption "Automatically updates your online status (online, idle, dnd) when launching games (Vencord-only)";
+    statusToSet = mkOption {
+      default = "dnd";
+      description = "Status to set while playing a game";
+      type = types.enum [
+        "online"
+        "idle"
+        "dnd"
+        "invisible"
+      ];
+    };
+  };
+  BlurNSFW = {
+    enable = mkEnableOption "Blur attachments in NSFW channels until hovered (Vencord-only)";
+  };
+  OnePingPerDM = {
+    enable = mkEnableOption "If unread messages are sent by a user in DMs multiple times, you'll only receive one audio ping. Read the messages to reset the limit (Vencord-only)";
+    allowEveryone = mkOption {
+      default = false;
+      description = "Receive audio pings for @everyone and @here in group DMs";
+      type = types.bool;
+    };
+    allowMentions = mkOption {
+      default = false;
+      description = "Receive audio pings for @mentions";
+      type = types.bool;
+    };
+    channelToAffect = mkOption {
+      default = "both_dms";
+      description = "Select the type of DM for the plugin to affect";
+      type = types.enum [
+        "both_dms"
+        "user_dm"
+        "group_dm"
+      ];
+    };
+  };
+  ReviewDB = {
+    enable = mkEnableOption "Review other users (Adds a new settings to profiles) (Vencord-only)";
+    authorize = mkOption {
+      default = { };
+      type = types.attrs;
+    };
+    buttons = mkOption {
+      default = { };
+      type = types.attrs;
+    };
+    hideBlockedUsers = mkOption {
+      default = true;
+      description = "Hide reviews from blocked users";
+      type = types.bool;
+    };
+    hideTimestamps = mkOption {
+      default = false;
+      description = "Hide timestamps on reviews";
+      type = types.bool;
+    };
+    notifyReviews = mkOption {
+      default = true;
+      description = "Notify about new reviews on startup";
+      type = types.bool;
+    };
+    showWarning = mkOption {
+      default = true;
+      description = "Display warning to be respectful at the top of the reviews list";
+      type = types.bool;
+    };
+  };
+  alwaysExpandRoles = {
+    enable = mkEnableOption "Always expands the role list in profile popouts (Vencord-only)";
+  };
+  alwaysTrust = {
+    enable = mkEnableOption "Removes the annoying untrusted domain and suspicious file popup (Vencord-only)";
+    domain = mkOption {
+      default = true;
+      description = "Remove the untrusted domain popup when opening links (restart required)";
+      type = types.bool;
+    };
+    file = mkOption {
+      default = true;
+      description = "Remove the 'Potentially Dangerous Download' popup when opening links (restart required)";
+      type = types.bool;
+    };
+  };
+  anonymiseFileNames = {
+    enable = mkEnableOption "Anonymise uploaded file names (Vencord-only)";
+    anonymiseByDefault = mkOption {
+      default = true;
+      description = "Whether to anonymise file names by default";
+      type = types.bool;
+    };
+    consistent = mkOption {
+      default = "image";
+      description = "Consistent filename";
+      type = types.str;
+    };
+    method = mkOption {
+      default = 0;
+      description = ''
+        Anonymising method
+
+        Values: 0 = Random Characters, 1 = Consistent, 2 = Timestamp'';
+      type = types.enum [
+        0
+        1
+        2
+      ];
+    };
+    randomisedLength = mkOption {
+      default = 7;
+      description = "Random characters length";
+      type = types.int;
+    };
+  };
+  betterFolders = {
+    enable = mkEnableOption "Shows server folders on dedicated sidebar and adds folder related improvements (Vencord-only)";
+    closeAllFolders = mkOption {
+      default = false;
+      description = "Close all folders when selecting a server not in a folder";
+      type = types.bool;
+    };
+    closeAllHomeButton = mkOption {
+      default = false;
+      description = "Close all folders when clicking on the home button (restart required)";
+      type = types.bool;
+    };
+    closeOthers = mkOption {
+      default = false;
+      description = "Close other folders when opening a folder";
+      type = types.bool;
+    };
+    forceOpen = mkOption {
+      default = false;
+      description = "Force a folder to open when switching to a server of that folder";
+      type = types.bool;
+    };
+    keepIcons = mkOption {
+      default = false;
+      description = "Keep showing guild icons in the primary guild bar folder when it's open in the BetterFolders sidebar (restart required)";
+      type = types.bool;
+    };
+    showFolderIcon = mkOption {
+      default = 1;
+      description = ''
+        Show the folder icon above the folder guilds in the BetterFolders sidebar (restart required)
+
+        Values: 0 = Never, 1 = Always, 2 = When more than one folder is expanded'';
+      type = types.enum [
+        0
+        1
+        2
+      ];
+    };
+    sidebar = mkOption {
+      default = true;
+      description = "Display servers from folder on dedicated sidebar (restart required)";
+      type = types.bool;
+    };
+    sidebarAnim = mkOption {
+      default = true;
+      description = "Animate opening the folder sidebar";
+      type = types.bool;
+    };
+  };
+  devCompanion = {
+    enable = mkEnableOption "Dev Companion Plugin (Vencord-only)";
+    notifyOnAutoConnect = mkOption {
+      default = true;
+      description = "Whether to notify when Dev Companion has automatically connected.";
+      type = types.bool;
+    };
+  };
+  messageLogger = {
+    enable = mkEnableOption "Temporarily logs deleted and edited messages. (Vencord-only)";
+  };
   moreQuickReactions = {
     enable = mkEnableOption "Increases the number of reactions available in the Quick React hover menu (Vencord-only)";
     reactionCount = mkOption {
@@ -14,19 +190,101 @@ in
       type = types.int;
     };
   };
+  newGuildSettings = {
+    enable = mkEnableOption "Automatically mute new servers and change various other settings upon joining (Vencord-only)";
+    events = mkOption {
+      default = true;
+      description = "Mute New Events automatically";
+      type = types.bool;
+    };
+    everyone = mkOption {
+      default = true;
+      description = "Suppress @everyone and @here";
+      type = types.bool;
+    };
+    guild = mkOption {
+      default = true;
+      description = "Mute Guild automatically";
+      type = types.bool;
+    };
+    highlights = mkOption {
+      default = true;
+      description = "Suppress Highlights automatically";
+      type = types.bool;
+    };
+    messages = mkOption {
+      default = 3;
+      description = ''
+        Server Notification Settings
+
+        Values: 0 = All messages, 1 = Only @mentions, 2 = Nothing, 3 = Server default'';
+      type = types.enum [
+        0
+        1
+        2
+        3
+      ];
+    };
+    role = mkOption {
+      default = true;
+      description = "Suppress All Role @mentions";
+      type = types.bool;
+    };
+    showAllChannels = mkOption {
+      default = true;
+      description = "Show all channels automatically";
+      type = types.bool;
+    };
+  };
+  noBlockedMessages = {
+    enable = mkEnableOption "Hides all blocked/ignored messages from chat completely (Vencord-only)";
+    applyToIgnoredUsers = mkOption {
+      default = true;
+      description = "Additionally apply to 'ignored' users";
+      type = types.bool;
+    };
+    ignoreMessages = mkOption {
+      default = false;
+      description = "Completely ignores incoming messages from blocked and ignored (if enabled) users (restart required)";
+      type = types.bool;
+    };
+  };
   oneko = {
     enable = mkEnableOption "cat follow mouse (real) (Vencord-only)";
   };
-  showMeYourName = {
-    enable = mkEnableOption "Display usernames next to nicks, or no nicks at all";
-    mode = mkOption {
-      default = "user-nick";
-      description = "How to display usernames and nicks";
+  serverInfo = {
+    enable = mkEnableOption "Allows you to view info about a server (Vencord-only)";
+  };
+  showHiddenChannels = {
+    enable = mkEnableOption "Show channels that you do not have access to view. (Vencord-only)";
+    defaultAllowedUsersAndRolesDropdownState = mkOption {
+      default = true;
+      description = "Whether the allowed users and roles dropdown on hidden channels should be open by default";
+      type = types.bool;
+    };
+    hideUnreads = mkOption {
+      default = true;
+      description = "Hide Unreads (restart required)";
+      type = types.bool;
+    };
+    showMode = mkOption {
+      default = 0;
+      description = ''
+        The mode used to display hidden channels. (restart required)
+
+        Values: 0 = Plain style with Lock Icon instead, 1 = Muted style with hidden eye icon on the right'';
       type = types.enum [
-        "user-nick"
-        "nick-user"
-        "user"
+        0
+        1
       ];
+    };
+  };
+  showMeYourName = {
+    enable = mkEnableOption "Display usernames next to nicks, or no nicks at all (Vencord-only)";
+    displayNames = mkOption {
+      default = false;
+      description = "Use display names in place of usernames";
+      type = types.bool;
     };
     friendNicknames = mkOption {
       default = "dms";
@@ -37,19 +295,94 @@ in
         "fallback"
       ];
     };
-    displayNames = mkOption {
-      default = false;
-      description = "Use display names in place of usernames";
-      type = types.bool;
-    };
     inReplies = mkOption {
       default = false;
-      description = "Also apply functionnality to reply previews";
+      description = "Also apply functionality to reply previews";
+      type = types.bool;
+    };
+    mode = mkOption {
+      default = "user-nick";
+      description = "How to display usernames and nicks";
+      type = types.enum [
+        "user-nick"
+        "nick-user"
+        "user"
+      ];
+    };
+  };
+  silentTyping = {
+    enable = mkEnableOption "Hide that you are typing (Vencord-only)";
+    contextMenu = mkOption {
+      default = true;
+      description = "Add option to toggle the functionality in the chat input context menu";
+      type = types.bool;
+    };
+    isEnabled = mkOption {
+      default = true;
+      description = "Toggle functionality";
+      type = types.bool;
+    };
+    showIcon = mkOption {
+      default = false;
+      description = "Show an icon for toggling the plugin (restart required)";
+      type = types.bool;
+    };
+  };
+  sortFriendRequests = {
+    enable = mkEnableOption "Sorts friend requests by date of receipt (Vencord-only)";
+    showDates = mkOption {
+      default = false;
+      description = "Show dates on friend requests (restart required)";
       type = types.bool;
     };
   };
   spotifyControls = {
     enable = mkEnableOption "Adds a Spotify player above the account panel (Vencord-only)";
+  };
+  textReplace = {
+    enable = mkEnableOption "Replace text in your messages. You can find pre-made rules in the #textreplace-rules channel in Vencord's Server (Vencord-only)";
+    regexRules = mkOption {
+      default = [ ];
+      type = types.attrs;
+    };
+    replace = mkOption {
+      default = { };
+      type = types.attrs;
+    };
+    stringRules = mkOption {
+      default = [ ];
+      type = types.attrs;
+    };
+  };
+  typingIndicator = {
+    enable = mkEnableOption "Adds an indicator if someone is typing on a channel. (Vencord-only)";
+    includeBlockedUsers = mkOption {
+      default = false;
+      description = "Whether to show the typing indicator for blocked users.";
+      type = types.bool;
+    };
+    includeCurrentChannel = mkOption {
+      default = true;
+      description = "Whether to show the typing indicator for the currently selected channel";
+      type = types.bool;
+    };
+    includeMutedChannels = mkOption {
+      default = false;
+      description = "Whether to show the typing indicator for muted channels.";
+      type = types.bool;
+    };
+    indicatorMode = mkOption {
+      default = 3;
+      description = ''
+        How should the indicator be displayed?
+
+        Values: 3 = Avatars and animated dots, 1 = Animated dots, 2 = Avatars'';
+      type = types.enum [
+        3
+        1
+        2
+      ];
+    };
   };
   vencordToolbox = {
     enable = mkEnableOption "Adds a button to the titlebar that houses Vencord quick actions (Vencord-only)";
@@ -58,5 +391,8 @@ in
       description = "Show the plugins menu in the toolbox";
       type = types.bool;
     };
+  };
+  whoReacted = {
+    enable = mkEnableOption "Renders the avatars of users who reacted to a message (Vencord-only)";
   };
 }

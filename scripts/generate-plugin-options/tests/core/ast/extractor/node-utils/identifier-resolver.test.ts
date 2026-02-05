@@ -3,7 +3,7 @@ import { Project, SyntaxKind, ModuleKind } from 'ts-morph';
 import {
   resolveIdentifierInitializerNode,
   resolveIdentifierWithFallback,
-} from '../../../../../src/core/ast/extractor/node-utils/index.js';
+} from '../../../../../src/core/ast/extractor/node-utils.js';
 
 function createProject(): Project {
   return new Project({

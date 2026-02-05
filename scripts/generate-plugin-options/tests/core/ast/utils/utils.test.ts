@@ -12,11 +12,7 @@ import {
   isMethodCall,
   getFirstArgumentOfKind,
 } from '../../../../src/core/ast/utils/node-helpers.js';
-import { resolveIdentifierValue } from '../../../../src/core/ast/utils/identifier-resolver.js';
-import {
-  extractValueFromObjectLiteral,
-  extractValueAndLabelFromObjectLiteral,
-} from '../../../../src/core/ast/utils/value-extractor.js';
+import { resolveIdentifierInitializerNode } from '../../../../src/core/ast/extractor/node-utils.js';
 
 function createProject(): Project {
   return new Project({
@@ -214,7 +210,7 @@ describe('node-helpers', () => {
 });
 
 describe('identifier-resolver', () => {
-  describe('resolveIdentifierValue', () => {
+  describe('resolveIdentifierInitializerNode', () => {
     test('resolves identifier to its initializer', () => {
       const project = createProject();
       const sourceFile = project.createSourceFile(
@@ -228,58 +224,8 @@ describe('identifier-resolver', () => {
       if (!init) throw new Error('Expected initializer');
 
       const checker = project.getTypeChecker();
-      const result = resolveIdentifierValue(init, checker);
-      // Result may be Just or Nothing depending on symbol resolution
+      const result = resolveIdentifierInitializerNode(init, checker);
       expect(result).toBeDefined();
-    });
-  });
-});
-
-describe('value-extractor', () => {
-  describe('extractValueFromObjectLiteral', () => {
-    test('extracts value from value property', () => {
-      const project = createProject();
-      const sourceFile = project.createSourceFile(
-        'test.ts',
-        `const obj = { value: "test", label: "Test" };`
-      );
-      const obj = sourceFile.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-      if (!obj) throw new Error('Expected object literal');
-
-      const checker = project.getTypeChecker();
-      const result = extractValueFromObjectLiteral(obj, checker);
-      expect(result.isOk).toBe(true);
-    });
-
-    test('falls back to object itself when no value property', () => {
-      const project = createProject();
-      const sourceFile = project.createSourceFile('test.ts', `const obj = { prop: "value" };`);
-      const obj = sourceFile.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-      if (!obj) throw new Error('Expected object literal');
-
-      const checker = project.getTypeChecker();
-      const result = extractValueFromObjectLiteral(obj, checker);
-      expect(result).toBeDefined();
-    });
-  });
-
-  describe('extractValueAndLabelFromObjectLiteral', () => {
-    test('extracts both value and label', () => {
-      const project = createProject();
-      const sourceFile = project.createSourceFile(
-        'test.ts',
-        `const obj = { value: "test", label: "Test Label" };`
-      );
-      const obj = sourceFile.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-      if (!obj) throw new Error('Expected object literal');
-
-      const checker = project.getTypeChecker();
-      const result = extractValueAndLabelFromObjectLiteral(obj, checker);
-      expect(result.isJust).toBe(true);
-      if (result.isJust) {
-        expect(result.value.value).toBeDefined();
-        expect(result.value.label).toBe('Test Label');
-      }
     });
   });
 });

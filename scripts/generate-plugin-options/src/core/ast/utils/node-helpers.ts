@@ -11,6 +11,7 @@ import type {
   PropertyAssignment,
   CallExpression,
   PropertyAccessExpression,
+  ArrayLiteralExpression,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
 import { match } from 'ts-pattern';
@@ -158,3 +159,18 @@ export function getFirstArgumentOfKind<T extends Node>(
   const firstArg = args[0];
   return firstArg ? asKind<T>(firstArg, kind) : Maybe.nothing();
 }
+
+export function isArrayOf(arr: ArrayLiteralExpression, kind: SyntaxKind): boolean {
+  return arr.getElements().every((el) => el.getKind() === kind);
+}
+
+export function isArrayOfStringLiterals(arr: ArrayLiteralExpression): boolean {
+  return isArrayOf(arr, SyntaxKind.StringLiteral);
+}
+
+export function isArrayOfObjectLiterals(arr: ArrayLiteralExpression): boolean {
+  return isArrayOf(arr, SyntaxKind.ObjectLiteralExpression);
+}
+
+export const getPropertyAssignments = (obj: ObjectLiteralExpression): PropertyAssignment[] =>
+  Array.from(iteratePropertyAssignments(obj));

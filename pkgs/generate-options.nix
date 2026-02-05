@@ -18,7 +18,7 @@ stdenvNoCC.mkDerivation {
 
     src = lib.cleanSource ../scripts/generate-plugin-options;
 
-    npmDepsHash = "sha256-7jmEzHS9Xk5PSwfq9P40YTXSZiBqDFhCxZrg3E7AWX8=";
+    npmDepsHash = "sha256-yTurLEa1N5P0B0ltafBAvDwxA2tIRl9PXkplBwZZqtA=";
 
     dontNpmBuild = true;
 

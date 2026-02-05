@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { Project, ModuleKind } from 'ts-morph';
-import { evaluateThemesValues } from '../../../../../src/core/ast/extractor/node-utils/index.js';
+import { evaluateThemesValues } from '../../../../../src/core/ast/extractor/node-utils.js';
 
 function createProject(): Project {
   return new Project({

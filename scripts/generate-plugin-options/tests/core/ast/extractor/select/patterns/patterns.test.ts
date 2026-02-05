@@ -4,18 +4,14 @@ import {
   isArrayLiteral,
   isMapCall,
   isArrayMapCall,
-} from '../../../../../../src/core/ast/extractor/select/patterns/array-matcher.js';
-import {
   isObjectKeysCall,
   isObjectValuesCall,
   isObjectKeysMapCall,
   isObjectValuesMapCall,
   getObjectMethodTargetIdentifier,
-} from '../../../../../../src/core/ast/extractor/select/patterns/object-matcher.js';
-import {
   isArrayFromCall,
   isCallExpression,
-} from '../../../../../../src/core/ast/extractor/select/patterns/call-matcher.js';
+} from '../../../../../../src/core/ast/extractor/select/patterns/index.js';
 
 function createProject(): Project {
   return new Project({

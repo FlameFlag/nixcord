@@ -18,6 +18,7 @@ export type PluginSettingRequired = SetRequired<PluginSetting, 'name' | 'type'>;
 export interface PluginConfig {
   readonly name: string;
   readonly description?: string;
+  readonly isModified?: boolean;
   readonly settings: ReadonlyDeep<Record<string, PluginSetting | PluginConfig>>;
   readonly directoryName?: string;
 }
@@ -38,6 +39,7 @@ const PluginConfigSchema = z.lazy(() =>
   z.object({
     name: z.string(),
     description: z.string().optional(),
+    isModified: z.boolean().optional(),
     settings: z.record(z.string(), z.union([PluginSettingSchema, PluginConfigSchema])),
     directoryName: z.string().optional(),
   })

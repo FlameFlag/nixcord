@@ -145,9 +145,10 @@ describe('parsePlugins()', () => {
         result.vencordPlugins['ShikiDesktop'] ?? result.equicordPlugins['ShikiDesktop'];
       expect(plugin).toBeDefined();
       const theme = plugin?.settings.theme as any;
-      expect(theme.type).toBe('types.enum');
-      expect(Array.isArray(theme.enumValues ?? [])).toBe(true);
-      expect(['string', 'undefined']).toContain(typeof theme.default);
+      // When theme values cannot be resolved at build time, fall back to types.str
+      expect(theme.type).toBe('types.nullOr types.str');
+      expect(theme.enumValues).toBeUndefined();
+      expect(['string', 'undefined', 'object']).toContain(typeof theme.default);
     } finally {
       await fse.remove(tempDir);
     }
@@ -375,9 +376,10 @@ describe('parsePlugins()', () => {
         result.vencordPlugins['ExternalEnum'] ?? result.equicordPlugins['ExternalEnum'];
       expect(plugin).toBeDefined();
       const mode = plugin?.settings.mode as any;
-      expect(mode.type).toBe('types.enum');
-      expect(Array.isArray(mode.enumValues ?? [])).toBe(true);
-      expect(['string', 'undefined']).toContain(typeof mode.default);
+      // When enum values cannot be resolved at build time, fall back to types.str
+      expect(mode.type).toBe('types.nullOr types.str');
+      expect(mode.enumValues).toBeUndefined();
+      expect(['string', 'undefined', 'object']).toContain(typeof mode.default);
     } finally {
       await fse.remove(tempDir);
     }

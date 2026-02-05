@@ -36,6 +36,7 @@ stdenv.mkDerivation (finalAttrs: {
     repo = "Vencord";
     rev = if unstable then unstableRev else "v${finalAttrs.version}";
     hash = if unstable then unstableHash else stableHash;
+    leaveDotGit = true;
   };
 
   patches = [ ./fix-deps.patch ];

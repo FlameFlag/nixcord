@@ -3,6 +3,7 @@ export const DEFINE_PLUGIN_SETTINGS_FUNCTION_NAME = 'definePluginSettings';
 export const GET_FUNCTION_NAME = 'get';
 export const NAME_PROPERTY = 'name';
 export const DESCRIPTION_PROPERTY = 'description';
+export const IS_MODIFIED_PROPERTY = 'isModified';
 export const DEFAULT_PROPERTY = 'default';
 export const TYPE_PROPERTY = 'type';
 export const OPTIONS_PROPERTY = 'options';

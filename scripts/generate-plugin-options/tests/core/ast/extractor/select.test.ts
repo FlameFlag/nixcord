@@ -3,8 +3,9 @@ import { Project, SyntaxKind, ModuleKind } from 'ts-morph';
 import {
   extractSelectOptions,
   extractSelectDefault,
-} from '../../../../src/core/ast/extractor/select.js';
-import * as nodeUtils from '../../../../src/core/ast/extractor/node-utils/index.js';
+} from '../../../../src/core/ast/extractor/select/index.js';
+import * as nodeUtils from '../../../../src/core/ast/extractor/node-utils.js';
+import { evaluateThemesValues } from '../../../../src/core/ast/extractor/node-utils.js';
 
 function unwrapResult<T>(result: {
   isOk: boolean;
@@ -343,7 +344,7 @@ describe('extractSelectOptions()', () => {
     project.resolveSourceFileDependencies();
     const evaluateSpy = vi
       .spyOn(nodeUtils, 'evaluateThemesValues')
-      .mockReturnValue([
+      .mockImplementation(() => [
         'https://raw.githubusercontent.com/Vendicated/Vencord/abcdef1234/packages/tm-themes/themes/DarkPlus.json',
         'https://themes.example/material.json',
       ]);
@@ -378,7 +379,7 @@ describe('extractSelectOptions()', () => {
       };
       `
     );
-    const evaluateSpy = vi.spyOn(nodeUtils, 'evaluateThemesValues').mockReturnValue([]);
+    const evaluateSpy = vi.spyOn(nodeUtils, 'evaluateThemesValues').mockImplementation(() => []);
     const objLiteral = sourceFile
       .getVariableDeclarationOrThrow('obj')
       .getInitializerIfKindOrThrow(SyntaxKind.ObjectLiteralExpression);

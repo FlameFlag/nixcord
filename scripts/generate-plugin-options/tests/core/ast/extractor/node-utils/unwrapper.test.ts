@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { Project, SyntaxKind, ModuleKind } from 'ts-morph';
-import { unwrapNode } from '../../../../../src/core/ast/extractor/node-utils/index.js';
+import { unwrapNode } from '../../../../../src/core/ast/foundation.js';
 
 function createProject(): Project {
   return new Project({

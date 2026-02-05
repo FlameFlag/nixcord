@@ -4,7 +4,6 @@ import { Maybe } from 'true-myth';
 import {
   getDefaultPropertyInitializer,
   isCustomType,
-  hasStringLiteralDefault,
 } from '../../../../src/core/ast/extractor/type-helpers.js';
 import type { SettingProperties } from '../../../../src/core/ast/extractor/type-inference/types.js';
 
@@ -91,54 +90,6 @@ describe('type-helpers', () => {
 
       const props = createSettingProperties();
       const result = isCustomType(obj, props);
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('hasStringLiteralDefault', () => {
-    test('returns true for string literal default', () => {
-      const project = createProject();
-      const sourceFile = project.createSourceFile(
-        'test.ts',
-        `const obj = { default: "string value" };`
-      );
-      const obj = sourceFile.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-      if (!obj) throw new Error('Expected object literal');
-
-      const result = hasStringLiteralDefault(obj);
-      expect(result).toBe(true);
-    });
-
-    test('returns true for template literal default', () => {
-      const project = createProject();
-      const sourceFile = project.createSourceFile(
-        'test.ts',
-        `const obj = { default: \`template value\` };`
-      );
-      const obj = sourceFile.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-      if (!obj) throw new Error('Expected object literal');
-
-      const result = hasStringLiteralDefault(obj);
-      expect(result).toBe(true);
-    });
-
-    test('returns false for non-string default', () => {
-      const project = createProject();
-      const sourceFile = project.createSourceFile('test.ts', `const obj = { default: 42 };`);
-      const obj = sourceFile.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-      if (!obj) throw new Error('Expected object literal');
-
-      const result = hasStringLiteralDefault(obj);
-      expect(result).toBe(false);
-    });
-
-    test('returns false when default property does not exist', () => {
-      const project = createProject();
-      const sourceFile = project.createSourceFile('test.ts', `const obj = { prop: "value" };`);
-      const obj = sourceFile.getFirstDescendantByKind(SyntaxKind.ObjectLiteralExpression);
-      if (!obj) throw new Error('Expected object literal');
-
-      const result = hasStringLiteralDefault(obj);
       expect(result).toBe(false);
     });
   });
