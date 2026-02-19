@@ -17,6 +17,37 @@ in
   oneko = {
     enable = mkEnableOption "cat follow mouse (real) (Vencord-only)";
   };
+  showMeYourName = {
+    enable = mkEnableOption "Display usernames next to nicks, or no nicks at all";
+    mode = mkOption {
+      default = "user-nick";
+      description = "How to display usernames and nicks";
+      type = types.enum [
+        "user-nick"
+        "nick-user"
+        "user"
+      ];
+    };
+    friendNicknames = mkOption {
+      default = "dms";
+      description = "How to prioritise friend nicknames over server nicknames";
+      type = types.enum [
+        "dms"
+        "always"
+        "fallback"
+      ];
+    };
+    displayNames = mkOption {
+      default = false;
+      description = "Use display names in place of usernames";
+      type = types.bool;
+    };
+    inReplies = mkOption {
+      default = false;
+      description = "Also apply functionnality to reply previews";
+      type = types.bool;
+    };
+  };
   spotifyControls = {
     enable = mkEnableOption "Adds a Spotify player above the account panel (Vencord-only)";
   };

@@ -2006,6 +2006,109 @@ in
   showMessageEmbeds = {
     enable = mkEnableOption "Adds a context menu option to show embeds for links that don't have one (Equicord-only)";
   };
+  showMeYourName = {
+    enable = mkEnableOption "Display any permutation of nicknames, display names, and usernames in chat. (Shared between Vencord and Equicord)";
+    animateGradients = mkOption {
+      default = false;
+      description = ''For the second, third, and fourth names, if the role has a gradient, animate it. This is disabled by "Ignore Gradients" and reduced motion.'';
+      type = types.bool;
+    };
+    discriminators = mkOption {
+      default = true;
+      description = "Append discriminators to usernames for bots. Discriminators were deprecated for users, but are still used for bots. By default, a bot's username is equivalent to a user's global name, therefore multiple bots can have the same username. Appending discriminators makes them unique again.";
+      type = types.bool;
+    };
+    displayNameColor = mkOption {
+      default = "Role-25";
+      description = ''The color to use for the display name if it's not the first displayed. Leave blank for default. Accepts hex(a), rgb(a), or hsl(a) input. Use "Role" to follow the user's top role color. Use "Role+-#" to adjust the brightness by that percentage (ex: "Role+15")'';
+      type = types.str;
+    };
+    friendNameColor = mkOption {
+      default = "Role-25";
+      description = ''The color to use for a friend's nickname if it's not the first displayed. Leave blank for default. Accepts hex(a), rgb(a), or hsl(a) input. Use "Role" to follow the user's top role color. Use "Role+-#" to adjust the brightness by that percentage (ex: "Role+15")'';
+      type = types.str;
+    };
+    hideDefaultAtSign = mkOption {
+      default = false;
+      description = ''Hide the default "@" symbol before the name in mentions and replies. Only applied if either feature is enabled.'';
+      type = types.bool;
+    };
+    ignoreFonts = mkOption {
+      default = false;
+      description = "For the second, third, and fourth names, use GG SANS regardless of the user's custom font.";
+      type = types.bool;
+    };
+    ignoreGradients = mkOption {
+      default = true;
+      description = "For the second, third, and fourth names, if the role has a gradient, ignore it in favor of the value below.";
+      type = types.bool;
+    };
+    includedNames = mkOption {
+      default = "{friend, nick} [{display}] (@{user})";
+      description = "The order to display usernames, display names, nicknames, and friend names. Use the following placeholders: {user}, {display}, {nick}, {friend}. You can provide multiple name options to use as fallbacks if one is unavailable by separating them with commas as such: {friend, nick, display}. You can have up to three prefixes and three suffixes per name.";
+      type = types.str;
+    };
+    memberList = mkOption {
+      default = true;
+      description = "Display the first available name listed in your custom name format in the member list.";
+      type = types.bool;
+    };
+    mentions = mkOption {
+      default = true;
+      description = "Display custom name format in mentions.";
+      type = types.bool;
+    };
+    messages = mkOption {
+      default = true;
+      description = "Display custom name format in messages.";
+      type = types.bool;
+    };
+    nameSeparator = mkOption {
+      default = " ";
+      description = "The separator to use between names. The default is a single space.";
+      type = types.str;
+    };
+    nicknameColor = mkOption {
+      default = "Role-25";
+      description = ''The color to use for the nickname if it's not the first displayed. Leave blank for default. Accepts hex(a), rgb(a), or hsl(a) input. Use "Role" to follow the user's top role color. Use "Role+-#" to adjust the brightness by that percentage (ex: "Role+15")'';
+      type = types.str;
+    };
+    profilePopout = mkOption {
+      default = true;
+      description = "Display the first available name listed in your custom name format in profile popouts.";
+      type = types.bool;
+    };
+    reactions = mkOption {
+      default = true;
+      description = "Display the first available name listed in your custom name format in reaction tooltips, and the full name in reaction popouts.";
+      type = types.bool;
+    };
+    removeDuplicates = mkOption {
+      default = true;
+      description = "If any of the names are equivalent, remove them, leaving only the unique names.";
+      type = types.bool;
+    };
+    replies = mkOption {
+      default = true;
+      description = "Display custom name format in replies.";
+      type = types.bool;
+    };
+    truncateAllNamesWithStreamerMode = mkOption {
+      default = true;
+      description = "Truncate all names, not just usernames, while in Streamer Mode.";
+      type = types.bool;
+    };
+    usernameColor = mkOption {
+      default = "Role-25";
+      description = ''The color to use for the username if it's not the first displayed. Leave blank for default. Accepts hex(a), rgb(a), or hsl(a) input. Use "Role" to follow the user's top role color. Use "Role+-#" to adjust the brightness by that percentage (ex: "Role+15")'';
+      type = types.str;
+    };
+    voiceChannels = mkOption {
+      default = true;
+      description = "Display the first available name listed in your custom name format in voice channels.";
+      type = types.bool;
+    };
+  };
   showResourceChannels = {
     enable = mkEnableOption "shows the channels hidden behind the server resources in the channel list (Equicord-only)";
   };
