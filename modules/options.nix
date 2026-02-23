@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   dop,
   applyPostPatch ? null,
 }:
@@ -40,11 +41,19 @@ in
     };
     package = mkOption {
       type = types.package;
-      default = pkgs.callPackage ../pkgs/discord.nix (
-        lib.optionalAttrs (
-          pkgs.stdenvNoCC.isLinux && builtins.fromJSON (lib.versions.major lib.version) < 25
-        ) { libgbm = pkgs.mesa; }
-      );
+      default =
+        pkgs.callPackage ../pkgs/discord.nix
+          (lib.optionalAttrs (
+            pkgs.stdenvNoCC.isLinux && builtins.fromJSON (lib.versions.major lib.version) < 25
+          ) { libgbm = pkgs.mesa; }).override
+          ({
+            inherit (config.discord) branch;
+            withOpenASAR = config.openASAR.enable;
+            withVencord = config.vencord.enable;
+            vencord = config.vencord.package;
+            withEquicord = config.equicord.enable;
+            equicord = config.equicord.package;
+          });
       description = ''
         The Discord package to use
       '';
@@ -71,7 +80,7 @@ in
       };
       package = mkOption {
         type = types.package;
-        default = pkgs.callPackage ../pkgs/vencord.nix { unstable = false; };
+        default = pkgs.callPackage ../pkgs/vencord.nix { inherit (config.vencord) unstable; };
         defaultText = lib.literalExpression "pkgs.callPackage ../pkgs/vencord.nix { unstable = false; }";
         description = ''
           The Vencord package to use
