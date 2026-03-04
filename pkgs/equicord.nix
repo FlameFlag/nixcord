@@ -2,6 +2,7 @@
   equicord,
   fetchFromGitHub,
   fetchPnpmDeps,
+  stdenvNoCC,
   buildWebExtension ? false,
   writeShellApplication,
   cacert,
@@ -15,9 +16,13 @@
 let
   version = "v1.14.3.1";
   hash = "sha256-JGzzT0HXkopUVocgtz3cSQBD69W+PPFZqWrfJth12uo=";
-  pnpmDepsHash = "sha256-jxJhDhfXWtQND4luaGmmIIIfnqFkXw2T3zdOSKcna68=";
+  pnpmDepsHashDarwin = "sha256-jxJhDhfXWtQND4luaGmmIIIfnqFkXw2T3zdOSKcna68=";
+  pnpmDepsHashLinux = "sha256-AuHNcHosbYlPXKT0YFTLQihbTjff0Z9SlhoV1LDZc7c=";
+  pnpmDepsHash = if stdenvNoCC.isDarwin then pnpmDepsHashDarwin else pnpmDepsHashLinux;
+  owner = equicord.src.owner;
+  repo = equicord.src.repo;
   src = fetchFromGitHub {
-    inherit (equicord.src) owner repo;
+    inherit owner repo;
     tag = version;
     inherit hash;
   };
@@ -79,13 +84,21 @@ let
         update_value "hash" "$new_hash"
       }
 
+      platform_hash_var() {
+        if [[ "$(uname)" == "Darwin" ]]; then
+          echo "pnpmDepsHashDarwin"
+        else
+          echo "pnpmDepsHashLinux"
+        fi
+      }
+
       get_current_pnpm_deps_hash() {
-        get_nix_value "pnpmDepsHash" | perl -pe 's/^sha256-//'
+        get_nix_value "$(platform_hash_var)" | perl -pe 's/^sha256-//'
       }
 
       set_pnpm_deps_hash() {
         local hash="$1"
-        update_value "pnpmDepsHash" "$hash"
+        update_value "$(platform_hash_var)" "$hash"
       }
 
       build_and_extract_hash() {
@@ -110,13 +123,14 @@ let
 
       update_version_and_hash "$new_tag" "$new_hash"
 
-      echo "Updating pnpm dependencies hash..."
+      echo "Updating pnpm dependencies hash for $(uname)..."
       old_hash=$(get_current_pnpm_deps_hash)
       new_pnpm_hash=$(build_and_extract_hash)
 
       if [[ -n "$new_pnpm_hash" ]]; then
         set_pnpm_deps_hash "$new_pnpm_hash"
-        echo "Updated pnpmDepsHash to $new_pnpm_hash"
+        echo "Updated $(platform_hash_var) to $new_pnpm_hash"
+        echo "NOTE: run this script on the other platform to update its pnpm hash too"
       else
         set_pnpm_deps_hash "sha256-$old_hash"
         echo "pnpmDepsHash is already correct or could not be determined"
@@ -128,10 +142,15 @@ in
 (equicord.override { inherit buildWebExtension; }).overrideAttrs (oldAttrs: {
   inherit version src;
   pnpmDeps = fetchPnpmDeps {
-    inherit (oldAttrs) pname;
     inherit src;
+    inherit version;
+    inherit (oldAttrs) pname;
     inherit (oldAttrs.pnpmDeps) pnpm fetcherVersion;
     hash = pnpmDepsHash;
   };
   passthru.updateScript = updateScript;
+  env = {
+    EQUICORD_REMOTE = "${owner}/${repo}";
+    EQUICORD_HASH = "${src.tag}";
+  };
 })
