@@ -11,6 +11,7 @@
   curl,
   gnugrep,
   nix,
+  openasar ? null,
 
   # Options
   branch ? "stable",
@@ -104,16 +105,31 @@ let
     canary = discord-canary;
     development = discord-development;
   };
-  basePackage = (variantPackages.${branch}).override (
-    {
-      inherit withVencord withEquicord withOpenASAR;
-    }
-    // lib.optionalAttrs (vencord != null) { inherit vencord; }
-    // lib.optionalAttrs (equicord != null) { inherit equicord; }
-    // lib.optionalAttrs enableAutoscroll {
-      commandLineArgs = "--enable-blink-features=MiddleClickAutoscroll";
-    }
-  );
+  basePackage = variantPackages.${branch};
+
+  binaryName =
+    if stdenvNoCC.isLinux then
+      {
+        stable = "Discord";
+        ptb = "DiscordPTB";
+        canary = "DiscordCanary";
+        development = "DiscordDevelopment";
+      }
+      .${branch}
+    else
+      {
+        stable = "Discord";
+        ptb = "Discord PTB";
+        canary = "Discord Canary";
+        development = "Discord Development";
+      }
+      .${branch};
+
+  resourcesDir =
+    if stdenvNoCC.isLinux then
+      "$out/opt/${binaryName}/resources"
+    else
+      "\"$out/Applications/${binaryName}.app/Contents/Resources\"";
 
   updateScript = writeShellApplication {
     name = "discord-update";
@@ -225,7 +241,38 @@ let
 in
 basePackage.overrideAttrs (oldAttrs: {
   inherit version src;
-  passthru = oldAttrs.passthru // {
+  passthru = (oldAttrs.passthru or { }) // {
     inherit updateScript versions hashes;
   };
+  postInstall =
+    (oldAttrs.postInstall or "")
+    + lib.optionalString (withOpenASAR && openasar != null) ''
+      cp -f ${openasar} ${resourcesDir}/app.asar
+    ''
+    + lib.optionalString (withVencord && vencord != null) ''
+      mv ${resourcesDir}/app.asar ${resourcesDir}/_app.asar
+      mkdir ${resourcesDir}/app.asar
+      echo '{"name":"discord","main":"index.js"}' > ${resourcesDir}/app.asar/package.json
+      echo 'require("${vencord}/patcher.js")' > ${resourcesDir}/app.asar/index.js
+    ''
+    + lib.optionalString (withEquicord && equicord != null) ''
+      mv ${resourcesDir}/app.asar ${resourcesDir}/_app.asar
+      mkdir ${resourcesDir}/app.asar
+      echo '{"name":"discord","main":"index.js"}' > ${resourcesDir}/app.asar/package.json
+      echo 'require("${equicord}/desktop/patcher.js")' > ${resourcesDir}/app.asar/index.js
+    '';
+  postFixup =
+    (oldAttrs.postFixup or "")
+    + lib.optionalString enableAutoscroll (
+      if stdenvNoCC.isLinux then
+        ''
+          wrapProgramShell $out/opt/${binaryName}/${binaryName} \
+            --add-flags "--enable-blink-features=MiddleClickAutoscroll"
+        ''
+      else
+        ''
+          wrapProgram "$out/bin/${binaryName}" \
+            --add-flags "--enable-blink-features=MiddleClickAutoscroll"
+        ''
+    );
 })
