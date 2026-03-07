@@ -17,7 +17,7 @@ let
   version = "v1.14.3.1";
   hash = "sha256-JGzzT0HXkopUVocgtz3cSQBD69W+PPFZqWrfJth12uo=";
   pnpmDepsHashDarwin = "sha256-jxJhDhfXWtQND4luaGmmIIIfnqFkXw2T3zdOSKcna68=";
-  pnpmDepsHashLinux = "sha256-4mpqjkCCCjzNpLns6Q3TDBqf29wg0jooRnz8nnJRlN4=";
+  pnpmDepsHashLinux = "sha256-AuHNcHosbYlPXKT0YFTLQihbTjff0Z9SlhoV1LDZc7c=";
   pnpmDepsHash = if stdenvNoCC.isDarwin then pnpmDepsHashDarwin else pnpmDepsHashLinux;
   owner = equicord.src.owner;
   repo = equicord.src.repo;
