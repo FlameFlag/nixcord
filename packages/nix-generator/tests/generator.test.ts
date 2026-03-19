@@ -1,5 +1,4 @@
 import { describe, test, expect } from 'vitest';
-import { match } from 'ts-pattern';
 import type { ReadonlyDeep } from 'type-fest';
 import { generateNixSetting, generateNixPlugin, generateNixModule } from '../src/generator.js';
 import type { NixAttrSet } from '../src/generator-base.js';
@@ -339,17 +338,10 @@ describe('generateNixPlugin()', () => {
     const result = generateNixPlugin('TestPlugin', config);
     expect(result.enable).toBeDefined();
     const enableValue = result.enable;
-    match(enableValue)
-      .when(
-        (v): v is { value: string } => typeof v === 'object' && v !== null && 'value' in v,
-        (v) => {
-          expect(v.value).toContain('mkEnableOption');
-          expect(v.value).toContain('Test plugin');
-        }
-      )
-      .otherwise(() => {
-        // Not a raw value
-      });
+    if (typeof enableValue === 'object' && enableValue !== null && 'value' in enableValue) {
+      expect((enableValue as { value: string }).value).toContain('mkEnableOption');
+      expect((enableValue as { value: string }).value).toContain('Test plugin');
+    }
   });
 
   test('plugin with description', () => {
@@ -360,16 +352,9 @@ describe('generateNixPlugin()', () => {
     };
     const result = generateNixPlugin('TestPlugin', config);
     const enableValue = result.enable;
-    match(enableValue)
-      .when(
-        (v): v is { value: string } => typeof v === 'object' && v !== null && 'value' in v,
-        (v) => {
-          expect(v.value).toContain('A test plugin');
-        }
-      )
-      .otherwise(() => {
-        // Not a raw value
-      });
+    if (typeof enableValue === 'object' && enableValue !== null && 'value' in enableValue) {
+      expect((enableValue as { value: string }).value).toContain('A test plugin');
+    }
   });
 
   test('plugin without description', () => {
@@ -379,16 +364,9 @@ describe('generateNixPlugin()', () => {
     };
     const result = generateNixPlugin('TestPlugin', config);
     const enableValue = result.enable;
-    match(enableValue)
-      .when(
-        (v): v is { value: string } => typeof v === 'object' && v !== null && 'value' in v,
-        (v) => {
-          expect(v.value).toContain('""');
-        }
-      )
-      .otherwise(() => {
-        // Not a raw value
-      });
+    if (typeof enableValue === 'object' && enableValue !== null && 'value' in enableValue) {
+      expect((enableValue as { value: string }).value).toContain('""');
+    }
   });
 
   test('plugin with category label -> includes category in auto-generated enable', () => {
@@ -399,17 +377,12 @@ describe('generateNixPlugin()', () => {
     };
     const result = generateNixPlugin('TestPlugin', config, 'shared');
     const enableValue = result.enable;
-    match(enableValue)
-      .when(
-        (v): v is { value: string } => typeof v === 'object' && v !== null && 'value' in v,
-        (v) => {
-          expect(v.value).toContain('Test plugin');
-          expect(v.value).toContain('(Shared between Vencord and Equicord)');
-        }
-      )
-      .otherwise(() => {
-        // Not a raw value
-      });
+    if (typeof enableValue === 'object' && enableValue !== null && 'value' in enableValue) {
+      expect((enableValue as { value: string }).value).toContain('Test plugin');
+      expect((enableValue as { value: string }).value).toContain(
+        '(Shared between Vencord and Equicord)'
+      );
+    }
   });
 
   test('plugin with explicit enable and category -> includes category in enable description', () => {
@@ -427,17 +400,10 @@ describe('generateNixPlugin()', () => {
     };
     const result = generateNixPlugin('TestPlugin', config, 'vencord');
     const enableValue = result.enable;
-    match(enableValue)
-      .when(
-        (v): v is { value: string } => typeof v === 'object' && v !== null && 'value' in v,
-        (v) => {
-          expect(v.value).toContain('Enable plugin');
-          expect(v.value).toContain('(Vencord-only)');
-        }
-      )
-      .otherwise(() => {
-        // Not a raw value
-      });
+    if (typeof enableValue === 'object' && enableValue !== null && 'value' in enableValue) {
+      expect((enableValue as { value: string }).value).toContain('Enable plugin');
+      expect((enableValue as { value: string }).value).toContain('(Vencord-only)');
+    }
   });
 
   test('plugin with nested settings', () => {

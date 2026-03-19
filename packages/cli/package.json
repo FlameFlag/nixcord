@@ -22,7 +22,6 @@
     "fs-extra": "^11.3.4",
     "ora": "^9.3.0",
     "pathe": "^2.0.3",
-    "ts-pattern": "^5.9.0",
     "type-fest": "^5.4.4",
     "zod": "^4.3.6",
     "zod-validation-error": "^5.0.0"

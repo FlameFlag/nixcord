@@ -5,9 +5,18 @@ import fse from 'fs-extra';
 import fg from 'fast-glob';
 import { z } from 'zod';
 import type { ReadonlyDeep, SetOptional } from 'type-fest';
-import type { PluginConfig, ParsedPluginsResult, PluginSetting, SettingRename } from '@nixcord/shared';
+import type {
+  PluginConfig,
+  ParsedPluginsResult,
+  PluginSetting,
+  SettingRename,
+} from '@nixcord/shared';
 import { extractPluginInfo } from '@nixcord/ast';
-import { findDefinePluginSettings, findDefinePluginCall, findMigratePluginSettingCalls } from '@nixcord/ast';
+import {
+  findDefinePluginSettings,
+  findDefinePluginCall,
+  findMigratePluginSettingCalls,
+} from '@nixcord/ast';
 import { extractSettingsFromCall, extractSettingsFromObject } from '@nixcord/ast';
 import { CLI_CONFIG } from '@nixcord/shared';
 import { createProject } from './project.js';
@@ -186,9 +195,9 @@ async function parsePluginsFromDirectory(
   }
 
   return {
-    plugins: Object.fromEntries(
-      pluginEntries.filter(([, v]) => v != null)
-    ) as ReadonlyDeep<Record<string, PluginConfig>>,
+    plugins: Object.fromEntries(pluginEntries.filter(([, v]) => v != null)) as ReadonlyDeep<
+      Record<string, PluginConfig>
+    >,
     settingRenames: allSettingRenames,
   };
 }

@@ -3,7 +3,6 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import fse from 'fs-extra';
-import { match } from 'ts-pattern';
 import { parsePlugins } from '../../src/index.js';
 import type { PluginSetting, PluginConfig } from '@nixcord/shared';
 import { createTsConfig, createPlugin } from '../helpers/test-utils.js';
@@ -252,17 +251,11 @@ describe('Integration Tests with Real Plugin Structure', () => {
       expect(allowLevel.type).toBeDefined();
       // Default object should be extracted
       expect(allowLevel.default).toBeDefined();
-      match(allowLevel.default)
-        .when(
-          (val): val is Record<string, unknown> => typeof val === 'object' && val !== null,
-          (defaultObj) => {
-            expect(defaultObj.error).toBe(true);
-            expect(defaultObj.warn).toBe(false);
-          }
-        )
-        .otherwise(() => {
-          // Not an object, skip
-        });
+      if (typeof allowLevel.default === 'object' && allowLevel.default !== null) {
+        const defaultObj = allowLevel.default as Record<string, unknown>;
+        expect(defaultObj.error).toBe(true);
+        expect(defaultObj.warn).toBe(false);
+      }
     } finally {
       await fse.remove(tempDir);
     }

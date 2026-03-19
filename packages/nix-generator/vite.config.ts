@@ -17,7 +17,6 @@ export default defineConfig({
         '@nixcord/ast',
         '@nixcord/shared',
         'change-case',
-        'ts-pattern',
         'type-fest',
       ],
     },

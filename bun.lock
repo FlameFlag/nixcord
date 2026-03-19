@@ -21,7 +21,6 @@
       "dependencies": {
         "@nixcord/shared": "^1.0.0",
         "ts-morph": "^27.0.2",
-        "ts-pattern": "^5.9.0",
         "zod": "^4.3.6",
       },
     },
@@ -40,7 +39,6 @@
         "fs-extra": "^11.3.4",
         "ora": "^9.3.0",
         "pathe": "^2.0.3",
-        "ts-pattern": "^5.9.0",
         "type-fest": "^5.4.4",
         "zod": "^4.3.6",
         "zod-validation-error": "^5.0.0",
@@ -60,7 +58,6 @@
         "@nixcord/ast": "^1.0.0",
         "@nixcord/shared": "^1.0.0",
         "change-case": "^5.4.4",
-        "ts-pattern": "^5.9.0",
         "type-fest": "^5.4.4",
       },
     },
@@ -75,7 +72,6 @@
         "p-limit": "^7.3.0",
         "pathe": "^2.0.3",
         "ts-morph": "^27.0.2",
-        "ts-pattern": "^5.9.0",
         "type-fest": "^5.4.4",
         "zod": "^4.3.6",
       },
@@ -464,8 +460,6 @@
     "totalist": ["totalist@3.0.1", "", {}, "sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ=="],
 
     "ts-morph": ["ts-morph@27.0.2", "", { "dependencies": { "@ts-morph/common": "~0.28.1", "code-block-writer": "^13.0.3" } }, "sha512-fhUhgeljcrdZ+9DZND1De1029PrE+cMkIP7ooqkLRTrRLTqcki2AstsyJm0vRNbTbVCNJ0idGlbBrfqc7/nA8w=="],
-
-    "ts-pattern": ["ts-pattern@5.9.0", "", {}, "sha512-6s5V71mX8qBUmlgbrfL33xDUwO0fq48rxAu2LBE11WBeGdpCPOsXksQbZJHvHwhrd3QjUusd3mAOM5Gg0mFBLg=="],
 
     "tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 

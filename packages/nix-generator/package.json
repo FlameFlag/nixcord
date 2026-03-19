@@ -14,7 +14,6 @@
     "@nixcord/ast": "^1.0.0",
     "@nixcord/shared": "^1.0.0",
     "change-case": "^5.4.4",
-    "ts-pattern": "^5.9.0",
     "type-fest": "^5.4.4"
   }
 }

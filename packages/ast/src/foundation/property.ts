@@ -7,7 +7,6 @@ import type {
   ArrayLiteralExpression,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { match } from 'ts-pattern';
 
 export const typeMatches = (name: string, pattern: string): boolean =>
   name === pattern || name.includes(pattern);
@@ -41,14 +40,14 @@ export const extractStringLiteralValue = (
 ): string | undefined => {
   const init = getPropertyInitializer(obj, propName);
   if (!init) return undefined;
-  return match(init.getKind())
-    .with(SyntaxKind.StringLiteral, () =>
-      init.asKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue()
-    )
-    .with(SyntaxKind.NoSubstitutionTemplateLiteral, () =>
-      init.asKindOrThrow(SyntaxKind.NoSubstitutionTemplateLiteral).getLiteralValue()
-    )
-    .otherwise(() => undefined);
+  switch (init.getKind()) {
+    case SyntaxKind.StringLiteral:
+      return init.asKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue();
+    case SyntaxKind.NoSubstitutionTemplateLiteral:
+      return init.asKindOrThrow(SyntaxKind.NoSubstitutionTemplateLiteral).getLiteralValue();
+    default:
+      return undefined;
+  }
 };
 
 export const extractBooleanLiteralValue = (
@@ -57,20 +56,26 @@ export const extractBooleanLiteralValue = (
 ): boolean | undefined => {
   const init = getPropertyInitializer(obj, propName);
   if (!init) return undefined;
-  return match(init.getKind())
-    .with(SyntaxKind.TrueKeyword, () => true)
-    .with(SyntaxKind.FalseKeyword, () => false)
-    .otherwise(() => undefined);
+  switch (init.getKind()) {
+    case SyntaxKind.TrueKeyword:
+      return true;
+    case SyntaxKind.FalseKeyword:
+      return false;
+    default:
+      return undefined;
+  }
 };
 
 export const getPropertyName = (prop: PropertyAssignment): string | undefined => {
   const nameNode = prop.getNameNode();
-  return match(nameNode.getKind())
-    .with(SyntaxKind.StringLiteral, () =>
-      nameNode.asKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue()
-    )
-    .with(SyntaxKind.Identifier, () => nameNode.getText().replace(/['"]/g, ''))
-    .otherwise(() => undefined);
+  switch (nameNode.getKind()) {
+    case SyntaxKind.StringLiteral:
+      return nameNode.asKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue();
+    case SyntaxKind.Identifier:
+      return nameNode.getText().replace(/['"]/g, '');
+    default:
+      return undefined;
+  }
 };
 
 export function* iteratePropertyAssignments(

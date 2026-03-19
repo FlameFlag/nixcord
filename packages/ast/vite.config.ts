@@ -12,7 +12,7 @@ export default defineConfig({
     minify: false,
     sourcemap: true,
     rolldownOptions: {
-      external: [/^node:/, '@nixcord/shared', 'ts-morph', 'ts-pattern'],
+      external: [/^node:/, '@nixcord/shared', 'ts-morph'],
     },
   },
   test: {

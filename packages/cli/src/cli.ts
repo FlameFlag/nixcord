@@ -2,7 +2,6 @@ import { resolve } from 'pathe';
 import { Command } from 'commander';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
-import { match, P } from 'ts-pattern';
 import { runGeneratePluginOptions } from './runner/index.js';
 import type { GeneratePluginOptionsParams } from './runner/index.js';
 import { CLI_CONFIG } from '@nixcord/shared';
@@ -115,26 +114,25 @@ export const runCli = async (argv = process.argv): Promise<void> => {
 };
 
 export const handleCliError = (error: unknown): void => {
-  match(error)
-    .with(P.instanceOf(CliExecutionError), (e) => {
-      const logger = createLogger(e.verbose);
-      logger.error(`Error: ${e.cause.message}`);
-      if (e.verbose && e.cause.stack) {
-        logger.debug(e.cause.stack);
-      }
-      process.exitCode = 1;
-    })
-    .with(P.instanceOf(Error), (e) => {
-      const logger = createLogger(true);
-      logger.error(e.message);
-      if (e.stack) {
-        logger.debug(e.stack);
-      }
-      process.exitCode = 1;
-    })
-    .otherwise((e) => {
-      const logger = createLogger(true);
-      logger.error(String(e));
-      process.exitCode = 1;
-    });
+  if (error instanceof CliExecutionError) {
+    const logger = createLogger(error.verbose);
+    logger.error(`Error: ${error.cause.message}`);
+    if (error.verbose && error.cause.stack) {
+      logger.debug(error.cause.stack);
+    }
+    process.exitCode = 1;
+    return;
+  }
+  if (error instanceof Error) {
+    const logger = createLogger(true);
+    logger.error(error.message);
+    if (error.stack) {
+      logger.debug(error.stack);
+    }
+    process.exitCode = 1;
+    return;
+  }
+  const logger = createLogger(true);
+  logger.error(String(error));
+  process.exitCode = 1;
 };

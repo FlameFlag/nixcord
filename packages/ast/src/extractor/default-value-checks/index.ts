@@ -7,8 +7,6 @@ import type {
   Identifier,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-
-import { match } from 'ts-pattern';
 import { STRING_ARRAY_TYPE_PATTERN, COMPONENT_PROPERTY } from '../constants.js';
 import { unwrapNode, resolveSymbolInit, resolveArrowBody, asKind } from '../../foundation/index.js';
 import { getDefaultPropertyInitializer } from '../type-helpers.js';
@@ -22,17 +20,20 @@ const isStringArrayAsExpr = (asExpr: AsExpression): boolean =>
   asKind<ArrayLiteralExpression>(asExpr.getExpression(), SyntaxKind.ArrayLiteralExpression) !==
     undefined;
 
-const checkStringArrayInit = (init: Node): boolean =>
-  match(init.getKind())
-    .with(SyntaxKind.ArrayLiteralExpression, () => {
+const checkStringArrayInit = (init: Node): boolean => {
+  switch (init.getKind()) {
+    case SyntaxKind.ArrayLiteralExpression: {
       const arr = asKind<ArrayLiteralExpression>(init, SyntaxKind.ArrayLiteralExpression);
       return arr ? isStringArray(arr) : false;
-    })
-    .with(SyntaxKind.AsExpression, () => {
+    }
+    case SyntaxKind.AsExpression: {
       const expr = asKind<AsExpression>(init, SyntaxKind.AsExpression);
       return expr ? isStringArrayAsExpr(expr) : false;
-    })
-    .otherwise(() => false);
+    }
+    default:
+      return false;
+  }
+};
 
 const getIdentifierInit = (ident: Identifier): Node | undefined => resolveSymbolInit(ident);
 
@@ -57,19 +58,21 @@ export function resolveIdentifierArrayDefault(obj: ObjectLiteralExpression): boo
   const valueInit = getIdentifierInit(ident);
   if (!valueInit) return false;
 
-  return match(valueInit.getKind())
-    .with(SyntaxKind.ArrayLiteralExpression, () => {
+  switch (valueInit.getKind()) {
+    case SyntaxKind.ArrayLiteralExpression: {
       const arr = asKind<ArrayLiteralExpression>(valueInit, SyntaxKind.ArrayLiteralExpression);
       return arr ? isStringArray(arr) : false;
-    })
-    .with(SyntaxKind.AsExpression, () => {
+    }
+    case SyntaxKind.AsExpression: {
       const arr = asKind<ArrayLiteralExpression>(
         valueInit.asKindOrThrow(SyntaxKind.AsExpression).getExpression(),
         SyntaxKind.ArrayLiteralExpression
       );
       return arr ? isStringArray(arr) : false;
-    })
-    .otherwise(() => false);
+    }
+    default:
+      return false;
+  }
 }
 
 const isArrayExprWithObjects = (node: Node): boolean => {
@@ -84,17 +87,18 @@ export function hasObjectArrayDefault(obj: ObjectLiteralExpression, checker: Typ
   const init = getDefaultPropertyInitializer(obj);
   if (!init) return false;
 
-  return match(init.getKind())
-    .with(SyntaxKind.ArrayLiteralExpression, () => isArrayExprWithObjects(init))
-    .with(SyntaxKind.AsExpression, () => {
+  switch (init.getKind()) {
+    case SyntaxKind.ArrayLiteralExpression:
+      return isArrayExprWithObjects(init);
+    case SyntaxKind.AsExpression: {
       const asExpr = init.asKindOrThrow(SyntaxKind.AsExpression);
       const typeNode = asExpr.getTypeNode();
       const isArrayType =
         !!typeNode &&
         (/\[\]$/.test(typeNode.getText()) || /\bArray<.+>\b/.test(typeNode.getText()));
       return isArrayType ? isArrayExprWithObjects(asExpr.getExpression()) : false;
-    })
-    .with(SyntaxKind.CallExpression, () => {
+    }
+    case SyntaxKind.CallExpression: {
       const ident = init
         .asKindOrThrow(SyntaxKind.CallExpression)
         .getExpression()
@@ -102,15 +106,17 @@ export function hasObjectArrayDefault(obj: ObjectLiteralExpression, checker: Typ
       if (!ident) return false;
       const body = resolveArrowBody(ident);
       return body ? isArrayExprWithObjects(unwrapNode(body)) : false;
-    })
-    .with(SyntaxKind.Identifier, () => {
+    }
+    case SyntaxKind.Identifier: {
       const ident = asKind<Identifier>(init, SyntaxKind.Identifier);
       if (!ident) return false;
       const valueInit = resolveSymbolInit(ident, checker);
       if (!valueInit) return false;
       return isArrayExprWithObjects(unwrapNode(valueInit));
-    })
-    .otherwise(() => false);
+    }
+    default:
+      return false;
+  }
 }
 
 export function hasComponentProp(obj: ObjectLiteralExpression): boolean {
@@ -121,8 +127,8 @@ export function hasEmptyArrayWithTypeAnnotation(obj: ObjectLiteralExpression): b
   const init = getDefaultPropertyInitializer(obj);
   if (!init) return false;
 
-  return match(init.getKind())
-    .with(SyntaxKind.AsExpression, () => {
+  switch (init.getKind()) {
+    case SyntaxKind.AsExpression: {
       const asExpr = init.asKindOrThrow(SyntaxKind.AsExpression);
       const expr = asExpr.getExpression();
       const typeNode = asExpr.getTypeNode();
@@ -133,8 +139,8 @@ export function hasEmptyArrayWithTypeAnnotation(obj: ObjectLiteralExpression): b
         (/\[\]$/.test(typeNode.getText()) || /\bArray<.+>\b/.test(typeNode.getText())) &&
         expr.asKindOrThrow(SyntaxKind.ArrayLiteralExpression).getElements().length === 0
       );
-    })
-    .with(SyntaxKind.CallExpression, () => {
+    }
+    case SyntaxKind.CallExpression: {
       const callExpr = init.asKindOrThrow(SyntaxKind.CallExpression);
       const ident = callExpr.getExpression().asKind(SyntaxKind.Identifier);
       if (!ident) return false;
@@ -154,6 +160,8 @@ export function hasEmptyArrayWithTypeAnnotation(obj: ObjectLiteralExpression): b
             el.getKind() === SyntaxKind.CallExpression
         )
       );
-    })
-    .otherwise(() => false);
+    }
+    default:
+      return false;
+  }
 }

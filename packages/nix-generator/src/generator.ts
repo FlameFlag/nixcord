@@ -1,4 +1,3 @@
-import { match, P } from 'ts-pattern';
 import type { ReadonlyDeep } from 'type-fest';
 import type { PluginConfig, PluginSetting } from '@nixcord/shared';
 import { type NixAttrSet, NixGenerator, type NixRaw, type NixValue } from './generator-base.js';
@@ -25,12 +24,16 @@ const NIX_MODULE_INHERIT = '  inherit (lib) types mkEnableOption mkOption;';
 
 export type PluginCategory = 'shared' | 'vencord' | 'equicord';
 
-const categoryLabel = (category: PluginCategory): string =>
-  match(category)
-    .with('shared', () => ' (Shared between Vencord and Equicord)')
-    .with('vencord', () => ' (Vencord-only)')
-    .with('equicord', () => ' (Equicord-only)')
-    .exhaustive();
+const categoryLabel = (category: PluginCategory): string => {
+  switch (category) {
+    case 'shared':
+      return ' (Shared between Vencord and Equicord)';
+    case 'vencord':
+      return ' (Vencord-only)';
+    case 'equicord':
+      return ' (Equicord-only)';
+  }
+};
 
 const buildEnumMappingDescription = (
   enumValues: readonly (string | number | boolean)[],
@@ -67,26 +70,23 @@ const buildNixOptionConfig = (setting: Readonly<PluginSetting>): NixAttrSet => {
     if (setting.default === null) {
       config.default = null;
     } else {
-      const defaultResult = match([setting.type, setting.default] as const)
-        .when(
-          ([type, val]) => isNumber(val) && type === NIX_TYPE_FLOAT && Number.isInteger(val),
-          ([, val]) => gen.raw((val as number).toFixed(1)) as Exclude<NixValue, null>
+      const defaultResult = (() => {
+        const type = setting.type;
+        const val = setting.default;
+        if (isNumber(val) && type === NIX_TYPE_FLOAT && Number.isInteger(val))
+          return gen.raw(val.toFixed(1)) as Exclude<NixValue, null>;
+        if (type === NIX_TYPE_INT && isString(val) && INTEGER_STRING_PATTERN.test(val))
+          return gen.raw(val) as Exclude<NixValue, null>;
+        if (
+          isString(val) ||
+          isNumber(val) ||
+          isBoolean(val) ||
+          isArray(val) ||
+          (isObject(val) && !isNull(val))
         )
-        .when(
-          ([type, val]) =>
-            type === NIX_TYPE_INT && isString(val) && INTEGER_STRING_PATTERN.test(val),
-          ([, val]) => gen.raw(val as string) as Exclude<NixValue, null>
-        )
-        .when(
-          ([, val]) =>
-            isString(val) ||
-            isNumber(val) ||
-            isBoolean(val) ||
-            isArray(val) ||
-            (isObject(val) && !isNull(val)),
-          ([, val]) => val as Exclude<NixValue, null>
-        )
-        .otherwise(() => undefined);
+          return val as Exclude<NixValue, null>;
+        return undefined;
+      })();
 
       if (defaultResult !== undefined) config.default = defaultResult;
     }

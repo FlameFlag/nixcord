@@ -1,8 +1,6 @@
 import type { TypeChecker, Program, Node } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
 
-import { match, P } from 'ts-pattern';
-
 import { isObject, isPrimitive } from '@nixcord/shared';
 import { OptionTypeMap } from '@nixcord/shared';
 import {
@@ -35,45 +33,41 @@ import { evaluate, typeMatches } from './foundation/index.js';
 const isNode = (value: unknown): value is Node =>
   typeof value === 'object' && value !== null && typeof (value as Node).getKind === 'function';
 
-const inferNixTypeFromRuntimeDefault = (defaultValue: unknown): string =>
-  match(defaultValue)
-    .with(undefined, () => NIX_TYPE_STR)
-    .with(P.boolean, () => NIX_TYPE_BOOL)
-    .when(Array.isArray, () => NIX_TYPE_ATTRS)
-    .with(P.string, () => NIX_TYPE_STR)
-    .with(P.number, (val) => (Number.isInteger(val) ? NIX_TYPE_INT : NIX_TYPE_FLOAT))
-    .when(isObject, () => NIX_TYPE_ATTRS)
-    .otherwise(() => NIX_TYPE_STR);
+const inferNixTypeFromRuntimeDefault = (defaultValue: unknown): string => {
+  if (defaultValue === undefined) return NIX_TYPE_STR;
+  if (typeof defaultValue === 'boolean') return NIX_TYPE_BOOL;
+  if (Array.isArray(defaultValue)) return NIX_TYPE_ATTRS;
+  if (typeof defaultValue === 'string') return NIX_TYPE_STR;
+  if (typeof defaultValue === 'number')
+    return Number.isInteger(defaultValue) ? NIX_TYPE_INT : NIX_TYPE_FLOAT;
+  if (isObject(defaultValue)) return NIX_TYPE_ATTRS;
+  return NIX_TYPE_STR;
+};
 
-const extractEnumValueFromDeclaration = (valueDeclaration: Node): number | undefined =>
-  match(valueDeclaration.getKind())
-    .with(SyntaxKind.EnumMember, () => {
-      try {
-        const value = (valueDeclaration as { getValue?: () => number }).getValue?.();
-        if (typeof value === 'number') return value;
-      } catch {}
-      const enumMember = valueDeclaration.asKind(SyntaxKind.EnumMember);
-      const initializer = enumMember?.getInitializer();
-      return match(initializer?.getKind())
-        .with(SyntaxKind.NumericLiteral, () =>
-          initializer
-            ? parseInt(
-                initializer.asKindOrThrow(SyntaxKind.NumericLiteral).getLiteralValue().toString(),
-                PARSE_INT_RADIX
-              )
-            : undefined
-        )
-        .otherwise(() => undefined);
-    })
-    .otherwise(() => undefined);
+const extractEnumValueFromDeclaration = (valueDeclaration: Node): number | undefined => {
+  if (valueDeclaration.getKind() !== SyntaxKind.EnumMember) return undefined;
+  try {
+    const value = (valueDeclaration as { getValue?: () => number }).getValue?.();
+    if (typeof value === 'number') return value;
+  } catch {}
+  const enumMember = valueDeclaration.asKind(SyntaxKind.EnumMember);
+  const initializer = enumMember?.getInitializer();
+  if (initializer?.getKind() === SyntaxKind.NumericLiteral) {
+    return parseInt(
+      initializer.asKindOrThrow(SyntaxKind.NumericLiteral).getLiteralValue().toString(),
+      PARSE_INT_RADIX
+    );
+  }
+  return undefined;
+};
 
 const resolveOptionTypeNameFromNode = (
   typeNode: Node,
   _checker: TypeChecker
 ): string | undefined => {
-  const extractTypeValue = (): string | number | undefined =>
-    match(typeNode.getKind())
-      .with(SyntaxKind.PropertyAccessExpression, () => {
+  const extractTypeValue = (): string | number | undefined => {
+    switch (typeNode.getKind()) {
+      case SyntaxKind.PropertyAccessExpression: {
         const propAccess = typeNode.asKindOrThrow(SyntaxKind.PropertyAccessExpression);
         const propName = propAccess.getName();
         try {
@@ -87,40 +81,39 @@ const resolveOptionTypeNameFromNode = (
           }
         } catch {}
         return propName;
-      })
-      .with(SyntaxKind.Identifier, () => {
+      }
+      case SyntaxKind.Identifier: {
         const symbol = typeNode.asKindOrThrow(SyntaxKind.Identifier).getSymbol();
         const valueDecl = symbol?.getValueDeclaration();
         if (!valueDecl) return undefined;
         const enumValue = extractEnumValueFromDeclaration(valueDecl);
         return enumValue !== undefined ? (OptionTypeMap[enumValue] as string | number) : undefined;
-      })
-      .with(
-        SyntaxKind.NumericLiteral,
-        () =>
-          OptionTypeMap[
-            parseInt(
-              typeNode.asKindOrThrow(SyntaxKind.NumericLiteral).getLiteralValue().toString(),
-              PARSE_INT_RADIX
-            )
-          ] as string | number
-      )
-      .with(SyntaxKind.BinaryExpression, () => {
+      }
+      case SyntaxKind.NumericLiteral:
+        return OptionTypeMap[
+          parseInt(
+            typeNode.asKindOrThrow(SyntaxKind.NumericLiteral).getLiteralValue().toString(),
+            PARSE_INT_RADIX
+          )
+        ] as string | number;
+      case SyntaxKind.BinaryExpression: {
         const result = evaluate(typeNode, _checker);
         if (result.ok && typeof result.value === 'number') {
           return OptionTypeMap[result.value] as string | number | undefined;
         }
         return undefined;
-      })
-      .otherwise(() => undefined);
+      }
+      default:
+        return undefined;
+    }
+  };
 
   const typeValue = extractTypeValue();
   if (typeValue === undefined) return undefined;
 
-  return match(typeValue)
-    .with(P.string, (v) => v)
-    .with(P.number, (v) => OptionTypeMap[v] as string)
-    .otherwise(() => undefined);
+  if (typeof typeValue === 'string') return typeValue;
+  if (typeof typeValue === 'number') return OptionTypeMap[typeValue] as string;
+  return undefined;
 };
 
 const buildEnumValuesFromOptions = (
@@ -148,15 +141,15 @@ const buildEnumValuesFromOptions = (
   );
 };
 
-const nixTypeForComponentOrCustom = (defaultValue: unknown): string =>
-  match(defaultValue)
-    .with(undefined, () => NIX_TYPE_ATTRS)
-    .when(Array.isArray, (arr) => {
-      if (arr.length > 0 && arr.every((v: unknown) => typeof v === 'string'))
-        return NIX_TYPE_LIST_OF_STR;
-      return NIX_TYPE_LIST_OF_ATTRS;
-    })
-    .otherwise(() => inferNixTypeFromRuntimeDefault(defaultValue));
+const nixTypeForComponentOrCustom = (defaultValue: unknown): string => {
+  if (defaultValue === undefined) return NIX_TYPE_ATTRS;
+  if (Array.isArray(defaultValue)) {
+    if (defaultValue.length > 0 && defaultValue.every((v: unknown) => typeof v === 'string'))
+      return NIX_TYPE_LIST_OF_STR;
+    return NIX_TYPE_LIST_OF_ATTRS;
+  }
+  return inferNixTypeFromRuntimeDefault(defaultValue);
+};
 
 const inferTypeFromTypeScriptType = (
   typeNode: Node,
@@ -171,9 +164,11 @@ const inferTypeFromTypeScriptType = (
 
     if (typeMatches(typeName, TS_TYPE_STRING)) return NIX_TYPE_STR;
     if (typeMatches(typeName, TS_TYPE_NUMBER))
-      return match(defaultValue)
-        .with(P.number, (val) => (Number.isInteger(val) ? NIX_TYPE_INT : NIX_TYPE_FLOAT))
-        .otherwise(() => NIX_TYPE_INT);
+      return typeof defaultValue === 'number'
+        ? Number.isInteger(defaultValue)
+          ? NIX_TYPE_INT
+          : NIX_TYPE_FLOAT
+        : NIX_TYPE_INT;
     if (typeMatches(typeName, TS_TYPE_BOOLEAN)) return NIX_TYPE_BOOL;
     if (typeName.includes(TS_ARRAY_BRACKET_PATTERN) || typeName.includes(TS_ARRAY_GENERIC_PATTERN))
       return NIX_TYPE_ATTRS;
@@ -186,11 +181,10 @@ const inferTypeFromTypeScriptType = (
     const allNumbers = typeNames.every((n) => typeMatches(n, TS_TYPE_NUMBER));
     const allBooleans = typeNames.every((n) => typeMatches(n, TS_TYPE_BOOLEAN));
 
-    return match([allStrings, allNumbers, allBooleans] as const)
-      .with([true, P._, P._], () => NIX_TYPE_STR)
-      .with([P._, true, P._], () => NIX_TYPE_INT)
-      .with([P._, P._, true], () => NIX_TYPE_BOOL)
-      .otherwise(() => undefined as string | undefined);
+    if (allStrings) return NIX_TYPE_STR;
+    if (allNumbers) return NIX_TYPE_INT;
+    if (allBooleans) return NIX_TYPE_BOOL;
+    return undefined;
   } catch {
     return undefined;
   }
@@ -222,27 +216,37 @@ export function tsTypeToNixType(
 
   const typeName = resolveOptionTypeNameFromNode(type, _checker);
   if (typeName !== undefined) {
-    return match(typeName)
-      .with(OPTION_TYPE_BOOLEAN, () => ({ nixType: NIX_TYPE_BOOL }))
-      .with(OPTION_TYPE_STRING, () => ({ nixType: NIX_TYPE_STR }))
-      .with(OPTION_TYPE_NUMBER, () => ({
-        nixType: match(setting.default)
-          .with(P.number, (val) => (Number.isInteger(val) ? NIX_TYPE_INT : NIX_TYPE_FLOAT))
-          .otherwise(() => NIX_TYPE_FLOAT),
-      }))
-      .with(OPTION_TYPE_BIGINT, () => ({ nixType: NIX_TYPE_INT }))
-      .with(OPTION_TYPE_SELECT, () => {
+    switch (typeName) {
+      case OPTION_TYPE_BOOLEAN:
+        return { nixType: NIX_TYPE_BOOL };
+      case OPTION_TYPE_STRING:
+        return { nixType: NIX_TYPE_STR };
+      case OPTION_TYPE_NUMBER:
+        return {
+          nixType:
+            typeof setting.default === 'number'
+              ? Number.isInteger(setting.default)
+                ? NIX_TYPE_INT
+                : NIX_TYPE_FLOAT
+              : NIX_TYPE_FLOAT,
+        };
+      case OPTION_TYPE_BIGINT:
+        return { nixType: NIX_TYPE_INT };
+      case OPTION_TYPE_SELECT: {
         const enumValues = buildEnumValuesFromOptions(setting.options) ?? Object.freeze([]);
         if (isBooleanEnumValues(enumValues)) return { nixType: NIX_TYPE_BOOL };
         if (enumValues.length === 0) return { nixType: NIX_TYPE_STR };
         return { nixType: NIX_ENUM_TYPE, enumValues };
-      })
-      .with(OPTION_TYPE_SLIDER, () => ({ nixType: NIX_TYPE_FLOAT }))
-      .with(OPTION_TYPE_COMPONENT, () => ({
-        nixType: nixTypeForComponentOrCustom(setting.default),
-      }))
-      .with(OPTION_TYPE_CUSTOM, () => ({ nixType: nixTypeForComponentOrCustom(setting.default) }))
-      .otherwise(() => ({ nixType: inferNixTypeFromRuntimeDefault(setting.default) }));
+      }
+      case OPTION_TYPE_SLIDER:
+        return { nixType: NIX_TYPE_FLOAT };
+      case OPTION_TYPE_COMPONENT:
+        return { nixType: nixTypeForComponentOrCustom(setting.default) };
+      case OPTION_TYPE_CUSTOM:
+        return { nixType: nixTypeForComponentOrCustom(setting.default) };
+      default:
+        return { nixType: inferNixTypeFromRuntimeDefault(setting.default) };
+    }
   }
 
   const inferredType = inferTypeFromTypeScriptType(type, _checker, setting.default);

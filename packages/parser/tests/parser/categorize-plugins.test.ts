@@ -2,7 +2,6 @@ import { describe, test, expect } from 'vitest';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
-import { match, P } from 'ts-pattern';
 import { parsePlugins, categorizePlugins } from '../../src/index.js';
 import type { ParsedPluginsResult, PluginSetting } from '@nixcord/shared';
 
@@ -154,21 +153,16 @@ describe('categorizePlugins()', () => {
 
     const result = categorizePlugins(vencordResult, equicordResult);
 
-    match(result.generic['Shared Plugin'])
-      .with(
-        P.when(
-          (plugin): plugin is NonNullable<typeof plugin> =>
-            plugin !== undefined &&
-            plugin.description === 'Equicord description' &&
-            (plugin.settings.setting as PluginSetting).default === 'equicord-value'
-        ),
-        (shared) => {
-          expect(shared.name).toBe('Shared Plugin');
-        }
-      )
-      .otherwise(() => {
-        throw new Error('Shared Plugin should prefer the Equicord definition');
-      });
+    const shared = result.generic['Shared Plugin'];
+    if (
+      shared !== undefined &&
+      shared.description === 'Equicord description' &&
+      (shared.settings.setting as PluginSetting).default === 'equicord-value'
+    ) {
+      expect(shared.name).toBe('Shared Plugin');
+    } else {
+      throw new Error('Shared Plugin should prefer the Equicord definition');
+    }
   });
 });
 

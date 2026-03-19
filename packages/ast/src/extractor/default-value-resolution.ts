@@ -1,7 +1,6 @@
 import type { TypeChecker, ObjectLiteralExpression } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
 
-import { match, P } from 'ts-pattern';
 import {
   DEFAULT_PROPERTY,
   NIX_ENUM_TYPE,
@@ -68,17 +67,17 @@ const resolveAttrsDefault = (valueObj: ObjectLiteralExpression, checker: TypeChe
   const propKind = defPropNode?.getKind();
   const init = defPropNode?.asKind(SyntaxKind.PropertyAssignment)?.getInitializer();
 
-  return match([propKind, init?.getKind()] as const)
-    .with([SyntaxKind.PropertyAssignment, SyntaxKind.Identifier], () =>
-      hasObjectArrayDefault(valueObj, checker) ? [] : {}
-    )
-    .with([SyntaxKind.PropertyAssignment, SyntaxKind.CallExpression], () => {
-      const result = extractDefaultValue(valueObj, checker);
-      return result.ok ? result.value : {};
-    })
-    .with([SyntaxKind.GetAccessor, P._], () => null)
-    .with([undefined, undefined], () => ({}))
-    .otherwise(() => ({}));
+  if (propKind === SyntaxKind.PropertyAssignment && init?.getKind() === SyntaxKind.Identifier) {
+    return hasObjectArrayDefault(valueObj, checker) ? [] : {};
+  }
+  if (propKind === SyntaxKind.PropertyAssignment && init?.getKind() === SyntaxKind.CallExpression) {
+    const result = extractDefaultValue(valueObj, checker);
+    return result.ok ? result.value : {};
+  }
+  if (propKind === SyntaxKind.GetAccessor) {
+    return null;
+  }
+  return {};
 };
 
 export interface ResolvedDefaultValue {

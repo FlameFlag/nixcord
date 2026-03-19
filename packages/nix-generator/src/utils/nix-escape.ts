@@ -1,5 +1,3 @@
-import { match, P } from 'ts-pattern';
-
 const INTERPOLATION_START_SEQUENCE_LENGTH = 2;
 const ESCAPED_BACKSLASH = '\\\\';
 const ESCAPED_INTERPOLATION = '\\${';
@@ -18,14 +16,14 @@ export function escapeNixDoubleQuotedString(str: string): string {
     const char = str[i];
     const next = i + 1 < str.length ? str[i + 1] : null;
 
-    const [escaped, increment] = match([char, next] as const)
-      .with([BACKSLASH_CHAR, P._], () => [ESCAPED_BACKSLASH, 1] as const)
-      .with(
-        [DOLLAR_CHAR, OPEN_BRACE_CHAR],
-        () => [ESCAPED_INTERPOLATION, INTERPOLATION_START_SEQUENCE_LENGTH] as const
-      )
-      .with([DOUBLE_QUOTE_CHAR, P._], () => [ESCAPED_QUOTE, 1] as const)
-      .otherwise(() => [char, 1] as const);
+    const [escaped, increment] =
+      char === BACKSLASH_CHAR
+        ? ([ESCAPED_BACKSLASH, 1] as const)
+        : char === DOLLAR_CHAR && next === OPEN_BRACE_CHAR
+          ? ([ESCAPED_INTERPOLATION, INTERPOLATION_START_SEQUENCE_LENGTH] as const)
+          : char === DOUBLE_QUOTE_CHAR
+            ? ([ESCAPED_QUOTE, 1] as const)
+            : ([char, 1] as const);
 
     result += escaped;
     i += increment;

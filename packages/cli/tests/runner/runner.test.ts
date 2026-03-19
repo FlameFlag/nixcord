@@ -6,7 +6,6 @@ import { runGeneratePluginOptions, validateParsedResults } from '../../src/runne
 import { CLI_CONFIG } from '@nixcord/shared';
 import type { GeneratePluginOptionsSummary } from '../../src/runner/index.js';
 import type { Result, PluginConfig, ParsedPluginsResult } from '@nixcord/shared';
-import { match } from 'ts-pattern';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -52,10 +51,10 @@ function createLogger() {
 
 async function createRepo(root: string, variant: 'vencord' | 'equicord') {
   const repoRoot = join(root, variant);
-  const pluginsDir = match(variant)
-    .with('vencord', () => CLI_CONFIG.directories.vencordPlugins)
-    .with('equicord', () => CLI_CONFIG.directories.equicordPlugins)
-    .exhaustive();
+  const pluginsDir =
+    variant === 'vencord'
+      ? CLI_CONFIG.directories.vencordPlugins
+      : CLI_CONFIG.directories.equicordPlugins;
   await fse.ensureDir(join(repoRoot, pluginsDir));
   await fse.writeFile(join(repoRoot, 'package.json'), '{}', 'utf8');
   return repoRoot;

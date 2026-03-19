@@ -24,7 +24,6 @@ export default defineConfig({
         'p-limit',
         'pathe',
         'ts-morph',
-        'ts-pattern',
         'type-fest',
         'zod',
       ],

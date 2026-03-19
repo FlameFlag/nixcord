@@ -3,7 +3,6 @@ import fse from 'fs-extra';
 
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
-import { match, P } from 'ts-pattern';
 import { type Result, Ok, Err } from '@nixcord/shared';
 import { oraPromise } from 'ora';
 import type { Simplify } from 'type-fest';
@@ -193,23 +192,22 @@ export const runGeneratePluginOptions = async (
       `Vencord plugins directory not found: ${vencordPluginsPath}`
     );
 
-    const resolvedEquicordPath = await match(equicordPath)
-      .with(P.string, async (path) => {
-        const resolved = resolve(process.cwd(), path);
-        const equicordPackageJsonPath = resolve(resolved, CLI_CONFIG.filenames.packageJson);
-        await ensurePathExists(
-          equicordPackageJsonPath,
-          `Equicord source path does not exist or is not a directory: ${resolved}`
-        );
+    const resolvedEquicordPath = await (async () => {
+      if (typeof equicordPath !== 'string') return undefined;
+      const resolved = resolve(process.cwd(), equicordPath);
+      const equicordPackageJsonPath = resolve(resolved, CLI_CONFIG.filenames.packageJson);
+      await ensurePathExists(
+        equicordPackageJsonPath,
+        `Equicord source path does not exist or is not a directory: ${resolved}`
+      );
 
-        const equicordPluginsPath = resolve(resolved, equicordPluginsDir);
-        await ensurePathExists(
-          equicordPluginsPath,
-          `Equicord plugins directory not found: ${equicordPluginsPath}`
-        );
-        return resolved;
-      })
-      .otherwise(async () => undefined);
+      const equicordPluginsPath = resolve(resolved, equicordPluginsDir);
+      await ensurePathExists(
+        equicordPluginsPath,
+        `Equicord plugins directory not found: ${equicordPluginsPath}`
+      );
+      return resolved;
+    })();
 
     const parseOptions: ParsePluginsOptions = {
       vencordPluginsDir,
@@ -318,9 +316,8 @@ export const runGeneratePluginOptions = async (
 
     return Ok(summary);
   } catch (error) {
-    const normalized = match(error)
-      .with(P.instanceOf(Error), (e) => e)
-      .otherwise((e) => new GeneratePluginOptionsError(String(e)));
+    const normalized =
+      error instanceof Error ? error : new GeneratePluginOptionsError(String(error));
     return Err(normalized);
   }
 };

@@ -1,6 +1,5 @@
 import { join, dirname } from 'node:path';
 import fse from 'fs-extra';
-import { match, P } from 'ts-pattern';
 
 export async function createTsConfig(
   tempDir: string,
@@ -24,21 +23,13 @@ export async function createTsConfig(
     },
   };
 
-  match(options?.baseUrl)
-    .with(P.string, (baseUrl) => {
-      config.compilerOptions.baseUrl = baseUrl;
-    })
-    .otherwise(() => {
-      // No baseUrl
-    });
+  if (typeof options?.baseUrl === 'string') {
+    config.compilerOptions.baseUrl = options.baseUrl;
+  }
 
-  match(options?.include)
-    .with(P.array(P.string), (include) => {
-      config.include = include;
-    })
-    .otherwise(() => {
-      // No include
-    });
+  if (Array.isArray(options?.include)) {
+    config.include = options.include;
+  }
 
   await fse.writeFile(join(tempDir, 'tsconfig.json'), JSON.stringify(config));
 }
