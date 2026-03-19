@@ -77,8 +77,12 @@ in
 
     encoded_settings=$(encode_utf16le "$vencord_settings")
 
+    sql_file=$(mktemp)
+    trap 'rm -f "$sql_file"' EXIT
+    printf "INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('VencordSettings', X'%s');\n" "$encoded_settings" > "$sql_file"
+
     for sqlite_path in "''${sqlite_paths[@]}"; do
-      ${lib.getExe pkgs.sqlite} "$sqlite_path" "INSERT OR REPLACE INTO ItemTable (key, value) VALUES ('VencordSettings', X'$encoded_settings');"
+      ${lib.getExe pkgs.sqlite} "$sqlite_path" < "$sql_file"
     done
   '';
 }
