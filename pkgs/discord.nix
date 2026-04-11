@@ -35,14 +35,14 @@ let
   versions = {
     linux = {
       stable = "0.0.132";
-      ptb = "0.0.185";
-      canary = "0.0.953";
-      development = "0.0.241";
+      ptb = "0.0.186";
+      canary = "0.0.954";
+      development = "0.0.242";
     };
     darwin = {
       stable = "0.0.384";
       ptb = "0.0.229";
-      canary = "0.0.1068";
+      canary = "0.0.1070";
       development = "0.0.119";
     };
   };
@@ -50,14 +50,14 @@ let
   hashes = {
     x86_64-linux = {
       stable = "sha256-DDt/zr+9sfvyPYUMKCXqEsRvk7wZaxbw2eCWlwxcVec=";
-      ptb = "sha256-jGB93uMqELQZMETWTIe76bhIQybHeSjvmDqtgY9Cr1c=";
-      canary = "sha256-Wn2yKnQojFVjnpKZHJ+ioGFN1/AiFh5My6UF+DiD5B8=";
-      development = "sha256-37Z3nK3RAQb7k0/Zshu/cFBn0CWYKil/9kMpuXTCJxk=";
+      ptb = "sha256-NneA68LyVpmOMvFi3kfVErDfxxV2BOrJSD92TSwyMdg=";
+      canary = "sha256-ywnsV+1JNvQjG5QBHk/7yemvUhH5w81H1X3mcTu4n7s=";
+      development = "sha256-8GTYu6ylSP84uJ6lbKx+2VU5wCLkNFvpSXNffm9mtcg=";
     };
     x86_64-darwin = {
       stable = "sha256-vAp991ilLVviievPZHGFuyi/zMMpDoApjnNTGkXYbwo=";
       ptb = "sha256-oM7ooPJ01qVhuRUuAqLCgoNWDYDbIKYhGKKHgIlt2XA=";
-      canary = "sha256-J09XJKlk9c8I8PYvMXQUQ47WKWpUdY0vJa5pnyN6Lmw=";
+      canary = "sha256-D2BN0l49cdloQONJtsyXD883fo7yBG6An8+NUnMXvBY=";
       development = "sha256-/MN7DtlPVPAfwsCgQ+RnXzq8bnIwkxXiSP+OLG7lK+k=";
     };
   };
@@ -67,14 +67,14 @@ let
   krispHashes = {
     x86_64-linux = {
       stable = "sha256-u8hj8jdPL23mRvu5Ln7xYGup+/lGJU8YxFNhY+DtatU=";
-      ptb = "sha256-sdg0oJSUG7WjuT8bDY5WF+8nvP7kD9g0JbmZSTJj6UQ=";
-      canary = "sha256-R7OTEZxkKhoncUR2f9kRHwhwvUj1r0rY/og+J2jsQTA=";
-      development = "sha256-g2I5j0XosAWsKOIzSbm+KMOY1OaI5O11NmJYhcQpC0g=";
+      ptb = "sha256-/3wNJ9fdsXyFYS+zASsnEIxFfceOzQ8GFxcMjKLMii8=";
+      canary = "sha256-Jvny+AOew3c1DLb/cMtlNeXEaB+MHwFzF0BL23W3kis=";
+      development = "sha256-0ZRQk+RrfJ/baiSvC6TxiGTVkxeMrZLO28QAjmets1A=";
     };
     x86_64-darwin = {
       stable = "sha256-vEIVjkhbz5YQq72jHsyYmFfob5P/rxGepSgUHjytksc=";
       ptb = "sha256-bZPPE0g0dI/N1kORmiubThE6YjOEDUoyuRDPP9ZqT7E=";
-      canary = "sha256-hTH18qlmQUVHXZffCGBJ9NTpYyCUucM2hs3/rCc8sVY=";
+      canary = "sha256-W7ybUeg/HRydiF74FYDBSjq2pCAtZ9NgyOXKtFqBYCA=";
       development = "sha256-Q/lKz+JItVcCLI3NjcTvgRHjxo1u6QMo4WLH5W4y0G0=";
     };
   };
@@ -226,7 +226,7 @@ let
             "$self_dir/updater_bootstrap" "$host_dir" https://updates.discord.com/ ${branch} "$host_dir" 2>&1 \
               | while IFS= read -r line; do
                   case "$line" in
-                    ''''|*[!0-9]*)
+                    ""|*[!0-9]*)
                       printf '%s\n' "$line" >&2
                       ;;
                     *)
@@ -374,8 +374,11 @@ let
           echo "$output" >&2
           exit 1
         fi
-        while IFS='=' read -r key value; do
-          [[ -n "$key" ]] && STATE["$key"]="$value"
+        while IFS= read -r line; do
+          [[ -z "$line" ]] && continue
+          local key="''${line%%=*}"
+          local value="''${line#*=}"
+          STATE["$key"]="$value"
         done <<< "$output"
       }
 
@@ -409,7 +412,7 @@ let
         local key="$1"
         local old_val="$2"
         local new_val="$3"
-        sed -i.bak "0,/''${key} = \"''${old_val}\";/s|''${key} = \"''${old_val}\";|''${key} = \"''${new_val}\";|" "$NIX_FILE" && rm -f "$NIX_FILE.bak"
+        sed -i.bak "0,\\|''${key} = \"''${old_val}\";|s|''${key} = \"''${old_val}\";|''${key} = \"''${new_val}\";|" "$NIX_FILE" && rm -f "$NIX_FILE.bak"
       }
 
       update_platform() {
