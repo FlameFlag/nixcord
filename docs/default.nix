@@ -52,6 +52,17 @@ let
 
   nixcordPath = toString ./..;
 
+  # Build a lookup from plugin name to the JSON file that defines it.
+  pluginSourceFile =
+    let
+      readPlugins = file: builtins.attrNames (builtins.fromJSON (builtins.readFile file));
+      tag = file: map (name: { inherit name file; }) (readPlugins file);
+      all = tag ../modules/plugins/shared.json
+        ++ tag ../modules/plugins/vencord.json
+        ++ tag ../modules/plugins/equicord.json;
+    in
+    builtins.listToAttrs (map (entry: { name = entry.name; value = entry.file; }) all);
+
   transformOptions =
     opt:
     let
@@ -60,8 +71,21 @@ let
           "programs"
           "nixcord"
         ];
+      isPluginOption =
+        isNixcordOption
+        && lib.length opt.loc >= 5
+        && lib.elemAt opt.loc 2 == "config"
+        && lib.elemAt opt.loc 3 == "plugins";
+      pluginName = if isPluginOption then lib.elemAt opt.loc 4 else "";
+      pluginFile =
+        if isPluginOption && pluginSourceFile ? ${pluginName} then
+          "modules/plugins/${builtins.baseNameOf (toString pluginSourceFile.${pluginName})}"
+        else
+          "modules/plugins";
       declarations =
-        if isNixcordOption && (opt.declarations == [ ]) then
+        if isPluginOption then
+          [ (githubDeclaration "FlameFlag" "nixcord" "main" pluginFile) ]
+        else if isNixcordOption && (opt.declarations == [ ]) then
           [ (githubDeclaration "FlameFlag" "nixcord" "main" "modules/options") ]
         else
           map (
