@@ -14,11 +14,11 @@
   perl,
 }:
 let
-  version = "v1.14.6.2";
-  hash = "sha256-APsczmmHZRchImp3ETFetpkPSIQn38xCHttr8WyQ1/M=";
-  gitHash = "sha256-yMehGyyEpaZQf7pB5V+xnHnf+iUgm2Ya4UVmu4sKFCw=";
+  version = "v1.14.7.0";
+  hash = "sha256-8I4TtaNMIF/0oMK0Y3XH+syNtZXK0i+taBHIcYOqnN0=";
+  gitHash = "sha256-/e9kmGXUCcdha5A0s8dj6ofvQK4O+cTQ7wug6RCZoBU=";
   pnpmDepsHashDarwin = "sha256-VDA0hR82+sxFF9JS2/tR+KuNKlpnlUWcKoS53Am2jUY=";
-  pnpmDepsHashLinux = "sha256-pmhPRKp1m2ZbpBxPLWBDYEDPphmgO8LVcT9BwW/onJg=";
+  pnpmDepsHashLinux = "sha256-uEQRrFyHPm90S0TH2T6PEffruaG5YGY33MSgcnFma1U=";
   pnpmDepsHash = if stdenvNoCC.isDarwin then pnpmDepsHashDarwin else pnpmDepsHashLinux;
   owner = equicord.src.owner;
   repo = equicord.src.repo;
