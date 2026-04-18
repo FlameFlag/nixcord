@@ -16,7 +16,7 @@
 let
   version = "v1.14.7.1";
   hash = "sha256-siUd6g71QdM7azHCLM03tRJMbuWu3UVZ9vos4obTpks=";
-  gitHash = "sha256-mg8NdQcaYTii/EQAv8Cm8bqpvXn3/x4oyuFZ/8h6p6Q=";
+  gitHash = "sha256-pr1y45GFVyEIgPdVKuDd5EJ7VSKuOQg+oj3YkBoZIig=";
   pnpmDepsHashDarwin = "sha256-8za+KfTNZXROt9zasumUppzCo6/bz3Rrp976mAyaBa4=";
   pnpmDepsHashLinux = "sha256-uEQRrFyHPm90S0TH2T6PEffruaG5YGY33MSgcnFma1U=";
   pnpmDepsHash = if stdenvNoCC.isDarwin then pnpmDepsHashDarwin else pnpmDepsHashLinux;

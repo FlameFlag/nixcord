@@ -489,13 +489,14 @@ basePackage.overrideAttrs (oldAttrs: {
       ;
   };
 
-  # Bootstrap tarball support for Discord Development >= 0.0.235 on Linux.
-  # The tarball switched from shipping the full app directly to shipping only a
-  # small `updater_bootstrap` ELF. We copy it as a placeholder so the base
-  # installPhase's chmod+patchelf succeed, then swap it out in postInstall.
+  # Bootstrap tarball support for Discord on Linux.
+  # Newer tarballs (development >= 0.0.235, canary >= 1.x) switched from shipping
+  # the full app directly to shipping only a small `updater_bootstrap` ELF. We
+  # copy it as a placeholder so the base installPhase's chmod+patchelf succeed,
+  # then swap it out in postInstall.
   preInstall =
     (oldAttrs.preInstall or "")
-    + lib.optionalString (stdenvNoCC.isLinux && branch == "development") ''
+    + lib.optionalString stdenvNoCC.isLinux ''
       if [ ! -f ${binaryName} ] && [ -f updater_bootstrap ]; then
         echo "[nixcord] bootstrap tarball detected; creating placeholder for installPhase"
         cp updater_bootstrap ${binaryName}
@@ -507,19 +508,14 @@ basePackage.overrideAttrs (oldAttrs: {
     # Replace the patchelfd placeholder with the real bootstrap launcher.
     # wrapProgramShell renames the original to .${binaryName}-wrapped; we
     # replace that file while leaving the wrapper script intact.
-    + (
-      if stdenvNoCC.isLinux && branch == "development" then
-        ''
-          if [ -f "$out/opt/${binaryName}/updater_bootstrap" ] && \
-             [ -f "$out/opt/${binaryName}/.${binaryName}-wrapped" ]; then
-            echo "[nixcord] installing bootstrap launcher"
-            install -Dm755 ${bootstrapLauncher}/bin/${binaryName} \
-                "$out/opt/${binaryName}/.${binaryName}-wrapped"
-          fi
-        ''
-      else
-        ""
-    )
+    + lib.optionalString stdenvNoCC.isLinux ''
+      if [ -f "$out/opt/${binaryName}/updater_bootstrap" ] && \
+         [ -f "$out/opt/${binaryName}/.${binaryName}-wrapped" ]; then
+        echo "[nixcord] installing bootstrap launcher"
+        install -Dm755 ${bootstrapLauncher}/bin/${binaryName} \
+            "$out/opt/${binaryName}/.${binaryName}-wrapped"
+      fi
+    ''
     + lib.optionalString (withOpenASAR && openasar != null) ''
       cp -f ${openasar} ${resourcesDir}/app.asar
     ''
