@@ -36,7 +36,7 @@ let
     linux = {
       stable = "0.0.133";
       ptb = "0.0.187";
-      canary = "1.0.927";
+      canary = "1.0.928";
       development = "1.0.974";
     };
     darwin = {
@@ -51,7 +51,7 @@ let
     x86_64-linux = {
       stable = "sha256-Ri4QDintjzbdKM/tKLcMq9ZimllbWa8NvS+fap1dYrw=";
       ptb = "sha256-o61BkAspc0iLOm3dj5BabjyUqHReNO/0mikD2jluAdI=";
-      canary = "sha256-umEioVjCkJxSybsJHF/14fIZqTZEKPCepLA6ABffiso=";
+      canary = "sha256-nLKMwKf7lh8pZSnO8BnaWt9Z8XfY2sytGU9s2YiO1PA=";
       development = "sha256-h9q4Sprg9Ihrkh+8M9pBBvQRMBcnW3Y8H22hSL4x7lw=";
     };
     x86_64-darwin = {
