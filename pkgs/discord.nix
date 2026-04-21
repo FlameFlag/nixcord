@@ -34,13 +34,13 @@
 let
   versions = {
     linux = {
-      stable = "0.0.133";
+      stable = "0.0.134";
       ptb = "0.0.187";
       canary = "1.0.928";
       development = "1.0.974";
     };
     darwin = {
-      stable = "0.0.385";
+      stable = "0.0.386";
       ptb = "0.0.230";
       canary = "0.0.1082";
       development = "1.0.974";
@@ -49,13 +49,13 @@ let
 
   hashes = {
     x86_64-linux = {
-      stable = "sha256-Ri4QDintjzbdKM/tKLcMq9ZimllbWa8NvS+fap1dYrw=";
+      stable = "sha256-N4gdcj8LYiXxvkbZhZyiWr375vaXt6JnwcoqLOKMsGg=";
       ptb = "sha256-o61BkAspc0iLOm3dj5BabjyUqHReNO/0mikD2jluAdI=";
       canary = "sha256-nLKMwKf7lh8pZSnO8BnaWt9Z8XfY2sytGU9s2YiO1PA=";
       development = "sha256-h9q4Sprg9Ihrkh+8M9pBBvQRMBcnW3Y8H22hSL4x7lw=";
     };
     x86_64-darwin = {
-      stable = "sha256-xbabHSer1W1hDNthc7RXXshJcaobv5GHXpkshbrTz/c=";
+      stable = "sha256-oBz1HzJbuV9PndLKlvnBoD9UesAMTiA0Fkg1UIzYoE0=";
       ptb = "sha256-YPeXHGUALJGniIt9O6Cje++9YR4ufjvwu3z9foSM6H0=";
       canary = "sha256-vNrn8vlj66CFsNADlYySk8O6AoSn/IfdFYbtxW2IrTI=";
       development = "sha256-1nUePXlzaphNjuQCt3DlTjxjyza0DGd7RRJwl1wLcmI=";
@@ -66,13 +66,13 @@ let
   # These are updated by the discord-update script alongside the main hashes.
   krispHashes = {
     x86_64-linux = {
-      stable = "sha256-HpzTCWJdkaOZQFXxgWdOLyvwXUjhd1I7YgZuuP2iUYM=";
+      stable = "sha256-tLMPtK8NcC5WwAzga4ATOnFnuRwcDkIyh7f1zHu8ArM=";
       ptb = "sha256-736dFpURSAAlCO0HZk2itPYQ9ejKMFPPghN+vfkpV7c=";
       canary = "sha256-27fmwWLBHyfMn633hfLTWuBKTDgIj6OZfDDbeQGU2lw=";
       development = "sha256-ieHQdM8Em4y++VdhdUCrGe2CpN54w6i4y8SSdYCclAM=";
     };
     x86_64-darwin = {
-      stable = "sha256-kFmYoL5JQAOxctSBBK2CWY5mooKyFq7uRsYsNldjRb4=";
+      stable = "sha256-q625jClXr+o5sLcmIqoWzvPze1xC2E5NrjRKZUDDmG4=";
       ptb = "sha256-R+iJMdf6cZp/NzdXVhjVip5RGtOoj6wJynkeqYTJIHA=";
       canary = "sha256-KrrVrjwWC9nOKmRjtapnci+oaeiL7Xf0DM9/MN7oO+8=";
       development = "sha256-M5KlWaIGXcIF61Wide5N/SJQhELeMltQNjdBoZUNqVU=";
