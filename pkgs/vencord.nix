@@ -14,13 +14,13 @@
   nix-prefetch-github,
 }:
 let
-  stableVersion = "1.14.9";
-  stableHash = "sha256-PZMxdVpfA3lCUJoj9BnIRUSo2LiepHHL5s1lSHrpC/0=";
+  stableVersion = "1.14.10";
+  stableHash = "sha256-+P0FF7PIJ+z0jBMwQM2JR5d1c05E8EOjUI9j7mAWddQ=";
   stablePnpmDeps = "sha256-GiUV2x8i7ewzn66v5wBUq67oNvrxZzOsh5TuQUtpJNQ=";
 
-  unstableVersion = "1.14.9-unstable-2026-04-24";
-  unstableRev = "cacd0efd87a8aba95ad2a3be8ae569a295b9eaae";
-  unstableHash = "sha256-RnxhUGI0eji7gQf+FJnG+BoHphJmjxT9EF5FYUWYCbs=";
+  unstableVersion = "1.14.10-unstable-2026-04-24";
+  unstableRev = "f5717842312afe57fa204b1dc4258d22cd6ce7cd";
+  unstableHash = "sha256-+P0FF7PIJ+z0jBMwQM2JR5d1c05E8EOjUI9j7mAWddQ=";
   unstablePnpmDeps = "sha256-GiUV2x8i7ewzn66v5wBUq67oNvrxZzOsh5TuQUtpJNQ=";
 
   version = if unstable then unstableVersion else stableVersion;
