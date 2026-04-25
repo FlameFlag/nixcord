@@ -217,6 +217,16 @@
     "description": "This plugin allows you to enlarge stream previews (Shared between Vencord and Equicord)",
     "settings": {}
   },
+  "characterCounter": {
+    "description": "Adds a character counter to the chat input (Shared between Vencord and Equicord)",
+    "settings": {
+      "colorEffects": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Enable yellow/red colouring as you get closer to the character limit"
+      }
+    }
+  },
   "ClearURLs": {
     "description": "Automatically removes tracking elements from URLs you send (Shared between Vencord and Equicord)",
     "settings": {}
@@ -303,26 +313,6 @@
         "type": "types.bool",
         "default": false,
         "description": "Whether to attempt to navigate to the home when preventing Discord crashes."
-      }
-    }
-  },
-  "ctrlEnterSend": {
-    "description": "Use Ctrl+Enter to send messages (customizable) (Shared between Vencord and Equicord)",
-    "settings": {
-      "submitRule": {
-        "type": "types.enum",
-        "enumValues": [
-          "ctrl+enter",
-          "shift+enter",
-          "enter"
-        ],
-        "default": "ctrl+enter",
-        "description": "The way to send a message"
-      },
-      "sendMessageInTheMiddleOfACodeBlock": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Whether to send a message in the middle of a code block"
       }
     }
   },
@@ -965,10 +955,6 @@
     "description": "Shows mutual group dms in profiles (Shared between Vencord and Equicord)",
     "settings": {}
   },
-  "noDefaultHangStatus": {
-    "description": "Disable the default hang status when joining voice channels (Shared between Vencord and Equicord)",
-    "settings": {}
-  },
   "noDevtoolsWarning": {
     "description": "Disables the 'HOLD UP' banner in the console. As a side effect, also prevents Discord from hiding your token, which prevents random logouts. (Shared between Vencord and Equicord)",
     "settings": {}
@@ -1218,7 +1204,7 @@
     }
   },
   "reactErrorDecoder": {
-    "description": "Replaces \"Minifed React Error\" with the actual error. (Shared between Vencord and Equicord)",
+    "description": "Replaces \"Minified React Error\" with the actual error. (Shared between Vencord and Equicord)",
     "settings": {}
   },
   "readAllNotificationsButton": {
@@ -1804,6 +1790,11 @@
         ],
         "default": "Left",
         "description": "Change the button to view the raw content/data of any message."
+      },
+      "messageContextMenu": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Show in message context menu"
       }
     }
   },
@@ -1816,7 +1807,7 @@
     "settings": {}
   },
   "voiceMessages": {
-    "description": "Allows you to send voice messages like on mobile. To do so, right click the upload button and click Send Voice Message. (Shared between Vencord and Equicord)",
+    "description": "Allows you to send voice messages like on mobile. To do so, right click the upload button and click Send Voice Message (Shared between Vencord and Equicord)",
     "settings": {
       "noiseSuppression": {
         "type": "types.bool",

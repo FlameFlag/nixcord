@@ -506,6 +506,10 @@
       }
     }
   },
+  "cancelFriendRequest": {
+    "description": "Adds a way to cancel outgoing friend requests from profiles. (Equicord-only)",
+    "settings": {}
+  },
   "channelBadges": {
     "description": "Adds badges to channels based on their type (Equicord-only)",
     "settings": {
@@ -745,16 +749,6 @@
     "description": "Group your commonly visited channels in tabs, like a browser (Equicord-only)",
     "settings": {}
   },
-  "characterCounter": {
-    "description": "Adds a character counter to the chat input (Equicord-only)",
-    "settings": {
-      "colorEffects": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Enable yellow/red colouring as you get closer to the character limit"
-      }
-    }
-  },
   "cleanChannelName": {
     "description": "remove all emoji and decor shit from channel names (Equicord-only)",
     "settings": {}
@@ -851,6 +845,55 @@
       }
     }
   },
+  "CollapsibleUI": {
+    "description": "Native collapsible channel, member, chat button, and user area surfaces. (Equicord-only)",
+    "settings": {
+      "collapsedSize": {
+        "type": "types.float",
+        "default": {
+          "__nixRaw": "12.0"
+        },
+        "description": "Collapsed hover area size in pixels."
+      },
+      "transitionMs": {
+        "type": "types.float",
+        "default": {
+          "__nixRaw": "160.0"
+        },
+        "description": "Panel transition speed in milliseconds."
+      },
+      "guildBarCollapsed": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Persist the guild bar as collapsed."
+      },
+      "channelListCollapsed": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Persist the channel list as collapsed."
+      },
+      "membersListCollapsed": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Persist the members list as collapsed."
+      },
+      "chatButtonsCollapsed": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Persist the message button row as collapsed."
+      },
+      "titleBarCollapsed": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Persist the title bar as collapsed."
+      },
+      "userAreaCollapsed": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Persist the user area as collapsed."
+      }
+    }
+  },
   "commandPalette": {
     "description": "Quickly run actions through a searchable command palette (Equicord-only)",
     "settings": {
@@ -869,10 +912,6 @@
         "description": "Close palette after executing a command."
       }
     }
-  },
-  "components": {
-    "description": "Adds a new tab to settings to browse Discord components. (Equicord-only)",
-    "settings": {}
   },
   "contentWarning": {
     "description": "Allows you to specify certain trigger words that will be blurred by default. Hovering/Clicking on the blurred content will reveal it. (Equicord-only)",
@@ -909,6 +948,36 @@
   "customSounds": {
     "description": "Customize Discord's sounds. (Equicord-only)",
     "settings": {}
+  },
+  "customStatusTimeouts": {
+    "description": "Adds configurable timeout presets to the status (presence) menu. (Equicord-only)",
+    "settings": {
+      "showForeverOnTop": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show the Forever option at the top of the list instead of the bottom. (restart required)"
+      },
+      "extraSeconds": {
+        "type": "types.str",
+        "default": "15, 30, 45",
+        "description": "Extra seconds to add, separated by a comma (e.g. 5, 10, 30) (restart required)"
+      },
+      "extraMinutes": {
+        "type": "types.str",
+        "default": "5, 10, 30",
+        "description": "Extra minutes to add, separated by a comma (e.g. 5, 10, 30) (restart required)"
+      },
+      "extraHours": {
+        "type": "types.str",
+        "default": "2, 4, 6, 12",
+        "description": "Extra hours to add, separated by a comma (e.g. 2, 4, 6, 12) (restart required)"
+      },
+      "extraDays": {
+        "type": "types.str",
+        "default": "1, 2",
+        "description": "Extra days to add, separated by a comma (e.g. 1, 2) (restart required)"
+      }
+    }
   },
   "customTimestamps": {
     "description": "Custom timestamps on messages and tooltips (Equicord-only)",
@@ -1256,8 +1325,13 @@
       },
       "disableAdoptTagPrompt": {
         "type": "types.bool",
-        "default": true,
+        "default": false,
         "description": "Disable the prompt to adopt tags (restart required)"
+      },
+      "jsonGateway": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Forces JSON on gateway reconnect (restart required)"
       }
     }
   },
@@ -1496,6 +1570,20 @@
         "default": false,
         "description": "Strip query params from uploaded URLs"
       },
+      "embedProxyEnabled": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Proxy uploaded video links through an embed helper service."
+      },
+      "embedProxyService": {
+        "type": "types.enum",
+        "enumValues": [
+          "cors",
+          "nfp"
+        ],
+        "default": "cors",
+        "description": "Embed helper service to wrap uploaded video links."
+      },
       "corsProxyUrl": {
         "type": "types.nullOr types.str",
         "default": null,
@@ -1505,6 +1593,11 @@
         "type": "types.bool",
         "default": false,
         "description": "Convert APNG uploads to GIF"
+      },
+      "preserveOriginalFilename": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Preserve the original filename when uploading."
       },
       "autoCopy": {
         "type": "types.bool",
@@ -1644,52 +1737,52 @@
     }
   },
   "gifCollections": {
-    "description": "Allows you to create collections of gifs (Equicord-only)",
+    "description": "Allows you to create collections of gifs. (Equicord-only)",
     "settings": {
       "itemPrefix": {
         "type": "types.str",
         "default": "gc-item:",
-        "description": "The prefix for gif items (restart required)"
+        "description": "The prefix for gif items. (restart required)"
       },
       "collectionPrefix": {
         "type": "types.str",
         "default": "gc:",
-        "description": "The prefix for collections (restart required)"
+        "description": "The prefix for collections. (restart required)"
       },
       "onlyShowCollections": {
         "type": "types.bool",
         "default": false,
-        "description": "Only show collections (restart required)"
+        "description": "Only show collections in the GIF picker. (restart required)"
       },
       "stopWarnings": {
         "type": "types.bool",
         "default": false,
-        "description": "Stop deletion warnings"
+        "description": "Skip deletion confirmation dialogs."
       },
       "showCopyImageLink": {
         "type": "types.bool",
         "default": false,
-        "description": "Show 'Copy Image Link' option in context menus"
+        "description": "Show copy image link option in context menus."
       },
       "preventDuplicates": {
         "type": "types.bool",
         "default": false,
-        "description": "Prevent adding the same GIF to a collection multiple times"
+        "description": "Prevent adding the same GIF to a collection multiple times."
       },
       "defaultEmptyCollectionImage": {
         "type": "types.str",
         "default": "https://c.tenor.com/YEG33HsLEaIAAAAC/parksandrec-oops.gif",
-        "description": "The image / gif that will be shown when a collection has no images / gifs"
+        "description": "The image shown when a collection has no images."
       },
       "collectionsSortType": {
         "type": "types.int",
         "default": 1,
-        "description": "The type of sorting for collections"
+        "description": "The type of sorting for collections."
       },
       "collectionsSortOrder": {
         "type": "types.str",
         "default": "asc",
-        "description": "The order of sorting for collections"
+        "description": "The order of sorting for collections."
       }
     }
   },
@@ -1815,7 +1908,7 @@
     "settings": {}
   },
   "hideChatButtons": {
-    "description": "able to hide the chat buttons (Equicord-only)",
+    "description": "Able to hide the chat buttons (Equicord-only)",
     "settings": {
       "color": {
         "type": "types.bool",
@@ -1848,10 +1941,6 @@
         "description": "Show menu to unhide servers at the bottom of the list"
       }
     }
-  },
-  "holyNotes": {
-    "description": "Save messages as notes to revisit later (Equicord-only)",
-    "settings": {}
   },
   "homeTyping": {
     "description": "Changes the home button to a typing indicator if someone in your dms is typing (Equicord-only)",
@@ -2589,6 +2678,11 @@
         "type": "types.str",
         "default": "",
         "description": "Blacklisted server, channel, or user IDs."
+      },
+      "clearLogsOnRestart": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Clear logs when Discord restarts. (restart required)"
       }
     }
   },
@@ -2613,17 +2707,52 @@
     }
   },
   "messageTranslate": {
-    "description": "Auto translate messages to your language (Equicord-only)",
+    "description": "Auto translate messages to your language with caching, per-channel toggles, and more options. (Equicord-only)",
     "settings": {
       "targetLanguage": {
         "type": "types.str",
         "default": "en",
-        "description": "The language messages should be translated to (restart required)"
+        "description": "Target language code for translations (e.g. en, es, fr, de, ja)."
       },
       "confidenceRequirement": {
+        "type": "types.float",
+        "default": 0.8,
+        "description": "Minimum confidence (0 to 1) required to show a translation."
+      },
+      "autoTranslate": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Automatically translate messages as they appear."
+      },
+      "skipOwnMessages": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Do not translate your own messages."
+      },
+      "skipBotMessages": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Do not translate bot messages."
+      },
+      "ignoredGuilds": {
         "type": "types.str",
-        "default": "0.8",
-        "description": "The confidence required to translated the message. Best not to edit unless you know what you're doing (restart required)"
+        "default": "",
+        "description": "Comma-separated list of server IDs to not translate in."
+      },
+      "ignoredChannels": {
+        "type": "types.str",
+        "default": "",
+        "description": "Comma-separated list of channel IDs to not translate in."
+      },
+      "ignoredUsers": {
+        "type": "types.str",
+        "default": "",
+        "description": "Comma-separated list of user IDs to not translate."
+      },
+      "showIndicator": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Append a small (translated) indicator to translated messages."
       }
     }
   },
@@ -2977,7 +3106,7 @@
     }
   },
   "noNitroUpsell": {
-    "description": "Removes ALL of Discord's nitro upsells by tricking the client into thinking you have nitro. (Equicord-only)",
+    "description": "Removes all of Discord's nitro upsells by tricking the client into thinking you have nitro. (Equicord-only)",
     "settings": {}
   },
   "noPushToTalk": {
@@ -3001,7 +3130,7 @@
     "settings": {}
   },
   "OnePingPerDM": {
-    "description": "If unread messages are sent by a user in DMs multiple times, you'll only receive one audio ping. (Equicord-only)",
+    "description": "If unread messages are sent by a user in DMs multiple times, you'll only receive one audio ping. Read the messages to reset the limit (Equicord-only)",
     "settings": {
       "channelToAffect": {
         "type": "types.enum",
@@ -3301,6 +3430,11 @@
         "type": "types.bool",
         "default": true,
         "description": "Make mobile-only Quests compatible with desktop."
+      },
+      "completeVideoQuestsQuicker": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Use Discord's progress leeway and elapsed enrollment time for Video Quest auto-completion."
       },
       "completeVideoQuestsInBackground": {
         "type": "types.bool",
@@ -4175,7 +4309,7 @@
     }
   },
   "screenRecorder": {
-    "description": "epic screen recorder lol (Equicord-only)",
+    "description": "Adds an option to record your screen and upload the recording to the channel (Equicord-only)",
     "settings": {}
   },
   "searchFix": {
@@ -4442,6 +4576,11 @@
         "type": "types.bool",
         "default": false,
         "description": "Trigger a name rerender by toggling this setting."
+      },
+      "alwaysHaveGradientsActive": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Enables gradients always on in dms and such instead of just on hover (restart required)"
       }
     }
   },
@@ -4454,7 +4593,7 @@
     "settings": {}
   },
   "sidebarChat": {
-    "description": "Open a another channel or a DM as a sidebar or as a popout (Equicord-only)",
+    "description": "Open a channel or DM as a sidebar or a popout. (Equicord-only)",
     "settings": {}
   },
   "signature": {
@@ -4487,8 +4626,18 @@
       }
     }
   },
+  "silenceUsers": {
+    "description": "Silences @mention pings and server badge counts from specific users. Regular messages and DMs are untouched. (Equicord-only)",
+    "settings": {
+      "mutedUserIds": {
+        "type": "types.str",
+        "default": "",
+        "description": "Comma-separated Discord user IDs to silence pings and server badges."
+      }
+    }
+  },
   "silentTyping": {
-    "description": "Hide your typing indicator from chat. (Equicord-only)",
+    "description": "Hide that you are typing (Equicord-only)",
     "settings": {
       "enabledGlobally": {
         "type": "types.bool",
@@ -4566,7 +4715,7 @@
     }
   },
   "snowfall": {
-    "description": "Let it snow on Discord! Ported from the BetterDiscord plugin by square. (Equicord-only)",
+    "description": "Let it snow on Discord (Equicord-only)",
     "settings": {
       "typeOfSnow": {
         "type": "types.enum",
@@ -4873,7 +5022,7 @@
     "settings": {}
   },
   "textReplace": {
-    "description": "Replace text in your or others' messages. You can find pre-made rules in the #textreplace-rules channel in Vencord's Server. (Equicord-only)",
+    "description": "Replace text in your messages. You can find pre-made rules in the #textreplace-rules channel in Vencord's Server (Equicord-only)",
     "settings": {
       "stringRules": {
         "type": "types.listOf types.attrs",
@@ -5141,8 +5290,8 @@
       },
       "systemPrompt": {
         "type": "types.str",
-        "default": "You are a helpful assistant who answers questions for the user in a concise and short way while using the least amount of words and punctuation.",
-        "description": "System Prompt for the AI.",
+        "default": "You are a helpful assistant who answers questions for the user in a concise and short way while using the least amount of words and punctuation.\nCurrent user: {current_user}\nCurrent time: {current_time}",
+        "description": "System Prompt for the AI. Placeholders: {current_user}, {current_time}",
         "example": "Enter system prompt."
       },
       "maxTokens": {
@@ -5156,10 +5305,30 @@
         "description": "OpenAI Compatible AI Endpoint.",
         "example": "Enter your OpenAI compatible AI endpoint here."
       },
-      "autoRespond": {
+      "context": {
+        "type": "types.int",
+        "default": 0,
+        "description": "Number of previous messages to include as context."
+      },
+      "passMessageAuthorName": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Prepend the author's name to the message content when passing it to the AI. This can help the AI distinguish between different users in a conversation."
+      },
+      "treatSelfAsAssistant": {
         "type": "types.bool",
         "default": false,
-        "description": "Automatically respond to messages on receiving a response."
+        "description": "When enabled, your own messages will be treated as assistant messages in the context. This causes some models to start generating fanfic."
+      },
+      "mode": {
+        "type": "types.enum",
+        "enumValues": [
+          "autoreply",
+          "chatbar",
+          "bot"
+        ],
+        "default": "chatbar",
+        "description": "How should answers be handled?"
       },
       "supportImages": {
         "type": "types.bool",
@@ -5319,6 +5488,26 @@
         "type": "types.str",
         "default": "https://userpfp.github.io/UserPFP/source/data.json",
         "description": "URL to load database from"
+      }
+    }
+  },
+  "userpluginInstaller": {
+    "description": "Install userplugins with a simple button click (Equicord-only)",
+    "settings": {
+      "allowlistedChannels": {
+        "type": "types.nullOr types.str",
+        "default": null,
+        "description": "Comma separated list of channels where the Install Plugin button should be displayed. It is always displayed in the Vencord Userplugin channels"
+      },
+      "notifyIfUpdate": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show a Vencord notification if UserPlugins need to be updated"
+      },
+      "neverNotifyForPlugins": {
+        "type": "types.str",
+        "default": "",
+        "description": "Never show update notifications for these plugins (you can still update them from the UserPlugins tab)"
       }
     }
   },
@@ -5757,10 +5946,6 @@
         "description": "Play a sound when a slot becomes available."
       }
     }
-  },
-  "wallpaperFree": {
-    "description": "Recreation of the old DM wallpaper experiment; Set a background image for any channel, user or server. (Equicord-only)",
-    "settings": {}
   },
   "webpackTarball": {
     "description": "Converts Discord's webpack sources into a tarball. (Equicord-only)",

@@ -87,8 +87,8 @@ export function categorizePlugins(
   );
 
   // Plugins that live in Equicord's `src/plugins` but have no Vencord counterpart
-  // (e.g. CharacterCounter). Without this they'd be silently dropped because the
-  // categorizer only iterates Vencord's plugin list above.
+  // would otherwise be silently dropped because the categorizer only iterates
+  // Vencord's plugin list above.
   const renamedEquicordTargets = new Set(Object.values(PLUGIN_RENAME_MAP));
   const equicordSharedExtras = Object.fromEntries(
     Object.entries(equicordSharedPlugins).filter(

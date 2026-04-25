@@ -123,20 +123,54 @@ describe('categorizePlugins()', () => {
 
     const equicordResult: ParsedPluginsResult = {
       vencordPlugins: {
-        CharacterCounter: {
-          name: 'CharacterCounter',
-          description: 'Adds a character counter',
+        EquicordExtra: {
+          name: 'EquicordExtra',
+          description: 'Only shipped from Equicord src/plugins',
           settings: {},
-          directoryName: 'characterCounter',
+          directoryName: 'equicordExtra',
         },
       },
       equicordPlugins: {},
     };
 
     const result = categorizePlugins(vencordResult, equicordResult);
-    expect(result.equicordOnly.CharacterCounter).toBeDefined();
-    expect(result.generic.CharacterCounter).toBeUndefined();
+    expect(result.equicordOnly.EquicordExtra).toBeDefined();
+    expect(result.generic.EquicordExtra).toBeUndefined();
+    expect(result.vencordOnly.EquicordExtra).toBeUndefined();
+  });
+
+  test('categorizes CharacterCounter as shared when both clients ship it', () => {
+    const characterCounter = {
+      name: 'CharacterCounter',
+      description: 'Adds a character counter to the chat input',
+      settings: {
+        colorEffects: {
+          name: 'colorEffects',
+          type: 'types.bool',
+          default: true,
+        },
+      },
+      directoryName: 'characterCounter',
+    };
+
+    const vencordResult: ParsedPluginsResult = {
+      vencordPlugins: {
+        CharacterCounter: characterCounter,
+      },
+      equicordPlugins: {},
+    };
+
+    const equicordResult: ParsedPluginsResult = {
+      vencordPlugins: {
+        CharacterCounter: characterCounter,
+      },
+      equicordPlugins: {},
+    };
+
+    const result = categorizePlugins(vencordResult, equicordResult);
+    expect(result.generic.CharacterCounter).toBeDefined();
     expect(result.vencordOnly.CharacterCounter).toBeUndefined();
+    expect(result.equicordOnly.CharacterCounter).toBeUndefined();
   });
 
   test('uses equicord config for shared plugins', () => {
