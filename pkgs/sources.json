@@ -210,15 +210,15 @@
     "version": "1.0.188"
   },
   "linux-stable": {
-    "hash": "sha256-N4gdcj8LYiXxvkbZhZyiWr375vaXt6JnwcoqLOKMsGg=",
+    "hash": "sha256-vMuoz1OR0cKvrfT/ilkNXEtEP3zEwyNGh6AW5iQADws=",
     "kind": "legacy",
-    "url": "https://stable.dl2.discordapp.net/apps/linux/0.0.134/discord-0.0.134.tar.gz",
-    "version": "0.0.134"
+    "url": "https://stable.dl2.discordapp.net/apps/linux/0.0.135/discord-0.0.135.tar.gz",
+    "version": "0.0.135"
   },
   "linux-stable-krisp": {
-    "hash": "sha256-WMgeAf8B7v/bHcpis2VuAaAl3UcR0v1c4gXAEgmL5jM=",
-    "url": "https://stable.dl2.discordapp.net/apps/linux/0.0.134/modules/discord_krisp-2.zip",
-    "version": "2"
+    "hash": "sha256-W4Yn0p6CfMlejJq8juqu0kaLfWD9BsJ1kVeJc17CLVY=",
+    "url": "https://stable.dl2.discordapp.net/apps/linux/0.0.135/modules/discord_krisp-1.zip",
+    "version": "1"
   },
   "osx-canary": {
     "hash": "sha256-pvhx4sJ8ziicwPMWN6hW3fHws7HZw/6xQDEm80VNNbw=",
@@ -254,14 +254,14 @@
     "version": "1"
   },
   "osx-stable": {
-    "hash": "sha256-H+Odwt2Ry3C1+OMhVdr9PjAXOnI8vmsUkSBL8dieakc=",
+    "hash": "sha256-3V0nE7py19j19TYHBJC9hjMnzLdUlHVQM7Buo9rcQSE=",
     "kind": "legacy",
-    "url": "https://stable.dl2.discordapp.net/apps/osx/0.0.387/Discord.dmg",
-    "version": "0.0.387"
+    "url": "https://stable.dl2.discordapp.net/apps/osx/0.0.388/Discord.dmg",
+    "version": "0.0.388"
   },
   "osx-stable-krisp": {
-    "hash": "sha256-2l5jP8EwNvKiJmyAuiV4MGaVmowEfqDbijmLYKWGJnI=",
-    "url": "https://stable.dl2.discordapp.net/apps/osx/0.0.387/modules/discord_krisp-1.zip",
+    "hash": "sha256-+PHxoDNOpaz6bBLH129aO+2uxGI+ir8I6AX+3K+Gk6E=",
+    "url": "https://stable.dl2.discordapp.net/apps/osx/0.0.388/modules/discord_krisp-1.zip",
     "version": "1"
   }
 }
