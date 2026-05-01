@@ -215,19 +215,32 @@ basePackage.overrideAttrs (oldAttrs: {
     ];
 
   # Distro layout has no top-level dir; brotli-decompress + tar-extract into cwd.
-  unpackPhase = lib.optionalString isDistro ''
-    runHook preUnpack
-    brotli -d < $src | tar xf - --strip-components=1
-    ${lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (name: msrc: ''
-        mkdir -p modules/${name}
-        brotli -d < ${msrc} | tar xf - --strip-components=1 -C modules/${name}
-      '') stagedModuleSrcs
-    )}
-    runHook postUnpack
-  '';
+  # macOS dmgs now ship with sibling entries (.background, Applications symlink)
+  # alongside Discord.app, which trips stdenv's "multiple directories" check, so
+  # we extract manually and pin sourceRoot to Discord.app's parent.
+  unpackPhase =
+    if isDistro then
+      ''
+        runHook preUnpack
+        brotli -d < $src | tar xf - --strip-components=1
+        ${lib.concatStringsSep "\n" (
+          lib.mapAttrsToList (name: msrc: ''
+            mkdir -p modules/${name}
+            brotli -d < ${msrc} | tar xf - --strip-components=1 -C modules/${name}
+          '') stagedModuleSrcs
+        )}
+        runHook postUnpack
+      ''
+    else if stdenvNoCC.isDarwin then
+      ''
+        runHook preUnpack
+        undmg $src
+        runHook postUnpack
+      ''
+    else
+      "";
 
-  sourceRoot = lib.optionalString isDistro ".";
+  sourceRoot = lib.optionalString (isDistro || stdenvNoCC.isDarwin) ".";
 
   postInstall =
     (oldAttrs.postInstall or "")
