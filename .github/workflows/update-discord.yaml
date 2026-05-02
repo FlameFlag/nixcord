@@ -62,8 +62,10 @@ jobs:
         run: |
           set -euo pipefail
 
+          nixpkgs_config='{ allowUnfree = true; permittedInsecurePackages = [ "openssl-1.1.1w" ]; }'
+
           echo "::group::Building update script"
-          if ! nix build --impure --expr 'let pkgs = import <nixpkgs> { config.allowUnfree = true; }; in (pkgs.callPackage ./pkgs/discord.nix {}).passthru.updateScript' 2>&1; then
+          if ! nix build --impure --expr "let pkgs = import <nixpkgs> { config = $nixpkgs_config; }; in (pkgs.callPackage ./pkgs/discord.nix {}).passthru.updateScript" 2>&1; then
             echo "::error::Failed to build the update script"
             exit 1
           fi
@@ -105,8 +107,9 @@ jobs:
 
           echo "::group::Testing builds"
           branch="${{ matrix.branch }}"
+          nixpkgs_config='{ allowUnfree = true; permittedInsecurePackages = [ "openssl-1.1.1w" ]; }'
           echo "::notice::Testing build for $branch"
-          if ! timeout 600 nix-build --arg config '{ allowUnfree = true; }' -E "let pkgs = import <nixpkgs> {}; in pkgs.callPackage ./pkgs/discord.nix { branch = \"$branch\"; }" 2>&1; then
+          if ! timeout 600 nix-build -E "let pkgs = import <nixpkgs> { config = $nixpkgs_config; }; in pkgs.callPackage ./pkgs/discord.nix { branch = \"$branch\"; }" 2>&1; then
              echo "::error::Failed to build $branch"
              exit 1
           fi

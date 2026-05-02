@@ -21,7 +21,10 @@
         let
           pkgs = import inputs.nixpkgs-nixcord {
             inherit system;
-            config.allowUnfree = true;
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [ "openssl-1.1.1w" ];
+            };
           };
         in
         {
