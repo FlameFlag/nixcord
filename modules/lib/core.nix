@@ -3,7 +3,6 @@
   parseRules,
   libva,
   stdenv,
-  electron_40,
   ...
 }:
 let
@@ -120,7 +119,6 @@ let
       equibop =
         if cfg.equibop.package != null then
           (cfg.equibop.package.override {
-            electron = electron_40;
             withMiddleClickScroll = cfg.equibop.autoscroll.enable;
           }).overrideAttrs
             (old: {
