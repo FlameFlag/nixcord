@@ -81,7 +81,15 @@ let
     canary = discord-canary;
     development = discord-development;
   };
-  basePackage = variantPackages.${branch};
+  basePackageRaw = variantPackages.${branch};
+  emptyOpenSSL11 = runCommand "openssl-1.1.1w-ignored" { } ''
+    mkdir -p "$out/lib"
+  '';
+  basePackage =
+    if stdenvNoCC.isLinux && ((basePackageRaw.override.__functionArgs or { }) ? openssl_1_1) then
+      basePackageRaw.override { openssl_1_1 = emptyOpenSSL11; }
+    else
+      basePackageRaw;
 
   binaryName =
     if stdenvNoCC.isLinux then
@@ -186,7 +194,10 @@ basePackage.overrideAttrs (oldAttrs: {
   # Discord ships brotli-compressed tar "distros" with the host app split from
   # per-module native libraries. discord_dispatch is still linked against
   # openssl 1.1 on Linux, but that dependency is unused at runtime, so we ignore
-  # it below instead of forcing users to permit an insecure package.
+  # it instead of forcing users to permit an insecure package. For nixpkgs
+  # revisions that still take openssl_1_1 as a package argument, basePackage
+  # overrides it with an empty placeholder before oldAttrs.buildInputs is
+  # evaluated; then the placeholder is filtered out here.
   nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ brotli ];
   buildInputs =
     withoutOpenSSL11 (oldAttrs.buildInputs or [ ])
