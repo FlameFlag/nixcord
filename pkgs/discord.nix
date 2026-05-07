@@ -63,7 +63,9 @@ let
     else
       moduleSrcs;
 
-  stagedModuleVersions = lib.filterAttrs (name: _: builtins.hasAttr name stagedModuleSrcs) moduleVersions;
+  stagedModuleVersions = lib.filterAttrs (
+    name: _: builtins.hasAttr name stagedModuleSrcs
+  ) moduleVersions;
 
   # Krisp helper scripts from upstream nixpkgs PR #506089
   # (NixOS/nixpkgs@3fd9c5cd0268c221313e624f32ea0c328b0418f0)
@@ -183,25 +185,26 @@ let
   };
 
   # Discord's distro builds ship native modules separately from the host app.
-  # The JS module updater (and OpenASAR's replacement updater) only consider
-  # modules installed in the user config directory, so stage symlinks to the
-  # pinned store modules before launch. Without installed.json OpenASAR sees the
-  # current version as 0 and may try to download an "undefined" module update.
+  # The app can load these directly from the store via build_info.json, but
+  # OpenASAR's legacy updater still only considers modules installed in the user
+  # config directory. Keep those symlinks fresh and repair manifests left behind
+  # by failed "undefined" module downloads.
   stageModules = writeShellApplication {
     name = "discord-stage-modules";
     text = ''
       store_modules="$1"
       modules_dir="''${XDG_CONFIG_HOME:-$HOME/.config}/${lib.toLower binaryName}/${version}/modules"
 
-      if [ ! -f "$modules_dir/installed.json" ]; then
-        mkdir -p "$modules_dir"
-        for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleSrcs)}; do
-          ln -sfn "$store_modules/$module" "$modules_dir/$module"
-        done
-        cat > "$modules_dir/installed.json" <<'EOF'
-${builtins.toJSON (lib.mapAttrs (_: moduleVersion: { installedVersion = moduleVersion; }) stagedModuleVersions)}
-EOF
-      fi
+      mkdir -p "$modules_dir"
+      for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleSrcs)}; do
+        ln -sfn "$store_modules/$module" "$modules_dir/$module"
+      done
+      cat > "$modules_dir/installed.json.tmp" <<'EOF'
+      ${builtins.toJSON (
+        lib.mapAttrs (_: moduleVersion: { installedVersion = moduleVersion; }) stagedModuleVersions
+      )}
+      EOF
+      mv "$modules_dir/installed.json.tmp" "$modules_dir/installed.json"
     '';
   };
 in
@@ -229,9 +232,9 @@ basePackage.overrideAttrs (oldAttrs: {
     withoutOpenSSL11 (oldAttrs.buildInputs or [ ])
     ++ lib.optionals stdenvNoCC.isLinux [ libpulseaudio ];
 
-  autoPatchelfIgnoreMissingDeps = (oldAttrs.autoPatchelfIgnoreMissingDeps or [ ]) ++ lib.optionals
-    stdenvNoCC.isLinux
-    [
+  autoPatchelfIgnoreMissingDeps =
+    (oldAttrs.autoPatchelfIgnoreMissingDeps or [ ])
+    ++ lib.optionals stdenvNoCC.isLinux [
       "libssl.so.1.1"
       "libcrypto.so.1.1"
     ];
@@ -273,6 +276,23 @@ basePackage.overrideAttrs (oldAttrs: {
 
   postInstall =
     (oldAttrs.postInstall or "")
+    + lib.optionalString stdenvNoCC.isLinux ''
+      ${python3.interpreter} - "$out/opt/${binaryName}/resources/build_info.json" "$out/opt/${binaryName}/modules" <<'PY'
+      import json
+      import sys
+      from pathlib import Path
+
+      build_info_path = Path(sys.argv[1])
+      with build_info_path.open() as f:
+          build_info = json.load(f)
+
+      build_info["localModulesRoot"] = sys.argv[2]
+
+      with build_info_path.open("w") as f:
+          json.dump(build_info, f, indent=2)
+          f.write("\n")
+      PY
+    ''
     + lib.optionalString (withOpenASAR && openasar != null) ''
       cp -f ${openasar} ${resourcesDir}/app.asar
     ''
