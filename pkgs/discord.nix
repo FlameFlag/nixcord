@@ -318,6 +318,11 @@ basePackage.overrideAttrs (oldAttrs: {
       wrapProgramShell $out/opt/${binaryName}/${binaryName} \
         --run "${lib.getExe stageModules} $out/opt/${binaryName}/modules"
     ''
+    # Let Discord's NVENC screenshare path find NVIDIA's driver libraries on NixOS.
+    + lib.optionalString stdenvNoCC.isLinux ''
+      wrapProgramShell $out/opt/${binaryName}/${binaryName} \
+        --prefix LD_LIBRARY_PATH : /run/opengl-driver/lib
+    ''
     # Deploy the patched Krisp module at launch time via an extra --run hook.
     + (
       if withKrisp && deployKrisp != null then
