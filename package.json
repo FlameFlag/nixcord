@@ -3,8 +3,12 @@
   "workspaces": [
     "packages/*"
   ],
+  "dependencies": {
+    "@nixcord/parser": "^1.0.0",
+    "@nixcord/shared": "^1.0.0"
+  },
   "scripts": {
-    "build": "bun run --filter '*' build && tsc --build --emitDeclarationOnly",
+    "build": "bun run --filter '*' build && tsc --build --emitDeclarationOnly --force",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --build",
@@ -13,7 +17,9 @@
     "format:check": "biome format packages/*/src packages/*/tests",
     "lint": "fallow dead-code && fallow dupes",
     "lint:health": "fallow health",
-    "check": "bun run typecheck && bun run lint && bun run format:check"
+    "smoke:built-cli": "bun run build && bun scripts/smoke-built-cli.ts",
+    "smoke:upstream": "bun run build && bun scripts/smoke-upstream.ts",
+    "check": "bun run typecheck && bun run lint && bun run format:check && bun run smoke:built-cli"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",

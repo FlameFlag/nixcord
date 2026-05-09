@@ -1,4 +1,4 @@
-import { Project, SyntaxKind } from 'ts-morph';
+import { Project, SyntaxKind, type ObjectLiteralExpression } from 'ts-morph';
 import pLimit from 'p-limit';
 import { basename, dirname, normalize, join } from 'pathe';
 import fse from 'fs-extra';
@@ -20,7 +20,12 @@ import {
   findDefinePluginCall,
   findMigratePluginSettingCalls,
 } from '@nixcord/ast';
-import { extractSettingsFromCall, extractSettingsFromObject } from '@nixcord/ast';
+import {
+  extractSettingsFromCall,
+  extractSettingsFromObject,
+  getPropertyInitializer,
+  isBareComponentSetting,
+} from '@nixcord/ast';
 import { CLI_CONFIG } from '@nixcord/shared';
 import { createProject } from './project.js';
 
@@ -31,6 +36,7 @@ const PLUGIN_DIR_SEPARATOR_PATTERN = /[-_]/;
 const PLUGIN_FILE_GLOB_PATTERN = '*/index.{ts,tsx}';
 const PLUGIN_SOURCE_GLOB_PATTERN = '**/*.{ts,tsx}';
 const CURRENT_DIRECTORY = '.';
+const OPTION_TYPE_CUSTOM_TEXT = 'OptionType.CUSTOM';
 
 const ParsePluginsOptionsSchema = z.object({
   vencordPluginsDir: z.string().min(1).optional(),
@@ -50,6 +56,80 @@ interface SinglePluginResult {
   settingRenames: SettingRename[];
   pluginRenames: PluginRename[];
   diagnostics: ParseDiagnostic[];
+}
+
+function classifyEmptySettingsExtraction(
+  pluginName: string,
+  settingsCall: NonNullable<ReturnType<typeof findDefinePluginSettings>>
+): ParseDiagnostic {
+  const filePath = settingsCall.getSourceFile().getFilePath();
+  const [arg] = settingsCall.getArguments();
+  const base = { pluginName, filePath };
+
+  if (!arg) {
+    return {
+      ...base,
+      kind: 'unsupported-settings-argument',
+      message: `Found definePluginSettings() for ${pluginName}, but it has no settings argument`,
+    };
+  }
+
+  const identifier = arg.asKind(SyntaxKind.Identifier);
+  if (identifier) {
+    const declaration = identifier.getSymbol()?.getValueDeclaration();
+    if (!declaration) {
+      return {
+        ...base,
+        kind: 'unresolved-settings-identifier',
+        message: `Found definePluginSettings(${identifier.getText()}) for ${pluginName}, but the identifier could not be resolved`,
+      };
+    }
+  }
+
+  const objectLiteral = arg.asKind(SyntaxKind.ObjectLiteralExpression);
+  if (objectLiteral) {
+    const settingObjects = objectLiteral
+      .getProperties()
+      .map((prop) => prop.asKind(SyntaxKind.PropertyAssignment)?.getInitializer())
+      .map((init) => init?.asKind(SyntaxKind.ObjectLiteralExpression))
+      .filter((init): init is ObjectLiteralExpression => init !== undefined);
+
+    if (settingObjects.length > 0 && settingObjects.every(isBareComponentSetting)) {
+      return {
+        ...base,
+        kind: 'component-only-setting-skipped',
+        message: `Found definePluginSettings() for ${pluginName}, but all settings are component-only UI settings`,
+      };
+    }
+
+    if (
+      settingObjects.some((setting) => {
+        const typeText = getPropertyInitializer(setting, 'type')?.getText();
+        return typeText === OPTION_TYPE_CUSTOM_TEXT && !getPropertyInitializer(setting, 'default');
+      })
+    ) {
+      return {
+        ...base,
+        kind: 'custom-setting-without-default',
+        message: `Found definePluginSettings() for ${pluginName}, but custom settings without defaults were skipped`,
+      };
+    }
+  }
+
+  const call = arg.asKind(SyntaxKind.CallExpression);
+  if (call) {
+    return {
+      ...base,
+      kind: 'unsupported-generated-settings-pattern',
+      message: `Found definePluginSettings() for ${pluginName}, but the generated settings pattern is not supported: ${call.getExpression().getText()}`,
+    };
+  }
+
+  return {
+    ...base,
+    kind: 'empty-settings-extraction',
+    message: `Found definePluginSettings() for ${pluginName}, but extracted no settings`,
+  };
 }
 
 async function parseSinglePlugin(
@@ -149,12 +229,7 @@ async function parseSinglePlugin(
 
   const diagnostics: ParseDiagnostic[] = [];
   if (settingsCall !== undefined && Object.keys(settings).length === 0) {
-    diagnostics.push({
-      pluginName,
-      filePath: settingsCall.getSourceFile().getFilePath(),
-      kind: 'empty-settings-extraction',
-      message: `Found definePluginSettings() for ${pluginName}, but extracted no settings`,
-    });
+    diagnostics.push(classifyEmptySettingsExtraction(pluginName, settingsCall));
   }
 
   // Extract migratePluginSetting(pluginName, oldSetting, newSetting) calls from all plugin source files.

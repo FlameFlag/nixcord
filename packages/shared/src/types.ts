@@ -56,10 +56,23 @@ const PluginRenameSchema = z.object({
   newName: z.string(),
 });
 
+export const PARSE_DIAGNOSTIC_KINDS = [
+  'empty-settings-extraction',
+  'unsupported-settings-argument',
+  'unsupported-generated-settings-pattern',
+  'unresolved-settings-identifier',
+  'unsupported-select-options-pattern',
+  'unresolved-select-options-identifier',
+  'component-only-setting-skipped',
+  'custom-setting-without-default',
+] as const;
+
+export type ParseDiagnosticKind = (typeof PARSE_DIAGNOSTIC_KINDS)[number];
+
 const ParseDiagnosticSchema = z.object({
   pluginName: z.string().optional(),
   filePath: z.string().optional(),
-  kind: z.string(),
+  kind: z.enum(PARSE_DIAGNOSTIC_KINDS),
   message: z.string(),
 });
 
@@ -93,7 +106,7 @@ export interface PluginRename {
 export interface ParseDiagnostic {
   readonly pluginName?: string;
   readonly filePath?: string;
-  readonly kind: string;
+  readonly kind: ParseDiagnosticKind;
   readonly message: string;
 }
 

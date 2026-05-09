@@ -3,6 +3,10 @@
   "configVersion": 1,
   "workspaces": {
     "": {
+      "dependencies": {
+        "@nixcord/parser": "^1.0.0",
+        "@nixcord/shared": "^1.0.0",
+      },
       "devDependencies": {
         "@biomejs/biome": "^2.4.14",
         "@types/fs-extra": "^11.0.4",
