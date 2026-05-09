@@ -214,6 +214,19 @@ export const runGeneratePluginOptions = async (
 
     validateParsedResults(vencordResult, equicordResult);
 
+    const diagnostics = [
+      ...(vencordResult.diagnostics ?? []),
+      ...(equicordResult?.diagnostics ?? []),
+    ];
+    if (verbose && diagnostics.length > 0) {
+      parsedParams.logger.warn(`Parser reported ${diagnostics.length} diagnostics`);
+      for (const diagnostic of diagnostics.slice(0, 20)) {
+        parsedParams.logger.warn(
+          `${diagnostic.kind}${diagnostic.pluginName ? ` (${diagnostic.pluginName})` : ''}: ${diagnostic.message}`
+        );
+      }
+    }
+
     const categorized = categorizePlugins(vencordResult, equicordResult);
 
     if (verbose) {
@@ -262,9 +275,22 @@ export const runGeneratePluginOptions = async (
             ])
           : { renames: [], deletions: [] };
 
-      // Combine migrations from both repos
+      const sourcePluginRenames = [
+        ...(vencordResult.pluginRenames ?? []),
+        ...(equicordResult?.pluginRenames ?? []),
+      ].map((rename) => ({
+        ...rename,
+        commitDate: new Date().toISOString(),
+        commitHash: 'source-migration',
+      }));
+
+      // Combine migrations from both repos and explicit migratePluginSettings() calls.
       const combinedMigrations = {
-        renames: [...vencordMigrations.renames, ...equicordMigrations.renames],
+        renames: [
+          ...vencordMigrations.renames,
+          ...equicordMigrations.renames,
+          ...sourcePluginRenames,
+        ],
         deletions: [...vencordMigrations.deletions, ...equicordMigrations.deletions],
       };
 

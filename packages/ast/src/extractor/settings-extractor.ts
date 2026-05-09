@@ -21,6 +21,8 @@ import { tsTypeToNixType } from '../parser.js';
 import { resolveDefaultValue, isBareComponentSetting } from './default-value-resolution.js';
 import type { PluginSetting, PluginConfig } from '@nixcord/shared';
 
+const BOOLEAN_NIX_TYPE = 'types.bool';
+
 const extractLiteralValue = (node: Node | undefined, checker: TypeChecker): unknown => {
   if (!node) return undefined;
 
@@ -198,6 +200,84 @@ export function extractSettingsFromObject(
   );
 }
 
+const extractGeneratedSettingsFromObjectEntriesReduce = (
+  arg: Node,
+  checker: TypeChecker,
+  program: Program,
+  skipHiddenCheck: boolean
+): Record<string, PluginSetting | PluginConfig> => {
+  const call = arg.asKind(SyntaxKind.CallExpression);
+  const propAccess = call?.getExpression().asKind(SyntaxKind.PropertyAccessExpression);
+  if (!call || !propAccess || propAccess.getName() !== 'reduce') return {};
+
+  const objectEntriesCall = propAccess.getExpression().asKind(SyntaxKind.CallExpression);
+  const objectEntriesAccess = objectEntriesCall
+    ?.getExpression()
+    .asKind(SyntaxKind.PropertyAccessExpression);
+  if (
+    !objectEntriesCall ||
+    !objectEntriesAccess ||
+    objectEntriesAccess.getExpression().getText() !== 'Object' ||
+    objectEntriesAccess.getName() !== 'entries'
+  ) {
+    return {};
+  }
+
+  const sourceObj = objectEntriesCall.getArguments()[0]?.asKind(SyntaxKind.Identifier);
+  if (!sourceObj) return {};
+  const sourceInit = sourceObj
+    .getSymbol()
+    ?.getValueDeclaration()
+    ?.asKind(SyntaxKind.VariableDeclaration)
+    ?.getInitializer()
+    ?.asKind(SyntaxKind.ObjectLiteralExpression);
+  if (!sourceInit) return {};
+
+  const reducer = call.getArguments()[0]?.asKind(SyntaxKind.ArrowFunction);
+  const assignment = reducer
+    ?.getDescendantsOfKind(SyntaxKind.BinaryExpression)
+    .find((expr) => expr.getOperatorToken().getKind() === SyntaxKind.EqualsToken);
+  const settingTemplate = assignment?.getRight().asKind(SyntaxKind.ObjectLiteralExpression);
+  if (!settingTemplate) return {};
+
+  const typeInit = getPropertyInitializer(settingTemplate, 'type');
+  const defaultInit = getPropertyInitializer(settingTemplate, 'default');
+  const defaultValue = extractLiteralValue(defaultInit, checker);
+  const templateType = typeInit
+    ? tsTypeToNixType({ type: typeInit, default: defaultValue }, program, checker).nixType
+    : undefined;
+
+  const result: Record<string, PluginSetting | PluginConfig> = {};
+  for (const prop of iteratePropertyAssignments(sourceInit)) {
+    const key = prop.getName();
+    const sourceValue = prop.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
+    const description = sourceValue
+      ? extractStringLiteralValue(sourceValue, DESCRIPTION_PROPERTY)
+      : undefined;
+    const finalType = templateType ?? BOOLEAN_NIX_TYPE;
+    const defaultResolution = resolveDefaultValue(
+      settingTemplate,
+      finalType,
+      defaultValue,
+      undefined,
+      checker
+    );
+    result[key] = buildPluginSetting(
+      key,
+      defaultResolution.finalNixType,
+      description,
+      defaultResolution.defaultValue,
+      undefined,
+      undefined,
+      undefined,
+      false,
+      false
+    );
+  }
+
+  return skipHiddenCheck ? result : result;
+};
+
 export function extractSettingsFromCall(
   callExpr: Node | undefined,
   checker: TypeChecker,
@@ -209,11 +289,13 @@ export function extractSettingsFromCall(
   const args = expr.getArguments();
   if (args.length === 0) return {};
   const arg = args[0];
-  if (arg.getKind() !== SyntaxKind.ObjectLiteralExpression) return {};
-  return extractSettingsFromObject(
-    arg.asKindOrThrow(SyntaxKind.ObjectLiteralExpression),
-    checker,
-    program,
-    skipHiddenCheck
-  );
+  if (arg.getKind() === SyntaxKind.ObjectLiteralExpression) {
+    return extractSettingsFromObject(
+      arg.asKindOrThrow(SyntaxKind.ObjectLiteralExpression),
+      checker,
+      program,
+      skipHiddenCheck
+    );
+  }
+  return extractGeneratedSettingsFromObjectEntriesReduce(arg, checker, program, skipHiddenCheck);
 }

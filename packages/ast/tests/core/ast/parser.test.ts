@@ -208,6 +208,31 @@ describe('tsTypeToNixType()', () => {
     expect(result.nixType).toBe('types.attrs');
   });
 
+  test('prefers concrete OptionType when unioned with CUSTOM', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.ts',
+      `enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        CUSTOM = 7,
+      }
+      const obj = { type: OptionType.NUMBER | OptionType.CUSTOM, default: 42 };`
+    );
+    const objLiteral = sourceFile
+      .getVariableDeclarationOrThrow('obj')
+      .getInitializerIfKindOrThrow(SyntaxKind.ObjectLiteralExpression);
+    const typeNode = objLiteral
+      .getProperty('type')
+      ?.asKind(SyntaxKind.PropertyAssignment)
+      ?.getInitializer();
+    const checker = project.getTypeChecker();
+    const program = project.getProgram();
+    if (!typeNode) throw new Error('Type node not found');
+    const result = tsTypeToNixType({ type: typeNode, default: 42 }, program, checker);
+    expect(result.nixType).toBe('types.int');
+  });
+
   test('OptionTypeMap mapping - BIGINT', () => {
     const project = createProject();
     const sourceFile = project.createSourceFile(

@@ -11,6 +11,8 @@ import type {
   ParsedPluginsResult,
   PluginSetting,
   SettingRename,
+  PluginRename,
+  ParseDiagnostic,
 } from '@nixcord/shared';
 import { extractPluginInfo } from '@nixcord/ast';
 import {
@@ -27,6 +29,7 @@ const PARALLEL_PROCESSING_LIMIT = 5;
 const PROGRESS_REPORT_INTERVAL = 10;
 const PLUGIN_DIR_SEPARATOR_PATTERN = /[-_]/;
 const PLUGIN_FILE_GLOB_PATTERN = '*/index.{ts,tsx}';
+const PLUGIN_SOURCE_GLOB_PATTERN = '**/*.{ts,tsx}';
 const CURRENT_DIRECTORY = '.';
 
 const ParsePluginsOptionsSchema = z.object({
@@ -45,6 +48,8 @@ async function findPluginSourceFile(pluginPath: string): Promise<string | undefi
 interface SinglePluginResult {
   entry: [string, PluginConfig];
   settingRenames: SettingRename[];
+  pluginRenames: PluginRename[];
+  diagnostics: ParseDiagnostic[];
 }
 
 async function parseSinglePlugin(
@@ -56,8 +61,19 @@ async function parseSinglePlugin(
   const path = await findPluginSourceFile(pluginPath);
   if (!path) return undefined;
 
-  const sourceFile = project.addSourceFileAtPath(path);
+  const getOrAddSourceFile = (filePath: string) =>
+    project.getSourceFile(filePath) ?? project.addSourceFileAtPath(filePath);
+
+  const sourceFile = getOrAddSourceFile(path);
   if (!sourceFile) return undefined;
+  const pluginSourceFiles = await fg(PLUGIN_SOURCE_GLOB_PATTERN, {
+    cwd: pluginPath,
+    absolute: true,
+    onlyFiles: true,
+  });
+  const allSourceFiles = pluginSourceFiles.map((filePath) =>
+    getOrAddSourceFile(normalize(filePath))
+  );
   const pluginInfo = extractPluginInfo(sourceFile, typeChecker);
 
   // Derive plugin name from directory if not explicitly defined
@@ -73,7 +89,7 @@ async function parseSinglePlugin(
 
   let settingsCall = findDefinePluginSettings(sourceFile);
   if (settingsCall === undefined) {
-    // Try settings.tsx first, then settings.ts
+    // Try conventional settings files first for deterministic behavior.
     const settingsPathTsx = normalize(join(pluginPath, 'settings.tsx'));
     const settingsPathTs = normalize(join(pluginPath, 'settings.ts'));
 
@@ -84,7 +100,17 @@ async function parseSinglePlugin(
         : null;
 
     if (settingsPath) {
-      settingsCall = findDefinePluginSettings(project.addSourceFileAtPath(settingsPath));
+      settingsCall = findDefinePluginSettings(getOrAddSourceFile(settingsPath));
+    }
+  }
+
+  if (settingsCall === undefined) {
+    for (const filePath of pluginSourceFiles) {
+      const candidate = findDefinePluginSettings(getOrAddSourceFile(normalize(filePath)));
+      if (candidate) {
+        settingsCall = candidate;
+        break;
+      }
     }
   }
 
@@ -121,18 +147,44 @@ async function parseSinglePlugin(
     }
   }
 
-  // Extract migratePluginSetting calls from all source files
+  const diagnostics: ParseDiagnostic[] = [];
+  if (settingsCall !== undefined && Object.keys(settings).length === 0) {
+    diagnostics.push({
+      pluginName,
+      filePath: settingsCall.getSourceFile().getFilePath(),
+      kind: 'empty-settings-extraction',
+      message: `Found definePluginSettings() for ${pluginName}, but extracted no settings`,
+    });
+  }
+
+  // Extract migratePluginSetting(pluginName, oldSetting, newSetting) calls from all plugin source files.
   const settingRenames: SettingRename[] = [];
-  const migrateCalls = findMigratePluginSettingCalls(sourceFile);
+  const migrateCalls = allSourceFiles.flatMap(findMigratePluginSettingCalls);
   for (const call of migrateCalls) {
     const args = call.getArguments();
     if (args.length >= 3) {
       const callPluginName = args[0].asKind(SyntaxKind.StringLiteral)?.getLiteralValue();
-      const newSetting = args[1].asKind(SyntaxKind.StringLiteral)?.getLiteralValue();
-      const oldSetting = args[2].asKind(SyntaxKind.StringLiteral)?.getLiteralValue();
+      const oldSetting = args[1].asKind(SyntaxKind.StringLiteral)?.getLiteralValue();
+      const newSetting = args[2].asKind(SyntaxKind.StringLiteral)?.getLiteralValue();
       if (callPluginName && newSetting && oldSetting) {
         settingRenames.push({ pluginName: callPluginName, oldSetting, newSetting });
       }
+    }
+  }
+
+  const pluginRenames: PluginRename[] = [];
+  const pluginRenameCalls = allSourceFiles.flatMap((source) =>
+    source
+      .getDescendantsOfKind(SyntaxKind.CallExpression)
+      .filter((call) => call.getExpression().getText() === 'migratePluginSettings')
+  );
+  for (const call of pluginRenameCalls) {
+    const args = call.getArguments();
+    const newName = args[0]?.asKind(SyntaxKind.StringLiteral)?.getLiteralValue();
+    if (!newName) continue;
+    for (const oldArg of args.slice(1)) {
+      const oldName = oldArg.asKind(SyntaxKind.StringLiteral)?.getLiteralValue();
+      if (oldName) pluginRenames.push({ oldName, newName });
     }
   }
 
@@ -144,12 +196,14 @@ async function parseSinglePlugin(
     ...(pluginInfo.isModified !== undefined ? { isModified: pluginInfo.isModified } : {}),
   };
 
-  return { entry: [pluginName, pluginConfig], settingRenames };
+  return { entry: [pluginName, pluginConfig], settingRenames, pluginRenames, diagnostics };
 }
 
 interface DirectoryParseResult {
   plugins: ReadonlyDeep<Record<string, PluginConfig>>;
   settingRenames: SettingRename[];
+  pluginRenames: PluginRename[];
+  diagnostics: ParseDiagnostic[];
 }
 
 async function parsePluginsFromDirectory(
@@ -186,12 +240,16 @@ async function parsePluginsFromDirectory(
   );
 
   const allSettingRenames: SettingRename[] = [];
+  const allPluginRenames: PluginRename[] = [];
+  const allDiagnostics: ParseDiagnostic[] = [];
   const pluginEntries: [string, PluginConfig][] = [];
 
   for (const result of results) {
     if (result) {
       pluginEntries.push(result.entry);
       allSettingRenames.push(...result.settingRenames);
+      allPluginRenames.push(...result.pluginRenames);
+      allDiagnostics.push(...result.diagnostics);
     }
   }
 
@@ -200,6 +258,8 @@ async function parsePluginsFromDirectory(
       Record<string, PluginConfig>
     >,
     settingRenames: allSettingRenames,
+    pluginRenames: allPluginRenames,
+    diagnostics: allDiagnostics,
   };
 }
 
@@ -245,6 +305,8 @@ export async function parsePlugins(
   const emptyResult: DirectoryParseResult = {
     plugins: {} as ReadonlyDeep<Record<string, PluginConfig>>,
     settingRenames: [],
+    pluginRenames: [],
+    diagnostics: [],
   };
 
   const vencordResult = hasVencordPlugins ? await parseVencordPlugins() : emptyResult;
@@ -254,5 +316,7 @@ export async function parsePlugins(
     vencordPlugins: vencordResult.plugins,
     equicordPlugins: equicordResult.plugins,
     settingRenames: [...vencordResult.settingRenames, ...equicordResult.settingRenames],
+    pluginRenames: [...vencordResult.pluginRenames, ...equicordResult.pluginRenames],
+    diagnostics: [...vencordResult.diagnostics, ...equicordResult.diagnostics],
   };
 }

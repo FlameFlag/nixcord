@@ -96,6 +96,156 @@ describe('parseSinglePlugin()', () => {
     }
   });
 
+  test('finds settings in nested plugin source files', async () => {
+    const tempDir = await fse.mkdtemp(join(__dirname, 'test-'));
+    try {
+      await createPlugin(tempDir, 'nested-settings-plugin', {
+        indexContent: `import definePlugin from "@utils/types";
+        import { settings } from "./settings/store";
+
+        export default definePlugin({
+          name: "NestedSettings",
+          description: "Plugin with nested settings module",
+          settings,
+        });`,
+        additionalFiles: [
+          {
+            path: 'settings/store.ts',
+            content: `import { definePluginSettings } from "@api/Settings";
+            import { OptionType } from "@utils/types";
+
+            export const settings = definePluginSettings({
+              nestedSetting: {
+                type: OptionType.BOOLEAN,
+                description: "Nested setting",
+                default: true,
+              },
+            });`,
+          },
+        ],
+      });
+
+      await createTsConfig(tempDir);
+
+      const result = await parsePlugins(tempDir);
+      const plugin = result.vencordPlugins['NestedSettings'];
+      expect(plugin).toBeDefined();
+      expect((plugin?.settings.nestedSetting as PluginSetting).default).toBe(true);
+    } finally {
+      await fse.remove(tempDir);
+    }
+  });
+
+  test('extracts generated Object.entries(...).reduce settings', async () => {
+    const tempDir = await fse.mkdtemp(join(__dirname, 'test-'));
+    try {
+      await createPlugin(tempDir, 'generated-settings-plugin', {
+        indexContent: `import definePlugin, { OptionType } from "@utils/types";
+        import { definePluginSettings } from "@api/Settings";
+
+        const UrlReplacementRules = {
+          spotify: { description: "Open Spotify links in app" },
+          steam: { description: "Open Steam links in app" },
+        };
+
+        const pluginSettings = definePluginSettings(
+          Object.entries(UrlReplacementRules).reduce((acc, [key, rule]) => {
+            acc[key] = {
+              type: OptionType.BOOLEAN,
+              description: rule.description,
+              default: true,
+            };
+            return acc;
+          }, {} as Record<string, unknown>)
+        );
+
+        export default definePlugin({
+          name: "GeneratedSettings",
+          description: "Plugin with generated settings",
+          settings: pluginSettings,
+        });`,
+      });
+
+      await createTsConfig(tempDir);
+
+      const result = await parsePlugins(tempDir);
+      const plugin = result.vencordPlugins['GeneratedSettings'];
+      expect(plugin).toBeDefined();
+      expect((plugin?.settings.spotify as PluginSetting).type).toBe('types.bool');
+      expect((plugin?.settings.spotify as PluginSetting).description).toBe(
+        'Open Spotify links in app'
+      );
+      expect((plugin?.settings.steam as PluginSetting).default).toBe(true);
+    } finally {
+      await fse.remove(tempDir);
+    }
+  });
+
+  test('extracts plugin renames from migratePluginSettings calls', async () => {
+    const tempDir = await fse.mkdtemp(join(__dirname, 'test-'));
+    try {
+      await createPlugin(tempDir, 'plugin-migration-plugin', {
+        indexContent: `import definePlugin from "@utils/types";
+        import { migratePluginSettings } from "@api/Settings";
+
+        migratePluginSettings("NewPlugin", "OldPlugin", "OlderPlugin");
+
+        export default definePlugin({
+          name: "NewPlugin",
+          description: "Plugin with rename migration",
+        });`,
+      });
+
+      await createTsConfig(tempDir);
+
+      const result = await parsePlugins(tempDir);
+      expect(result.pluginRenames).toEqual(
+        expect.arrayContaining([
+          { oldName: 'OldPlugin', newName: 'NewPlugin' },
+          { oldName: 'OlderPlugin', newName: 'NewPlugin' },
+        ])
+      );
+    } finally {
+      await fse.remove(tempDir);
+    }
+  });
+
+  test('extracts migratePluginSetting calls using upstream argument order', async () => {
+    const tempDir = await fse.mkdtemp(join(__dirname, 'test-'));
+    try {
+      await createPlugin(tempDir, 'setting-migration-plugin', {
+        indexContent: `import definePlugin from "@utils/types";
+        import { migratePluginSetting } from "@api/Settings";
+
+        migratePluginSetting("SettingMigration", "oldName", "newName");
+
+        export default definePlugin({
+          name: "SettingMigration",
+          description: "Plugin with setting migration",
+        });`,
+        additionalFiles: [
+          {
+            path: 'migrations.ts',
+            content: `import { migratePluginSetting } from "@api/Settings";
+            migratePluginSetting("SettingMigration", "oldNested", "newNested");`,
+          },
+        ],
+      });
+
+      await createTsConfig(tempDir);
+
+      const result = await parsePlugins(tempDir);
+      expect(result.settingRenames).toEqual(
+        expect.arrayContaining([
+          { pluginName: 'SettingMigration', oldSetting: 'oldName', newSetting: 'newName' },
+          { pluginName: 'SettingMigration', oldSetting: 'oldNested', newSetting: 'newNested' },
+        ])
+      );
+    } finally {
+      await fse.remove(tempDir);
+    }
+  });
+
   test('handles plugin without settings', async () => {
     const tempDir = await fse.mkdtemp(join(__dirname, 'test-'));
     try {

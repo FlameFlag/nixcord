@@ -51,22 +51,50 @@ const SettingRenameSchema = z.object({
   newSetting: z.string(),
 });
 
+const PluginRenameSchema = z.object({
+  oldName: z.string(),
+  newName: z.string(),
+});
+
+const ParseDiagnosticSchema = z.object({
+  pluginName: z.string().optional(),
+  filePath: z.string().optional(),
+  kind: z.string(),
+  message: z.string(),
+});
+
 export const ParsedPluginsResultSchema = z.object({
   vencordPlugins: z.record(z.string(), PluginConfigSchema),
   equicordPlugins: z.record(z.string(), PluginConfigSchema),
   settingRenames: z.array(SettingRenameSchema).optional(),
+  pluginRenames: z.array(PluginRenameSchema).optional(),
+  diagnostics: z.array(ParseDiagnosticSchema).optional(),
 });
 
 export interface ParsedPluginsResult {
   readonly vencordPlugins: ReadonlyDeep<Record<string, PluginConfig>>;
   readonly equicordPlugins: ReadonlyDeep<Record<string, PluginConfig>>;
   readonly settingRenames?: readonly SettingRename[];
+  readonly pluginRenames?: readonly PluginRename[];
+  readonly diagnostics?: readonly ParseDiagnostic[];
 }
 
 export interface SettingRename {
   readonly pluginName: string;
   readonly oldSetting: string;
   readonly newSetting: string;
+}
+
+export interface PluginRename {
+  readonly oldName: string;
+  readonly newName: string;
+}
+
+export interface ParseDiagnostic {
+  readonly pluginName?: string;
+  readonly filePath?: string;
+  readonly kind: string;
+  readonly message: string;
 }
 
 export interface PluginInfo {

@@ -96,6 +96,18 @@ const resolveOptionTypeNameFromNode = (
           )
         ] as string | number;
       case SyntaxKind.BinaryExpression: {
+        const binExpr = typeNode.asKindOrThrow(SyntaxKind.BinaryExpression);
+        if (binExpr.getOperatorToken().getKind() === SyntaxKind.BarToken) {
+          const leftName = resolveOptionTypeNameFromNode(binExpr.getLeft(), _checker);
+          const rightName = resolveOptionTypeNameFromNode(binExpr.getRight(), _checker);
+          const concrete = [leftName, rightName].find(
+            (name) =>
+              name !== undefined && name !== OPTION_TYPE_CUSTOM && name !== OPTION_TYPE_COMPONENT
+          );
+          if (concrete) return concrete;
+          return leftName ?? rightName;
+        }
+
         const result = evaluate(typeNode, _checker);
         if (result.ok && typeof result.value === 'number') {
           return OptionTypeMap[result.value] as string | number | undefined;
