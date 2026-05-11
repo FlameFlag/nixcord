@@ -244,14 +244,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
     )
@@ -260,14 +260,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
     )
@@ -276,14 +276,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
     )
@@ -292,14 +292,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
     )
@@ -340,14 +340,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
     )
@@ -356,14 +356,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
     )
@@ -372,14 +372,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
     )
@@ -388,14 +388,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
     )
@@ -404,14 +404,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
     )
@@ -420,14 +420,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
     )
@@ -436,14 +436,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
     )
@@ -452,14 +452,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
     )
@@ -468,14 +468,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
     )
@@ -484,14 +484,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
     )
@@ -500,14 +500,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
     )
@@ -516,14 +516,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
     )
@@ -532,14 +532,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
     )
@@ -548,14 +548,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
     )
@@ -564,14 +564,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
     )
@@ -580,14 +580,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
     )
@@ -596,14 +596,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
     )
@@ -612,14 +612,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
     )
@@ -628,14 +628,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
     )
@@ -644,14 +644,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
     )
@@ -660,14 +660,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
     )
@@ -676,14 +676,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
     )
@@ -692,14 +692,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
     )
@@ -708,14 +708,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
     )
@@ -724,14 +724,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
     )
@@ -740,14 +740,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
     )
@@ -756,14 +756,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
     )
@@ -772,14 +772,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
     )
@@ -788,14 +788,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
     )
@@ -804,14 +804,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
     )
@@ -820,14 +820,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
     )
@@ -836,14 +836,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
     )
@@ -852,14 +852,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
     )
@@ -868,14 +868,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
     )
@@ -884,14 +884,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
     )
@@ -900,14 +900,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
     )
@@ -916,14 +916,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
     )
@@ -932,14 +932,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
     )
@@ -948,14 +948,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
     )
@@ -964,14 +964,14 @@ in
         base
         ++ [
           "audioBookShelfRichPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
     )
@@ -1406,14 +1406,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
     )
@@ -1422,14 +1422,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "abs_password"
+          "absPassword"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
     )
@@ -1438,14 +1438,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
     )
@@ -1454,14 +1454,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "abs_username"
+          "absUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
     )
@@ -1502,14 +1502,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
     )
@@ -1518,14 +1518,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
     )
@@ -1534,14 +1534,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
     )
@@ -1550,14 +1550,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
     )
@@ -1566,14 +1566,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
     )
@@ -1582,14 +1582,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
     )
@@ -1598,14 +1598,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
     )
@@ -1614,14 +1614,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
     )
@@ -1630,14 +1630,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
     )
@@ -1646,14 +1646,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
     )
@@ -1662,14 +1662,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
     )
@@ -1678,14 +1678,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
     )
@@ -1694,14 +1694,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
     )
@@ -1710,14 +1710,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "jf_userId"
+          "jfUserId"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
     )
@@ -1726,14 +1726,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
     )
@@ -1742,14 +1742,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
     )
@@ -1758,14 +1758,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
     )
@@ -1774,14 +1774,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
     )
@@ -1790,14 +1790,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
     )
@@ -1806,14 +1806,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
     )
@@ -1822,14 +1822,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
     )
@@ -1838,14 +1838,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
     )
@@ -1854,14 +1854,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
     )
@@ -1870,14 +1870,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
     )
@@ -1886,14 +1886,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
     )
@@ -1902,14 +1902,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
     )
@@ -1918,14 +1918,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "lb_username"
+          "lbUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
     )
@@ -1934,14 +1934,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
     )
@@ -1950,14 +1950,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
     )
@@ -1966,14 +1966,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
     )
@@ -1982,14 +1982,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
     )
@@ -1998,14 +1998,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
     )
@@ -2014,14 +2014,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
     )
@@ -2030,14 +2030,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
     )
@@ -2046,14 +2046,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
     )
@@ -2062,14 +2062,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
     )
@@ -2078,14 +2078,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
     )
@@ -2094,14 +2094,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
     )
@@ -2110,14 +2110,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
     )
@@ -2126,14 +2126,14 @@ in
         base
         ++ [
           "GensokyoRadioRPC"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
     )
@@ -2294,14 +2294,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
     )
@@ -2310,14 +2310,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
     )
@@ -2326,14 +2326,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
     )
@@ -2342,14 +2342,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
     )
@@ -2390,14 +2390,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
     )
@@ -2406,14 +2406,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
     )
@@ -2422,14 +2422,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
     )
@@ -2438,14 +2438,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
     )
@@ -2454,14 +2454,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
     )
@@ -2470,14 +2470,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
     )
@@ -2486,14 +2486,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
     )
@@ -2502,14 +2502,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
     )
@@ -2518,14 +2518,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
     )
@@ -2534,14 +2534,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
     )
@@ -2550,14 +2550,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
     )
@@ -2566,14 +2566,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
     )
@@ -2582,14 +2582,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
     )
@@ -2598,14 +2598,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
     )
@@ -2614,14 +2614,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
     )
@@ -2630,14 +2630,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
     )
@@ -2646,14 +2646,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
     )
@@ -2662,14 +2662,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
     )
@@ -2678,14 +2678,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
     )
@@ -2694,14 +2694,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
     )
@@ -2710,14 +2710,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
     )
@@ -2726,14 +2726,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
     )
@@ -2742,14 +2742,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
     )
@@ -2758,14 +2758,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
     )
@@ -2774,14 +2774,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
     )
@@ -2790,14 +2790,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
     )
@@ -2806,14 +2806,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
     )
@@ -2822,14 +2822,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
     )
@@ -2838,14 +2838,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
     )
@@ -2854,14 +2854,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
     )
@@ -2870,14 +2870,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
     )
@@ -2886,14 +2886,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
     )
@@ -2902,14 +2902,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
     )
@@ -2918,14 +2918,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
     )
@@ -2934,14 +2934,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
     )
@@ -2950,14 +2950,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
     )
@@ -2966,14 +2966,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
     )
@@ -2982,14 +2982,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
     )
@@ -2998,14 +2998,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
     )
@@ -3014,14 +3014,14 @@ in
         base
         ++ [
           "jellyfinRichPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
     )
@@ -3032,14 +3032,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
     )
@@ -3048,14 +3048,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "abs_password"
+          "absPassword"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
     )
@@ -3064,14 +3064,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
     )
@@ -3080,14 +3080,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "abs_username"
+          "absUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
     )
@@ -3128,14 +3128,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
     )
@@ -3144,14 +3144,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
     )
@@ -3160,14 +3160,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
     )
@@ -3176,14 +3176,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
     )
@@ -3192,14 +3192,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
     )
@@ -3208,14 +3208,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
     )
@@ -3224,14 +3224,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
     )
@@ -3240,14 +3240,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
     )
@@ -3256,14 +3256,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
     )
@@ -3272,14 +3272,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
     )
@@ -3288,14 +3288,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
     )
@@ -3304,14 +3304,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
     )
@@ -3320,14 +3320,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
     )
@@ -3336,14 +3336,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "jf_userId"
+          "jfUserId"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
     )
@@ -3352,14 +3352,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
     )
@@ -3368,14 +3368,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
     )
@@ -3384,14 +3384,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
     )
@@ -3400,14 +3400,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
     )
@@ -3416,14 +3416,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
     )
@@ -3432,14 +3432,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
     )
@@ -3448,14 +3448,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
     )
@@ -3464,14 +3464,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
     )
@@ -3480,14 +3480,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
     )
@@ -3496,14 +3496,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
     )
@@ -3512,14 +3512,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
     )
@@ -3528,14 +3528,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
     )
@@ -3544,14 +3544,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "lb_username"
+          "lbUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
     )
@@ -3560,14 +3560,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
     )
@@ -3576,14 +3576,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
     )
@@ -3592,14 +3592,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
     )
@@ -3608,14 +3608,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
     )
@@ -3624,14 +3624,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
     )
@@ -3640,14 +3640,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
     )
@@ -3656,14 +3656,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
     )
@@ -3672,14 +3672,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
     )
@@ -3688,14 +3688,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
     )
@@ -3704,14 +3704,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
     )
@@ -3720,14 +3720,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
     )
@@ -3736,14 +3736,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
     )
@@ -3752,14 +3752,14 @@ in
         base
         ++ [
           "ListenBrainzRPC"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
     )
@@ -4202,14 +4202,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
     )
@@ -4218,14 +4218,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
     )
@@ -4234,14 +4234,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
     )
@@ -4250,14 +4250,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
     )
@@ -4298,14 +4298,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
     )
@@ -4314,14 +4314,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
     )
@@ -4330,14 +4330,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
     )
@@ -4346,14 +4346,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
     )
@@ -4362,14 +4362,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
     )
@@ -4378,14 +4378,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
     )
@@ -4394,14 +4394,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
     )
@@ -4410,14 +4410,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
     )
@@ -4426,14 +4426,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
     )
@@ -4442,14 +4442,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
     )
@@ -4458,14 +4458,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
     )
@@ -4474,14 +4474,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
     )
@@ -4490,14 +4490,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
     )
@@ -4506,14 +4506,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
     )
@@ -4522,14 +4522,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
     )
@@ -4538,14 +4538,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
     )
@@ -4554,14 +4554,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
     )
@@ -4570,14 +4570,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
     )
@@ -4586,14 +4586,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
     )
@@ -4602,14 +4602,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
     )
@@ -4618,14 +4618,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
     )
@@ -4634,14 +4634,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
     )
@@ -4650,14 +4650,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
     )
@@ -4666,14 +4666,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
     )
@@ -4682,14 +4682,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
     )
@@ -4698,14 +4698,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
     )
@@ -4714,14 +4714,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
     )
@@ -4730,14 +4730,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
     )
@@ -4746,14 +4746,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
     )
@@ -4762,14 +4762,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
     )
@@ -4778,14 +4778,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
     )
@@ -4794,14 +4794,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
     )
@@ -4810,14 +4810,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
     )
@@ -4826,14 +4826,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
     )
@@ -4842,14 +4842,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
     )
@@ -4858,14 +4858,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
     )
@@ -4874,14 +4874,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
     )
@@ -4890,14 +4890,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
     )
@@ -4906,14 +4906,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
     )
@@ -4922,14 +4922,14 @@ in
         base
         ++ [
           "statsfmPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
     )
@@ -5104,14 +5104,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_enabled"
+          "absEnabled"
         ]
       )
     )
@@ -5120,14 +5120,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "abs_password"
+          "absPassword"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_password"
+          "absPassword"
         ]
       )
     )
@@ -5136,14 +5136,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_serverUrl"
+          "absServerUrl"
         ]
       )
     )
@@ -5152,14 +5152,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "abs_username"
+          "absUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "abs_username"
+          "absUsername"
         ]
       )
     )
@@ -5200,14 +5200,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_enabled"
+          "grEnabled"
         ]
       )
     )
@@ -5216,14 +5216,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "gr_refreshInterval"
+          "grRefreshInterval"
         ]
       )
     )
@@ -5232,14 +5232,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_apiKey"
+          "jfApiKey"
         ]
       )
     )
@@ -5248,14 +5248,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_coverType"
+          "jfCoverType"
         ]
       )
     )
@@ -5264,14 +5264,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_customName"
+          "jfCustomName"
         ]
       )
     )
@@ -5280,14 +5280,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_enabled"
+          "jfEnabled"
         ]
       )
     )
@@ -5296,14 +5296,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_episodeFormat"
+          "jfEpisodeFormat"
         ]
       )
     )
@@ -5312,14 +5312,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_nameDisplay"
+          "jfNameDisplay"
         ]
       )
     )
@@ -5328,14 +5328,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_overrideType"
+          "jfOverrideType"
         ]
       )
     )
@@ -5344,14 +5344,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_privacyMode"
+          "jfPrivacyMode"
         ]
       )
     )
@@ -5360,14 +5360,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_serverUrl"
+          "jfServerUrl"
         ]
       )
     )
@@ -5376,14 +5376,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showEpisodeName"
+          "jfShowEpisodeName"
         ]
       )
     )
@@ -5392,14 +5392,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_showPausedState"
+          "jfShowPausedState"
         ]
       )
     )
@@ -5408,14 +5408,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "jf_userId"
+          "jfUserId"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "jf_userId"
+          "jfUserId"
         ]
       )
     )
@@ -5424,14 +5424,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_enabled"
+          "lbEnabled"
         ]
       )
     )
@@ -5440,14 +5440,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithActivity"
+          "lbHideWithActivity"
         ]
       )
     )
@@ -5456,14 +5456,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_hideWithSpotify"
+          "lbHideWithSpotify"
         ]
       )
     )
@@ -5472,14 +5472,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_mbContact"
+          "lbMbContact"
         ]
       )
     )
@@ -5488,14 +5488,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_missingArt"
+          "lbMissingArt"
         ]
       )
     )
@@ -5504,14 +5504,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_nameFormat"
+          "lbNameFormat"
         ]
       )
     )
@@ -5520,14 +5520,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareSong"
+          "lbShareSong"
         ]
       )
     )
@@ -5536,14 +5536,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_shareUsername"
+          "lbShareUsername"
         ]
       )
     )
@@ -5552,14 +5552,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_statusName"
+          "lbStatusName"
         ]
       )
     )
@@ -5568,14 +5568,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useListeningStatus"
+          "lbUseListeningStatus"
         ]
       )
     )
@@ -5584,14 +5584,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useLogo"
+          "lbUseLogo"
         ]
       )
     )
@@ -5600,14 +5600,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_useTimeBar"
+          "lbUseTimeBar"
         ]
       )
     )
@@ -5616,14 +5616,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "lb_username"
+          "lbUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "lb_username"
+          "lbUsername"
         ]
       )
     )
@@ -5632,14 +5632,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_alwaysHideArt"
+          "sfmAlwaysHideArt"
         ]
       )
     )
@@ -5648,14 +5648,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_enabled"
+          "sfmEnabled"
         ]
       )
     )
@@ -5664,14 +5664,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithExternalRPC"
+          "sfmHideWithExternalRpc"
         ]
       )
     )
@@ -5680,14 +5680,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_hideWithSpotify"
+          "sfmHideWithSpotify"
         ]
       )
     )
@@ -5696,14 +5696,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_missingArt"
+          "sfmMissingArt"
         ]
       )
     )
@@ -5712,14 +5712,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_nameFormat"
+          "sfmNameFormat"
         ]
       )
     )
@@ -5728,14 +5728,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareSong"
+          "sfmShareSong"
         ]
       )
     )
@@ -5744,14 +5744,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_shareUsername"
+          "sfmShareUsername"
         ]
       )
     )
@@ -5760,14 +5760,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_showLogo"
+          "sfmShowLogo"
         ]
       )
     )
@@ -5776,14 +5776,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_statusName"
+          "sfmStatusName"
         ]
       )
     )
@@ -5792,14 +5792,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_useListeningStatus"
+          "sfmUseListeningStatus"
         ]
       )
     )
@@ -5808,14 +5808,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "sfm_username"
+          "sfmUsername"
         ]
       )
     )
@@ -5824,14 +5824,14 @@ in
         base
         ++ [
           "TosuRPC"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
       (
         base
         ++ [
           "richPresence"
-          "tosu_enabled"
+          "tosuEnabled"
         ]
       )
     )
@@ -5894,34 +5894,6 @@ in
       to = base ++ [
         "globalBadges"
         "showRaincord"
-      ];
-      visible = false;
-      warn = true;
-      use = x: x;
-    })
-
-    # Setting renames: hideChatButtons
-    (lib.modules.doRename {
-      from = base ++ [
-        "hideChatButtons"
-        "Color"
-      ];
-      to = base ++ [
-        "hideChatButtons"
-        "color"
-      ];
-      visible = false;
-      warn = true;
-      use = x: x;
-    })
-    (lib.modules.doRename {
-      from = base ++ [
-        "hideChatButtons"
-        "Open"
-      ];
-      to = base ++ [
-        "hideChatButtons"
-        "open"
       ];
       visible = false;
       warn = true;

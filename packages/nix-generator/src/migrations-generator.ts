@@ -8,17 +8,22 @@ const BASE_PATH = '["programs" "nixcord" "config" "plugins"';
  * Collect all leaf setting names from a plugin config (flattened).
  * Always includes "enable".
  */
+function normalizeSettingPath(path: string): string {
+  return path.split('.').map(toNixIdentifier).join('.');
+}
+
 function collectSettingNames(config: ReadonlyDeep<PluginConfig>): string[] {
   const names = new Set<string>();
   names.add('enable');
 
   for (const [, setting] of Object.entries(config.settings)) {
+    const settingName = toNixIdentifier(setting.name);
     if (isNestedConfig(setting)) {
       for (const nestedName of collectSettingNames(setting)) {
-        names.add(`${setting.name}.${nestedName}`);
+        names.add(`${settingName}.${nestedName}`);
       }
     } else {
-      names.add(setting.name);
+      names.add(settingName);
     }
   }
 
@@ -29,7 +34,7 @@ function collectSettingNames(config: ReadonlyDeep<PluginConfig>): string[] {
  * Generate a mkRenamedOptionModule call for a single setting path.
  */
 function mkRenamedLine(oldPlugin: string, newPlugin: string, settingPath: string): string {
-  const parts = settingPath.split('.');
+  const parts = normalizeSettingPath(settingPath).split('.');
   const oldParts = parts.map((p) => `"${p}"`).join(' ');
   const newParts = parts.map((p) => `"${p}"`).join(' ');
   const oldId = toNixIdentifier(oldPlugin);
@@ -147,6 +152,10 @@ export function generateMigrationsModule(
     const activeSettingNames = allSettingsByNixName.get(nixName) ?? new Set<string>();
 
     const validRenames = Object.entries(settings)
+      .map(
+        ([oldSetting, newSetting]) =>
+          [normalizeSettingPath(oldSetting), normalizeSettingPath(newSetting)] as const
+      )
       .filter(([oldSetting]) => !activeSettingNames.has(oldSetting))
       .sort(([a], [b]) => a.localeCompare(b));
 
