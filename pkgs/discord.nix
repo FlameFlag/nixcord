@@ -55,17 +55,20 @@ let
     else
       null;
 
-  # Modules to stage at install time. When Krisp is enabled we drop the bundled
-  # discord_krisp here and deploy the patched version at runtime instead
+  # Modules to stage at install time. When Krisp is enabled we do not unpack the
+  # bundled discord_krisp source; the patched module is copied into the staged
+  # modules tree below so distro builds load it from localModulesRoot directly.
   stagedModuleSrcs =
     if withKrisp && krispSrc != null then
       lib.removeAttrs moduleSrcs [ "discord_krisp" ]
     else
       moduleSrcs;
 
-  stagedModuleVersions = lib.filterAttrs (
-    name: _: builtins.hasAttr name stagedModuleSrcs
-  ) moduleVersions;
+  stagedModuleVersions =
+    if withKrisp && krispSrc != null then
+      moduleVersions
+    else
+      lib.filterAttrs (name: _: builtins.hasAttr name stagedModuleSrcs) moduleVersions;
 
   # Krisp helper scripts from upstream nixpkgs PR #506089
   # (NixOS/nixpkgs@3327261e53f551e4b4393ef3d6ac660976c19a1d)
@@ -150,8 +153,11 @@ let
 
   # Runtime deployer: copies the patched Krisp module into Discord's config dir
   # before Discord starts and watches for the module updater overwriting it.
+  # Linux distro builds load modules via localModulesRoot, so the patched Krisp
+  # is staged into the package instead. Avoid the watcher there: on non-stable
+  # clients it can fight the module updater and trigger crash/write loops.
   deployKrisp =
-    if withKrisp && patchedKrisp != null then
+    if withKrisp && patchedKrisp != null && stdenvNoCC.isDarwin then
       runCommand "deploy-krisp.py"
         {
           pythonInterpreter = "${python3.withPackages (ps: [ ps.watchdog ])}/bin/python3";
@@ -196,8 +202,15 @@ let
       modules_dir="''${XDG_CONFIG_HOME:-$HOME/.config}/${lib.toLower binaryName}/${version}/modules"
 
       mkdir -p "$modules_dir"
-      for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleSrcs)}; do
-        ln -sfn "$store_modules/$module" "$modules_dir/$module"
+      for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleVersions)}; do
+        dest="$modules_dir/$module"
+        if [ -L "$dest" ]; then
+          rm "$dest"
+        elif [ -e "$dest" ]; then
+          chmod -R u+w "$dest" 2>/dev/null || true
+          rm -rf "$dest"
+        fi
+        ln -s "$store_modules/$module" "$dest"
       done
       cat > "$modules_dir/installed.json.tmp" <<'EOF'
       ${builtins.toJSON (
@@ -254,6 +267,11 @@ basePackage.overrideAttrs (oldAttrs: {
         ''}
       '') stagedModuleSrcs
     )}
+    ${lib.optionalString (withKrisp && patchedKrisp != null) ''
+      mkdir -p modules/discord_krisp
+      cp -R ${patchedKrisp}/. modules/discord_krisp/
+      chmod -R u+w modules/discord_krisp
+    ''}
     runHook postUnpack
   '';
 
