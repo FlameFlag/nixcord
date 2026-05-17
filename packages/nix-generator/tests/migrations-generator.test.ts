@@ -68,14 +68,24 @@ describe('generateMigrationsModule()', () => {
     expect(result).not.toContain('mkRemovedPluginModule');
   });
 
-  test('plugin rename enable aliases are silent for target defaults', () => {
+  test('plugin rename aliases are silent for target defaults', () => {
     const deprecated: DeprecatedData = {
       renames: { OldPlugin: { to: 'NewPlugin', date: '2026-01-01' } },
       removals: {},
       settingRenames: {},
     };
     const allPlugins: Record<string, ReadonlyDeep<PluginConfig>> = {
-      NewPlugin: mkPlugin('new'),
+      NewPlugin: {
+        ...mkPlugin('new'),
+        settings: {
+          format: {
+            name: 'format',
+            type: 'types.str',
+            description: '',
+            default: 'compact',
+          },
+        },
+      },
     };
 
     const result = generateMigrationsModule(deprecated, allPlugins);
@@ -83,9 +93,11 @@ describe('generateMigrationsModule()', () => {
     expect(result).toContain('lib.modules.doRename');
     expect(result).toContain('warn = false');
     expect(result).toContain('use = x: x');
-    expect(result).not.toContain('builtins.trace "Obsolete option');
+    expect(result).not.toContain('mkRenamedOptionModule');
     expect(result).toContain('base ++ ["oldPlugin" "enable"]');
     expect(result).toContain('base ++ ["newPlugin" "enable"]');
+    expect(result).toContain('base ++ ["oldPlugin" "format"]');
+    expect(result).toContain('base ++ ["newPlugin" "format"]');
   });
 
   test('let block includes both base and helper when renames and removals exist', () => {

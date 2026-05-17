@@ -13,22 +13,19 @@ in
 {
   imports = [
     # Anammox -> Declutter
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "alwaysShowUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "alwaysShowUsername"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "alwaysShowUsername"
+      ];
+      to = base ++ [
+        "declutter"
+        "alwaysShowUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "anammox"
@@ -42,264 +39,216 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeAudioMenus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeAudioMenus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeAvatarDecoration"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeAvatarDecoration"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeBillingSettings"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeBillingSettings"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeButtonTooltips"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeButtonTooltips"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeClanTag"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeClanTag"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeGiftButton"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeGiftButton"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeNameplate"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeNameplate"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeProfileEffect"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeProfileEffect"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeQuestsAboveDM"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeQuestsAboveDM"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeServerBoostInfo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeServerBoostInfo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeShopAboveDM"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeShopAboveDM"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "anammox"
-          "removeUnavailableEmojiPicker"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeUnavailableEmojiPicker"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeAudioMenus"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeAudioMenus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeAvatarDecoration"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeAvatarDecoration"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeBillingSettings"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeBillingSettings"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeButtonTooltips"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeButtonTooltips"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeClanTag"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeClanTag"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeGiftButton"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeGiftButton"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeNameplate"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeNameplate"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeProfileEffect"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeProfileEffect"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeQuestsAboveDM"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeQuestsAboveDM"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeServerBoostInfo"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeServerBoostInfo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeShopAboveDM"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeShopAboveDM"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "anammox"
+        "removeUnavailableEmojiPicker"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeUnavailableEmojiPicker"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # AudioBookShelfRichPresence -> RichPresence
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "absEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "absPassword"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absPassword"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "absServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "absUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absUsername"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "absEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "absPassword"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absPassword"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "absServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "absUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "audioBookShelfRichPresence"
@@ -313,696 +262,567 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "enabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "enabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "grEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "grRefreshInterval"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grRefreshInterval"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfApiKey"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfApiKey"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfCoverType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCoverType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfCustomName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCustomName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfNameDisplay"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfNameDisplay"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfOverrideType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfOverrideType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfPrivacyMode"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfPrivacyMode"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfShowPausedState"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowPausedState"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "jfUserId"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfUserId"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbHideWithActivity"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithActivity"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbMbContact"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMbContact"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbUseLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbUseTimeBar"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseTimeBar"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "lbUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmShowLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShowLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "sfmUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "audioBookShelfRichPresence"
-          "tosuEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "tosuEnabled"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "enabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "enabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "grEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "grRefreshInterval"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grRefreshInterval"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfApiKey"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfApiKey"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfCoverType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCoverType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfCustomName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCustomName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfEpisodeFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEpisodeFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfNameDisplay"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfNameDisplay"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfOverrideType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfOverrideType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfPrivacyMode"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfPrivacyMode"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfShowEpisodeName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowEpisodeName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfShowPausedState"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowPausedState"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "jfUserId"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfUserId"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbHideWithActivity"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithActivity"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbMbContact"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMbContact"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbUseLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbUseTimeBar"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseTimeBar"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "lbUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmAlwaysHideArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmAlwaysHideArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmShowLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShowLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "sfmUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "audioBookShelfRichPresence"
+        "tosuEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "tosuEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # BetterQuickReact -> MoreQuickReactions
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterQuickReact"
-          "columns"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreQuickReactions"
-          "columns"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterQuickReact"
-          "compactMode"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreQuickReactions"
-          "compactMode"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterQuickReact"
+        "columns"
+      ];
+      to = base ++ [
+        "moreQuickReactions"
+        "columns"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterQuickReact"
+        "compactMode"
+      ];
+      to = base ++ [
+        "moreQuickReactions"
+        "compactMode"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "betterQuickReact"
@@ -1016,88 +836,73 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterQuickReact"
-          "frequentEmojis"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreQuickReactions"
-          "frequentEmojis"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterQuickReact"
-          "reactionCount"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreQuickReactions"
-          "reactionCount"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterQuickReact"
-          "rows"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreQuickReactions"
-          "rows"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterQuickReact"
-          "scroll"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreQuickReactions"
-          "scroll"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterQuickReact"
+        "frequentEmojis"
+      ];
+      to = base ++ [
+        "moreQuickReactions"
+        "frequentEmojis"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterQuickReact"
+        "reactionCount"
+      ];
+      to = base ++ [
+        "moreQuickReactions"
+        "reactionCount"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterQuickReact"
+        "rows"
+      ];
+      to = base ++ [
+        "moreQuickReactions"
+        "rows"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterQuickReact"
+        "scroll"
+      ];
+      to = base ++ [
+        "moreQuickReactions"
+        "scroll"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # BetterUserArea -> Declutter
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "alwaysShowUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "alwaysShowUsername"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "alwaysShowUsername"
+      ];
+      to = base ++ [
+        "declutter"
+        "alwaysShowUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "betterUserArea"
@@ -1111,198 +916,162 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeAudioMenus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeAudioMenus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeAvatarDecoration"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeAvatarDecoration"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeBillingSettings"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeBillingSettings"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeButtonTooltips"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeButtonTooltips"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeClanTag"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeClanTag"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeGiftButton"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeGiftButton"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeNameplate"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeNameplate"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeProfileEffect"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeProfileEffect"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeQuestsAboveDM"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeQuestsAboveDM"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeServerBoostInfo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeServerBoostInfo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeShopAboveDM"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeShopAboveDM"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "betterUserArea"
-          "removeUnavailableEmojiPicker"
-        ]
-      )
-      (
-        base
-        ++ [
-          "declutter"
-          "removeUnavailableEmojiPicker"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeAudioMenus"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeAudioMenus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeAvatarDecoration"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeAvatarDecoration"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeBillingSettings"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeBillingSettings"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeButtonTooltips"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeButtonTooltips"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeClanTag"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeClanTag"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeGiftButton"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeGiftButton"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeNameplate"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeNameplate"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeProfileEffect"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeProfileEffect"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeQuestsAboveDM"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeQuestsAboveDM"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeServerBoostInfo"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeServerBoostInfo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeShopAboveDM"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeShopAboveDM"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "betterUserArea"
+        "removeUnavailableEmojiPicker"
+      ];
+      to = base ++ [
+        "declutter"
+        "removeUnavailableEmojiPicker"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # EmoteCloner -> ExpressionCloner
     (lib.modules.doRename {
@@ -1320,22 +1089,19 @@ in
     })
 
     # FriendCloud -> MoreCommands
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "friendCloud"
-          "addFreakyEnding"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "addFreakyEnding"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "friendCloud"
+        "addFreakyEnding"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "addFreakyEnding"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "friendCloud"
@@ -1349,104 +1115,86 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "friendCloud"
-          "uwuEveryMessage"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "uwuEveryMessage"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "friendCloud"
-          "uwuEverything"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "uwuEverything"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "friendCloud"
+        "uwuEveryMessage"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "uwuEveryMessage"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "friendCloud"
+        "uwuEverything"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "uwuEverything"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # GensokyoRadioRPC -> RichPresence
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "absEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "absPassword"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absPassword"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "absServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "absUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absUsername"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "absEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "absPassword"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absPassword"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "absServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "absUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "GensokyoRadioRPC"
@@ -1460,680 +1208,554 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "enabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "enabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "grEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "grRefreshInterval"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grRefreshInterval"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfApiKey"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfApiKey"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfCoverType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCoverType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfCustomName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCustomName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfEpisodeFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfNameDisplay"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfNameDisplay"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfOverrideType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfOverrideType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfPrivacyMode"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfPrivacyMode"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfShowEpisodeName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfShowPausedState"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowPausedState"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "jfUserId"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfUserId"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbHideWithActivity"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithActivity"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbMbContact"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMbContact"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbUseLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbUseTimeBar"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseTimeBar"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "lbUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmAlwaysHideArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmShowLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShowLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "sfmUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "GensokyoRadioRPC"
-          "tosuEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "tosuEnabled"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "enabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "enabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "grEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "grRefreshInterval"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grRefreshInterval"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfApiKey"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfApiKey"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfCoverType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCoverType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfCustomName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCustomName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfEpisodeFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEpisodeFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfNameDisplay"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfNameDisplay"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfOverrideType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfOverrideType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfPrivacyMode"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfPrivacyMode"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfShowEpisodeName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowEpisodeName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfShowPausedState"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowPausedState"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "jfUserId"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfUserId"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbHideWithActivity"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithActivity"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbMbContact"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMbContact"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbUseLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbUseTimeBar"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseTimeBar"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "lbUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmAlwaysHideArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmAlwaysHideArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmHideWithExternalRpc"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmShowLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShowLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "sfmUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "GensokyoRadioRPC"
+        "tosuEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "tosuEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # GifRoulette -> MoreCommands
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "gifRoulette"
-          "addFreakyEnding"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "addFreakyEnding"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "gifRoulette"
+        "addFreakyEnding"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "addFreakyEnding"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "gifRoulette"
@@ -2147,38 +1769,32 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "gifRoulette"
-          "uwuEveryMessage"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "uwuEveryMessage"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "gifRoulette"
-          "uwuEverything"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "uwuEverything"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "gifRoulette"
+        "uwuEveryMessage"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "uwuEveryMessage"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "gifRoulette"
+        "uwuEverything"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "uwuEverything"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # HideAttachments -> HideMedia
     (lib.modules.doRename {
@@ -2196,22 +1812,19 @@ in
     })
 
     # ImgToGif -> MoreCommands
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "imgToGif"
-          "addFreakyEnding"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "addFreakyEnding"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "imgToGif"
+        "addFreakyEnding"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "addFreakyEnding"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "imgToGif"
@@ -2225,104 +1838,86 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "imgToGif"
-          "uwuEveryMessage"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "uwuEveryMessage"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "imgToGif"
-          "uwuEverything"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "uwuEverything"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "imgToGif"
+        "uwuEveryMessage"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "uwuEveryMessage"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "imgToGif"
+        "uwuEverything"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "uwuEverything"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # JellyfinRichPresence -> RichPresence
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "absEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "absPassword"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absPassword"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "absServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "absUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absUsername"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "absEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "absPassword"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absPassword"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "absServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "absUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "jellyfinRichPresence"
@@ -2336,728 +1931,593 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "enabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "enabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "grEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "grRefreshInterval"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grRefreshInterval"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfApiKey"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfApiKey"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfCoverType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCoverType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfCustomName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCustomName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfNameDisplay"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfNameDisplay"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfOverrideType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfOverrideType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfPrivacyMode"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfPrivacyMode"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfShowPausedState"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowPausedState"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "jfUserId"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfUserId"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbHideWithActivity"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithActivity"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbMbContact"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMbContact"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbUseLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbUseTimeBar"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseTimeBar"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "lbUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmShowLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShowLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "sfmUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "jellyfinRichPresence"
-          "tosuEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "tosuEnabled"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "enabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "enabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "grEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "grRefreshInterval"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grRefreshInterval"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfApiKey"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfApiKey"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfCoverType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCoverType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfCustomName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCustomName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfEpisodeFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEpisodeFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfNameDisplay"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfNameDisplay"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfOverrideType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfOverrideType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfPrivacyMode"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfPrivacyMode"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfShowEpisodeName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowEpisodeName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfShowPausedState"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowPausedState"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "jfUserId"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfUserId"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbHideWithActivity"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithActivity"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbMbContact"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMbContact"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbUseLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbUseTimeBar"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseTimeBar"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "lbUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmAlwaysHideArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmAlwaysHideArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmShowLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShowLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "sfmUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "jellyfinRichPresence"
+        "tosuEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "tosuEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # ListenBrainzRPC -> RichPresence
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "absEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "absPassword"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absPassword"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "absServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "absUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absUsername"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "absEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "absPassword"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absPassword"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "absServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "absUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "ListenBrainzRPC"
@@ -3071,680 +2531,554 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "enabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "enabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "grEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "grRefreshInterval"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grRefreshInterval"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfApiKey"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfApiKey"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfCoverType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCoverType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfCustomName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCustomName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfEpisodeFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfNameDisplay"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfNameDisplay"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfOverrideType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfOverrideType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfPrivacyMode"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfPrivacyMode"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfShowEpisodeName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfShowPausedState"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowPausedState"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "jfUserId"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfUserId"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbHideWithActivity"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithActivity"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbMbContact"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMbContact"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbUseLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbUseTimeBar"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseTimeBar"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "lbUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmAlwaysHideArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmShowLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShowLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "sfmUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "ListenBrainzRPC"
-          "tosuEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "tosuEnabled"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "enabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "enabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "grEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "grRefreshInterval"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grRefreshInterval"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfApiKey"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfApiKey"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfCoverType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCoverType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfCustomName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCustomName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfEpisodeFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEpisodeFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfNameDisplay"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfNameDisplay"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfOverrideType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfOverrideType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfPrivacyMode"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfPrivacyMode"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfShowEpisodeName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowEpisodeName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfShowPausedState"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowPausedState"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "jfUserId"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfUserId"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbHideWithActivity"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithActivity"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbMbContact"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMbContact"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbUseLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbUseTimeBar"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseTimeBar"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "lbUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmAlwaysHideArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmAlwaysHideArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmHideWithExternalRpc"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmShowLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShowLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "sfmUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "ListenBrainzRPC"
+        "tosuEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "tosuEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # MemberListActivities -> BetterActivities
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "memberListActivities"
-          "allActivitiesStyle"
-        ]
-      )
-      (
-        base
-        ++ [
-          "betterActivities"
-          "allActivitiesStyle"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "memberListActivities"
+        "allActivitiesStyle"
+      ];
+      to = base ++ [
+        "betterActivities"
+        "allActivitiesStyle"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "memberListActivities"
@@ -3758,118 +3092,97 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "memberListActivities"
-          "hideTooltip"
-        ]
-      )
-      (
-        base
-        ++ [
-          "betterActivities"
-          "hideTooltip"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "memberListActivities"
-          "iconSize"
-        ]
-      )
-      (
-        base
-        ++ [
-          "betterActivities"
-          "iconSize"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "memberListActivities"
-          "memberList"
-        ]
-      )
-      (
-        base
-        ++ [
-          "betterActivities"
-          "memberList"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "memberListActivities"
-          "removeGameActivityStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "betterActivities"
-          "removeGameActivityStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "memberListActivities"
-          "renderGifs"
-        ]
-      )
-      (
-        base
-        ++ [
-          "betterActivities"
-          "renderGifs"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "memberListActivities"
-          "specialFirst"
-        ]
-      )
-      (
-        base
-        ++ [
-          "betterActivities"
-          "specialFirst"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "memberListActivities"
-          "userPopout"
-        ]
-      )
-      (
-        base
-        ++ [
-          "betterActivities"
-          "userPopout"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "memberListActivities"
+        "hideTooltip"
+      ];
+      to = base ++ [
+        "betterActivities"
+        "hideTooltip"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "memberListActivities"
+        "iconSize"
+      ];
+      to = base ++ [
+        "betterActivities"
+        "iconSize"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "memberListActivities"
+        "memberList"
+      ];
+      to = base ++ [
+        "betterActivities"
+        "memberList"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "memberListActivities"
+        "removeGameActivityStatus"
+      ];
+      to = base ++ [
+        "betterActivities"
+        "removeGameActivityStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "memberListActivities"
+        "renderGifs"
+      ];
+      to = base ++ [
+        "betterActivities"
+        "renderGifs"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "memberListActivities"
+        "specialFirst"
+      ];
+      to = base ++ [
+        "betterActivities"
+        "specialFirst"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "memberListActivities"
+        "userPopout"
+      ];
+      to = base ++ [
+        "betterActivities"
+        "userPopout"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # MessageTags -> CustomCommands
     (lib.modules.doRename {
@@ -3885,40 +3198,34 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "messageTags"
-          "tagsList"
-        ]
-      )
-      (
-        base
-        ++ [
-          "customCommands"
-          "tagsList"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "messageTags"
+        "tagsList"
+      ];
+      to = base ++ [
+        "customCommands"
+        "tagsList"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # MoreKaomoji -> MoreCommands
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "moreKaomoji"
-          "addFreakyEnding"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "addFreakyEnding"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "moreKaomoji"
+        "addFreakyEnding"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "addFreakyEnding"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "moreKaomoji"
@@ -3932,38 +3239,32 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "moreKaomoji"
-          "uwuEveryMessage"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "uwuEveryMessage"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "moreKaomoji"
-          "uwuEverything"
-        ]
-      )
-      (
-        base
-        ++ [
-          "moreCommands"
-          "uwuEverything"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "moreKaomoji"
+        "uwuEveryMessage"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "uwuEveryMessage"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "moreKaomoji"
+        "uwuEverything"
+      ];
+      to = base ++ [
+        "moreCommands"
+        "uwuEverything"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # PronounDB -> UserMessagesPronouns
     (lib.modules.doRename {
@@ -3979,38 +3280,32 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "PronounDB"
-          "pronounsFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "userMessagesPronouns"
-          "pronounsFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "PronounDB"
-          "showSelf"
-        ]
-      )
-      (
-        base
-        ++ [
-          "userMessagesPronouns"
-          "showSelf"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "PronounDB"
+        "pronounsFormat"
+      ];
+      to = base ++ [
+        "userMessagesPronouns"
+        "pronounsFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "PronounDB"
+        "showSelf"
+      ];
+      to = base ++ [
+        "userMessagesPronouns"
+        "showSelf"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # RepeatMessage -> RepeatMessages
     (lib.modules.doRename {
@@ -4028,38 +3323,32 @@ in
     })
 
     # Search -> ReplaceGoogleSearch
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "search"
-          "customEngineName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "replaceGoogleSearch"
-          "customEngineName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "search"
-          "customEngineURL"
-        ]
-      )
-      (
-        base
-        ++ [
-          "replaceGoogleSearch"
-          "customEngineURL"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "search"
+        "customEngineName"
+      ];
+      to = base ++ [
+        "replaceGoogleSearch"
+        "customEngineName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "search"
+        "customEngineURL"
+      ];
+      to = base ++ [
+        "replaceGoogleSearch"
+        "customEngineURL"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "search"
@@ -4073,22 +3362,19 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "search"
-          "replacementEngine"
-        ]
-      )
-      (
-        base
-        ++ [
-          "replaceGoogleSearch"
-          "replacementEngine"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "search"
+        "replacementEngine"
+      ];
+      to = base ++ [
+        "replaceGoogleSearch"
+        "replacementEngine"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # SearchReply -> FullSearchContext
     (lib.modules.doRename {
@@ -4119,88 +3405,73 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "showAllRoles"
-          "hideArrow"
-        ]
-      )
-      (
-        base
-        ++ [
-          "alwaysExpandRoles"
-          "hideArrow"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "showAllRoles"
+        "hideArrow"
+      ];
+      to = base ++ [
+        "alwaysExpandRoles"
+        "hideArrow"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # StatsfmPresence -> RichPresence
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "absEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "absPassword"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absPassword"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "absServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "absUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absUsername"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "absEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "absPassword"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absPassword"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "absServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "absUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "statsfmPresence"
@@ -4214,662 +3485,539 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "enabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "enabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "grEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "grRefreshInterval"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grRefreshInterval"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfApiKey"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfApiKey"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfCoverType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCoverType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfCustomName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCustomName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfNameDisplay"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfNameDisplay"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfOverrideType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfOverrideType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfPrivacyMode"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfPrivacyMode"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfShowPausedState"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowPausedState"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "jfUserId"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfUserId"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbHideWithActivity"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithActivity"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbMbContact"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMbContact"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbUseLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbUseTimeBar"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseTimeBar"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "lbUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmShowLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShowLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "sfmUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statsfmPresence"
-          "tosuEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "tosuEnabled"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "enabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "enabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "grEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "grRefreshInterval"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grRefreshInterval"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfApiKey"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfApiKey"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfCoverType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCoverType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfCustomName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCustomName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfEpisodeFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEpisodeFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfNameDisplay"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfNameDisplay"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfOverrideType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfOverrideType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfPrivacyMode"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfPrivacyMode"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfShowEpisodeName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowEpisodeName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfShowPausedState"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowPausedState"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "jfUserId"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfUserId"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbHideWithActivity"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithActivity"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbMbContact"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMbContact"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbUseLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbUseTimeBar"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseTimeBar"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "lbUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmAlwaysHideArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmAlwaysHideArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmShowLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShowLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "sfmUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statsfmPresence"
+        "tosuEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "tosuEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # StatusWhilePlaying -> AutoDNDWhilePlaying
     (lib.modules.doRename {
@@ -4885,38 +4033,32 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statusWhilePlaying"
-          "excludeInvisible"
-        ]
-      )
-      (
-        base
-        ++ [
-          "AutoDNDWhilePlaying"
-          "excludeInvisible"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "statusWhilePlaying"
-          "statusToSet"
-        ]
-      )
-      (
-        base
-        ++ [
-          "AutoDNDWhilePlaying"
-          "statusToSet"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "statusWhilePlaying"
+        "excludeInvisible"
+      ];
+      to = base ++ [
+        "AutoDNDWhilePlaying"
+        "excludeInvisible"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "statusWhilePlaying"
+        "statusToSet"
+      ];
+      to = base ++ [
+        "AutoDNDWhilePlaying"
+        "statusToSet"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # TimelessClips -> ClipsEnhancements
     (lib.modules.doRename {
@@ -4932,168 +4074,138 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "timelessClips"
-          "enableAdvancedSignals"
-        ]
-      )
-      (
-        base
-        ++ [
-          "clipsEnhancements"
-          "enableAdvancedSignals"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "timelessClips"
-          "enableScreenshotKeybind"
-        ]
-      )
-      (
-        base
-        ++ [
-          "clipsEnhancements"
-          "enableScreenshotKeybind"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "timelessClips"
-          "enableSpeakingIndicators"
-        ]
-      )
-      (
-        base
-        ++ [
-          "clipsEnhancements"
-          "enableSpeakingIndicators"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "timelessClips"
-          "enableVoiceOnlyClips"
-        ]
-      )
-      (
-        base
-        ++ [
-          "clipsEnhancements"
-          "enableVoiceOnlyClips"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "timelessClips"
-          "ignorePlatformRestriction"
-        ]
-      )
-      (
-        base
-        ++ [
-          "clipsEnhancements"
-          "ignorePlatformRestriction"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "timelessClips"
-          "richPresenceTagging"
-        ]
-      )
-      (
-        base
-        ++ [
-          "clipsEnhancements"
-          "richPresenceTagging"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "timelessClips"
+        "enableAdvancedSignals"
+      ];
+      to = base ++ [
+        "clipsEnhancements"
+        "enableAdvancedSignals"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "timelessClips"
+        "enableScreenshotKeybind"
+      ];
+      to = base ++ [
+        "clipsEnhancements"
+        "enableScreenshotKeybind"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "timelessClips"
+        "enableSpeakingIndicators"
+      ];
+      to = base ++ [
+        "clipsEnhancements"
+        "enableSpeakingIndicators"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "timelessClips"
+        "enableVoiceOnlyClips"
+      ];
+      to = base ++ [
+        "clipsEnhancements"
+        "enableVoiceOnlyClips"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "timelessClips"
+        "ignorePlatformRestriction"
+      ];
+      to = base ++ [
+        "clipsEnhancements"
+        "ignorePlatformRestriction"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "timelessClips"
+        "richPresenceTagging"
+      ];
+      to = base ++ [
+        "clipsEnhancements"
+        "richPresenceTagging"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # TosuRPC -> RichPresence
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "absEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "absPassword"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absPassword"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "absServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "absUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "absUsername"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "absEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "absPassword"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absPassword"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "absServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "absUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "absUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
     (lib.modules.doRename {
       from = base ++ [
         "TosuRPC"
@@ -5107,662 +4219,539 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "enabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "enabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "grEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "grRefreshInterval"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "grRefreshInterval"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfApiKey"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfApiKey"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfCoverType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCoverType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfCustomName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfCustomName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfEpisodeFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfEpisodeFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfNameDisplay"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfNameDisplay"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfOverrideType"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfOverrideType"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfPrivacyMode"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfPrivacyMode"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfServerUrl"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfServerUrl"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfShowEpisodeName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowEpisodeName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfShowPausedState"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfShowPausedState"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "jfUserId"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "jfUserId"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbHideWithActivity"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithActivity"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbMbContact"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMbContact"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbUseLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbUseTimeBar"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUseTimeBar"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "lbUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "lbUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmAlwaysHideArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmAlwaysHideArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmEnabled"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithExternalRpc"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmHideWithSpotify"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmHideWithSpotify"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmMissingArt"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmMissingArt"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmNameFormat"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmNameFormat"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmShareSong"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareSong"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmShareUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShareUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmShowLogo"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmShowLogo"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmStatusName"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmStatusName"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmUseListeningStatus"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUseListeningStatus"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "sfmUsername"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "sfmUsername"
-        ]
-      )
-    )
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "TosuRPC"
-          "tosuEnabled"
-        ]
-      )
-      (
-        base
-        ++ [
-          "richPresence"
-          "tosuEnabled"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "enabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "enabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "grEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "grRefreshInterval"
+      ];
+      to = base ++ [
+        "richPresence"
+        "grRefreshInterval"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfApiKey"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfApiKey"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfCoverType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCoverType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfCustomName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfCustomName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfEpisodeFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfEpisodeFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfNameDisplay"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfNameDisplay"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfOverrideType"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfOverrideType"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfPrivacyMode"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfPrivacyMode"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfServerUrl"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfServerUrl"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfShowEpisodeName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowEpisodeName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfShowPausedState"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfShowPausedState"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "jfUserId"
+      ];
+      to = base ++ [
+        "richPresence"
+        "jfUserId"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbHideWithActivity"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithActivity"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbMbContact"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMbContact"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbUseLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbUseTimeBar"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUseTimeBar"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "lbUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "lbUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmAlwaysHideArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmAlwaysHideArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmHideWithExternalRpc"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithExternalRpc"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmHideWithSpotify"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmHideWithSpotify"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmMissingArt"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmMissingArt"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmNameFormat"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmNameFormat"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmShareSong"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareSong"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmShareUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShareUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmShowLogo"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmShowLogo"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmStatusName"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmStatusName"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmUseListeningStatus"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUseListeningStatus"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "sfmUsername"
+      ];
+      to = base ++ [
+        "richPresence"
+        "sfmUsername"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
+    (lib.modules.doRename {
+      from = base ++ [
+        "TosuRPC"
+        "tosuEnabled"
+      ];
+      to = base ++ [
+        "richPresence"
+        "tosuEnabled"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # YoutubeDescription -> FixYoutubeEmbeds
     (lib.modules.doRename {
@@ -5778,22 +4767,19 @@ in
       warn = false;
       use = x: x;
     })
-    (lib.modules.mkRenamedOptionModule
-      (
-        base
-        ++ [
-          "youtubeDescription"
-          "youtubeDescription"
-        ]
-      )
-      (
-        base
-        ++ [
-          "fixYoutubeEmbeds"
-          "youtubeDescription"
-        ]
-      )
-    )
+    (lib.modules.doRename {
+      from = base ++ [
+        "youtubeDescription"
+        "youtubeDescription"
+      ];
+      to = base ++ [
+        "fixYoutubeEmbeds"
+        "youtubeDescription"
+      ];
+      visible = false;
+      warn = false;
+      use = x: x;
+    })
 
     # Setting renames: fontLoader
     (lib.modules.doRename {

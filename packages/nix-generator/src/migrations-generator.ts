@@ -31,7 +31,7 @@ function collectSettingNames(config: ReadonlyDeep<PluginConfig>): string[] {
 }
 
 /**
- * Generate a mkRenamedOptionModule call for a single setting path.
+ * Generate a silent alias for a single renamed plugin setting path.
  */
 function mkRenamedLine(oldPlugin: string, newPlugin: string, settingPath: string): string {
   const parts = normalizeSettingPath(settingPath).split('.');
@@ -42,14 +42,9 @@ function mkRenamedLine(oldPlugin: string, newPlugin: string, settingPath: string
   const from = `base ++ ["${oldId}" ${oldParts}]`;
   const to = `base ++ ["${newId}" ${newParts}]`;
 
-  if (settingPath === 'enable') {
-    // Plugin enable options can legitimately default to true after a rename.
-    // Emitting a trace from `use` would then warn users even when they never
-    // referenced the obsolete option, because doRename also sees target defaults.
-    return `    (lib.modules.doRename { from = ${from}; to = ${to}; visible = false; warn = false; use = x: x; })`;
-  }
-
-  return `    (lib.modules.mkRenamedOptionModule (${from}) (${to}))`;
+  // Plugin options commonly have defaults. Warning aliases can therefore fire
+  // during evaluation even when users never referenced the obsolete option.
+  return `    (lib.modules.doRename { from = ${from}; to = ${to}; visible = false; warn = false; use = x: x; })`;
 }
 
 /**
