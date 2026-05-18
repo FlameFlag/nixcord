@@ -18,7 +18,9 @@
   # Krisp noise cancellation patching
   python3,
   runCommand,
+  writeText,
   darwin ? null,
+  rcodesign,
 
   # Options
   branch ? "stable",
@@ -42,6 +44,25 @@ let
   withoutOpenSSL11 = lib.filter (input: !(lib.hasPrefix "openssl-1.1.1" (lib.getName input)));
 
   src = fetchurl { inherit (source.distro) url hash; };
+
+  darwinEntitlements = writeText "discord-entitlements.plist" ''
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>
+      <key>com.apple.security.cs.allow-jit</key>
+      <true/>
+      <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+      <true/>
+      <key>com.apple.security.cs.disable-library-validation</key>
+      <true/>
+      <key>com.apple.security.device.audio-input</key>
+      <true/>
+      <key>com.apple.security.device.camera</key>
+      <true/>
+    </dict>
+    </plist>
+  '';
 
   moduleSrcs = lib.mapAttrs (_: mod: fetchurl { inherit (mod) url hash; }) source.modules;
 
@@ -249,7 +270,12 @@ basePackage.overrideAttrs (oldAttrs: {
   # revisions that still take openssl_1_1 as a package argument, basePackage
   # overrides it with an empty placeholder before oldAttrs.buildInputs is
   # evaluated; then the placeholder is filtered out here.
-  nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ brotli ];
+  nativeBuildInputs =
+    (oldAttrs.nativeBuildInputs or [ ])
+    ++ [ brotli ]
+    ++ lib.optionals stdenvNoCC.isDarwin [
+      rcodesign
+    ];
   buildInputs =
     withoutOpenSSL11 (oldAttrs.buildInputs or [ ])
     ++ lib.optionals stdenvNoCC.isLinux [ libpulseaudio ];
@@ -404,6 +430,35 @@ basePackage.overrideAttrs (oldAttrs: {
       find ${resourcesDir}/modules/discord_desktop_core/app/images/badges \
         -type f -name '*.ico' -size +104857600c -delete 2>/dev/null || true
     ''
+    + lib.optionalString (stdenvNoCC.isDarwin && !withKrisp) ''
+      ${python3.interpreter} - "${resourcesDir}/modules/discord_voice/index.js" "${resourcesDir}/modules/discord_krisp/index.js" <<'PY'
+      import sys
+      from pathlib import Path
+
+      voice_path = Path(sys.argv[1])
+      krisp_path = Path(sys.argv[2])
+
+      text = voice_path.read_text()
+      old = """VoiceEngine.setupKrispPath = function () {
+          const krispPath = discordNative?.nativeModules?.getModulePath('discord_krisp');
+          if (krispPath != null) {
+              VoiceEngine.setKrispPath(krispPath);
+          }
+      };"""
+      new = """VoiceEngine.setupKrispPath = function () {};"""
+      if old not in text:
+          raise RuntimeError(f"could not find Krisp setup hook in {voice_path}")
+      voice_path.write_text(text.replace(old, new))
+
+      krisp_path.write_text("""\"use strict\";
+      module.exports = {
+          getNcModels: () => Promise.resolve([]),
+          getVadModels: () => Promise.resolve([]),
+          getNcModelFilename: () => Promise.resolve(null),
+      };
+      """)
+      PY
+    ''
     + lib.optionalString (withOpenASAR && openasar != null) ''
       cp -f ${openasar} ${resourcesDir}/app.asar
     ''
@@ -431,6 +486,15 @@ basePackage.overrideAttrs (oldAttrs: {
     + lib.optionalString stdenvNoCC.isDarwin ''
       wrapProgram "$out/bin/${binaryName}" \
         --run "${lib.getExe stageModules} \"$out/Applications/${binaryName}.app/Contents/Resources/modules\""
+
+      ${lib.getExe rcodesign} sign \
+        --exclude "Contents/Resources/modules/**" \
+        --entitlements-xml-file ${darwinEntitlements} \
+        --entitlements-xml-file "Contents/Frameworks/${binaryName} Helper.app:${darwinEntitlements}" \
+        --entitlements-xml-file "Contents/Frameworks/${binaryName} Helper (GPU).app:${darwinEntitlements}" \
+        --entitlements-xml-file "Contents/Frameworks/${binaryName} Helper (Plugin).app:${darwinEntitlements}" \
+        --entitlements-xml-file "Contents/Frameworks/${binaryName} Helper (Renderer).app:${darwinEntitlements}" \
+        "$out/Applications/${binaryName}.app"
     ''
     # Let Discord's NVENC screenshare path find NVIDIA's driver libraries on NixOS.
     + lib.optionalString stdenvNoCC.isLinux ''
