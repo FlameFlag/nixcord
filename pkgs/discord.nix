@@ -252,6 +252,20 @@ let
         ln -s "$src" "$dest"
       }
 
+      copy_module() {
+        local src="$1"
+        local dest="$2"
+
+        if [ -L "$dest" ]; then
+          rm "$dest"
+        elif [ -e "$dest" ]; then
+          chmod -R u+w "$dest" 2>/dev/null || true
+          rm -rf "$dest"
+        fi
+        cp -R "$src" "$dest"
+        chmod -R u+w "$dest"
+      }
+
       prune_unstaged_modules() {
         local dir="$1"
 
@@ -288,9 +302,17 @@ let
         prune_unstaged_modules "$module_data_dir"
       ''}
       for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleVersions)}; do
-        replace_link "$store_modules/$module" "$modules_dir/$module"
+        if [ "$module" = discord_krisp ]; then
+          copy_module "$store_modules/$module" "$modules_dir/$module"
+        else
+          replace_link "$store_modules/$module" "$modules_dir/$module"
+        fi
         ${lib.optionalString stdenvNoCC.isDarwin ''
-          replace_link "$store_modules/$module" "$module_data_dir/$module"
+          if [ "$module" = discord_krisp ]; then
+            copy_module "$store_modules/$module" "$module_data_dir/$module"
+          else
+            replace_link "$store_modules/$module" "$module_data_dir/$module"
+          fi
         ''}
       done
       cat > "$modules_dir/installed.json.tmp" <<'EOF'
