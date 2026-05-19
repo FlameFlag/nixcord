@@ -220,27 +220,78 @@ let
   # Discord's distro builds ship native modules separately from the host app.
   # Keep pinned modules linked where Discord/OpenASAR's module updater expects
   # them and repair manifests left behind by failed "undefined" module downloads.
+  # On macOS, current Discord builds expose native modules through module_data
+  # even when OpenASAR falls back to the legacy JS module updater.
   stageModules = writeShellApplication {
     name = "discord-stage-modules";
+    runtimeInputs = [ jq ];
     text = ''
       store_modules="$1"
-      modules_dir="${
+      config_dir="${
         if stdenvNoCC.isDarwin then
           "$HOME/Library/Application Support/${configDirName}"
         else
           "\${XDG_CONFIG_HOME:-$HOME/.config}/${configDirName}"
-      }/${version}/modules"
+      }"
+      modules_dir="$config_dir/${version}/modules"
+      ${lib.optionalString stdenvNoCC.isDarwin ''
+        module_data_dir="$config_dir/module_data"
+      ''}
+      staged_modules=" ${lib.concatStringsSep " " (lib.attrNames stagedModuleVersions)} "
 
-      mkdir -p "$modules_dir"
-      for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleVersions)}; do
-        dest="$modules_dir/$module"
+      replace_link() {
+        local src="$1"
+        local dest="$2"
+
         if [ -L "$dest" ]; then
           rm "$dest"
         elif [ -e "$dest" ]; then
           chmod -R u+w "$dest" 2>/dev/null || true
           rm -rf "$dest"
         fi
-        ln -s "$store_modules/$module" "$dest"
+        ln -s "$src" "$dest"
+      }
+
+      prune_unstaged_modules() {
+        local dir="$1"
+
+        [ -d "$dir" ] || return 0
+        for path in "$dir"/discord_*; do
+          [ -e "$path" ] || continue
+          module="$(basename "$path")"
+          case "$staged_modules" in
+            *" $module "*) ;;
+            *)
+              if [ -L "$path" ]; then
+                rm "$path"
+              else
+                chmod -R u+w "$path" 2>/dev/null || true
+                rm -rf "$path"
+              fi
+              rm -f "$dir/pending/$module"-*.zip 2>/dev/null || true
+              ;;
+          esac
+        done
+      }
+
+      mkdir -p "$modules_dir" ${lib.optionalString stdenvNoCC.isDarwin ''"$module_data_dir"''}
+      settings_file="$config_dir/settings.json"
+      if [ -f "$settings_file" ]; then
+        jq '. + {"SKIP_HOST_UPDATE": true, "SKIP_MODULE_UPDATE": true}' "$settings_file" > "$settings_file.tmp"
+        mv "$settings_file.tmp" "$settings_file"
+      else
+        echo '{"SKIP_HOST_UPDATE": true, "SKIP_MODULE_UPDATE": true}' > "$settings_file"
+      fi
+
+      prune_unstaged_modules "$modules_dir"
+      ${lib.optionalString stdenvNoCC.isDarwin ''
+        prune_unstaged_modules "$module_data_dir"
+      ''}
+      for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleVersions)}; do
+        replace_link "$store_modules/$module" "$modules_dir/$module"
+        ${lib.optionalString stdenvNoCC.isDarwin ''
+          replace_link "$store_modules/$module" "$module_data_dir/$module"
+        ''}
       done
       cat > "$modules_dir/installed.json.tmp" <<'EOF'
       ${builtins.toJSON (
