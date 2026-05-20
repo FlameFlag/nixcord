@@ -145,3 +145,35 @@ test('CUSTOM identifier default resolving to array of objects -> listOf attrs []
   expect(list.type).toBe('types.listOf types.attrs');
   expect(list.default).toEqual([]);
 });
+
+test('setting helper call returning satisfies object is extracted', () => {
+  const project = createProject();
+  const sourceFile = project.createSourceFile(
+    'test.ts',
+    `import { definePluginSettings, OptionType, PluginSettingDef } from "@utils/types";
+      const opt = (description: string) => ({
+        type: OptionType.BOOLEAN,
+        description,
+        default: true,
+        restartNeeded: true
+      } satisfies PluginSettingDef);
+      const settings = definePluginSettings({
+        showTimeouts: opt("Show member timeout icons in chat."),
+        showInvitesPaused: opt("Show the invites paused tooltip in the server list."),
+        showModView: opt("Show the member mod view context menu item in all servers.")
+      });`
+  );
+  const callExpr = sourceFile
+    .getDescendantsOfKind(SyntaxKind.CallExpression)
+    .find((call) => call.getExpression().getText() === 'definePluginSettings');
+  if (!callExpr) throw new Error('Call expression not found');
+  const checker = project.getTypeChecker();
+  const program = project.getProgram();
+  const result = extractSettingsFromCall(callExpr, checker, program);
+  const showTimeouts = result.showTimeouts as PluginSetting;
+  expect(showTimeouts.type).toBe('types.bool');
+  expect(showTimeouts.default).toBe(true);
+  expect(showTimeouts.description).toBe('Show member timeout icons in chat. (restart required)');
+  expect(showTimeouts.restartNeeded).toBe(true);
+  expect(Object.keys(result)).toHaveLength(3);
+});

@@ -8,6 +8,9 @@ export const unwrapNode = <T extends Node = Node>(node: T): T => {
   const typeAssert = node.asKind(SyntaxKind.TypeAssertionExpression);
   if (typeAssert) return unwrapNode(typeAssert.getExpression() as unknown as T);
 
+  const satisfies = node.asKind(SyntaxKind.SatisfiesExpression);
+  if (satisfies) return unwrapNode(satisfies.getExpression() as unknown as T);
+
   const paren = node.asKind(SyntaxKind.ParenthesizedExpression);
   if (paren) return unwrapNode(paren.getExpression() as unknown as T);
 

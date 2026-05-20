@@ -19,6 +19,7 @@
     "lint:health": "fallow health",
     "smoke:built-cli": "bun run build && bun scripts/smoke-built-cli.ts",
     "smoke:upstream": "bun run build && bun scripts/smoke-upstream.ts",
+    "drift:plugins": "bun scripts/check-plugin-drift.ts",
     "check": "bun run typecheck && bun run lint && bun run format:check && bun run smoke:built-cli"
   },
   "devDependencies": {

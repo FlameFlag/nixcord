@@ -1529,7 +1529,23 @@
   },
   "showHiddenThings": {
     "description": "Displays various hidden & moderator-only things regardless of permissions. (Shared between Vencord and Equicord)",
-    "settings": {}
+    "settings": {
+      "showTimeouts": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show member timeout icons in chat. (restart required)"
+      },
+      "showInvitesPaused": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show the invites paused tooltip in the server list. (restart required)"
+      },
+      "showModView": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show the member mod view context menu item in all servers. (restart required)"
+      }
+    }
   },
   "showTimeoutDuration": {
     "description": "Shows how much longer a user's timeout will last, either in the timeout icon tooltip or next to it (Shared between Vencord and Equicord)",
