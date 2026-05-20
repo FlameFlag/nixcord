@@ -141,6 +141,15 @@ export async function updateDeprecatedPlugins(
   // Remove circular rename pairs (ping-pong renames that cancel each other out)
   removeCircularRenames(existing.renames);
 
+  if (activePluginNames && normalizePluginName) {
+    const activeNameByNormalizedName = new Map(
+      [...activePluginNames].map((name) => [normalizePluginName(name), name])
+    );
+    for (const entry of Object.values(existing.renames)) {
+      entry.to = activeNameByNormalizedName.get(normalizePluginName(entry.to)) ?? entry.to;
+    }
+  }
+
   // Remove permanent (dateless) renames - they predate the date system and are well past expiry
   for (const [name, entry] of Object.entries(existing.renames)) {
     if (!entry.date) {

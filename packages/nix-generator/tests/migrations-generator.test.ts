@@ -1,6 +1,11 @@
 import { describe, test, expect } from 'vitest';
 import { generateMigrationsData, generateMigrationsJson } from '../src/migrations-generator.js';
+import { updateDeprecatedPlugins } from '../src/deprecated.js';
 import type { ReadonlyDeep, PluginConfig, DeprecatedData } from '@nixcord/shared';
+import fse from 'fs-extra';
+import { join } from 'pathe';
+import { tmpdir } from 'node:os';
+import { mkdtemp } from 'node:fs/promises';
 
 const mkPlugin = (description = ''): ReadonlyDeep<PluginConfig> => ({
   name: 'TestPlugin',
@@ -163,5 +168,34 @@ describe('generateMigrationsData()', () => {
     const result = generateMigrationsJson(deprecated, allPlugins);
 
     expect(result).toBe('{\n  "renames": [],\n  "removals": [\n    "deadPlugin"\n  ]\n}');
+  });
+});
+
+describe('updateDeprecatedPlugins()', () => {
+  test('canonicalizes rename targets to active plugin option names', async () => {
+    const tempDir = await mkdtemp(join(tmpdir(), 'nixcord-deprecated-'));
+    try {
+      await fse.writeJson(join(tempDir, 'deprecated.json'), {
+        renames: {
+          PronounDB: { to: 'UserMessagesPronouns', date: '2999-01-01' },
+        },
+        removals: {},
+        settingRenames: {},
+      });
+
+      const result = await updateDeprecatedPlugins(
+        { renames: [], deletions: [] },
+        tempDir,
+        false,
+        { info: () => {}, warn: () => {}, error: () => {}, success: () => {}, debug: () => {} },
+        [],
+        new Set(['userMessagesPronouns']),
+        (name) => name.charAt(0).toLowerCase() + name.slice(1)
+      );
+
+      expect(result.renames.PronounDB?.to).toBe('userMessagesPronouns');
+    } finally {
+      await fse.remove(tempDir);
+    }
   });
 });

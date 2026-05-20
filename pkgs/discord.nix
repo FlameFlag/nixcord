@@ -516,6 +516,13 @@ basePackage.overrideAttrs (oldAttrs: {
         "${resourcesDir}/modules/discord_voice/index.js" \
         "require('path').join(require('os').userInfo().homedir, 'Library', 'Application Support', '${configDirName}', '${version}', 'modules', 'discord_krisp')"
     ''
+    + lib.optionalString (withOpenASAR || withVencord || withEquicord) ''
+      mkdir -p ${resourcesDir}/node_modules
+      for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleVersions)}; do
+        rm -rf ${resourcesDir}/node_modules/"$module"
+        ln -s ../modules/"$module" ${resourcesDir}/node_modules/"$module"
+      done
+    ''
     + lib.optionalString (withOpenASAR && openasar != null) ''
       cp -f ${openasar} ${resourcesDir}/app.asar
     ''

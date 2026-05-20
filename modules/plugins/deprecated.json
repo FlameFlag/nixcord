@@ -77,7 +77,7 @@
       "date": "2026-05-11"
     },
     "PronounDB": {
-      "to": "UserMessagesPronouns",
+      "to": "userMessagesPronouns",
       "date": "2026-05-11"
     },
     "RepeatMessage": {

@@ -63,7 +63,7 @@ let
     outputHashMode = "recursive";
     outputHash =
       {
-        x86_64-linux = "sha256-IKhtqZ3W3ns2lMKQrymDi8Q0hZbDDEqS6taL4xoU7IQ=";
+        x86_64-linux = "sha256-ItcsOfw3Eiqdl2HDgpqvJfT25sU8xRxwzdGui9Vn0KU=";
         aarch64-darwin = "sha256-yDfNSchXbXtCRIvA47HCe+6Wen9m4aHZJVoT2tzfyA8=";
       }
       .${stdenvNoCC.hostPlatform.system}

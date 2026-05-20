@@ -139,6 +139,7 @@ let
       };
     in
     assert builtins.any (m: lib.hasInfix "PronounDB" m) warnings;
+    assert builtins.any (m: lib.hasInfix "userMessagesPronouns" m) warnings;
     true;
 
   # --- Test: deprecated freeform plugin name still triggers a warning ---
