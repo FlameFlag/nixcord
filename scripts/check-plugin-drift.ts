@@ -2,11 +2,13 @@
 import { copyFile, mkdir, mkdtemp, rm, stat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { spawn } from 'node:child_process';
+import { parseArgs } from 'node:util';
 
-import { CLI_CONFIG } from '@nixcord/shared';
+import { CLI_CONFIG, createLogger, type Logger } from '@nixcord/shared';
+import { runGeneratePluginOptions } from '../packages/cli/src/runner/index.js';
+import { logGeneratePluginOptionsSummary } from '../packages/cli/src/summary.js';
 
-type Args = {
+type DriftCheckOptions = {
   vencord: string;
   equicord: string;
   expectedDir: string;
@@ -23,8 +25,9 @@ Options:
   --vencord <path>       Vencord source path (default: ${CLI_CONFIG.sources.vencord})
   --equicord <path>      Equicord source path (default: ${CLI_CONFIG.sources.equicord})
   --expected-dir <path>  Directory with committed plugin JSON (default: modules/plugins)
-  --no-build             Use existing packages/cli/dist instead of building first
+  --no-build             Use the already-built workspace packages
   --keep-output          Keep the temporary generated output directory
+  --help, -h             Show this help
 `;
 
 const generatedFiles = [
@@ -36,75 +39,38 @@ const generatedFiles = [
   CLI_CONFIG.filenames.migrations,
 ] as const;
 
-function parseArgs(argv: string[]): Args {
-  const args: Args = {
-    vencord: CLI_CONFIG.sources.vencord,
-    equicord: CLI_CONFIG.sources.equicord,
-    expectedDir: 'modules/plugins',
-    build: true,
-    keepOutput: false,
+function parseDriftOptions(argv: string[]): DriftCheckOptions | 'help' {
+  const { values } = parseArgs({
+    args: argv,
+    options: {
+      vencord: { type: 'string', default: CLI_CONFIG.sources.vencord },
+      equicord: { type: 'string', default: CLI_CONFIG.sources.equicord },
+      'expected-dir': { type: 'string', default: 'modules/plugins' },
+      'no-build': { type: 'boolean', default: false },
+      'keep-output': { type: 'boolean', default: false },
+      help: { type: 'boolean', short: 'h', default: false },
+    },
+    strict: true,
+    allowPositionals: false,
+  });
+
+  if (values.help) return 'help';
+
+  return {
+    vencord: values.vencord,
+    equicord: values.equicord,
+    expectedDir: values['expected-dir'],
+    build: !values['no-build'],
+    keepOutput: values['keep-output'],
   };
-
-  for (let i = 0; i < argv.length; i++) {
-    const arg = argv[i];
-    const next = () => {
-      const value = argv[++i];
-      if (!value) throw new Error(`Missing value for ${arg}\n\n${usage}`);
-      return value;
-    };
-
-    switch (arg) {
-      case '--vencord':
-        args.vencord = next();
-        break;
-      case '--equicord':
-        args.equicord = next();
-        break;
-      case '--expected-dir':
-        args.expectedDir = next();
-        break;
-      case '--no-build':
-        args.build = false;
-        break;
-      case '--keep-output':
-        args.keepOutput = true;
-        break;
-      case '--help':
-      case '-h':
-        console.log(usage);
-        process.exit(0);
-      default:
-        throw new Error(`Unknown argument: ${arg}\n\n${usage}`);
-    }
-  }
-
-  return args;
 }
 
-function runCommand(command: string, commandArgs: string[]): Promise<void> {
-  return new Promise((resolvePromise, reject) => {
-    const child = spawn(command, commandArgs, { stdio: 'inherit' });
-    child.on('error', reject);
-    child.on('exit', (code) => {
-      if (code === 0) resolvePromise();
-      else
-        reject(
-          new Error(`${command} ${commandArgs.join(' ')} exited with code ${code ?? 'unknown'}`)
-        );
-    });
-  });
-}
+async function diffFiles(expectedPath: string, generatedPath: string): Promise<boolean> {
+  const result = await Bun.$`diff -u ${expectedPath} ${generatedPath}`.nothrow();
 
-function diffFiles(expectedPath: string, generatedPath: string): Promise<boolean> {
-  return new Promise((resolvePromise, reject) => {
-    const child = spawn('diff', ['-u', expectedPath, generatedPath], { stdio: 'inherit' });
-    child.on('error', reject);
-    child.on('exit', (code) => {
-      if (code === 0) resolvePromise(false);
-      else if (code === 1) resolvePromise(true);
-      else reject(new Error(`diff exited with code ${code ?? 'unknown'}`));
-    });
-  });
+  if (result.exitCode === 0) return false;
+  if (result.exitCode === 1) return true;
+  throw new Error(`diff exited with code ${result.exitCode}`);
 }
 
 async function assertExists(path: string): Promise<void> {
@@ -113,15 +79,14 @@ async function assertExists(path: string): Promise<void> {
   });
 }
 
-async function main(): Promise<void> {
-  const args = parseArgs(process.argv.slice(2));
-  const expectedDir = resolve(args.expectedDir);
+async function runDriftCheck(options: DriftCheckOptions, logger: Logger): Promise<void> {
+  const expectedDir = resolve(options.expectedDir);
   const tmp = await mkdtemp(join(tmpdir(), 'nixcord-plugin-drift-'));
   const generatedOutput = join(tmp, 'generated.nix');
   const generatedDir = join(tmp, CLI_CONFIG.directories.output);
 
   try {
-    if (args.build) await runCommand('bun', ['run', 'build']);
+    if (options.build) await Bun.$`bun run build`;
 
     await assertExists(join(expectedDir, CLI_CONFIG.filenames.deprecated));
     await mkdir(generatedDir, { recursive: true });
@@ -130,17 +95,19 @@ async function main(): Promise<void> {
       join(generatedDir, CLI_CONFIG.filenames.deprecated)
     );
 
-    await runCommand('node', [
-      resolve('packages/cli/dist/index.js'),
-      '--vencord',
-      args.vencord,
-      '--equicord',
-      args.equicord,
-      '--output',
-      generatedOutput,
-      '--skip-git-migrations',
-      '--verbose',
-    ]);
+    const result = await runGeneratePluginOptions({
+      vencordPath: options.vencord,
+      equicordPath: options.equicord,
+      outputPath: generatedOutput,
+      verbose: true,
+      logger,
+      vencordPluginsDir: CLI_CONFIG.directories.vencordPlugins,
+      equicordPluginsDir: CLI_CONFIG.directories.equicordPlugins,
+      skipGitMigrations: true,
+    });
+
+    if (!result.ok) throw result.error;
+    logGeneratePluginOptionsSummary(logger, result.value);
 
     let hasDrift = false;
     for (const file of generatedFiles) {
@@ -148,24 +115,34 @@ async function main(): Promise<void> {
       const generatedPath = join(generatedDir, file);
       await assertExists(expectedPath);
       await assertExists(generatedPath);
-      const changed = await diffFiles(expectedPath, generatedPath);
-      hasDrift ||= changed;
+      hasDrift ||= await diffFiles(expectedPath, generatedPath);
     }
 
     if (hasDrift) {
-      console.error(`Plugin output drift detected. Generated output is at ${generatedDir}`);
+      logger.error(`Plugin output drift detected. Generated output is at ${generatedDir}`);
       process.exitCode = 1;
     } else {
-      console.log('Plugin output is in sync with upstream sources.');
+      logger.success('Plugin output is in sync with upstream sources.');
     }
 
-    if (args.keepOutput) console.log(`Output kept at ${tmp}`);
+    if (options.keepOutput) logger.info(`Output kept at ${tmp}`);
   } finally {
-    if (!args.keepOutput) await rm(tmp, { recursive: true, force: true });
+    if (!options.keepOutput) await rm(tmp, { recursive: true, force: true });
   }
 }
 
+async function main(): Promise<void> {
+  const options = parseDriftOptions(process.argv.slice(2));
+  if (options === 'help') {
+    process.stdout.write(usage);
+    return;
+  }
+
+  await runDriftCheck(options, createLogger(true));
+}
+
 main().catch((error) => {
-  console.error(error instanceof Error ? error.message : error);
+  const logger = createLogger(true);
+  logger.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });

@@ -1204,11 +1204,6 @@
   "contentWarning": {
     "description": "Allows you to specify certain trigger words that will be blurred by default. Hovering/Clicking on the blurred content will reveal it. (Equicord-only)",
     "settings": {
-      "triggerWords": {
-        "type": "types.nullOr (types.listOf types.str)",
-        "default": null,
-        "description": "Words to blur in messages (restart required)"
-      },
       "onClick": {
         "type": "types.bool",
         "default": false,

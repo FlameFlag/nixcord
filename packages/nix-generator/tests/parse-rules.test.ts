@@ -46,4 +46,47 @@ describe('generateParseRulesModule()', () => {
     expect(parsed.upperNames).toContain('webhook');
     expect(parsed.upperNames).toContain('owner');
   });
+
+  test('sorts setting rename rules deterministically', () => {
+    const output = generateParseRulesModule(
+      {},
+      {
+        zebraPlugin: {
+          name: 'ZebraPlugin',
+          description: 'Out of order plugin',
+          settings: {
+            betaSetting: {
+              name: 'Beta Setting',
+              description: 'Needs a rename',
+              type: 'types.str',
+              default: '',
+            },
+            alphaSetting: {
+              name: 'Alpha Setting',
+              description: 'Needs a rename',
+              type: 'types.str',
+              default: '',
+            },
+          },
+        },
+        alphaPlugin: {
+          name: 'AlphaPlugin',
+          description: 'First plugin',
+          settings: {
+            renamedSetting: {
+              name: 'Renamed Setting',
+              description: 'Needs a rename',
+              type: 'types.str',
+              default: '',
+            },
+          },
+        },
+      },
+      {}
+    );
+    const parsed = JSON.parse(output);
+
+    expect(Object.keys(parsed.settingRenames)).toEqual(['alphaPlugin', 'zebraPlugin']);
+    expect(Object.keys(parsed.settingRenames.zebraPlugin)).toEqual(['alphaSetting', 'betaSetting']);
+  });
 });

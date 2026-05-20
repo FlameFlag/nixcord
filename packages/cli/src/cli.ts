@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 import { runGeneratePluginOptions } from './runner/index.js';
 import type { GeneratePluginOptionsParams } from './runner/index.js';
+import { logGeneratePluginOptionsSummary } from './summary.js';
 import { CLI_CONFIG } from '@nixcord/shared';
 import { createLogger } from '@nixcord/shared';
 
@@ -161,14 +162,7 @@ export const buildCli = (): Application<CommandContext> => {
         return new CliExecutionError(result.error, validationResult.data.verbose);
       }
 
-      const summary = result.value;
-      logger.success(
-        `${CLI_CONFIG.symbols.success} Generated plugin options in ${summary.pluginsDir}:\n` +
-          `  - ${CLI_CONFIG.filenames.shared}: ${summary.sharedCount} plugins (shared)\n` +
-          `  - ${CLI_CONFIG.filenames.vencord}: ${summary.vencordOnlyCount} plugins (Vencord-only)\n` +
-          `  - ${CLI_CONFIG.filenames.equicord}: ${summary.equicordOnlyCount} plugins (Equicord-only)\n` +
-          `  - ${CLI_CONFIG.filenames.parseRules}: parser rename rules`
-      );
+      logGeneratePluginOptionsSummary(logger, result.value);
     },
   });
 

@@ -7,77 +7,77 @@
       "showLogsButton": "ShowLogsButton",
       "showWhereMessageIsFrom": "ShowWhereMessageIsFrom"
     },
+    "platformIndicators": {
+      "consoleIcon": "ConsoleIcon"
+    },
     "randomVoice": {
-      "userAmountOperation": "UserAmountOperation",
+      "servers": "Servers",
       "userAmount": "UserAmount",
-      "servers": "Servers"
+      "userAmountOperation": "UserAmountOperation"
     },
     "richPresence": {
       "absEnabled": "abs_enabled",
-      "tosuEnabled": "tosu_enabled",
-      "sfmEnabled": "sfm_enabled",
-      "jfEnabled": "jf_enabled",
-      "lbEnabled": "lb_enabled",
-      "grEnabled": "gr_enabled",
+      "absPassword": "abs_password",
       "absServerUrl": "abs_serverUrl",
       "absUsername": "abs_username",
-      "absPassword": "abs_password",
-      "sfmUsername": "sfm_username",
-      "sfmShareUsername": "sfm_shareUsername",
-      "sfmShareSong": "sfm_shareSong",
-      "sfmHideWithSpotify": "sfm_hideWithSpotify",
-      "sfmHideWithExternalRpc": "sfm_hideWithExternalRPC",
-      "sfmStatusName": "sfm_statusName",
-      "sfmNameFormat": "sfm_nameFormat",
-      "sfmUseListeningStatus": "sfm_useListeningStatus",
-      "sfmMissingArt": "sfm_missingArt",
-      "sfmShowLogo": "sfm_showLogo",
-      "sfmAlwaysHideArt": "sfm_alwaysHideArt",
-      "jfServerUrl": "jf_serverUrl",
+      "grEnabled": "gr_enabled",
+      "grRefreshInterval": "gr_refreshInterval",
       "jfApiKey": "jf_apiKey",
-      "jfUserId": "jf_userId",
-      "jfNameDisplay": "jf_nameDisplay",
-      "jfCustomName": "jf_customName",
       "jfCoverType": "jf_coverType",
+      "jfCustomName": "jf_customName",
+      "jfEnabled": "jf_enabled",
       "jfEpisodeFormat": "jf_episodeFormat",
-      "jfShowEpisodeName": "jf_showEpisodeName",
+      "jfNameDisplay": "jf_nameDisplay",
       "jfOverrideType": "jf_overrideType",
-      "jfShowPausedState": "jf_showPausedState",
       "jfPrivacyMode": "jf_privacyMode",
-      "lbUsername": "lb_username",
-      "lbMbContact": "lb_mbContact",
-      "lbShareUsername": "lb_shareUsername",
-      "lbShareSong": "lb_shareSong",
-      "lbHideWithSpotify": "lb_hideWithSpotify",
+      "jfServerUrl": "jf_serverUrl",
+      "jfShowEpisodeName": "jf_showEpisodeName",
+      "jfShowPausedState": "jf_showPausedState",
+      "jfUserId": "jf_userId",
+      "lbEnabled": "lb_enabled",
       "lbHideWithActivity": "lb_hideWithActivity",
-      "lbUseTimeBar": "lb_useTimeBar",
-      "lbStatusName": "lb_statusName",
-      "lbNameFormat": "lb_nameFormat",
-      "lbUseListeningStatus": "lb_useListeningStatus",
+      "lbHideWithSpotify": "lb_hideWithSpotify",
+      "lbMbContact": "lb_mbContact",
       "lbMissingArt": "lb_missingArt",
+      "lbNameFormat": "lb_nameFormat",
+      "lbShareSong": "lb_shareSong",
+      "lbShareUsername": "lb_shareUsername",
+      "lbStatusName": "lb_statusName",
+      "lbUseListeningStatus": "lb_useListeningStatus",
       "lbUseLogo": "lb_useLogo",
-      "grRefreshInterval": "gr_refreshInterval"
+      "lbUsername": "lb_username",
+      "lbUseTimeBar": "lb_useTimeBar",
+      "sfmAlwaysHideArt": "sfm_alwaysHideArt",
+      "sfmEnabled": "sfm_enabled",
+      "sfmHideWithExternalRpc": "sfm_hideWithExternalRPC",
+      "sfmHideWithSpotify": "sfm_hideWithSpotify",
+      "sfmMissingArt": "sfm_missingArt",
+      "sfmNameFormat": "sfm_nameFormat",
+      "sfmShareSong": "sfm_shareSong",
+      "sfmShareUsername": "sfm_shareUsername",
+      "sfmShowLogo": "sfm_showLogo",
+      "sfmStatusName": "sfm_statusName",
+      "sfmUseListeningStatus": "sfm_useListeningStatus",
+      "sfmUsername": "sfm_username",
+      "tosuEnabled": "tosu_enabled"
     },
     "sekaiStickers": {
       "autoCloseModal": "AutoCloseModal"
     },
     "showBadgesInChat": {
-      "equicordDonorPosition": "EquicordDonorPosition",
-      "equicordContributorPosition": "EquicordContributorPosition",
-      "vencordDonorPosition": "VencordDonorPosition",
-      "vencordContributorPosition": "VencordContributorPosition",
+      "discordNitroPosition": "DiscordNitroPosition",
       "discordProfilePosition": "DiscordProfilePosition",
-      "discordNitroPosition": "DiscordNitroPosition"
+      "equicordContributorPosition": "EquicordContributorPosition",
+      "equicordDonorPosition": "EquicordDonorPosition",
+      "vencordContributorPosition": "VencordContributorPosition",
+      "vencordDonorPosition": "VencordDonorPosition"
     },
     "statusPresets": {
       "statusPresets": "StatusPresets"
     },
     "timezones": {
-      "showOwnTimezone": "\"Show Own Timezone\"",
-      "_24hTime": "\"24h Time\""
-    },
-    "platformIndicators": {
-      "consoleIcon": "ConsoleIcon"
+      "_24hTime": "\"24h Time\"",
+      "showOwnTimezone": "\"Show Own Timezone\""
     }
   },
   "upperNames": [

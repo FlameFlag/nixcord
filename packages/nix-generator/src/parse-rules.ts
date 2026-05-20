@@ -1,5 +1,5 @@
 import type { ReadonlyDeep, PluginConfig } from '@nixcord/shared';
-import { isNestedConfig } from '@nixcord/shared';
+import { isNestedConfig, sortedEntries } from '@nixcord/shared';
 import { toNixIdentifier } from './identifier.js';
 
 const baseUpperNames = [
@@ -64,7 +64,12 @@ function collectSettingRenames(
     }
   }
 
-  return renames;
+  return Object.fromEntries(
+    sortedEntries(renames).map(([pluginName, settings]) => [
+      pluginName,
+      Object.fromEntries(sortedEntries(settings)),
+    ])
+  );
 }
 
 export function generateParseRulesModule(
