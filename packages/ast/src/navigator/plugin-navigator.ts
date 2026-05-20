@@ -5,18 +5,18 @@
  * Still pure navigation - doesn't extract values, just finds nodes.
  */
 
-import type { SourceFile, CallExpression } from 'ts-morph';
-import {
-  findCallExpressionByName,
-  findAllCallExpressionsByName,
-  findCallExpressionByNameUnwrappingChains,
-} from './pattern-matcher.js';
+import type { CallExpression, SourceFile } from 'ts-morph';
 import {
   DEFINE_PLUGIN_FUNCTION_NAME,
   DEFINE_PLUGIN_SETTINGS_FUNCTION_NAME,
   MIGRATE_PLUGIN_SETTING_FUNCTION_NAME,
   MIGRATE_PLUGIN_SETTINGS_FUNCTION_NAME,
 } from '../extractor/constants.js';
+import {
+  findAllCallExpressionsByName,
+  findCallExpressionByName,
+  findCallExpressionByNameUnwrappingChains,
+} from './pattern-matcher.js';
 
 /**
  * Finds the definePlugin call expression in a source file.

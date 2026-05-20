@@ -5,7 +5,7 @@
  * looking for. They're pure navigation functions that return nodes.
  */
 
-import type { SourceFile, CallExpression, PropertyAccessExpression, Identifier } from 'ts-morph';
+import type { CallExpression, Identifier, PropertyAccessExpression, SourceFile } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
 
 import { asKind } from '../foundation/index.js';

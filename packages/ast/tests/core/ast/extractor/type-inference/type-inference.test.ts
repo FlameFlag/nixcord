@@ -1,5 +1,5 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
+import { describe, expect, test } from 'vitest';
 import { inferNixTypeAndEnumValues } from '../../../../../src/extractor/type-inference/index.js';
 import { createProject, createSettingProperties } from '../../../../helpers/test-utils.js';
 

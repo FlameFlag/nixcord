@@ -1,4 +1,4 @@
-import { join, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 import fse from 'fs-extra';
 
 export async function createTsConfig(

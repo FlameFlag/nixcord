@@ -5,6 +5,18 @@
     "clientKind": "git",
     "useIgnoreFile": true
   },
+  "files": {
+    "includes": [
+      "biome.jsonc",
+      "package.json",
+      "*.ts",
+      "scripts/**/*.ts",
+      "packages/*/src/**",
+      "packages/*/tests/**",
+      "docs/site"
+    ],
+    "ignoreUnknown": true
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -14,6 +26,21 @@
     "bracketSpacing": true,
     "useEditorconfig": true
   },
+  "linter": {
+    "enabled": false
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
@@ -21,5 +48,13 @@
       "semicolons": "always",
       "arrowParentheses": "always"
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.svelte"],
+      "assist": {
+        "enabled": false
+      }
+    }
+  ]
 }

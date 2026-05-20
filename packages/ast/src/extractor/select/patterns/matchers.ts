@@ -1,20 +1,20 @@
 // fallow-ignore-file code-duplication
 import type {
-  TypeChecker,
+  ArrayLiteralExpression,
+  CallExpression,
+  Identifier,
   Node,
   PropertyAccessExpression,
-  Identifier,
-  CallExpression,
-  ArrayLiteralExpression,
+  TypeChecker,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
 import { asKind, getFirstArgumentOfKind } from '../../../foundation/index.js';
 import {
-  METHOD_NAME_MAP,
-  METHOD_NAME_KEYS,
-  METHOD_NAME_VALUES,
-  METHOD_NAME_FROM,
   GLOBAL_ARRAY_NAME,
+  METHOD_NAME_FROM,
+  METHOD_NAME_KEYS,
+  METHOD_NAME_MAP,
+  METHOD_NAME_VALUES,
 } from '../../constants.js';
 
 export const isArrayLiteral = (node: Node): node is ArrayLiteralExpression =>

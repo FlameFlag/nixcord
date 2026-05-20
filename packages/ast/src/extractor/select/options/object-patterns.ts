@@ -1,21 +1,21 @@
-import type { TypeChecker, Node, ObjectLiteralExpression } from 'ts-morph';
-import { SyntaxKind } from 'ts-morph';
 import { Err, fromNullable } from '@nixcord/shared';
+import type { Node, ObjectLiteralExpression, TypeChecker } from 'ts-morph';
+import { SyntaxKind } from 'ts-morph';
 
 import {
   evaluate,
-  unwrapNode,
-  resolveIdentifierInitializerNode,
   isMethodCall,
   iteratePropertyAssignments,
+  resolveIdentifierInitializerNode,
+  unwrapNode,
 } from '../../../foundation/index.js';
+import { METHOD_NAME_KEYS, METHOD_NAME_VALUES } from '../../constants.js';
 import type { SelectOptionsResult } from '../../types.js';
 import {
-  createSelectOptionsResult,
   createExtractionError,
+  createSelectOptionsResult,
   ExtractionErrorKind,
 } from '../../types.js';
-import { METHOD_NAME_KEYS, METHOD_NAME_VALUES } from '../../constants.js';
 
 function extractFromObjectMethod(
   call: Node,

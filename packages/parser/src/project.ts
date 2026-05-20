@@ -1,7 +1,7 @@
-import { Project, ts } from 'ts-morph';
-import { normalize, join } from 'pathe';
-import fse from 'fs-extra';
 import fg from 'fast-glob';
+import fse from 'fs-extra';
+import { join, normalize } from 'pathe';
+import { Project, ts } from 'ts-morph';
 
 const TSCONFIG_FILE_NAME = 'tsconfig.json';
 

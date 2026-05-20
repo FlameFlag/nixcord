@@ -1,9 +1,9 @@
-import { describe, test, expect, vi } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
+import { describe, expect, test, vi } from 'vitest';
 import { extractSelectOptions } from '../../../../../src/extractor/select/index.js';
-import * as resolve from '../../../../../src/foundation/resolve.js';
 import { evaluateThemesValues } from '../../../../../src/foundation/index.js';
-import { createProject, unwrapResult, expectResultError } from '../../../../helpers/test-utils.js';
+import * as resolve from '../../../../../src/foundation/resolve.js';
+import { createProject, expectResultError, unwrapResult } from '../../../../helpers/test-utils.js';
 
 describe('extractSelectOptions()', () => {
   test('handles spread arrays in options', () => {

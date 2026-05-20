@@ -1,20 +1,17 @@
 <script lang="ts">
-  import { stringifyDocValue } from "../options";
-  import type { OptionEntry } from "../types";
+import { stringifyDocValue } from '../options';
+import type { OptionEntry } from '../types';
 
-  let { option }: { option: OptionEntry } = $props();
+let { option }: { option: OptionEntry } = $props();
 
-  const optionId = $derived(`opt-${option.name}`);
+const optionId = $derived(`opt-${option.name}`);
 </script>
 
 <div class="option-definition">
-  <dt class="option-heading">
-    <span class="term">
-      <a id={optionId} href={`#${optionId}`} aria-label={option.name}></a>
-      <a class="term" href={`#${optionId}`}>
-        <code class="option">{option.name}</code>
-      </a>
-    </span>
+  <dt id={optionId} class="option-heading">
+    <a class="term" href={`#${optionId}`} aria-label={option.name}>
+      <code class="option">{option.name}</code>
+    </a>
   </dt>
   <dd class="option-body">
     <p class="option-description">{stringifyDocValue(option.description)}</p>

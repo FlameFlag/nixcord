@@ -1,19 +1,19 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
-import { createProject } from '../../../helpers/test-utils.js';
+import { describe, expect, test } from 'vitest';
 import {
   asKind,
+  extractBooleanLiteralValue,
+  extractStringLiteralValue,
+  getFirstArgumentOfKind,
   getPropertyAssignment,
   getPropertyInitializer,
-  extractStringLiteralValue,
-  extractBooleanLiteralValue,
   getPropertyName,
-  iteratePropertyAssignments,
   hasProperty,
   isMethodCall,
-  getFirstArgumentOfKind,
+  iteratePropertyAssignments,
   resolveIdentifierInitializerNode,
 } from '../../../../src/foundation/index.js';
+import { createProject } from '../../../helpers/test-utils.js';
 
 describe('node-helpers', () => {
   describe('asKind', () => {

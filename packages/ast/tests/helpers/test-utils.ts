@@ -1,8 +1,9 @@
 // fallow-ignore-file duplicate-export
+
+import { ModuleKind, Project } from 'ts-morph';
 import { expect } from 'vitest';
-import { Project, ModuleKind } from 'ts-morph';
-import { createMinimalProps } from '../../src/extractor/type-inference/types.js';
 import type { SettingProperties } from '../../src/extractor/type-inference/types.js';
+import { createMinimalProps } from '../../src/extractor/type-inference/types.js';
 
 let cachedProject: Project | undefined;
 

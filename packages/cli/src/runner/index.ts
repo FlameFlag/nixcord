@@ -1,23 +1,26 @@
-import { dirname, join, normalize, resolve } from 'pathe';
-import fse from 'fs-extra';
-
-import { z } from 'zod';
-import { type Result, Ok, Err, parseOrThrow } from '@nixcord/shared';
-import { oraPromise } from 'ora';
-import type { Simplify } from '@nixcord/shared';
-
-import { CLI_CONFIG } from '@nixcord/shared';
-import { parsePlugins, categorizePlugins, extractMigrations } from '@nixcord/parser';
-import type { ParsePluginsOptions } from '@nixcord/parser';
 import {
-  generatePluginModule,
-  generateParseRulesModule,
   generateMigrationsJson,
-  updateDeprecatedPlugins,
+  generateParseRulesModule,
+  generatePluginModule,
   toNixIdentifier,
+  updateDeprecatedPlugins,
 } from '@nixcord/nix-generator';
-import { ParsedPluginsResultSchema, type ParsedPluginsResult } from '@nixcord/shared';
-import type { Logger } from '@nixcord/shared';
+import type { ParsePluginsOptions } from '@nixcord/parser';
+import { categorizePlugins, extractMigrations, parsePlugins } from '@nixcord/parser';
+import type { Logger, Simplify } from '@nixcord/shared';
+import {
+  CLI_CONFIG,
+  Err,
+  Ok,
+  type ParsedPluginsResult,
+  ParsedPluginsResultSchema,
+  parseOrThrow,
+  type Result,
+} from '@nixcord/shared';
+import fse from 'fs-extra';
+import { oraPromise } from 'ora';
+import { dirname, join, normalize, resolve } from 'pathe';
+import { z } from 'zod';
 
 type SourceLabel = 'Vencord' | 'Equicord';
 

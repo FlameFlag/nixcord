@@ -57,13 +57,13 @@
               (import ./docs {
                 pkgs = pkgs;
                 lib = pkgs.lib;
-                revision = inputs.self.rev or "main";
+                revision = inputs.self.rev or inputs.self.dirtyRev or "main";
               }).html;
             docs-json =
               (import ./docs {
                 pkgs = pkgs;
                 lib = pkgs.lib;
-                revision = inputs.self.rev or "main";
+                revision = inputs.self.rev or inputs.self.dirtyRev or "main";
               }).json;
           };
 

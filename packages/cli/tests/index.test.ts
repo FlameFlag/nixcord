@@ -1,11 +1,11 @@
-import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
-import { join, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import fse from 'fs-extra';
+import { generatePluginModule } from '@nixcord/nix-generator';
+import { parsePlugins } from '@nixcord/parser';
 import type { ParsedPluginsResult, PluginConfig } from '@nixcord/shared';
 import { ParsedPluginsResultSchema } from '@nixcord/shared';
-import { parsePlugins } from '@nixcord/parser';
-import { generatePluginModule } from '@nixcord/nix-generator';
+import fse from 'fs-extra';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { validateParsedResults } from '../src/runner/index.js';
 
 const cliMocks = vi.hoisted(() => ({

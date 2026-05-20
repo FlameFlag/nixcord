@@ -1,18 +1,17 @@
-import { resolve } from 'pathe';
+import { CLI_CONFIG, createLogger } from '@nixcord/shared';
 import {
+  type Application,
   buildApplication,
   buildCommand,
-  run,
-  type Application,
   type CommandContext,
+  run,
 } from '@stricli/core';
+import { resolve } from 'pathe';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
-import { runGeneratePluginOptions } from './runner/index.js';
 import type { GeneratePluginOptionsParams } from './runner/index.js';
+import { runGeneratePluginOptions } from './runner/index.js';
 import { logGeneratePluginOptionsSummary } from './summary.js';
-import { CLI_CONFIG } from '@nixcord/shared';
-import { createLogger } from '@nixcord/shared';
 
 const DEFAULT_OUTPUT = 'modules/plugins-generated.nix';
 const DESCRIPTION =

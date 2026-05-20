@@ -34,7 +34,7 @@ let
 
   deps = stdenvNoCC.mkDerivation {
     pname = "nixcord-docs-deps";
-    version = revision;
+    version = "latest";
 
     src = depsSrc;
     nativeBuildInputs = [ bun ];
@@ -92,6 +92,7 @@ stdenvNoCC.mkDerivation {
   buildPhase = ''
     runHook preBuild
     export HOME="$TMPDIR"
+    export NIXCORD_REVISION=${lib.escapeShellArg revision}
     cd docs/site
     node node_modules/vite/bin/vite.js build
     cd ../..

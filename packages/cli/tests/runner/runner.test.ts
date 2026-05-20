@@ -1,11 +1,11 @@
-import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
-import { join, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import fse from 'fs-extra';
-import { runGeneratePluginOptions, validateParsedResults } from '../../src/runner/index.js';
+import type { ParsedPluginsResult, PluginConfig, Result } from '@nixcord/shared';
 import { CLI_CONFIG } from '@nixcord/shared';
+import fse from 'fs-extra';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import type { GeneratePluginOptionsSummary } from '../../src/runner/index.js';
-import type { Result, PluginConfig, ParsedPluginsResult } from '@nixcord/shared';
+import { runGeneratePluginOptions, validateParsedResults } from '../../src/runner/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

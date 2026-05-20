@@ -1,10 +1,9 @@
-import type { ObjectLiteralExpression, Node } from 'ts-morph';
+import type { Node, ObjectLiteralExpression } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { TYPE_PROPERTY, OPTION_TYPE_CUSTOM } from './constants.js';
+import { OPTION_TYPE_CUSTOM, TYPE_PROPERTY } from './constants.js';
 import type { SettingProperties } from './type-inference/types.js';
 
-export { getDefaultPropertyInitializer } from '../foundation/index.js';
-export { isBooleanEnumValues } from '../foundation/index.js';
+export { getDefaultPropertyInitializer, isBooleanEnumValues } from '../foundation/index.js';
 
 const checkPropertyAccessCustom = (node: Node): boolean =>
   node.getKind() === SyntaxKind.PropertyAccessExpression &&

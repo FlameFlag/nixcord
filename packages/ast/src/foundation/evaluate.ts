@@ -1,11 +1,11 @@
+import { Err, Ok, unwrapOrUndefined } from '@nixcord/shared';
 import type { Node, TypeChecker } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { Ok, Err, unwrapOrUndefined } from '@nixcord/shared';
+import { isLiteralNode } from './predicates.js';
+import { resolveIdentifierWithFallback, resolveToObjectLiteral } from './resolve.js';
 import type { EvaluationResult } from './types.js';
 import { createEvaluationError } from './types.js';
-import { isLiteralNode } from './predicates.js';
 import { unwrapNode } from './unwrap.js';
-import { resolveIdentifierWithFallback, resolveToObjectLiteral } from './resolve.js';
 
 const evaluateLiteral = (node: Node): EvaluationResult => {
   const unwrapped = unwrapNode(node);

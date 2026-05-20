@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { OptionSection } from "../types";
-  import OptionDefinition from "./OptionDefinition.svelte";
+import type { OptionSection } from '../types';
+import OptionDefinition from './OptionDefinition.svelte';
 
-  let { section, open = false }: { section: OptionSection; open?: boolean } = $props();
+let { section, open = false }: { section: OptionSection; open?: boolean } = $props();
 </script>
 
 <details id={section.id} class="option-section" {open}>
   <summary class="option-section-summary">
-    <span class="option-section-heading">{section.title}</span>
+    <h3 class="option-section-heading">{section.title}</h3>
     <span class="option-section-count">{section.options.length} options</span>
   </summary>
 

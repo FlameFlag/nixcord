@@ -10,30 +10,30 @@
  * - Theme patterns: `options: themeNames.map(name => ({ value: themes[name] }))`
  */
 
+import { Err } from '@nixcord/shared';
 import type {
-  TypeChecker,
-  ObjectLiteralExpression,
   Node,
+  ObjectLiteralExpression,
   PropertyAccessExpression,
+  TypeChecker,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { Err } from '@nixcord/shared';
+import { resolveIdentifierInitializerNode, unwrapNode } from '../../../foundation/index.js';
+import { METHOD_NAME_MAP, OPTIONS_PROPERTY } from '../../constants.js';
 import type { SelectOptionsResult } from '../../types.js';
 import {
-  createSelectOptionsResult,
   createExtractionError,
+  createSelectOptionsResult,
   ExtractionErrorKind,
 } from '../../types.js';
-import { unwrapNode, resolveIdentifierInitializerNode } from '../../../foundation/index.js';
 import { isArrayFromCall } from '../patterns/index.js';
 import {
-  extractOptionsFromArrayMap,
   extractOptionsFromArrayFrom,
+  extractOptionsFromArrayMap,
   extractOptionsFromObjectArray,
 } from './array-patterns.js';
 import { extractOptionsFromObjectKeys, extractOptionsFromObjectValues } from './object-patterns.js';
 import { extractOptionsFromThemePattern } from './theme-patterns.js';
-import { OPTIONS_PROPERTY, METHOD_NAME_MAP } from '../../constants.js';
 
 const emptyOptions = (): SelectOptionsResult => createSelectOptionsResult([]);
 

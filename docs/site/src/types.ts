@@ -1,8 +1,3 @@
-export type LiteralExpression = {
-  _type?: string;
-  text?: string;
-};
-
 export type OptionDeclaration = {
   name?: string;
   url?: string;
@@ -24,7 +19,7 @@ export type OptionEntry = RawOption & {
   searchText: string;
 };
 
-export type OptionCategory = "core" | "shared" | "vencord" | "equicord";
+export type OptionCategory = 'core' | 'shared' | 'vencord' | 'equicord';
 
 export type OptionSection = {
   description: string;

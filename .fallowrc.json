@@ -1,6 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
   "entry": ["vite.config.shared.ts"],
+  "audit": {
+    "gate": "all"
+  },
+  "health": {
+    "maxCyclomatic": 50,
+    "maxCognitive": 60,
+    "maxCrap": 300
+  },
   "duplicates": {
     "ignore": ["**/tests/**", "**/*.test.ts"]
   }

@@ -1,6 +1,6 @@
 import type { Node, ObjectLiteralExpression, PropertyAssignment } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { iteratePropertyAssignments, getPropertyAssignments } from '../foundation/index.js';
+import { getPropertyAssignments, iteratePropertyAssignments } from '../foundation/index.js';
 
 export { getPropertyAssignments as findAllPropertyAssignments };
 

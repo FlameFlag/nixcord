@@ -1,5 +1,5 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
+import { describe, expect, test } from 'vitest';
 import { resolveCallExpressionReturn } from '../../../../../src/foundation/index.js';
 import { createProject } from '../../../../helpers/test-utils.js';
 

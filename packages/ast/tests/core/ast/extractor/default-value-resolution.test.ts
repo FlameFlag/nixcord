@@ -1,7 +1,7 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
-import { createProject } from '../../../helpers/test-utils.js';
+import { describe, expect, test } from 'vitest';
 import { resolveDefaultValue } from '../../../../src/extractor/default-value-resolution.js';
+import { createProject } from '../../../helpers/test-utils.js';
 
 describe('resolveDefaultValue', () => {
   test('resolves default for enum type without explicit default', () => {

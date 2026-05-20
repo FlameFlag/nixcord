@@ -31,14 +31,14 @@ export const TS_ARRAY_GENERIC_PATTERN = 'Array<';
 // Re-export canonical Nix type strings from shared (authoritative source)
 export {
   NIX_ENUM_TYPE,
-  NIX_TYPE_BOOL,
-  NIX_TYPE_STR,
-  NIX_TYPE_INT,
-  NIX_TYPE_FLOAT,
   NIX_TYPE_ATTRS,
-  NIX_TYPE_NULL_OR_STR,
-  NIX_TYPE_LIST_OF_STR,
+  NIX_TYPE_BOOL,
+  NIX_TYPE_FLOAT,
+  NIX_TYPE_INT,
   NIX_TYPE_LIST_OF_ATTRS,
+  NIX_TYPE_LIST_OF_STR,
+  NIX_TYPE_NULL_OR_STR,
+  NIX_TYPE_STR,
 } from '@nixcord/shared';
 
 // OptionType names as they appear in plugin sources

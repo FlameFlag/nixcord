@@ -1,26 +1,25 @@
-import type { TypeChecker, ObjectLiteralExpression } from 'ts-morph';
+import type { ObjectLiteralExpression, TypeChecker } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-
+import { getDefaultPropertyInitializer } from '../foundation/index.js';
 import {
+  COMPONENT_PROPERTY,
   DEFAULT_PROPERTY,
   NIX_ENUM_TYPE,
-  NIX_TYPE_BOOL,
-  NIX_TYPE_STR,
   NIX_TYPE_ATTRS,
+  NIX_TYPE_BOOL,
   NIX_TYPE_LIST_OF_ATTRS,
-  NIX_TYPE_NULL_OR_STR,
   NIX_TYPE_LIST_OF_STR,
-  COMPONENT_PROPERTY,
+  NIX_TYPE_NULL_OR_STR,
+  NIX_TYPE_STR,
 } from './constants.js';
-import { getDefaultPropertyInitializer } from '../foundation/index.js';
-import { isCustomType } from './type-helpers.js';
-import { extractSelectDefault } from './select/index.js';
 import { extractDefaultValue } from './default-value.js';
 import {
   hasObjectArrayDefault,
   hasStringArrayDefault,
   resolveIdentifierArrayDefault,
 } from './default-value-checks/index.js';
+import { extractSelectDefault } from './select/index.js';
+import { isCustomType } from './type-helpers.js';
 import { createMinimalProps } from './type-inference/types.js';
 
 const BARE_COMPONENT_ALLOWED_PROPS = new Set([

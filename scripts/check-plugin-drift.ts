@@ -108,7 +108,13 @@ async function readJson<T>(path: string): Promise<T> {
 
 async function applyOverrides(expectedDir: string, generatedDir: string): Promise<void> {
   const overridesPath = join(expectedDir, 'overrides.json');
-  if (!(await stat(overridesPath).then(() => true, () => false))) return;
+  if (
+    !(await stat(overridesPath).then(
+      () => true,
+      () => false
+    ))
+  )
+    return;
 
   const overrides = await readJson<PluginOverrides>(overridesPath);
   for (const [category, filename] of Object.entries(overridableFiles)) {

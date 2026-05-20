@@ -1,15 +1,15 @@
 import type {
-  Node,
-  TypeChecker,
-  Identifier,
-  ObjectLiteralExpression,
   CallExpression,
+  Identifier,
+  Node,
+  ObjectLiteralExpression,
   PropertyAccessExpression,
   Symbol as TsMorphSymbol,
+  TypeChecker,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { unwrapNode } from './unwrap.js';
 import { asKind, iteratePropertyAssignments } from './property.js';
+import { unwrapNode } from './unwrap.js';
 
 const resolveSymbol = (
   node: Node,

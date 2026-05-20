@@ -1,4 +1,4 @@
-import type { ReadonlyDeep, PluginConfig, DeprecatedData } from '@nixcord/shared';
+import type { DeprecatedData, PluginConfig, ReadonlyDeep } from '@nixcord/shared';
 import { isNestedConfig, sortedEntries } from '@nixcord/shared';
 import { toNixIdentifier } from './identifier.js';
 

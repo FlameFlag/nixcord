@@ -10,7 +10,7 @@ let
 
   site = pkgs.callPackage ./site.nix {
     nixcord-options = optionsDoc.optionsJSON;
-    revision = "latest";
+    inherit revision;
   };
 in
 {

@@ -1,14 +1,14 @@
-import type { SourceFile, TypeChecker, ObjectLiteralExpression, CallExpression } from 'ts-morph';
+import type { CallExpression, ObjectLiteralExpression, SourceFile, TypeChecker } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
 import {
   asKind,
-  extractStringLiteralValue,
   extractBooleanLiteralValue,
+  extractStringLiteralValue,
 } from '../foundation/index.js';
-import { NAME_PROPERTY, DESCRIPTION_PROPERTY, IS_MODIFIED_PROPERTY } from './constants.js';
+import { findDefinePluginCall } from '../navigator/plugin-navigator.js';
+import { DESCRIPTION_PROPERTY, IS_MODIFIED_PROPERTY, NAME_PROPERTY } from './constants.js';
 import type { ExtractedPluginInfo } from './types.js';
 import { ExtractedPluginInfoSchema } from './types.js';
-import { findDefinePluginCall } from '../navigator/plugin-navigator.js';
 
 const getFirstObjectArg = (callExpr: CallExpression): ObjectLiteralExpression | undefined => {
   const args = callExpr.getArguments();

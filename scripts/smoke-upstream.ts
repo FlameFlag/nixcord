@@ -1,11 +1,10 @@
 #!/usr/bin/env bun
+import { spawn } from 'node:child_process';
 import { mkdtemp, readFile, rm, stat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { spawn } from 'node:child_process';
-
-import { CLI_CONFIG } from '@nixcord/shared';
 import { parsePlugins } from '@nixcord/parser';
+import { CLI_CONFIG } from '@nixcord/shared';
 import equicordPackage from 'equicord/package.json' with { type: 'json' };
 import vencordPackage from 'vencord/package.json' with { type: 'json' };
 
@@ -80,7 +79,8 @@ function parseArgs(argv: string[]): Args {
     minVencordPlugins: args.minVencordPlugins,
     minEquicordPlugins: args.minEquicordPlugins,
   })) {
-    if (!Number.isFinite(value) || value < 0) throw new Error(`${name} must be a non-negative number`);
+    if (!Number.isFinite(value) || value < 0)
+      throw new Error(`${name} must be a non-negative number`);
   }
   return args;
 }
@@ -91,7 +91,10 @@ function runCommand(command: string, commandArgs: string[]): Promise<void> {
     child.on('error', reject);
     child.on('exit', (code) => {
       if (code === 0) resolvePromise();
-      else reject(new Error(`${command} ${commandArgs.join(' ')} exited with code ${code ?? 'unknown'}`));
+      else
+        reject(
+          new Error(`${command} ${commandArgs.join(' ')} exited with code ${code ?? 'unknown'}`)
+        );
     });
   });
 }
@@ -107,7 +110,8 @@ async function assertExists(path: string): Promise<void> {
 }
 
 const countPlugins = (plugins: Record<string, unknown>): number => Object.keys(plugins).length;
-const isValidDeprecatedPluginName = (name: string): boolean => /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name);
+const isValidDeprecatedPluginName = (name: string): boolean =>
+  /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name);
 
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
@@ -143,9 +147,12 @@ async function main(): Promise<void> {
       readJson<Record<string, unknown>>(join(pluginsDir, CLI_CONFIG.filenames.vencord)),
       readJson<Record<string, unknown>>(join(pluginsDir, CLI_CONFIG.filenames.equicord)),
     ]);
-    const generatedTotal = countPlugins(shared) + countPlugins(vencordOnly) + countPlugins(equicordOnly);
+    const generatedTotal =
+      countPlugins(shared) + countPlugins(vencordOnly) + countPlugins(equicordOnly);
     if (generatedTotal < args.minVencordPlugins) {
-      throw new Error(`Generated plugin count too low: ${generatedTotal} < ${args.minVencordPlugins}`);
+      throw new Error(
+        `Generated plugin count too low: ${generatedTotal} < ${args.minVencordPlugins}`
+      );
     }
 
     const [vencordResult, equicordResult] = await Promise.all([
@@ -160,26 +167,40 @@ async function main(): Promise<void> {
     ]);
 
     const vencordCount = countPlugins(vencordResult.vencordPlugins);
-    const equicordCount = countPlugins(equicordResult.vencordPlugins) + countPlugins(equicordResult.equicordPlugins);
+    const equicordCount =
+      countPlugins(equicordResult.vencordPlugins) + countPlugins(equicordResult.equicordPlugins);
     if (vencordCount < args.minVencordPlugins) {
-      throw new Error(`Parsed Vencord plugin count too low: ${vencordCount} < ${args.minVencordPlugins}`);
+      throw new Error(
+        `Parsed Vencord plugin count too low: ${vencordCount} < ${args.minVencordPlugins}`
+      );
     }
     if (equicordCount < args.minEquicordPlugins) {
-      throw new Error(`Parsed Equicord plugin count too low: ${equicordCount} < ${args.minEquicordPlugins}`);
+      throw new Error(
+        `Parsed Equicord plugin count too low: ${equicordCount} < ${args.minEquicordPlugins}`
+      );
     }
 
-    const diagnostics = [...(vencordResult.diagnostics ?? []), ...(equicordResult.diagnostics ?? [])];
+    const diagnostics = [
+      ...(vencordResult.diagnostics ?? []),
+      ...(equicordResult.diagnostics ?? []),
+    ];
     if (diagnostics.length > args.maxDiagnostics) {
       throw new Error(`Parser diagnostics spiked: ${diagnostics.length} > ${args.maxDiagnostics}`);
     }
 
-    const sourceRenames = [...(vencordResult.pluginRenames ?? []), ...(equicordResult.pluginRenames ?? [])].filter(
-      (rename) => isValidDeprecatedPluginName(rename.oldName) && isValidDeprecatedPluginName(rename.newName)
+    const sourceRenames = [
+      ...(vencordResult.pluginRenames ?? []),
+      ...(equicordResult.pluginRenames ?? []),
+    ].filter(
+      (rename) =>
+        isValidDeprecatedPluginName(rename.oldName) && isValidDeprecatedPluginName(rename.newName)
     );
     const deprecated = await readJson<{ renames?: Record<string, { to?: string }> }>(
       join(pluginsDir, CLI_CONFIG.filenames.deprecated)
     );
-    const missingRenames = sourceRenames.filter((rename) => deprecated.renames?.[rename.oldName]?.to !== rename.newName);
+    const missingRenames = sourceRenames.filter(
+      (rename) => deprecated.renames?.[rename.oldName]?.to !== rename.newName
+    );
     if (sourceRenames.length > 0 && missingRenames.length > 0) {
       throw new Error(
         `deprecated.json is missing ${missingRenames.length}/${sourceRenames.length} source-level plugin renames from migratePluginSettings()`

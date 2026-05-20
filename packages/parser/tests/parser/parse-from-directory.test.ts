@@ -1,10 +1,9 @@
-import { describe, test, expect } from 'vitest';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
 import fse from 'fs-extra';
+import { describe, expect, test } from 'vitest';
 import { parsePlugins } from '../../src/index.js';
-import { createTsConfig, createPluginFile, createPlugin } from '../helpers/test-utils.js';
+import { createPlugin, createPluginFile, createTsConfig } from '../helpers/test-utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

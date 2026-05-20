@@ -1,5 +1,5 @@
-import type { Node } from 'ts-morph';
 import type { Result } from '@nixcord/shared';
+import type { Node } from 'ts-morph';
 
 export type EnumLiteral = string | number | boolean;
 

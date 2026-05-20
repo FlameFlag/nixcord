@@ -1,7 +1,7 @@
 import type { Node } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { unwrapNode } from './unwrap.js';
 import type { EnumLiteral } from './types.js';
+import { unwrapNode } from './unwrap.js';
 
 const BOOLEAN_ENUM_LENGTH = 2;
 

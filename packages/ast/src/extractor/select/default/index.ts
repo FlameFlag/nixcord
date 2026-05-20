@@ -1,18 +1,18 @@
-import type { TypeChecker, ObjectLiteralExpression, Node } from 'ts-morph';
-import { SyntaxKind } from 'ts-morph';
 import { Ok } from '@nixcord/shared';
+import type { Node, ObjectLiteralExpression, TypeChecker } from 'ts-morph';
+import { SyntaxKind } from 'ts-morph';
 
 import {
+  evaluate,
+  getArrowFunctionBody,
   getPropertyAssignment,
   getPropertyInitializer,
-  getArrowFunctionBody,
-  evaluate,
-  unwrapNode,
   resolveIdentifierInitializerNode,
+  unwrapNode,
 } from '../../../foundation/index.js';
-import type { SelectDefaultResult } from '../../types.js';
 import { DEFAULT_PROPERTY, VALUE_PROPERTY } from '../../constants.js';
 import { resolveEnumLikeValue } from '../../enum-resolver.js';
+import type { SelectDefaultResult } from '../../types.js';
 
 const extractDefaultFromArrowFunction = (
   args: Node[],

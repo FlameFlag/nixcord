@@ -4,7 +4,7 @@
 
 import type { Node } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { getPropertyInitializer, extractBooleanLiteralValue } from '../../foundation/index.js';
+import { extractBooleanLiteralValue, getPropertyInitializer } from '../../foundation/index.js';
 
 export interface SettingProperties {
   typeNode: ReturnType<typeof getPropertyInitializerForType>;

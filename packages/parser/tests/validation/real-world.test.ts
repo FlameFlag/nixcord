@@ -1,7 +1,7 @@
-import { describe, test, expect } from 'vitest';
 import { existsSync } from 'node:fs';
-import { parsePlugins, categorizePlugins } from '../../src/index.js';
 import type { PluginSetting } from '@nixcord/shared';
+import { describe, expect, test } from 'vitest';
+import { categorizePlugins, parsePlugins } from '../../src/index.js';
 
 const VENCORD_PATH = '/tmp/vencord';
 const EQUICORD_PATH = '/tmp/equicord';

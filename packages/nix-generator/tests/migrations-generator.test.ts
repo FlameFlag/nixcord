@@ -1,11 +1,11 @@
-import { describe, test, expect } from 'vitest';
-import { generateMigrationsData, generateMigrationsJson } from '../src/migrations-generator.js';
-import { updateDeprecatedPlugins } from '../src/deprecated.js';
-import type { ReadonlyDeep, PluginConfig, DeprecatedData } from '@nixcord/shared';
+import { mkdtemp } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import type { DeprecatedData, PluginConfig, ReadonlyDeep } from '@nixcord/shared';
 import fse from 'fs-extra';
 import { join } from 'pathe';
-import { tmpdir } from 'node:os';
-import { mkdtemp } from 'node:fs/promises';
+import { describe, expect, test } from 'vitest';
+import { updateDeprecatedPlugins } from '../src/deprecated.js';
+import { generateMigrationsData, generateMigrationsJson } from '../src/migrations-generator.js';
 
 const mkPlugin = (description = ''): ReadonlyDeep<PluginConfig> => ({
   name: 'TestPlugin',

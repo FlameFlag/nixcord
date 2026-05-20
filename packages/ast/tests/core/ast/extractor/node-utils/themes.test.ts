@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { evaluateThemesValues } from '../../../../../src/foundation/index.js';
 import { createProject } from '../../../../helpers/test-utils.js';
 

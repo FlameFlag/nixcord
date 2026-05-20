@@ -1,8 +1,8 @@
-import { join } from 'pathe';
-import fse from 'fs-extra';
-import type { Logger, SettingRename, DeprecatedData, DeprecatedRenameEntry } from '@nixcord/shared';
-import { sortedEntries, RENAME_EXPIRY_DAYS, REMOVAL_EXPIRY_DAYS } from '@nixcord/shared';
 import type { PluginMigrationInfo } from '@nixcord/git-analyzer';
+import type { DeprecatedData, DeprecatedRenameEntry, Logger, SettingRename } from '@nixcord/shared';
+import { REMOVAL_EXPIRY_DAYS, RENAME_EXPIRY_DAYS, sortedEntries } from '@nixcord/shared';
+import fse from 'fs-extra';
+import { join } from 'pathe';
 
 /** Plugin names must be valid Nix identifiers (no dots or other special chars). */
 function isValidPluginName(name: string): boolean {

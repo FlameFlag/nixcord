@@ -1,7 +1,7 @@
-import { describe, test, expect } from 'vitest';
+import type { PluginConfig, PluginSetting } from '@nixcord/shared';
 import { SyntaxKind } from 'ts-morph';
+import { describe, expect, test } from 'vitest';
 import { extractSettingsFromObject } from '../../../../../src/extractor/settings-extractor.js';
-import type { PluginSetting, PluginConfig } from '@nixcord/shared';
 import { createProject } from '../../../../helpers/test-utils.js';
 
 describe('extractSettingsFromObject()', () => {

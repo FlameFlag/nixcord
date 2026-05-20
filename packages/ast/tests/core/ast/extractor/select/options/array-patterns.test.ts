@@ -1,8 +1,8 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
+import { describe, expect, test } from 'vitest';
 import {
-  extractOptionsFromArrayMap,
   extractOptionsFromArrayFrom,
+  extractOptionsFromArrayMap,
   extractOptionsFromObjectArray,
 } from '../../../../../../src/extractor/select/options/array-patterns.js';
 import { createProject } from '../../../../../helpers/test-utils.js';

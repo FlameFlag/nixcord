@@ -1,13 +1,13 @@
-import type { ReadonlyDeep, PluginConfig, PluginSetting } from '@nixcord/shared';
+import type { PluginConfig, PluginSetting, ReadonlyDeep } from '@nixcord/shared';
 import {
-  isBoolean,
-  isNumber,
-  isString,
-  isNull,
-  isArray,
-  isObject,
-  isNestedConfig,
   INTEGER_STRING_PATTERN,
+  isArray,
+  isBoolean,
+  isNestedConfig,
+  isNull,
+  isNumber,
+  isObject,
+  isString,
   NIX_ENUM_TYPE,
   NIX_TYPE_FLOAT,
   NIX_TYPE_INT,

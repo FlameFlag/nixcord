@@ -1,30 +1,30 @@
+import type { PluginConfig, PluginSetting } from '@nixcord/shared';
 import type {
-  TypeChecker,
-  Program,
-  ObjectLiteralExpression,
-  PropertyAssignment,
-  Node,
-  SourceFile,
   ArrowFunction,
   CallExpression,
+  Node,
+  ObjectLiteralExpression,
+  Program,
+  PropertyAssignment,
+  SourceFile,
+  Type,
+  TypeChecker,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-
+import type { EnumLiteral } from '../foundation/index.js';
 import {
   extractStringLiteralValue,
-  iteratePropertyAssignments,
   getPropertyInitializer,
+  iteratePropertyAssignments,
+  resolveCallExpressionReturn,
   tryEvaluate,
   unwrapNode,
-  resolveCallExpressionReturn,
 } from '../foundation/index.js';
-import { NAME_PROPERTY, DESCRIPTION_PROPERTY } from './constants.js';
 import { findDefinePluginCall } from '../navigator/plugin-navigator.js';
-import { extractSelectOptions } from './select/index.js';
 import { tsTypeToNixType } from '../parser.js';
-import { resolveDefaultValue, isBareComponentSetting } from './default-value-resolution.js';
-import type { PluginSetting, PluginConfig } from '@nixcord/shared';
-import type { EnumLiteral } from '../foundation/index.js';
+import { DESCRIPTION_PROPERTY, NAME_PROPERTY } from './constants.js';
+import { isBareComponentSetting, resolveDefaultValue } from './default-value-resolution.js';
+import { extractSelectOptions } from './select/index.js';
 
 const BOOLEAN_NIX_TYPE = 'types.bool';
 
@@ -90,6 +90,31 @@ const extractLiteralUnionFromTypeNode = (node: Node): readonly EnumLiteral[] | u
   return undefined;
 };
 
+const extractLiteralUnionFromTypes = (
+  unionTypes: readonly Type[],
+  textNode: Node
+): readonly EnumLiteral[] | undefined => {
+  if (unionTypes.length === 0) return undefined;
+
+  const values = unionTypes
+    .map((unionType) => {
+      if (unionType.isStringLiteral() || unionType.isNumberLiteral()) {
+        return unionType.getLiteralValue();
+      }
+      if (unionType.isBooleanLiteral()) {
+        const text = unionType.getText(textNode);
+        if (text === 'true') return true;
+        if (text === 'false') return false;
+      }
+      return undefined;
+    })
+    .filter((value): value is EnumLiteral =>
+      ['string', 'number', 'boolean'].includes(typeof value)
+    );
+
+  return values.length === unionTypes.length ? Object.freeze(values) : undefined;
+};
+
 const extractLiteralUnionValues = (
   node: Node | undefined,
   checker: TypeChecker
@@ -104,49 +129,14 @@ const extractLiteralUnionValues = (
   try {
     const type = checker.getTypeAtLocation(typeNode);
     const unionTypes = type.getUnionTypes();
-    if (unionTypes.length > 0) {
-      const values = unionTypes
-        .map((unionType) => {
-          if (unionType.isStringLiteral() || unionType.isNumberLiteral()) {
-            return unionType.getLiteralValue();
-          }
-          if (unionType.isBooleanLiteral()) {
-            const text = unionType.getText(typeNode);
-            if (text === 'true') return true;
-            if (text === 'false') return false;
-          }
-          return undefined;
-        })
-        .filter((value): value is EnumLiteral =>
-          ['string', 'number', 'boolean'].includes(typeof value)
-        );
-
-      return values.length === unionTypes.length ? Object.freeze(values) : undefined;
-    }
+    const values = extractLiteralUnionFromTypes(unionTypes, typeNode);
+    if (values) return values;
   } catch {}
 
   try {
     const type = checker.getTypeAtLocation(node);
     const unionTypes = type.getUnionTypes();
-    if (unionTypes.length === 0) return undefined;
-
-    const values = unionTypes
-      .map((unionType) => {
-        if (unionType.isStringLiteral() || unionType.isNumberLiteral()) {
-          return unionType.getLiteralValue();
-        }
-        if (unionType.isBooleanLiteral()) {
-          const text = unionType.getText(node);
-          if (text === 'true') return true;
-          if (text === 'false') return false;
-        }
-        return undefined;
-      })
-      .filter((value): value is EnumLiteral =>
-        ['string', 'number', 'boolean'].includes(typeof value)
-      );
-
-    return values.length === unionTypes.length ? Object.freeze(values) : undefined;
+    return extractLiteralUnionFromTypes(unionTypes, node);
   } catch {
     return undefined;
   }

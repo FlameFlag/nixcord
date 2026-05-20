@@ -3,7 +3,6 @@
  * detectors live in options/, default/, and patterns/ submodules.
  */
 
-export { extractSelectOptions } from './options/index.js';
+export type { SelectDefaultResult, SelectOptionsResult } from '../types.js';
 export { extractSelectDefault } from './default/index.js';
-
-export type { SelectOptionsResult, SelectDefaultResult } from '../types.js';
+export { extractSelectOptions } from './options/index.js';

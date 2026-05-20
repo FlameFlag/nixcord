@@ -1,10 +1,10 @@
 import type {
+  ArrayLiteralExpression,
+  CallExpression,
   Node,
   ObjectLiteralExpression,
-  PropertyAssignment,
-  CallExpression,
   PropertyAccessExpression,
-  ArrayLiteralExpression,
+  PropertyAssignment,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
 

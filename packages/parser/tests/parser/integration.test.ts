@@ -1,11 +1,10 @@
-import { describe, test, expect } from 'vitest';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import type { PluginConfig, PluginSetting } from '@nixcord/shared';
 import fse from 'fs-extra';
+import { describe, expect, test } from 'vitest';
 import { parsePlugins } from '../../src/index.js';
-import type { PluginSetting, PluginConfig } from '@nixcord/shared';
-import { createTsConfig, createPlugin } from '../helpers/test-utils.js';
+import { createPlugin, createTsConfig } from '../helpers/test-utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

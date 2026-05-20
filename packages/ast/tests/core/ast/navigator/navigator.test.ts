@@ -1,20 +1,20 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
-import { createProject } from '../../../helpers/test-utils.js';
+import { describe, expect, test } from 'vitest';
 import {
   findAllPropertyAssignments,
-  findPropertyAssignment,
   findNestedObjectLiterals,
+  findPropertyAssignment,
 } from '../../../../src/navigator/node-traversal.js';
 import {
   findCallExpressionByName,
-  unwrapChainedCall,
   findCallExpressionByNameUnwrappingChains,
+  unwrapChainedCall,
 } from '../../../../src/navigator/pattern-matcher.js';
 import {
   findDefinePluginCall,
   findDefinePluginSettings,
 } from '../../../../src/navigator/plugin-navigator.js';
+import { createProject } from '../../../helpers/test-utils.js';
 
 describe('node-traversal', () => {
   describe('findAllPropertyAssignments', () => {

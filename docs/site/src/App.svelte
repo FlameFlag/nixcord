@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { mainToc, revision } from "./content";
-  import IntroductionSection from "./components/IntroductionSection.svelte";
-  import OptionsReference from "./components/OptionsReference.svelte";
-  import PrefaceSection from "./components/PrefaceSection.svelte";
-  import TableOfContents from "./components/TableOfContents.svelte";
-  import TitlePage from "./components/TitlePage.svelte";
+import { mainToc, revision } from './content';
+import IntroductionSection from './components/IntroductionSection.svelte';
+import OptionsReference from './components/OptionsReference.svelte';
+import PrefaceSection from './components/PrefaceSection.svelte';
+import TableOfContents from './components/TableOfContents.svelte';
+import TitlePage from './components/TitlePage.svelte';
 </script>
 
 <svelte:head>

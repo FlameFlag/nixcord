@@ -43,15 +43,19 @@
 
 @layer components {
   .book {
-    @apply mx-auto min-h-screen max-w-[62rem] border-x border-neutral-300 bg-white px-5 py-8 text-[16px] sm:px-10 lg:px-16;
+    @apply mx-auto min-h-screen max-w-248 border-x border-neutral-300 bg-white px-5 py-8 text-[16px] sm:px-10 lg:px-16;
   }
 
-  .titlepage > div:first-child {
+  .titlepage hgroup {
     @apply mb-5;
   }
 
   .titlepage hr {
     @apply my-6 border-0 border-t border-neutral-300;
+  }
+
+  .title {
+    @apply leading-tight font-semibold;
   }
 
   h1.title {
@@ -63,10 +67,14 @@
   }
 
   h2.title {
+    @apply mt-8 mb-4 text-[1.9rem] text-nmd-blue;
+  }
+
+  h3.title {
     @apply mt-7 mb-3 text-[1.45rem] leading-snug font-semibold text-neutral-900;
   }
 
-  h2.subtitle {
+  .subtitle {
     @apply mt-1 text-[1.25rem] font-normal text-neutral-600;
   }
 
@@ -78,7 +86,7 @@
     @apply mt-10 border-t border-neutral-300 pt-7;
   }
 
-  .book > .section > .titlepage:first-child h1.title {
+  .book > .section > .titlepage:first-child h2.title {
     @apply mt-0;
   }
 
@@ -96,7 +104,7 @@
   }
 
   .toc-local {
-    @apply max-w-[28rem] border border-neutral-300 border-l-4 border-l-neutral-300 bg-neutral-50 px-4 py-3;
+    @apply max-w-md border border-neutral-300 border-l-4 border-l-neutral-300 bg-neutral-50 px-4 py-3;
   }
 
   .toc-title {
@@ -115,11 +123,11 @@
     @apply inline-block;
   }
 
-  .itemizedlist ul {
+  ul.itemizedlist {
     @apply my-3 ml-8 list-disc;
   }
 
-  .orderedlist ol {
+  ol.orderedlist {
     @apply my-3 ml-8 list-decimal;
   }
 
@@ -131,7 +139,6 @@
     @apply my-4 border-l-4 border-nmd-info bg-sky-50 px-4 py-3 text-neutral-900;
   }
 
-  .blockquote blockquote,
   .blockquote p {
     @apply m-0;
   }
@@ -181,7 +188,7 @@
   }
 
   .option-section-heading {
-    @apply text-[1.35rem] leading-snug font-semibold;
+    @apply my-0 inline text-[1.35rem] leading-snug font-semibold;
   }
 
   .option-section-count {

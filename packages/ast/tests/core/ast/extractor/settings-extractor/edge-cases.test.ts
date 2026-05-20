@@ -1,7 +1,7 @@
-import { test, expect } from 'vitest';
-import { SyntaxKind } from 'ts-morph';
-import { extractSettingsFromCall } from '../../../../../src/extractor/settings-extractor.js';
 import type { PluginSetting } from '@nixcord/shared';
+import { SyntaxKind } from 'ts-morph';
+import { expect, test } from 'vitest';
+import { extractSettingsFromCall } from '../../../../../src/extractor/settings-extractor.js';
 import { createProject } from '../../../../helpers/test-utils.js';
 
 test('CUSTOM with computed object default (Object.fromEntries) -> attrs with {}', () => {

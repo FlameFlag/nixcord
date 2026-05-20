@@ -1,8 +1,8 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
-import { createProject } from '../../../helpers/test-utils.js';
+import { describe, expect, test } from 'vitest';
 import { extractPluginInfo } from '../../../../src/extractor/plugin.js';
 import { findDefinePluginSettings } from '../../../../src/navigator/plugin-navigator.js';
+import { createProject } from '../../../helpers/test-utils.js';
 
 describe('extractPluginInfo()', () => {
   test('extracts plugin name', () => {

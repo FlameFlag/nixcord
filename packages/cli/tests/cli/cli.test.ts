@@ -1,11 +1,10 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
-import { join, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CLI_CONFIG, Err, Ok } from '@nixcord/shared';
 import fse from 'fs-extra';
-import { buildCli, runCli, handleCliError, CliExecutionError } from '../../src/cli.js';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { buildCli, CliExecutionError, handleCliError, runCli } from '../../src/cli.js';
 import { runGeneratePluginOptions } from '../../src/runner/index.js';
-import { Ok, Err } from '@nixcord/shared';
-import { CLI_CONFIG } from '@nixcord/shared';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

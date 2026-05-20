@@ -1,5 +1,5 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
+import { describe, expect, test } from 'vitest';
 import { extractDefaultValue } from '../../../../src/extractor/default-value.js';
 import { createProject, unwrapResult } from '../../../helpers/test-utils.js';
 

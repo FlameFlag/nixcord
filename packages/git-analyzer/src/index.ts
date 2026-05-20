@@ -1,7 +1,8 @@
 // fallow-ignore-file code-duplication
+
+import { REMOVAL_EXPIRY_DAYS, RENAME_EXPIRY_DAYS } from '@nixcord/shared';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { RENAME_EXPIRY_DAYS, REMOVAL_EXPIRY_DAYS } from '@nixcord/shared';
 
 const execAsync = promisify(exec);
 

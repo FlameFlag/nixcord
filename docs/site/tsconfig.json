@@ -15,7 +15,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
-    "types": ["svelte", "vite/client"]
+    "types": ["node", "svelte", "vite/client"]
   },
   "include": ["src/**/*.ts", "src/**/*.svelte", "vite.config.ts"]
 }

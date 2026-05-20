@@ -1,33 +1,31 @@
-import { Project, SyntaxKind, type ObjectLiteralExpression, type SourceFile } from 'ts-morph';
-import pLimit from 'p-limit';
-import { basename, dirname, normalize, join } from 'pathe';
-import fse from 'fs-extra';
-import fg from 'fast-glob';
-import { z } from 'zod';
-import type {
-  ReadonlyDeep,
-  SetOptional,
-  PluginConfig,
-  ParsedPluginsResult,
-  PluginSetting,
-  SettingRename,
-  PluginRename,
-  ParseDiagnostic,
-} from '@nixcord/shared';
-import { extractPluginInfo } from '@nixcord/ast';
 import {
-  findDefinePluginSettings,
-  findDefinePluginCall,
-  findMigratePluginSettingCalls,
-  findMigratePluginSettingsCalls,
-} from '@nixcord/ast';
-import {
+  extractPluginInfo,
   extractSettingsFromCall,
   extractSettingsFromObject,
+  findDefinePluginCall,
+  findDefinePluginSettings,
+  findMigratePluginSettingCalls,
+  findMigratePluginSettingsCalls,
   getPropertyInitializer,
   isBareComponentSetting,
 } from '@nixcord/ast';
+import type {
+  ParseDiagnostic,
+  ParsedPluginsResult,
+  PluginConfig,
+  PluginRename,
+  PluginSetting,
+  ReadonlyDeep,
+  SetOptional,
+  SettingRename,
+} from '@nixcord/shared';
 import { CLI_CONFIG } from '@nixcord/shared';
+import fg from 'fast-glob';
+import fse from 'fs-extra';
+import pLimit from 'p-limit';
+import { basename, dirname, join, normalize } from 'pathe';
+import { type ObjectLiteralExpression, type Project, type SourceFile, SyntaxKind } from 'ts-morph';
+import { z } from 'zod';
 import { createProject } from './project.js';
 
 const PLUGIN_SOURCE_FILE_PATTERNS = ['index.tsx', 'index.ts', 'settings.ts'] as const;

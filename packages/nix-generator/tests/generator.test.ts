@@ -1,6 +1,6 @@
-import { describe, test, expect } from 'vitest';
-import { generateSettingJson, generatePluginJson, generatePluginModule } from '../src/generator.js';
-import type { ReadonlyDeep, PluginSetting, PluginConfig } from '@nixcord/shared';
+import type { PluginConfig, PluginSetting, ReadonlyDeep } from '@nixcord/shared';
+import { describe, expect, test } from 'vitest';
+import { generatePluginJson, generatePluginModule, generateSettingJson } from '../src/generator.js';
 
 describe('generateSettingJson()', () => {
   test('regular setting -> includes type', () => {

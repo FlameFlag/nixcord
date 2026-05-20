@@ -1,16 +1,16 @@
-import { describe, test, expect } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import {
-  Ok,
-  Err,
-  isOk,
-  isErr,
-  map,
-  flatMap,
-  unwrapOr,
-  fromNullable,
-  mapError,
   collect,
+  Err,
+  flatMap,
+  fromNullable,
   fromPredicate,
+  isErr,
+  isOk,
+  map,
+  mapError,
+  Ok,
+  unwrapOr,
 } from '../src/result.js';
 
 describe('Result utilities', () => {

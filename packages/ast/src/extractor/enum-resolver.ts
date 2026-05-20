@@ -1,5 +1,5 @@
-import type { TypeChecker, Node } from 'ts-morph';
-import { Ok, Err } from '@nixcord/shared';
+import { Err, Ok } from '@nixcord/shared';
+import type { Node, TypeChecker } from 'ts-morph';
 import { evaluate } from '../foundation/index.js';
 import type { EnumValueResult } from './types.js';
 import { createExtractionError, ExtractionErrorKind } from './types.js';

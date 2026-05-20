@@ -1,33 +1,31 @@
-import type { TypeChecker, Program, Node } from 'ts-morph';
+import { isObject, isPrimitive, OptionTypeMap } from '@nixcord/shared';
+import type { Node, Program, TypeChecker } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-
-import { isObject, isPrimitive } from '@nixcord/shared';
-import { OptionTypeMap } from '@nixcord/shared';
 import {
-  PARSE_INT_RADIX,
   NIX_ENUM_TYPE,
-  NIX_TYPE_BOOL,
-  NIX_TYPE_STR,
-  NIX_TYPE_INT,
-  NIX_TYPE_FLOAT,
   NIX_TYPE_ATTRS,
-  NIX_TYPE_LIST_OF_STR,
+  NIX_TYPE_BOOL,
+  NIX_TYPE_FLOAT,
+  NIX_TYPE_INT,
   NIX_TYPE_LIST_OF_ATTRS,
-  OPTION_TYPE_BOOLEAN,
-  OPTION_TYPE_STRING,
-  OPTION_TYPE_NUMBER,
+  NIX_TYPE_LIST_OF_STR,
+  NIX_TYPE_STR,
   OPTION_TYPE_BIGINT,
-  OPTION_TYPE_SELECT,
-  OPTION_TYPE_SLIDER,
+  OPTION_TYPE_BOOLEAN,
   OPTION_TYPE_COMPONENT,
   OPTION_TYPE_CUSTOM,
-  TS_TYPE_STRING,
-  TS_TYPE_NUMBER,
-  TS_TYPE_BOOLEAN,
+  OPTION_TYPE_NUMBER,
+  OPTION_TYPE_SELECT,
+  OPTION_TYPE_SLIDER,
+  OPTION_TYPE_STRING,
+  PARSE_INT_RADIX,
   TS_ARRAY_BRACKET_PATTERN,
   TS_ARRAY_GENERIC_PATTERN,
+  TS_TYPE_BOOLEAN,
+  TS_TYPE_NUMBER,
+  TS_TYPE_STRING,
 } from './extractor/constants.js';
-import { evaluate, typeMatches, isBooleanEnumValues } from './foundation/index.js';
+import { evaluate, isBooleanEnumValues, typeMatches } from './foundation/index.js';
 
 const isNode = (value: unknown): value is Node =>
   typeof value === 'object' && value !== null && typeof (value as Node).getKind === 'function';

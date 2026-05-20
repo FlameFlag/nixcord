@@ -1,28 +1,27 @@
+import { Err, fromNullable } from '@nixcord/shared';
 import type {
-  TypeChecker,
+  AsExpression,
+  CallExpression,
   Node,
   ObjectLiteralExpression,
-  CallExpression,
-  AsExpression,
+  TypeChecker,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { Err, fromNullable } from '@nixcord/shared';
-
-import type { SelectOptionsResult } from '../../types.js';
 import {
-  createSelectOptionsResult,
-  createExtractionError,
-  ExtractionErrorKind,
-} from '../../types.js';
-import {
-  resolveIdentifierInitializerNode,
   evaluateThemesValues,
   getPropertyName,
   isMethodCall,
   iteratePropertyAssignments,
+  resolveIdentifierInitializerNode,
   unwrapNode,
 } from '../../../foundation/index.js';
 import { METHOD_NAME_KEYS, VALUE_PROPERTY } from '../../constants.js';
+import type { SelectOptionsResult } from '../../types.js';
+import {
+  createExtractionError,
+  createSelectOptionsResult,
+  ExtractionErrorKind,
+} from '../../types.js';
 
 const themePatternError = (node: Node): SelectOptionsResult =>
   Err(

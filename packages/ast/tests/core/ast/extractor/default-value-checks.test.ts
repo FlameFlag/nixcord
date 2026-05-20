@@ -1,12 +1,12 @@
-import { describe, test, expect } from 'vitest';
 import { SyntaxKind } from 'ts-morph';
-import { createProject } from '../../../helpers/test-utils.js';
+import { describe, expect, test } from 'vitest';
 import {
-  hasStringArrayDefault,
-  hasObjectArrayDefault,
   hasEmptyArrayWithTypeAnnotation,
+  hasObjectArrayDefault,
+  hasStringArrayDefault,
   resolveIdentifierArrayDefault,
 } from '../../../../src/extractor/default-value-checks/index.js';
+import { createProject } from '../../../helpers/test-utils.js';
 
 let fileId = 0;
 

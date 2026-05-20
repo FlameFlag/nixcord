@@ -1,21 +1,21 @@
+import { Err, Ok, type Result } from '@nixcord/shared';
 import type {
-  TypeChecker,
-  ObjectLiteralExpression,
   BigIntLiteral,
   CallExpression,
   Node,
+  ObjectLiteralExpression,
+  TypeChecker,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { type Result, Ok, Err } from '@nixcord/shared';
 
 import {
-  iteratePropertyAssignments,
   getPropertyInitializer,
-  resolveIdentifierInitializerNode,
-  resolveCallExpressionReturn,
-  unwrapNode,
-  tryEvaluate,
   isCollectionKind,
+  iteratePropertyAssignments,
+  resolveCallExpressionReturn,
+  resolveIdentifierInitializerNode,
+  tryEvaluate,
+  unwrapNode,
 } from '../foundation/index.js';
 import { DEFAULT_PROPERTY, GET_FUNCTION_NAME } from './constants.js';
 import type { DefaultValueResult } from './types.js';

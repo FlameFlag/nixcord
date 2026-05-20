@@ -1,9 +1,8 @@
-import { describe, test, expect } from 'vitest';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
-import { parsePlugins, categorizePlugins } from '../../src/index.js';
 import type { ParsedPluginsResult, PluginSetting } from '@nixcord/shared';
+import { describe, expect, test } from 'vitest';
+import { categorizePlugins, parsePlugins } from '../../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

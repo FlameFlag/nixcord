@@ -1,34 +1,33 @@
+import { Err, fromNullable, Ok, type Result } from '@nixcord/shared';
 import type {
-  TypeChecker,
-  Node,
-  SpreadElement,
-  ObjectLiteralExpression,
   ArrayLiteralExpression,
   Identifier,
+  Node,
+  ObjectLiteralExpression,
+  SpreadElement,
+  TypeChecker,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { type Result, Ok, Err, fromNullable } from '@nixcord/shared';
-
-import {
-  evaluate,
-  tryEvaluate,
-  createEvaluationError,
-  resolveIdentifierInitializerNode,
-  resolveCallExpressionReturn,
-  resolveSymbolInit,
-  asKind,
-  getPropertyAssignment,
-} from '../../../foundation/index.js';
 import type { EvaluationError } from '../../../foundation/index.js';
+import {
+  asKind,
+  createEvaluationError,
+  evaluate,
+  getPropertyAssignment,
+  resolveCallExpressionReturn,
+  resolveIdentifierInitializerNode,
+  resolveSymbolInit,
+  tryEvaluate,
+} from '../../../foundation/index.js';
+import { LABEL_PROPERTY, VALUE_PROPERTY } from '../../constants.js';
 import type { SelectOptionsResult } from '../../types.js';
 import {
-  extractionErrors,
-  createSelectOptionsResult,
   createExtractionError,
+  createSelectOptionsResult,
   ExtractionErrorKind,
+  extractionErrors,
 } from '../../types.js';
 import { isArrayFromCall } from '../patterns/index.js';
-import { VALUE_PROPERTY, LABEL_PROPERTY } from '../../constants.js';
 
 const addValueAndLabel = (
   values: (string | number | boolean)[],

@@ -1,15 +1,20 @@
 import type {
-  TypeChecker,
-  ObjectLiteralExpression,
-  Node,
   ArrayLiteralExpression,
   AsExpression,
   Identifier,
+  Node,
+  ObjectLiteralExpression,
+  TypeChecker,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import { STRING_ARRAY_TYPE_PATTERN, COMPONENT_PROPERTY } from '../constants.js';
-import { unwrapNode, resolveSymbolInit, resolveArrowBody, asKind } from '../../foundation/index.js';
-import { getDefaultPropertyInitializer } from '../../foundation/index.js';
+import {
+  asKind,
+  getDefaultPropertyInitializer,
+  resolveArrowBody,
+  resolveSymbolInit,
+  unwrapNode,
+} from '../../foundation/index.js';
+import { COMPONENT_PROPERTY, STRING_ARRAY_TYPE_PATTERN } from '../constants.js';
 
 const isStringArray = (arr: ArrayLiteralExpression): boolean =>
   arr.getElements().every((el) => el.getKind() === SyntaxKind.StringLiteral);

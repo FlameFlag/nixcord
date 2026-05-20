@@ -1,19 +1,19 @@
 <script lang="ts">
-  type TocItem = {
-    href: string;
-    label: string;
-  };
+type TocItem = {
+  href: string;
+  label: string;
+};
 
-  let {
-    items,
-    title,
-  }: {
-    items: TocItem[];
-    title?: string;
-  } = $props();
+let {
+  items,
+  title,
+}: {
+  items: TocItem[];
+  title?: string;
+} = $props();
 
-  const isMainToc = $derived(title != null);
-  const tocTitle = $derived(title ?? "In This Section");
+const isMainToc = $derived(title != null);
+const tocTitle = $derived(title ?? 'In This Section');
 </script>
 
 <nav class="toc" class:toc-main={isMainToc} class:toc-local={!isMainToc} aria-label={tocTitle}>

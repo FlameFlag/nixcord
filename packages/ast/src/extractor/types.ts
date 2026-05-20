@@ -2,10 +2,10 @@
  * Types for extractor return values and intermediate results.
  */
 
-import { type Result, Ok, Err } from '@nixcord/shared';
-import { z } from 'zod';
 import type { ReadonlyDeep } from '@nixcord/shared';
+import { Err, Ok, type Result } from '@nixcord/shared';
 import type { Node } from 'ts-morph';
+import { z } from 'zod';
 import type { EnumLiteral } from '../foundation/index.js';
 
 /**

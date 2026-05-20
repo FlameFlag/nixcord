@@ -6,6 +6,7 @@
     "prepare-options": "mkdir -p public && nix build ../..#docs-json --out-link .options-json && cp .options-json/share/doc/nixos/options.json public/options.json && unlink .options-json",
     "dev": "vite --host 127.0.0.1",
     "dev:options": "bun run prepare-options && vite --host 127.0.0.1",
+    "generate-logo": "bun run scripts/generate-nix-logo.ts",
     "build": "vite build",
     "check": "tsc --noEmit --project tsconfig.json",
     "preview": "vite preview --host 127.0.0.1"

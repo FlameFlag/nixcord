@@ -5,33 +5,34 @@
  * Determines Nix type based on TypeScript annotations and default values.
  */
 
-import type { TypeChecker, Program, ObjectLiteralExpression, Node } from 'ts-morph';
+import { isBoolean, isString } from '@nixcord/shared';
+import type { Node, ObjectLiteralExpression, Program, TypeChecker } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-
+import { getDefaultPropertyInitializer } from '../../foundation/index.js';
 import { tsTypeToNixType } from '../../parser.js';
-import { extractSelectOptions } from '../select/index.js';
 import {
-  NIX_TYPE_BOOL,
-  NIX_TYPE_STR,
+  BOOLEAN_ENUM_LENGTH,
   NIX_TYPE_ATTRS,
-  NIX_TYPE_LIST_OF_STR,
+  NIX_TYPE_BOOL,
   NIX_TYPE_LIST_OF_ATTRS,
+  NIX_TYPE_LIST_OF_STR,
   NIX_TYPE_NULL_OR_STR,
+  NIX_TYPE_STR,
   OPTION_TYPE_COMPONENT,
   OPTION_TYPE_CUSTOM,
-  BOOLEAN_ENUM_LENGTH,
 } from '../constants.js';
 import {
+  hasEmptyArrayWithTypeAnnotation,
+  hasObjectArrayDefault,
   hasStringArrayDefault,
   resolveIdentifierArrayDefault,
-  hasObjectArrayDefault,
-  hasEmptyArrayWithTypeAnnotation,
 } from '../default-value-checks/index.js';
-import { isBoolean, isString } from '@nixcord/shared';
-import { getDefaultPropertyInitializer } from '../../foundation/index.js';
+import { extractSelectOptions } from '../select/index.js';
 import { isCustomType } from '../type-helpers.js';
 import type { SettingProperties, TypeInferenceResult } from './types.js';
+
 export type { SettingProperties, TypeInferenceResult } from './types.js';
+
 import { createMinimalProps } from './types.js';
 
 export function inferNixTypeAndEnumValues(
