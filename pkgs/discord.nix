@@ -65,6 +65,7 @@ let
       lib.toLower binaryName;
 
   krispSourceMeta = source.modules.discord_krisp or null;
+  nodeModulesTargetPrefix = if stdenvNoCC.isLinux then "../../modules" else "../modules";
 
   krispSrc =
     if withKrisp && krispSourceMeta != null then
@@ -520,7 +521,7 @@ basePackage.overrideAttrs (oldAttrs: {
       mkdir -p ${resourcesDir}/node_modules
       for module in ${lib.concatStringsSep " " (lib.attrNames stagedModuleVersions)}; do
         rm -rf ${resourcesDir}/node_modules/"$module"
-        ln -s ../modules/"$module" ${resourcesDir}/node_modules/"$module"
+        ln -s ${nodeModulesTargetPrefix}/"$module" ${resourcesDir}/node_modules/"$module"
       done
     ''
     + lib.optionalString (withOpenASAR && openasar != null) ''
