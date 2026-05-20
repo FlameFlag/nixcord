@@ -181,10 +181,11 @@ let
       null;
 
   # Runtime deployer: copies the patched Krisp module into Discord's config dir
-  # before Discord starts and watches for the module updater overwriting it. On
-  # macOS the module must be a real writable copy, not a store symlink.
+  # before Discord starts and watches for the module updater overwriting it.
+  # The watcher matters on Linux too: Discord/OpenASAR can touch native modules
+  # during startup, and Krisp must remain a real writable copy, not a store link.
   deployKrisp =
-    if withKrisp && krispModule != null && stdenvNoCC.isDarwin then
+    if withKrisp && krispModule != null && (stdenvNoCC.isLinux || stdenvNoCC.isDarwin) then
       runCommand "deploy-krisp.py"
         {
           pythonInterpreter = "${python3.withPackages (ps: [ ps.watchdog ])}/bin/python3";
@@ -537,7 +538,8 @@ basePackage.overrideAttrs (oldAttrs: {
     # updater expects them before the client starts.
     + lib.optionalString stdenvNoCC.isLinux ''
       wrapProgramShell $out/opt/${binaryName}/${binaryName} \
-        --run "${lib.getExe stageModules} $out/opt/${binaryName}/modules"
+        --run "${lib.getExe stageModules} $out/opt/${binaryName}/modules" \
+        ${lib.optionalString (withKrisp && deployKrisp != null) "--run ${lib.getExe deployKrisp}"}
     ''
     + lib.optionalString stdenvNoCC.isDarwin ''
       wrapProgram "$out/bin/${binaryName}" \
