@@ -5,9 +5,16 @@
 let
   lib = pkgs.lib;
   testLib = import ./lib.nix { inherit pkgs; };
-  inherit (testLib) evalHM getHomeFileJSON;
+  inherit (testLib) evalHM getHomeFileJSON getHMActivationInstallJSON;
 
   ru = lib.recursiveUpdate;
+
+  getDiscordModSettingsJSON =
+    config:
+    if config.home.activation ? nixcord-vencord-settings then
+      getHMActivationInstallJSON config "nixcord-vencord-settings"
+    else
+      getHMActivationInstallJSON config "nixcord-equicord-settings";
 
   # Use explicit configDir so tests are platform-agnostic
   baseConfig = {
@@ -32,7 +39,7 @@ let
           config.plugins.alwaysAnimate.enable = true;
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert settingsJson.plugins.AlwaysAnimate.enabled == true;
     true;
@@ -45,9 +52,18 @@ let
           config.plugins.alwaysAnimate.enable = false;
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert settingsJson.plugins.AlwaysAnimate.enabled == false;
+    true;
+
+  # --- Test: Discord mod settings are copied as writable activation files ---
+  writableDiscordModSettingsTest =
+    let
+      config = evalHM baseConfig;
+    in
+    assert !(builtins.hasAttr "/home/testuser/.config/Vencord/settings/settings.json" config.home.file);
+    assert config.home.activation ? nixcord-vencord-settings;
     true;
 
   # --- Test: quickCss generates a file when useQuickCss is true ---
@@ -155,7 +171,7 @@ let
           };
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert settingsJson.plugins.VcNarrator.enabled == true;
     assert settingsJson.plugins.VcNarrator.volume == 0.5;
@@ -170,7 +186,7 @@ let
           extraConfig.customSetting = "myValue";
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert settingsJson.customSetting == "myValue";
     true;
@@ -183,7 +199,7 @@ let
           config.themeLinks = [ "https://example.com/theme.css" ];
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert builtins.elem "https://example.com/theme.css" settingsJson.themeLinks;
     true;
@@ -196,7 +212,7 @@ let
           config.enabledThemeLinks = [ "https://example.com/enabled-theme.css" ];
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert builtins.elem "https://example.com/enabled-theme.css" settingsJson.enabledThemeLinks;
     true;
@@ -209,7 +225,7 @@ let
           config.useQuickCss = true;
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert settingsJson.useQuickCSS == true;
     true;
@@ -230,13 +246,14 @@ let
           };
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert settingsJson.plugins.ContentWarning.enabled == true;
-    assert settingsJson.plugins.ContentWarning.triggerWords == [
-      "spoiler"
-      "secret"
-    ];
+    assert
+      settingsJson.plugins.ContentWarning.triggerWords == [
+        "spoiler"
+        "secret"
+      ];
     true;
 
   # --- Test: unset contentWarning trigger words keep the upstream DataStore fallback active ---
@@ -249,7 +266,7 @@ let
           config.plugins.contentWarning.enable = true;
         }
       );
-      settingsJson = getHomeFileJSON config "/home/testuser/.config/Vencord/settings/settings.json";
+      settingsJson = getDiscordModSettingsJSON config;
     in
     assert settingsJson.plugins.ContentWarning.enabled == true;
     assert settingsJson.plugins.ContentWarning.triggerWords == null;
@@ -258,6 +275,7 @@ let
   allTests =
     assert pluginTest;
     assert disabledPluginTest;
+    assert writableDiscordModSettingsTest;
     assert quickCssTest;
     assert noQuickCssTest;
     assert equicordConfigDirTest;
@@ -276,6 +294,6 @@ let
 in
 
 pkgs.runCommand "config-output-test" { } ''
-  ${if allTests then "echo 'All 16 config output tests passed'" else "exit 1"}
+  ${if allTests then "echo 'All 17 config output tests passed'" else "exit 1"}
   touch $out
 ''

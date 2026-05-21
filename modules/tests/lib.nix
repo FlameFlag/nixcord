@@ -3,7 +3,13 @@
 { pkgs }:
 
 let
-  lib = pkgs.lib;
+  lib = pkgs.lib.extend (
+    _final: _prev: {
+      hm.dag.entryAfter = after: data: {
+        inherit after data;
+      };
+    }
+  );
 
   # --- Plugin name sets (read dynamically from JSON) ---
 
@@ -247,6 +253,32 @@ let
   # Decode the JSON text content from a home.file entry
   getHomeFileJSON = config: path: builtins.fromJSON (builtins.getAttr path config.home.file).text;
 
+  getHMActivationData =
+    activation:
+    if builtins.isAttrs activation && activation ? data then activation.data else activation;
+
+  getHMActivationHereDoc =
+    config: activationName:
+    let
+      script = getHMActivationData config.home.activation.${activationName};
+      marker = ''cat > "$dest" <<'EOF'';
+      findPayload =
+        lines:
+        if lines == [ ] then
+          throw "activation ${activationName} does not write a heredoc"
+        else if lib.hasInfix marker (builtins.head lines) then
+          builtins.head (builtins.tail lines)
+        else
+          findPayload (builtins.tail lines);
+    in
+    findPayload (lib.splitString "\n" script);
+
+  getHMActivationInstallJSON =
+    config: activationName:
+    builtins.fromJSON (
+      builtins.unsafeDiscardStringContext (getHMActivationHereDoc config activationName)
+    );
+
   # Serialize config fields safe to evaluate (no derivations)
   serializeEvalConfig =
     evaluatedConfig:
@@ -281,6 +313,7 @@ in
     getHMAssertionMessages
     getHMWarnings
     getHomeFileJSON
+    getHMActivationInstallJSON
     # Config serialization
     serializeEvalConfig
     # Dynamic plugin names

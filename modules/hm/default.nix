@@ -37,6 +37,23 @@ in
         legcordEquicordWeb
         ;
 
+      install = lib.getExe' pkgs.coreutils "install";
+
+      mkWritableSettingsActivation =
+        text: dest:
+        lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          dest=${lib.escapeShellArg dest}
+          if [ -L "$dest" ]; then
+            rm "$dest"
+          elif [ -e "$dest" ]; then
+            chmod u+w "$dest" 2>/dev/null || true
+          fi
+          ${install} -Dm644 /dev/null "$dest"
+          cat > "$dest" <<'EOF'
+          ${text}
+          EOF
+        '';
+
       activationScripts = import ../lib/activation.nix {
         inherit
           lib
@@ -87,14 +104,10 @@ in
           home.file."${cfg.configDir}/settings/quickCss.css".text = cfg.quickCss;
         })
         (mkIf cfg.discord.vencord.enable {
-          home.file."${cfg.configDir}/settings/settings.json".text = builtins.toJSON (
-            mkVencordCfg vencordFullConfig
-          );
+          home.activation.nixcord-vencord-settings = mkWritableSettingsActivation (builtins.toJSON (mkVencordCfg vencordFullConfig)) "${cfg.configDir}/settings/settings.json";
         })
         (mkIf cfg.discord.equicord.enable {
-          home.file."${cfg.configDir}/settings/settings.json".text = builtins.toJSON (
-            mkVencordCfg equicordFullConfig
-          );
+          home.activation.nixcord-equicord-settings = mkWritableSettingsActivation (builtins.toJSON (mkVencordCfg equicordFullConfig)) "${cfg.configDir}/settings/settings.json";
         })
         (mkIf (cfg.discord.settings != { }) {
           home.file."${cfg.discord.configDir}/settings.json".text = builtins.toJSON (
