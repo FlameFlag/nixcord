@@ -35,12 +35,17 @@ function revealCurrentHash() {
   if (!window.location.hash.startsWith('#opt-')) return;
 
   const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
-  const details = target?.closest('details.option-section');
+  let parent = target;
 
-  if (details instanceof HTMLDetailsElement) {
-    details.open = true;
-    target?.closest('.option-definition')?.scrollIntoView({ block: 'start' });
+  while (parent != null) {
+    if (parent instanceof HTMLDetailsElement) {
+      parent.open = true;
+    }
+
+    parent = parent.parentElement;
   }
+
+  target?.closest('.option-definition, .option-plugin')?.scrollIntoView({ block: 'start' });
 }
 </script>
 

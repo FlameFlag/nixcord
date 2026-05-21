@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare-options": "mkdir -p public && nix build ../..#docs-json --out-link .options-json && cp .options-json/share/doc/nixos/options.json public/options.json && unlink .options-json",
+    "prepare-options": "mkdir -p public && nix build ../..#docs-json --out-link .options-json-result && rm -f public/options.json && install -m 0644 .options-json-result/share/doc/nixos/options.json public/options.json && unlink .options-json-result",
     "dev": "vite --host 127.0.0.1",
     "dev:options": "bun run prepare-options && vite --host 127.0.0.1",
     "generate-logo": "bun run scripts/generate-nix-logo.ts",

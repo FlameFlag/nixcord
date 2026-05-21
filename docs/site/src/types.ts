@@ -21,9 +21,28 @@ export type OptionEntry = RawOption & {
 
 export type OptionCategory = 'core' | 'shared' | 'vencord' | 'equicord';
 
+export type PluginOptionGroup = {
+  category: OptionCategory;
+  name: string;
+  optionCount: number;
+  options: OptionEntry[];
+  searchText: string;
+};
+
+export type OptionSectionItem =
+  | {
+      kind: 'option';
+      option: OptionEntry;
+    }
+  | {
+      group: PluginOptionGroup;
+      kind: 'plugin';
+    };
+
 export type OptionSection = {
   description: string;
   id: string;
-  options: OptionEntry[];
+  items: OptionSectionItem[];
+  optionCount: number;
   title: string;
 };

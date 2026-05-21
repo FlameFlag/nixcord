@@ -1,6 +1,14 @@
-import type { OptionCategory, OptionEntry, OptionSection, RawOption } from './types';
+import type {
+  OptionCategory,
+  OptionEntry,
+  OptionSection,
+  OptionSectionItem,
+  PluginOptionGroup,
+  RawOption,
+} from './types';
 
 const emptyText = 'Not specified';
+const pluginOptionPrefix = 'programs.nixcord.config.plugins.';
 
 export function stringifyDocValue(value: unknown): string {
   if (value == null) return emptyText;
@@ -34,7 +42,7 @@ function prepareOptions(raw: Record<string, RawOption>): OptionEntry[] {
 }
 
 export function groupOptions(options: OptionEntry[]): OptionSection[] {
-  const sections: Omit<OptionSection, 'options'>[] = [
+  const sections: Pick<OptionSection, 'description' | 'id' | 'title'>[] = [
     {
       description: 'Module, client, package, theme, and extra configuration options.',
       id: 'options-core',
@@ -57,10 +65,16 @@ export function groupOptions(options: OptionEntry[]): OptionSection[] {
     },
   ];
 
-  return sections.map((section) => ({
-    ...section,
-    options: options.filter((option) => option.category === categoryFromSectionId(section.id)),
-  }));
+  return sections.map((section) => {
+    const category = categoryFromSectionId(section.id);
+    const sectionOptions = options.filter((option) => option.category === category);
+
+    return {
+      ...section,
+      items: groupSectionOptions(sectionOptions),
+      optionCount: sectionOptions.length,
+    };
+  });
 }
 
 export async function loadOptions(): Promise<OptionEntry[]> {
@@ -88,6 +102,72 @@ function getOptionCategory(option: RawOption): OptionCategory {
   if (declarationText?.includes('modules/plugins/equicord.json')) return 'equicord';
 
   return 'core';
+}
+
+function groupSectionOptions(options: OptionEntry[]): OptionSectionItem[] {
+  const pluginGroups = new Map<string, OptionEntry[]>();
+  const coreOptions: OptionSectionItem[] = [];
+
+  for (const option of options) {
+    const pluginRoot = getPluginRoot(option.name);
+
+    if (pluginRoot == null) {
+      coreOptions.push({ kind: 'option', option });
+      continue;
+    }
+
+    const groupOptions = pluginGroups.get(pluginRoot) ?? [];
+    groupOptions.push(option);
+    pluginGroups.set(pluginRoot, groupOptions);
+  }
+
+  const groupedPlugins: OptionSectionItem[] = Array.from(pluginGroups, ([name, groupOptions]) => {
+    const sortedOptions = [...groupOptions].sort((left, right) => comparePluginOptions(name, left, right));
+
+    return {
+      group: {
+        category: sortedOptions[0]?.category ?? 'core',
+        name,
+        optionCount: sortedOptions.length,
+        options: sortedOptions,
+        searchText: sortedOptions.map((option) => option.searchText).join(' '),
+      } satisfies PluginOptionGroup,
+      kind: 'plugin',
+    };
+  });
+
+  return [...coreOptions, ...groupedPlugins].sort((left, right) => getSectionItemName(left).localeCompare(getSectionItemName(right)));
+}
+
+export function getPluginOptionLabel(pluginName: string, optionName: string): string {
+  return optionName.startsWith(`${pluginName}.`) ? optionName.slice(pluginName.length + 1) : optionName;
+}
+
+function getPluginRoot(optionName: string): string | null {
+  if (!optionName.startsWith(pluginOptionPrefix)) return null;
+
+  const parts = optionName.split('.');
+  if (parts.length < 6) return null;
+
+  return parts.slice(0, 5).join('.');
+}
+
+function getSectionItemName(item: OptionSectionItem): string {
+  return item.kind === 'plugin' ? item.group.name : item.option.name;
+}
+
+function comparePluginOptions(pluginName: string, left: OptionEntry, right: OptionEntry): number {
+  const leftLabel = getPluginOptionLabel(pluginName, left.name);
+  const rightLabel = getPluginOptionLabel(pluginName, right.name);
+  const leftRank = getPluginOptionRank(leftLabel);
+  const rightRank = getPluginOptionRank(rightLabel);
+
+  if (leftRank !== rightRank) return leftRank - rightRank;
+  return leftLabel.localeCompare(rightLabel);
+}
+
+function getPluginOptionRank(label: string): number {
+  return label === 'enable' || label === 'enabled' ? 0 : 1;
 }
 
 function categoryFromSectionId(sectionId: string): OptionCategory {

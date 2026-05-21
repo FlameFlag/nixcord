@@ -2,7 +2,7 @@
 import { stringifyDocValue } from '../options';
 import type { OptionEntry } from '../types';
 
-let { option }: { option: OptionEntry } = $props();
+let { label = option.name, option }: { label?: string; option: OptionEntry } = $props();
 
 const optionId = $derived(`opt-${option.name}`);
 </script>
@@ -10,7 +10,7 @@ const optionId = $derived(`opt-${option.name}`);
 <div class="option-definition">
   <dt id={optionId} class="option-heading">
     <a class="term" href={`#${optionId}`} aria-label={option.name}>
-      <code class="option">{option.name}</code>
+      <code class="option">{label}</code>
     </a>
   </dt>
   <dd class="option-body">

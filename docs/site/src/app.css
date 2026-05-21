@@ -209,6 +209,28 @@
     @apply mt-5;
   }
 
+  .option-plugin {
+    @apply mt-5 border border-neutral-300 border-l-4 border-l-nmd-blue bg-white;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 520px;
+  }
+
+  .option-plugin-summary {
+    @apply cursor-pointer border-b border-neutral-200 bg-neutral-50 px-4 py-3;
+  }
+
+  .option-plugin-count {
+    @apply ml-2 text-[0.9rem] text-neutral-600;
+  }
+
+  .option-plugin-options {
+    @apply mt-0 px-4 pb-4;
+  }
+
+  .option-plugin-options .option-definition {
+    @apply border-l-neutral-300;
+  }
+
   .option-heading {
     @apply border-b border-neutral-200 bg-neutral-50 px-4 py-3;
   }
