@@ -453,6 +453,7 @@ describe('CLI Error Handling', () => {
 
   test('handles runner errors correctly', async () => {
     const mockError = new Error('Runner failed');
+    const stderrWrite = vi.spyOn(process.stderr, 'write').mockImplementation(() => true);
     vi.mocked(runGeneratePluginOptions).mockResolvedValue(Err(mockError));
 
     const tempDir = await fse.mkdtemp(join(__dirname, 'test-cli-'));
@@ -464,7 +465,9 @@ describe('CLI Error Handling', () => {
     try {
       await runCli(['node', 'cli.js', vencordDir, '--output', join(tempDir, 'output.nix')]);
       expect(process.exitCode).toBe(1);
+      expect(stderrWrite).toHaveBeenCalledWith(expect.stringContaining('Runner failed'));
     } finally {
+      stderrWrite.mockRestore();
       await fse.remove(tempDir);
     }
   });
