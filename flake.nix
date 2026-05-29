@@ -31,10 +31,10 @@
           checks = import ./modules/tests { inherit pkgs; };
 
           packages = {
-            discord = pkgs.callPackage ./pkgs/discord.nix { };
-            discord-ptb = pkgs.callPackage ./pkgs/discord.nix { branch = "ptb"; };
-            discord-canary = pkgs.callPackage ./pkgs/discord.nix { branch = "canary"; };
-            discord-development = pkgs.callPackage ./pkgs/discord.nix { branch = "development"; };
+            discord = pkgs.callPackage ./pkgs/discord { };
+            discord-ptb = pkgs.callPackage ./pkgs/discord { branch = "ptb"; };
+            discord-canary = pkgs.callPackage ./pkgs/discord { branch = "canary"; };
+            discord-development = pkgs.callPackage ./pkgs/discord { branch = "development"; };
             vencord = pkgs.callPackage ./pkgs/vencord.nix { };
             vencord-unstable = pkgs.callPackage ./pkgs/vencord.nix { unstable = true; };
             equicord = pkgs.callPackage ./pkgs/equicord.nix { };

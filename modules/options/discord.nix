@@ -22,12 +22,12 @@ in
     };
     package = mkOption {
       type = types.package;
-      default = pkgs.callPackage ../../pkgs/discord.nix (
+      default = pkgs.callPackage ../../pkgs/discord (
         lib.optionalAttrs (
           pkgs.stdenvNoCC.isLinux && builtins.fromJSON (lib.versions.major lib.version) < 25
         ) { libgbm = pkgs.mesa; }
       );
-      defaultText = lib.literalExpression "pkgs.callPackage ../../pkgs/discord.nix { }";
+      defaultText = lib.literalExpression "pkgs.callPackage ../../pkgs/discord { }";
       description = "The Discord package to use.";
     };
     branch = mkOption {

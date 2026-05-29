@@ -1,7 +1,12 @@
 { pkgs }:
 
 let
-  inherit (pkgs) lib stdenv;
+  inherit (pkgs) lib;
+
+  # CI validates the launcher with final C23 support even when the platform
+  # default compiler still reports a draft C2x __STDC_VERSION__.
+  cStdenv = pkgs.llvmPackages_latest.stdenv;
+  requiredCVersion = "202311L";
 
   strictCFlags = [
     "-std=c23"
@@ -34,7 +39,9 @@ let
   trueBin = "${lib.getExe' pkgs.coreutils "true"}";
 
   compileAndSmoke = name: enableKrisp: enableAutoscroll: ''
-    cp ${../../../pkgs/discord-launcher.c} ${name}.c
+    printf "" | cc -std=c23 -dM -E - | grep -F '#define __STDC_VERSION__ ${requiredCVersion}'
+
+    cp ${../../../pkgs/discord/src/discord-launcher.c} ${name}.c
     substituteInPlace ${name}.c \
       --replace-fail "@disable_breaking_updates@" "${trueBin}" \
       --replace-fail "@stage_modules@" "${trueBin}" \
@@ -59,7 +66,7 @@ in
 pkgs.runCommand "discord-launcher-c-check"
   {
     nativeBuildInputs = [
-      stdenv.cc
+      cStdenv.cc
       pkgs.cppcheck
     ];
   }

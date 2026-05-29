@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh pkgs/sources.json with the latest Discord builds.
+"""Refresh pkgs/discord/data/sources.json with the latest Discord builds.
 
 Adapted from upstream nixpkgs (NixOS/nixpkgs PR #506089). Honors the
 DISCORD_BRANCHES env var (comma-separated) so CI matrix jobs can update one
@@ -135,21 +135,29 @@ def selected_variants() -> List[Variant]:
 
 
 def find_sources_json() -> str:
-    """Locate pkgs/sources.json. Prefer SOURCES_JSON, then CWD, then walk up."""
+    """Locate sources.json. Prefer SOURCES_JSON, then repo-local defaults."""
     explicit = os.environ.get("SOURCES_JSON")
     if explicit:
         return explicit
-    candidates = ["pkgs/sources.json", "sources.json"]
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.join(script_dir, "..", "data", "sources.json"),
+        "pkgs/discord/data/sources.json",
+        "sources.json",
+    ]
     for c in candidates:
         if os.path.isfile(c):
             return os.path.abspath(c)
     cwd = os.path.abspath(os.getcwd())
     while cwd != "/":
-        candidate = os.path.join(cwd, "pkgs", "sources.json")
+        candidate = os.path.join(cwd, "pkgs", "discord", "data", "sources.json")
         if os.path.isfile(candidate):
             return candidate
         cwd = os.path.dirname(cwd)
-    raise SystemExit("Error: could not find pkgs/sources.json (set SOURCES_JSON to override)")
+    raise SystemExit(
+        "Error: could not find pkgs/discord/data/sources.json "
+        "(set SOURCES_JSON to override)"
+    )
 
 
 def main() -> None:
