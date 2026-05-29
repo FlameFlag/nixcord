@@ -570,72 +570,17 @@ basePackage.overrideAttrs (oldAttrs: {
       app_executable_unwrapped="$app_executable.unwrapped"
       mv "$app_executable" "$app_executable_unwrapped"
 
-      cat > nixcord-discord-launcher.c <<EOF
-      #include <errno.h>
-      #include <stdio.h>
-      #include <stdlib.h>
-      #include <string.h>
-      #include <sys/wait.h>
-      #include <unistd.h>
-
-      static void run_or_exit(char *const helper_argv[]) {
-        pid_t pid = fork();
-        if (pid == 0) {
-          execv(helper_argv[0], helper_argv);
-          fprintf(stderr, "failed to exec %s: %s\n", helper_argv[0], strerror(errno));
-          _exit(127);
-        }
-        if (pid < 0) {
-          fprintf(stderr, "failed to fork %s: %s\n", helper_argv[0], strerror(errno));
-          exit(127);
-        }
-
-        int status = 0;
-        if (waitpid(pid, &status, 0) < 0) {
-          fprintf(stderr, "failed to wait for %s: %s\n", helper_argv[0], strerror(errno));
-          exit(127);
-        }
-        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-          exit(WIFEXITED(status) ? WEXITSTATUS(status) : 127);
-        }
-      }
-
-      int main(int argc, char **argv) {
-        char *disable_updates_argv[] = { "${lib.getExe oldAttrs.passthru.disableBreakingUpdates}", NULL };
-        char *stage_modules_argv[] = {
-          "${lib.getExe stageModules}",
-          "$out/Applications/${binaryName}.app/Contents/Resources/modules",
-          NULL
-        };
-
-        run_or_exit(disable_updates_argv);
-        run_or_exit(stage_modules_argv);
-        ${lib.optionalString (withKrisp && deployKrisp != null) ''
-        char *deploy_krisp_argv[] = { "${lib.getExe deployKrisp}", NULL };
-        run_or_exit(deploy_krisp_argv);
-        ''}
-
-        const char *target = "$out/Applications/${binaryName}.app/Contents/MacOS/${binaryName}.unwrapped";
-        int extra_args = ${if enableAutoscroll then "1" else "0"};
-        char **next_argv = calloc((size_t)argc + (size_t)extra_args + 1, sizeof(char *));
-        if (next_argv == NULL) {
-          fprintf(stderr, "failed to allocate argv\n");
-          return 127;
-        }
-
-        next_argv[0] = (char *)target;
-        for (int i = 1; i < argc; i++) {
-          next_argv[i] = argv[i];
-        }
-        ${lib.optionalString enableAutoscroll ''
-        next_argv[argc] = "--enable-blink-features=MiddleClickAutoscroll";
-        ''}
-
-        execv(target, next_argv);
-        fprintf(stderr, "failed to exec %s: %s\n", target, strerror(errno));
-        return 127;
-      }
-      EOF
+      cp ${./discord-launcher.c} nixcord-discord-launcher.c
+      substituteInPlace nixcord-discord-launcher.c \
+        --replace-fail "@disable_breaking_updates@" "${lib.getExe oldAttrs.passthru.disableBreakingUpdates}" \
+        --replace-fail "@stage_modules@" "${lib.getExe stageModules}" \
+        --replace-fail "@modules_dir@" "$out/Applications/${binaryName}.app/Contents/Resources/modules" \
+        --replace-fail "@deploy_krisp@" "${
+          lib.optionalString (withKrisp && deployKrisp != null) (lib.getExe deployKrisp)
+        }" \
+        --replace-fail "@target@" "$app_executable_unwrapped" \
+        --replace-fail "@enable_krisp@" "${if withKrisp && deployKrisp != null then "1" else "0"}" \
+        --replace-fail "@enable_autoscroll@" "${if enableAutoscroll then "1" else "0"}"
 
       ${stdenv.cc}/bin/cc -Os -o "$app_executable" nixcord-discord-launcher.c
       chmod +x "$app_executable"
