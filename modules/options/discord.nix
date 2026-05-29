@@ -85,6 +85,7 @@ in
       description = "Settings to be placed in Discord's settings.json. Set atomically; the entire attrset replaces any previous definition.";
       example = {
         SKIP_HOST_UPDATE = true;
+        USE_NEW_UPDATER = false;
       };
     };
   };

@@ -381,6 +381,14 @@ let
       vesktopFullConfig,
       equibopFullConfig,
     }:
+    let
+      disabledUpdateSettings = {
+        SKIP_HOST_UPDATE = true;
+        SKIP_MODULE_UPDATE = true;
+        USE_NEW_UPDATER = false;
+      };
+      discordSettings = cfg.discord.settings // disabledUpdateSettings;
+    in
     {
       vencordSettingsFile = pkgs.writeText "nixcord-settings.json" (
         builtins.toJSON (mkVencordCfg vencordFullConfig)
@@ -390,7 +398,7 @@ let
       );
       discordSettingsFile =
         if cfg.discord.settings != { } then
-          pkgs.writeText "nixcord-discord-settings.json" (builtins.toJSON (mkVencordCfg cfg.discord.settings))
+          pkgs.writeText "nixcord-discord-settings.json" (builtins.toJSON (mkVencordCfg discordSettings))
         else
           null;
       vesktopSettingsFile = pkgs.writeText "nixcord-vesktop-settings.json" (

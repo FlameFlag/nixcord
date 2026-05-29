@@ -12,6 +12,7 @@
   curl,
   jq,
   nix,
+  asar,
   openasar ? null,
   brotli,
   libpulseaudio,
@@ -86,6 +87,14 @@ let
       moduleVersions
     else
       lib.filterAttrs (name: _: builtins.hasAttr name stagedModuleSrcs) moduleVersions;
+
+  disabledUpdateSettings = {
+    SKIP_HOST_UPDATE = true;
+    SKIP_MODULE_UPDATE = true;
+    USE_NEW_UPDATER = false;
+  };
+  disabledUpdateSettingsJson = builtins.toJSON disabledUpdateSettings;
+  disabledUpdateSettingsJq = lib.escapeShellArg ". + ${disabledUpdateSettingsJson}";
 
   # Krisp helper scripts from upstream nixpkgs PR #506089
   # (NixOS/nixpkgs@90cdc6283e794e7e276fa60f6d27b98a27454f15)
@@ -293,10 +302,10 @@ let
       mkdir -p "$modules_dir" ${lib.optionalString stdenvNoCC.isDarwin ''"$module_data_dir"''}
       settings_file="$config_dir/settings.json"
       if [ -f "$settings_file" ]; then
-        jq '. + {"SKIP_HOST_UPDATE": true, "SKIP_MODULE_UPDATE": true}' "$settings_file" > "$settings_file.tmp"
+        jq ${disabledUpdateSettingsJq} "$settings_file" > "$settings_file.tmp"
         mv "$settings_file.tmp" "$settings_file"
       else
-        echo '{"SKIP_HOST_UPDATE": true, "SKIP_MODULE_UPDATE": true}' > "$settings_file"
+        echo '${disabledUpdateSettingsJson}' > "$settings_file"
       fi
 
       prune_unstaged_modules "$modules_dir"
@@ -526,6 +535,14 @@ basePackage.overrideAttrs (oldAttrs: {
     ''
     + lib.optionalString (withOpenASAR && openasar != null) ''
       cp -f ${openasar} ${resourcesDir}/app.asar
+      openasar_dir="$(mktemp -d)"
+      ${lib.getExe asar} extract ${resourcesDir}/app.asar "$openasar_dir"
+      substituteInPlace "$openasar_dir/Constants.js" \
+        --replace-fail \
+          "USE_NEW_UPDATER:settings.get('USE_NEW_UPDATER')||process.platform==='win32'||process.platform==='linux'" \
+          "USE_NEW_UPDATER:settings.get('USE_NEW_UPDATER') ?? (process.platform==='win32'||process.platform==='linux')"
+      ${lib.getExe asar} pack "$openasar_dir" ${resourcesDir}/app.asar
+      rm -rf "$openasar_dir"
     ''
     + lib.optionalString (withVencord && vencord != null) ''
       mv ${resourcesDir}/app.asar ${resourcesDir}/_app.asar

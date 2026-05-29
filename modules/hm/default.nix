@@ -54,6 +54,12 @@ in
           EOF
         '';
 
+      disabledUpdateSettings = {
+        SKIP_HOST_UPDATE = true;
+        SKIP_MODULE_UPDATE = true;
+        USE_NEW_UPDATER = false;
+      };
+
       activationScripts = import ../lib/activation.nix {
         inherit
           lib
@@ -111,7 +117,7 @@ in
         })
         (mkIf (cfg.discord.settings != { }) {
           home.file."${cfg.discord.configDir}/settings.json".text = builtins.toJSON (
-            mkVencordCfg cfg.discord.settings
+            mkVencordCfg (cfg.discord.settings // disabledUpdateSettings)
           );
         })
       ]))

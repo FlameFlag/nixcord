@@ -8,6 +8,13 @@
 let
   userHome = if pkgs.stdenvNoCC.isDarwin then "/Users/${cfg.user}" else "/home/${cfg.user}";
   xdgHome = "${userHome}/.config";
+  disabledUpdateSettings = {
+    SKIP_HOST_UPDATE = true;
+    SKIP_MODULE_UPDATE = true;
+    USE_NEW_UPDATER = false;
+  };
+  disabledUpdateSettingsJson = builtins.toJSON disabledUpdateSettings;
+  disabledUpdateSettingsJq = lib.escapeShellArg ". + ${disabledUpdateSettingsJson}";
 in
 {
   disableDiscordUpdates = wrapScript ''
@@ -16,9 +23,9 @@ in
     ${lib.getExe' pkgs.coreutils "install"} -d -o ${lib.escapeShellArg cfg.user} ${lib.optionalString pkgs.stdenvNoCC.isDarwin "-g staff"} "${cfg.configDir}"
     config_dir="${cfg.discord.configDir}"
     if [ -f "$config_dir/settings.json" ]; then
-      ${lib.getExe' pkgs.jq "jq"} '. + {"SKIP_HOST_UPDATE": true, "SKIP_MODULE_UPDATE": true}' "$config_dir/settings.json" > "$config_dir/settings.json.tmp" && mv "$config_dir/settings.json.tmp" "$config_dir/settings.json"
+      ${lib.getExe' pkgs.jq "jq"} ${disabledUpdateSettingsJq} "$config_dir/settings.json" > "$config_dir/settings.json.tmp" && mv "$config_dir/settings.json.tmp" "$config_dir/settings.json"
     else
-      echo '{"SKIP_HOST_UPDATE": true, "SKIP_MODULE_UPDATE": true}' > "$config_dir/settings.json"
+      echo '${disabledUpdateSettingsJson}' > "$config_dir/settings.json"
     fi
   '';
 
