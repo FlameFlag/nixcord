@@ -36,10 +36,6 @@
       "to": "HideMedia",
       "date": "2026-05-11"
     },
-    "iLoveSpam": {
-      "to": "IloveSpam",
-      "date": "2026-05-11"
-    },
     "ImgToGif": {
       "to": "MoreCommands",
       "date": "2026-05-11"
@@ -70,10 +66,6 @@
     },
     "Oneko": {
       "to": "CursorBuddy",
-      "date": "2026-05-11"
-    },
-    "petpet": {
-      "to": "PetPet",
       "date": "2026-05-11"
     },
     "PronounDB": {

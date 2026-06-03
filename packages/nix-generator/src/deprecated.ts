@@ -106,6 +106,17 @@ function removeCircularRenames(renames: Record<string, DeprecatedRenameEntry>): 
   }
 }
 
+function removeSelfRenames(
+  renames: Record<string, DeprecatedRenameEntry>,
+  normalize: (name: string) => string
+): void {
+  for (const [from, entry] of Object.entries(renames)) {
+    if (normalize(from) === normalize(entry.to)) {
+      delete renames[from];
+    }
+  }
+}
+
 export async function updateDeprecatedPlugins(
   migrations: PluginMigrationInfo,
   pluginsDir: string,
@@ -119,6 +130,7 @@ export async function updateDeprecatedPlugins(
   const existing: DeprecatedData = (await fse.pathExists(deprecatedPath))
     ? await readDeprecatedJson(deprecatedPath)
     : { renames: {}, removals: {}, settingRenames: {} };
+  const normalize = normalizePluginName ?? ((n: string) => n);
 
   // Merge new renames (skip dot-named plugins, don't overwrite existing entries)
   for (const rename of migrations.renames) {
@@ -143,12 +155,19 @@ export async function updateDeprecatedPlugins(
 
   if (activePluginNames && normalizePluginName) {
     const activeNameByNormalizedName = new Map(
-      [...activePluginNames].map((name) => [normalizePluginName(name), name])
+      [...activePluginNames].map((name) => [normalize(name), name])
+    );
+    const activeNameByLowercaseName = new Map(
+      [...activePluginNames].map((name) => [name.toLowerCase(), name])
     );
     for (const entry of Object.values(existing.renames)) {
-      entry.to = activeNameByNormalizedName.get(normalizePluginName(entry.to)) ?? entry.to;
+      entry.to =
+        activeNameByNormalizedName.get(normalize(entry.to)) ??
+        activeNameByLowercaseName.get(entry.to.toLowerCase()) ??
+        entry.to;
     }
   }
+  removeSelfRenames(existing.renames, normalize);
 
   // Remove permanent (dateless) renames - they predate the date system and are well past expiry
   for (const [name, entry] of Object.entries(existing.renames)) {
@@ -180,7 +199,6 @@ export async function updateDeprecatedPlugins(
 
   // Remove removals for plugins that are still active (git may see a file move as a deletion)
   if (activePluginNames) {
-    const normalize = normalizePluginName ?? ((n: string) => n);
     const normalizedActiveNames = new Set([...activePluginNames].map(normalize));
     for (const name of Object.keys(existing.removals)) {
       if (normalizedActiveNames.has(normalize(name))) {
@@ -190,7 +208,6 @@ export async function updateDeprecatedPlugins(
   }
 
   // Merge setting renames from migratePluginSetting() calls
-  const normalize = normalizePluginName ?? ((n: string) => n);
   for (const rename of settingRenames) {
     const nixName = normalize(rename.pluginName);
     if (!existing.settingRenames[nixName]) {

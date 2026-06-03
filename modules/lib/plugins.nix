@@ -15,9 +15,11 @@ let
         name: lib.nameValuePair (lib.toLower name) name
       );
 
-      deprecatedPluginNameMigrations = lib.mapAttrs (
-        _: value: activePluginNamesByLowercase.${lib.toLower value.to} or value.to
-      ) deprecated.renames;
+      deprecatedPluginNameMigrations = lib.filterAttrs (oldName: newName: oldName != newName) (
+        lib.mapAttrs (
+          _: value: activePluginNamesByLowercase.${lib.toLower value.to} or value.to
+        ) deprecated.renames
+      );
       generatedPluginNameMigrations = lib.pipe migrations.renames [
         (lib.filter (
           migration:

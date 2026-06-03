@@ -5,6 +5,7 @@ import fse from 'fs-extra';
 import { join } from 'pathe';
 import { describe, expect, test } from 'vitest';
 import { updateDeprecatedPlugins } from '../src/deprecated.js';
+import { toNixIdentifier } from '../src/identifier.js';
 import { generateMigrationsData, generateMigrationsJson } from '../src/migrations-generator.js';
 
 const mkPlugin = (description = ''): ReadonlyDeep<PluginConfig> => ({
@@ -194,6 +195,33 @@ describe('updateDeprecatedPlugins()', () => {
       );
 
       expect(result.renames.PronounDB?.to).toBe('userMessagesPronouns');
+    } finally {
+      await fse.remove(tempDir);
+    }
+  });
+
+  test('drops renames that canonicalize to the same active plugin option', async () => {
+    const tempDir = await mkdtemp(join(tmpdir(), 'nixcord-deprecated-'));
+    try {
+      await fse.writeJson(join(tempDir, 'deprecated.json'), {
+        renames: {
+          petpet: { to: 'PetPet', date: '2999-01-01' },
+        },
+        removals: {},
+        settingRenames: {},
+      });
+
+      const result = await updateDeprecatedPlugins(
+        { renames: [], deletions: [] },
+        tempDir,
+        false,
+        { info: () => {}, warn: () => {}, error: () => {}, success: () => {}, debug: () => {} },
+        [],
+        new Set(['petpet']),
+        toNixIdentifier
+      );
+
+      expect(result.renames).toEqual({});
     } finally {
       await fse.remove(tempDir);
     }

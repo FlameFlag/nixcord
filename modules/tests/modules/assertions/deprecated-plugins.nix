@@ -24,6 +24,16 @@ in
     assert warnings == [ ];
     true;
 
+  "same-name active plugin rename is not deprecated" =
+    let
+      warnings = hmWarnings {
+        enable = true;
+        config.plugins.petpet.enable = true;
+      };
+    in
+    assert warnings == [ ];
+    true;
+
   "deprecated discord autoscroll option warns" =
     let
       warnings = hmWarnings {
