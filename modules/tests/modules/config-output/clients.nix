@@ -16,6 +16,27 @@ let
         passthru.nixcordOverrideArgs = args;
       };
   };
+  stubEquicordPackage = pkgs.runCommand "nixcord-equicord-stub" { } "mkdir -p $out/equibop" // {
+    overrideAttrs =
+      f:
+      let
+        attrs = f {
+          postPatch = "";
+          postInstall = "";
+        };
+      in
+      pkgs.runCommand "nixcord-equicord-final-stub" { } "mkdir -p $out/equibop" // attrs;
+  };
+  stubEquibopPackage = lib.makeOverridable (
+    {
+      withMiddleClickScroll ? false,
+    }:
+    pkgs.runCommand "nixcord-equibop-stub" { } "mkdir $out"
+    // {
+      postPatch = "";
+      postFixup = "";
+    }
+  ) { };
 in
 {
   "configDir defaults to Equicord when equicord is enabled" =
@@ -103,5 +124,43 @@ in
       settingsJson = testLib.output.homeFileJSON config "/home/testuser/.config/vesktop/settings/settings.json";
     in
     assert settingsJson.plugins.AlwaysAnimate.enabled == true;
+    true;
+
+  "equibop uses patched system Equicord by default" =
+    let
+      config = testLib.eval.hm {
+        enable = true;
+        discord.enable = false;
+        discord.equicord.package = stubEquicordPackage;
+        equibop = {
+          enable = true;
+          package = stubEquibopPackage;
+        };
+      };
+      equibop = config.programs.nixcord.finalPackage.equibop;
+      equicord = config._nixcordTest.common.packages.equicord;
+      postPatch = builtins.unsafeDiscardStringContext equibop.postPatch;
+      equicordAsar = builtins.unsafeDiscardStringContext "${equicord}/equibop.asar";
+    in
+    assert lib.hasInfix "src/main/vencordDir.ts src/main/constants.ts" postPatch;
+    assert lib.hasInfix "could not find Equibop Equicord asar path to patch" postPatch;
+    assert lib.hasInfix equicordAsar postPatch;
+    true;
+
+  "equibop can keep bundled Equicord" =
+    let
+      config = testLib.eval.hm {
+        enable = true;
+        discord.enable = false;
+        equibop = {
+          enable = true;
+          package = stubEquibopPackage;
+          useSystemEquicord = false;
+        };
+      };
+      equibop = config.programs.nixcord.finalPackage.equibop;
+      postPatch = builtins.unsafeDiscardStringContext equibop.postPatch;
+    in
+    assert !(lib.hasInfix "equicordPatchTarget" postPatch);
     true;
 }

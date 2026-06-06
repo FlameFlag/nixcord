@@ -127,6 +127,27 @@ let
             withMiddleClickScroll = cfg.equibop.autoscroll.enable;
           }).overrideAttrs
             (old: {
+              postPatch =
+                (old.postPatch or "")
+                + lib.optionalString cfg.equibop.useSystemEquicord ''
+                  equicordPatchTarget=
+                  for file in src/main/vencordDir.ts src/main/constants.ts; do
+                    if [ -f "$file" ] && grep -Fq 'join(SESSION_DATA_DIR, "equicord.asar")' "$file"; then
+                      equicordPatchTarget="$file"
+                      break
+                    fi
+                  done
+
+                  if [ -z "$equicordPatchTarget" ]; then
+                    echo "could not find Equibop Equicord asar path to patch" >&2
+                    exit 1
+                  fi
+
+                  substituteInPlace "$equicordPatchTarget" \
+                    --replace-fail \
+                      'join(SESSION_DATA_DIR, "equicord.asar")' \
+                      '"${equicord}/equibop.asar"'
+                '';
               postFixup = (old.postFixup or "") + ''
                 wrapProgram $out/bin/equibop \
                   --prefix LD_LIBRARY_PATH : "${

@@ -3,6 +3,19 @@
 let
   common = import ./common.nix { inherit testLib; };
   inherit (common) baseConfig discordModSettingsJSON recursiveUpdate;
+  inherit (testLib) lib pkgs;
+  localPlugin = ../../../../packages/parser/tests/fixtures/equicord/src/plugins/shared-plugin;
+  stubEquicordPackage = pkgs.runCommand "nixcord-equicord-stub" { } "mkdir $out" // {
+    overrideAttrs =
+      f:
+      let
+        attrs = f {
+          postPatch = "";
+          postInstall = "";
+        };
+      in
+      pkgs.runCommand "nixcord-equicord-final-stub" { } "mkdir $out" // attrs;
+  };
 in
 {
   "enabled plugin appears in generated settings" =
@@ -111,5 +124,24 @@ in
     assert settingsJson.uiElements.chatBarButtons.MessageLatency.enabled == false;
     assert settingsJson.uiElements.chatBarButtons.someCustomButton.enabled == false;
     assert settingsJson.uiElements.messagePopoverButtons.Translate.enabled == true;
+    true;
+
+  "local userPlugins are copied through the Nix store" =
+    let
+      config = testLib.eval.hm (
+        recursiveUpdate baseConfig {
+          discord.vencord.enable = false;
+          discord.equicord = {
+            enable = true;
+            package = stubEquicordPackage;
+          };
+          userPlugins.BetterAudioDefaults = localPlugin;
+        }
+      );
+      postPatch = builtins.unsafeDiscardStringContext config._nixcordTest.common.packages.equicord.postPatch;
+      storePlugin = builtins.unsafeDiscardStringContext "${localPlugin}";
+    in
+    assert lib.hasInfix "cp -r ${storePlugin} src/userplugins/BetterAudioDefaults" postPatch;
+    assert !(lib.hasInfix (toString localPlugin) postPatch);
     true;
 }

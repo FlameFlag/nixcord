@@ -8,7 +8,7 @@ let
         + lib.optionalString (cfg.userPlugins != { }) ''
           mkdir -p src/userplugins
           ${lib.concatMapAttrsStringSep "\n" (
-            name: path: "cp -r ${lib.escapeShellArg path} src/userplugins/${lib.escapeShellArg name}"
+            name: path: "cp -r ${lib.escapeShellArg "${path}"} src/userplugins/${lib.escapeShellArg name}"
           ) cfg.userPlugins}
         '';
 
