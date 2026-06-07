@@ -39,22 +39,24 @@ in
     for branch in discord discord-ptb discord-canary discord-development; do
       config_dir="$config_base/$branch"
       [ ! -d "$config_dir" ] && continue
-      cd "$config_dir" || continue
-      versions=($(ls -1d [0-9]*.[0-9]*.[0-9]* 2>/dev/null | sort -V || true))
-      n=''${#versions[@]}
-      if [ "$n" -ge 2 ]; then
-        prev="''${versions[$((n-2))]}"
-        curr="''${versions[$((n-1))]}"
-        prev_modules="$config_dir/$prev/modules"
-        curr_modules="$config_dir/$curr/modules"
-        if [ ! -d "$curr_modules" ] || [ "$(ls -A "$curr_modules" 2>/dev/null | grep -v '^pending$' | wc -l)" -eq 0 ]; then
-          if [ -d "$prev_modules" ]; then
-            echo "Copying Discord modules for $branch from $prev to $curr"
-            rm -rf "$curr_modules"
-            cp -a "$prev_modules" "$curr_modules"
+      (
+        cd "$config_dir" || exit 0
+        versions=($(ls -1d [0-9]*.[0-9]*.[0-9]* 2>/dev/null | sort -V || true))
+        n=''${#versions[@]}
+        if [ "$n" -ge 2 ]; then
+          prev="''${versions[$((n-2))]}"
+          curr="''${versions[$((n-1))]}"
+          prev_modules="$config_dir/$prev/modules"
+          curr_modules="$config_dir/$curr/modules"
+          if [ ! -d "$curr_modules" ] || [ "$(ls -A "$curr_modules" 2>/dev/null | grep -v '^pending$' | wc -l)" -eq 0 ]; then
+            if [ -d "$prev_modules" ]; then
+              echo "Copying Discord modules for $branch from $prev to $curr"
+              rm -rf "$curr_modules"
+              cp -a "$prev_modules" "$curr_modules"
+            fi
           fi
         fi
-      fi
+      )
     done
   '';
 

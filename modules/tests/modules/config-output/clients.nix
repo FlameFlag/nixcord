@@ -114,6 +114,14 @@ in
       ];
     true;
 
+  "discord module fix activation does not leak pwd" =
+    let
+      config = testLib.eval.hm baseConfig;
+      script = config.home.activation.fixDiscordModules.data;
+    in
+    assert lib.hasInfix "  (\n    cd \"$config_dir\" || exit 0\n" script;
+    true;
+
   "vesktop settings are generated when vesktop is enabled" =
     let
       config = testLib.eval.hm (
