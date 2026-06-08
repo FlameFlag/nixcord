@@ -30,6 +30,49 @@ in
     assert settingsJson.plugins.AlwaysAnimate.enabled == true;
     true;
 
+  "acronym plugin option emits upstream JSON key" =
+    let
+      config = testLib.eval.hm (
+        recursiveUpdate baseConfig {
+          config.plugins.clearUrls.enable = true;
+        }
+      );
+      settingsJson = discordModSettingsJSON config;
+    in
+    assert settingsJson.plugins.ClearURLs.enabled == true;
+    assert !(settingsJson.plugins ? ClearUrls);
+    true;
+
+  "legacy acronym plugin option still emits upstream JSON key" =
+    let
+      config = testLib.eval.hm (
+        recursiveUpdate baseConfig {
+          config.plugins.ClearURLs.enable = true;
+        }
+      );
+      settingsJson = discordModSettingsJSON config;
+    in
+    assert settingsJson.plugins.ClearURLs.enabled == true;
+    assert !(settingsJson.plugins ? ClearUrls);
+    true;
+
+  "acronym plugin setting option emits upstream JSON key" =
+    let
+      config = testLib.eval.hm (
+        recursiveUpdate baseConfig {
+          config.plugins.xsOverlay = {
+            enable = true;
+            preferUdp = true;
+          };
+        }
+      );
+      settingsJson = discordModSettingsJSON config;
+    in
+    assert settingsJson.plugins.XSOverlay.enabled == true;
+    assert settingsJson.plugins.XSOverlay.preferUDP == true;
+    assert !(settingsJson.plugins.XSOverlay ? preferUdp);
+    true;
+
   "disabled plugin appears as disabled in generated settings" =
     let
       config = testLib.eval.hm (

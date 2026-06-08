@@ -48,7 +48,7 @@
       }
     }
   },
-  "AutoDNDWhilePlaying": {
+  "autoDndWhilePlaying": {
     "description": "Automatically updates your online status (online, idle, dnd) when launching games (Vencord-only)",
     "settings": {
       "statusToSet": {
@@ -118,7 +118,7 @@
     "description": "Makes the gif picker open the favourite category by default (Vencord-only)",
     "settings": {}
   },
-  "BlurNSFW": {
+  "blurNsfw": {
     "description": "Blur attachments in NSFW channels until hovered (Vencord-only)",
     "settings": {
       "blurAmount": {
@@ -325,7 +325,7 @@
     "description": "cat follow mouse (real) (Vencord-only)",
     "settings": {}
   },
-  "OnePingPerDM": {
+  "onePingPerDm": {
     "description": "If unread messages are sent by a user in DMs multiple times, you'll only receive one audio ping. Read the messages to reset the limit (Vencord-only)",
     "settings": {
       "channelToAffect": {
@@ -360,7 +360,7 @@
       }
     }
   },
-  "ReviewDB": {
+  "reviewDb": {
     "description": "Review other users (Adds a new settings to profiles) (Vencord-only)",
     "settings": {
       "notifyReviews": {

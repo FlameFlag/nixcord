@@ -45,6 +45,23 @@ describe('generateParseRulesModule()', () => {
     expect(parsed.lowerPluginTitles).not.toContain('showConnections');
   });
 
+  test('includes plugin renames for generated JSON titles', () => {
+    const output = generateParseRulesModule(
+      {
+        ClearURLs: {
+          name: 'ClearURLs',
+          description: 'Clear URLs',
+          settings: {},
+        },
+      },
+      {},
+      {}
+    );
+    const parsed = JSON.parse(output);
+
+    expect(parsed.pluginRenames.clearUrls).toBe('ClearURLs');
+  });
+
   test('always includes static upper-name entries', () => {
     const output = generateParseRulesModule({}, {}, {});
     const parsed = JSON.parse(output);

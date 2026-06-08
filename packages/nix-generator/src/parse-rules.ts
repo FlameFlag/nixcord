@@ -72,6 +72,22 @@ function collectSettingRenames(
   );
 }
 
+function collectPluginRenames(...collections: PluginCollections): Record<string, string> {
+  const renames: Record<string, string> = {};
+
+  for (const collection of collections) {
+    for (const [pluginSlug, config] of Object.entries(collection)) {
+      const nixName = toNixIdentifier(pluginSlug);
+      const upstreamName = config.name?.trim() || pluginSlug;
+      if (nixName !== upstreamName) {
+        renames[nixName] = upstreamName;
+      }
+    }
+  }
+
+  return Object.fromEntries(sortedEntries(renames));
+}
+
 export function generateParseRulesModule(
   shared: ReadonlyDeep<Record<string, PluginConfig>>,
   vencordOnly: ReadonlyDeep<Record<string, PluginConfig>>,
@@ -79,10 +95,12 @@ export function generateParseRulesModule(
 ): string {
   const lowerPluginTitles = collectLowerPluginTitles(shared, vencordOnly, equicordOnly);
   const settingRenames = collectSettingRenames(shared, vencordOnly, equicordOnly);
+  const pluginRenames = collectPluginRenames(shared, vencordOnly, equicordOnly);
 
   return `${JSON.stringify(
     {
       lowerPluginTitles,
+      pluginRenames,
       settingRenames,
       upperNames: [...baseUpperNames],
     },

@@ -19,6 +19,9 @@ let
   );
   lowerPluginTitlesMask = lib.genAttrs lowerPluginTitles (_: null);
   settingRenames = lib.recursiveUpdate defaultParseRules.settingRenames parseRules.settingRenames;
+  pluginRenames = lib.recursiveUpdate (defaultParseRules.pluginRenames or { }) (
+    parseRules.pluginRenames or { }
+  );
 
   isLowerCase = s: strings.toLower s == s;
 
@@ -54,18 +57,21 @@ let
 
   # normalizeName :: string -> string -> value -> string
   # Converts a Nix option name to its JSON-side equivalent using
-  # specialRenames, settingRenames, upperNames, and lowerPluginTitles.
+  # specialRenames, settingRenames, pluginRenames, upperNames, and lowerPluginTitles.
   normalizeName =
     context: name: value:
     let
       contextRenames = settingRenames.${context} or { };
       specialName = specialRenames.${name} or null;
       renamedSetting = contextRenames.${name} or null;
+      pluginRename = pluginRenames.${name} or null;
     in
     if specialName != null then
       specialName
     else if renamedSetting != null then
       renamedSetting
+    else if context == "plugins" && pluginRename != null then
+      pluginRename
     else if builtins.hasAttr name upperNamesMask then
       unNixify name
     else if builtins.hasAttr name lowerPluginTitlesMask then

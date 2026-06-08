@@ -212,7 +212,7 @@
       }
     }
   },
-  "ClearURLs": {
+  "clearUrls": {
     "description": "Automatically removes tracking elements from URLs you send (Shared between Vencord and Equicord)",
     "settings": {}
   },
@@ -282,7 +282,7 @@
     "description": "Adds the ability to copy & open Sticker links (Shared between Vencord and Equicord)",
     "settings": {}
   },
-  "CopyUserURLs": {
+  "copyUserUrls": {
     "description": "Adds a 'Copy User URL' option to the user context menu. (Shared between Vencord and Equicord)",
     "settings": {}
   },
@@ -327,7 +327,7 @@
       }
     }
   },
-  "CustomRPC": {
+  "customRpc": {
     "description": "Add a fully customisable Rich Presence (Game status) to your Discord profile (Shared between Vencord and Equicord)",
     "settings": {}
   },
@@ -730,7 +730,7 @@
     "description": "Attempt to navigate to the channel you were in before switching accounts or loading Discord. (Shared between Vencord and Equicord)",
     "settings": {}
   },
-  "LastFMRichPresence": {
+  "lastFmRichPresence": {
     "description": "Little plugin for Last.fm rich presence (Shared between Vencord and Equicord)",
     "settings": {
       "apiKey": {
@@ -936,7 +936,7 @@
       }
     }
   },
-  "MutualGroupDMs": {
+  "mutualGroupDms": {
     "description": "Shows mutual group dms in profiles (Shared between Vencord and Equicord)",
     "settings": {}
   },
@@ -1163,7 +1163,7 @@
       }
     }
   },
-  "PinDMs": {
+  "pinDms": {
     "description": "Allows you to pin private channels to the top of your DM list. To pin/unpin or re-order pins, right click DMs (Shared between Vencord and Equicord)",
     "settings": {
       "pinOrder": {
@@ -1275,7 +1275,7 @@
         "description": "Name of the custom search engine",
         "example": "Google"
       },
-      "customEngineURL": {
+      "customEngineUrl": {
         "type": "types.nullOr types.str",
         "default": null,
         "description": "The URL of your Engine",
@@ -1764,7 +1764,7 @@
       }
     }
   },
-  "USRBG": {
+  "usrbg": {
     "description": "Displays user banners from USRBG, allowing anyone to get a banner without Nitro (Shared between Vencord and Equicord)",
     "settings": {
       "nitroFirst": {
@@ -1959,7 +1959,7 @@
     "description": "Removes 2500kbps bitrate cap on chromium and vesktop clients. (Shared between Vencord and Equicord)",
     "settings": {}
   },
-  "XSOverlay": {
+  "xsOverlay": {
     "description": "Forwards discord notifications to XSOverlay, for easy viewing in VR (Shared between Vencord and Equicord)",
     "settings": {
       "webSocketPort": {
@@ -1967,7 +1967,7 @@
         "default": 42070,
         "description": "Websocket port"
       },
-      "preferUDP": {
+      "preferUdp": {
         "type": "types.bool",
         "default": false,
         "description": "Enable if you use an older build of XSOverlay unable to connect through websockets. This setting is ignored on web."

@@ -19,8 +19,12 @@ let
       visible = false;
       warn = migration.warn;
       use = x: x;
+      condition = migration.condition or true;
     };
 in
 {
-  imports = (map mkRenameModule data.renames) ++ (map mkRemovedPluginModule data.removals);
+  imports =
+    (map mkRenameModule data.renames)
+    ++ (map mkRenameModule (data.identifierRenames or [ ]))
+    ++ (map mkRemovedPluginModule data.removals);
 }

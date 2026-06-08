@@ -444,4 +444,28 @@ describe('generatePluginModule()', () => {
     const parsed = JSON.parse(result);
     expect(parsed.testPlugin).toBeDefined();
   });
+
+  test('uses acronym-aware identifiers for plugin and setting names', () => {
+    const plugins: ReadonlyDeep<Record<string, PluginConfig>> = {
+      ClearURLs: {
+        name: 'ClearURLs',
+        settings: {
+          BadgeAPI: {
+            name: 'BadgeAPI',
+            type: 'types.bool',
+            description: 'Show API badge',
+            default: false,
+          },
+        },
+      },
+    };
+
+    const result = generatePluginModule(plugins);
+    const parsed = JSON.parse(result);
+
+    expect(parsed.clearUrls).toBeDefined();
+    expect(parsed.ClearURLs).toBeUndefined();
+    expect(parsed.clearUrls.settings.badgeApi).toBeDefined();
+    expect(parsed.clearUrls.settings.BadgeAPI).toBeUndefined();
+  });
 });

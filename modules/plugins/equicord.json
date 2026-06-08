@@ -126,7 +126,7 @@
     "description": "Mention someone randomly (Equicord-only)",
     "settings": {}
   },
-  "AutoDNDWhilePlaying": {
+  "autoDndWhilePlaying": {
     "description": "Automatically updates your online status (online, idle, dnd) when launching games (Equicord-only)",
     "settings": {
       "statusToSet": {
@@ -399,7 +399,7 @@
     "description": "Prevent Krisp from loading (Equicord-only)",
     "settings": {}
   },
-  "BlurNSFW": {
+  "blurNsfw": {
     "description": "Blur attachments in NSFW channels until hovered (Equicord-only)",
     "settings": {
       "blurAmount": {
@@ -578,7 +578,7 @@
         "default": true,
         "description": "Show Media badge (restart required)"
       },
-      "showNSFWBadge": {
+      "showNsfwBadge": {
         "type": "types.bool",
         "default": true,
         "description": "Show NSFW badge (restart required)"
@@ -1128,7 +1128,7 @@
       }
     }
   },
-  "CollapsibleUI": {
+  "collapsibleUi": {
     "description": "Native collapsible channel, member, chat button, and user area surfaces. (Equicord-only)",
     "settings": {
       "collapsedSize": {
@@ -1319,12 +1319,12 @@
         "default": true,
         "description": "Always show username instead of status. (restart required)"
       },
-      "removeShopAboveDM": {
+      "removeShopAboveDm": {
         "type": "types.bool",
         "default": false,
         "description": "Remove shops above DMs list. (restart required)"
       },
-      "removeQuestsAboveDM": {
+      "removeQuestsAboveDm": {
         "type": "types.bool",
         "default": false,
         "description": "Remove quests above DMs list. (restart required)"
@@ -2015,7 +2015,7 @@
     "description": "Allows you to filter by custom tags in the quick switcher by starting a search with & (Equicord-only)",
     "settings": {}
   },
-  "FullVCPFP": {
+  "fullVcpfp": {
     "description": "Makes avatars take up the entire vc tile (Equicord-only)",
     "settings": {}
   },
@@ -2149,7 +2149,7 @@
         "default": true,
         "description": "Show Nekocord Badges"
       },
-      "showReviewDB": {
+      "showReviewDb": {
         "type": "types.bool",
         "default": true,
         "description": "Show ReviewDB Badges"
@@ -2221,7 +2221,7 @@
         "default": "Google",
         "description": "The search engine to use"
       },
-      "customEngineURL": {
+      "customEngineUrl": {
         "type": "types.nullOr types.str",
         "default": null,
         "description": "The URL of the Engine you wish to use"
@@ -2299,7 +2299,7 @@
         "default": "husk",
         "description": "Emoji name (default (from Vencord Server): husk)"
       },
-      "emojiID": {
+      "emojiId": {
         "type": "types.int",
         "default": {
           "__nixRaw": "1026532993923293184"
@@ -2446,7 +2446,7 @@
       }
     }
   },
-  "IRememberYou": {
+  "iRememberYou": {
     "description": "Locally saves everyone you've been communicating with (including servers), in case of lose (Equicord-only)",
     "settings": {}
   },
@@ -2533,7 +2533,7 @@
     "description": "A plugin to jump to last active message from yourself or another user in a channel/server. (Equicord-only)",
     "settings": {}
   },
-  "LoginWithQR": {
+  "loginWithQr": {
     "description": "Allows you to login to another device by scanning a login QR code, just like on mobile! (Equicord-only)",
     "settings": {}
   },
@@ -3402,7 +3402,7 @@
         "default": false,
         "description": "Show Tidal Controls"
       },
-      "websocketURL": {
+      "websocketUrl": {
         "type": "types.str",
         "default": "ws://localhost:24123",
         "description": "Default is ws://localhost:24123 (restart required)"
@@ -3524,7 +3524,7 @@
     "description": "We are all equal!! Removes the role headers in the member list. (Equicord-only)",
     "settings": {}
   },
-  "NoRPC": {
+  "noRpc": {
     "description": "Disables Discord's RPC server. (Equicord-only)",
     "settings": {}
   },
@@ -3532,7 +3532,7 @@
     "description": "Makes desktop notifications more informative (Equicord-only)",
     "settings": {}
   },
-  "OnePingPerDM": {
+  "onePingPerDm": {
     "description": "If unread messages are sent by a user in DMs multiple times, you'll only receive one audio ping. Read the messages to reset the limit (Equicord-only)",
     "settings": {
       "channelToAffect": {
@@ -4053,12 +4053,12 @@
         "default": {},
         "description": "Remember the last used filters on the Quests page."
       },
-      "ignoredQuestIDs": {
+      "ignoredQuestIds": {
         "type": "types.attrs",
         "default": {},
         "description": "An array of Quest IDs that are ignored."
       },
-      "resumeQuestIDs": {
+      "resumeQuestIds": {
         "type": "types.attrs",
         "default": {},
         "description": "An array of Quest IDs that are being or are queued to be auto-completed in the background."
@@ -4273,7 +4273,7 @@
       }
     }
   },
-  "RecentDMSwitcher": {
+  "recentDmSwitcher": {
     "description": "Ctrl+Tab between most recently used DMs (Ctrl+Shift+Tab reverse) (Equicord-only)",
     "settings": {
       "visualStyle": {
@@ -4351,7 +4351,7 @@
       }
     }
   },
-  "ReviewDB": {
+  "reviewDb": {
     "description": "Review other users (Adds a new settings to profiles) (Equicord-only)",
     "settings": {
       "notifyReviews": {
@@ -4657,19 +4657,19 @@
       }
     }
   },
-  "RPCEditor": {
+  "rpcEditor": {
     "description": "Edit the type and content of any Rich Presence (Equicord-only)",
     "settings": {}
   },
-  "RPCStats": {
+  "rpcStats": {
     "description": "Displays stats about your activity as an rpc (Equicord-only)",
     "settings": {
-      "assetURL": {
+      "assetUrl": {
         "type": "types.str",
         "default": "",
         "description": "The image to use for your rpc. Your profile picture is used if left blank"
       },
-      "RPCTitle": {
+      "rpcTitle": {
         "type": "types.str",
         "default": "RPCStats",
         "description": "The title for the rpc"
@@ -4684,12 +4684,12 @@
         "default": 0,
         "description": "What should the rpc display? (you can only have one line i'm pretty sure)\n\nValues: 0 = The amount of messages sent today, 1 = The amount of messages sent all time, 2 = Your most listened album for the week"
       },
-      "lastFMApiKey": {
+      "lastFmApiKey": {
         "type": "types.str",
         "default": "",
         "description": "Your last.fm API key"
       },
-      "lastFMUsername": {
+      "lastFmUsername": {
         "type": "types.str",
         "default": "",
         "description": "Your last.fm username"
@@ -4699,14 +4699,14 @@
         "default": true,
         "description": "Should the album cover image be used as the rpc image? (if you have the last fm display chosen)"
       },
-      "lastFMStatFormat": {
+      "lastFmStatFormat": {
         "type": "types.str",
         "default": "Top album this week: \"$album - $artist\"",
         "description": "How should the last fm stat be formatted? $album is replaced with the album name, and $artist is replaced with the artist name"
       }
     }
   },
-  "SaveFavoriteGIFs": {
+  "saveFavoriteGifs": {
     "description": "Export favorited GIF urls (Equicord-only)",
     "settings": {
       "showToolboxButton": {
@@ -5443,12 +5443,12 @@
         "default": false,
         "description": "Make Discord not consider using H264 for streaming."
       },
-      "disableVP8Codec": {
+      "disableVp8Codec": {
         "type": "types.bool",
         "default": false,
         "description": "Make Discord not consider using VP8 for streaming."
       },
-      "disableVP9Codec": {
+      "disableVp9Codec": {
         "type": "types.bool",
         "default": false,
         "description": "Make Discord not consider using VP9 for streaming."
@@ -5488,7 +5488,7 @@
     "description": "Embeds TIDAL songs to make them playable in Discord. (Equicord-only)",
     "settings": {}
   },
-  "TiktokTTS": {
+  "tiktokTts": {
     "description": "Adds a context menu option to read out chat messages with the good ol' Tiktok TTS voice :sob: (Equicord-only)",
     "settings": {
       "volume": {
@@ -5699,7 +5699,7 @@
       }
     }
   },
-  "TriviaAI": {
+  "triviaAi": {
     "description": "A plugin that helps you answer trivia questions using AI. (Equicord-only)",
     "settings": {
       "apiKey": {
@@ -5845,7 +5845,7 @@
         "default": false,
         "description": "Mention users from any server, not just the current one (restart required)"
       },
-      "onlyDMUsers": {
+      "onlyDmUsers": {
         "type": "types.bool",
         "default": false,
         "description": "Only show users you've had DMs with (restart required)"
@@ -5897,7 +5897,7 @@
       }
     }
   },
-  "UserPFP": {
+  "userPfp": {
     "description": "Allows you to use an animated avatar without Nitro (Equicord-only)",
     "settings": {
       "overrideServerAvatars": {
@@ -6094,7 +6094,7 @@
       }
     }
   },
-  "VCPanelSettings": {
+  "vcPanelSettings": {
     "description": "Control voice settings right from the voice panel (Equicord-only)",
     "settings": {
       "uncollapseSettingsByDefault": {

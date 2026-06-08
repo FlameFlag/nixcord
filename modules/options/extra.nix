@@ -76,6 +76,11 @@ in
         default = [ ];
         example = [ "petpet" ];
       };
+      pluginRenames = mkOption {
+        type = types.attrsOf types.str;
+        description = "Plugin option names to rename while generating JSON.";
+        default = { };
+      };
       settingRenames = mkOption {
         type = types.attrsOf (types.attrsOf types.str);
         description = "Setting names to rename while generating JSON.";

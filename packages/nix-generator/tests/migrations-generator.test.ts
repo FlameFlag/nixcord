@@ -45,7 +45,7 @@ describe('generateMigrationsData()', () => {
 
     const result = generateMigrationsData(deprecated, allPlugins);
 
-    expect(result).toEqual({ renames: [], removals: [] });
+    expect(result).toEqual({ renames: [], identifierRenames: [], removals: [] });
   });
 
   test('setting rename aliases are warning migrations', () => {
@@ -70,6 +70,7 @@ describe('generateMigrationsData()', () => {
           warn: true,
         },
       ],
+      identifierRenames: [],
       removals: [],
     });
   });
@@ -134,6 +135,7 @@ describe('generateMigrationsData()', () => {
           warn: true,
         },
       ],
+      identifierRenames: [],
       removals: ['deadPlugin'],
     });
   });
@@ -154,6 +156,7 @@ describe('generateMigrationsData()', () => {
 
     expect(result.removals).toEqual([]);
     expect(result.renames).toEqual([]);
+    expect(result.identifierRenames).toEqual([]);
   });
 
   test('serializes formatted JSON', () => {
@@ -168,7 +171,45 @@ describe('generateMigrationsData()', () => {
 
     const result = generateMigrationsJson(deprecated, allPlugins);
 
-    expect(result).toBe('{\n  "renames": [],\n  "removals": [\n    "deadPlugin"\n  ]\n}\n');
+    expect(result).toBe(
+      '{\n  "renames": [],\n  "identifierRenames": [],\n  "removals": [\n    "deadPlugin"\n  ]\n}\n'
+    );
+  });
+
+  test('emits warning aliases from legacy acronym identifiers to canonical identifiers', () => {
+    const deprecated: DeprecatedData = {
+      renames: {},
+      removals: {},
+      settingRenames: {},
+    };
+    const allPlugins: Record<string, ReadonlyDeep<PluginConfig>> = {
+      ClearURLs: {
+        ...mkPlugin('clear urls'),
+        settings: {
+          BadgeAPI: {
+            name: 'BadgeAPI',
+            type: 'types.bool',
+            description: '',
+            default: false,
+          },
+        },
+      },
+    };
+
+    const result = generateMigrationsData(deprecated, allPlugins);
+
+    expect(result.identifierRenames).toEqual([
+      {
+        from: ['ClearURLs', 'BadgeAPI'],
+        to: ['clearUrls', 'badgeApi'],
+        warn: true,
+      },
+      {
+        from: ['ClearURLs', 'enable'],
+        to: ['clearUrls', 'enable'],
+        warn: true,
+      },
+    ]);
   });
 });
 

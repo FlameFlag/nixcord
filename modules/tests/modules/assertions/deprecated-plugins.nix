@@ -81,6 +81,28 @@ in
     assert builtins.any (message: lib.hasInfix "declutter" message) warnings;
     true;
 
+  "legacy acronym typed plugin name warns with replacement" =
+    let
+      warnings = hmWarnings {
+        enable = true;
+        config.plugins.ClearURLs.enable = true;
+      };
+    in
+    assert builtins.length warnings == 1;
+    assert builtins.any (message: lib.hasInfix "ClearURLs" message) warnings;
+    assert builtins.any (message: lib.hasInfix "clearUrls" message) warnings;
+    true;
+
+  "canonical acronym typed plugin name does not warn" =
+    let
+      warnings = hmWarnings {
+        enable = true;
+        config.plugins.clearUrls.enable = true;
+      };
+    in
+    assert warnings == [ ];
+    true;
+
   "deprecated freeform plugin name warns" =
     let
       warnings = hmWarnings {

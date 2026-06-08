@@ -117,7 +117,7 @@
       ],
       "to": [
         "declutter",
-        "removeQuestsAboveDM"
+        "removeQuestsAboveDm"
       ],
       "warn": false
     },
@@ -139,7 +139,7 @@
       ],
       "to": [
         "declutter",
-        "removeShopAboveDM"
+        "removeShopAboveDm"
       ],
       "warn": false
     },
@@ -498,22 +498,22 @@
     {
       "from": [
         "audioBookShelfRichPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "to": [
         "richPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "warn": false
     },
     {
       "from": [
         "audioBookShelfRichPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "to": [
         "richPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "warn": false
     },
@@ -854,7 +854,7 @@
       ],
       "to": [
         "declutter",
-        "removeQuestsAboveDM"
+        "removeQuestsAboveDm"
       ],
       "warn": false
     },
@@ -876,7 +876,7 @@
       ],
       "to": [
         "declutter",
-        "removeShopAboveDM"
+        "removeShopAboveDm"
       ],
       "warn": false
     },
@@ -1290,22 +1290,22 @@
     {
       "from": [
         "GensokyoRadioRPC",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "to": [
         "richPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "warn": false
     },
     {
       "from": [
         "GensokyoRadioRPC",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "to": [
         "richPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "warn": false
     },
@@ -1895,22 +1895,22 @@
     {
       "from": [
         "jellyfinRichPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "to": [
         "richPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "warn": false
     },
     {
       "from": [
         "jellyfinRichPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "to": [
         "richPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "warn": false
     },
@@ -2401,22 +2401,22 @@
     {
       "from": [
         "ListenBrainzRPC",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "to": [
         "richPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "warn": false
     },
     {
       "from": [
         "ListenBrainzRPC",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "to": [
         "richPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "warn": false
     },
@@ -2790,7 +2790,7 @@
       ],
       "to": [
         "replaceGoogleSearch",
-        "customEngineURL"
+        "customEngineUrl"
       ],
       "warn": false
     },
@@ -3193,22 +3193,22 @@
     {
       "from": [
         "statsfmPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "to": [
         "richPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "warn": false
     },
     {
       "from": [
         "statsfmPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "to": [
         "richPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "warn": false
     },
@@ -3361,7 +3361,7 @@
         "enable"
       ],
       "to": [
-        "AutoDNDWhilePlaying",
+        "autoDndWhilePlaying",
         "enable"
       ],
       "warn": false
@@ -3372,7 +3372,7 @@
         "excludeInvisible"
       ],
       "to": [
-        "AutoDNDWhilePlaying",
+        "autoDndWhilePlaying",
         "excludeInvisible"
       ],
       "warn": false
@@ -3383,7 +3383,7 @@
         "statusToSet"
       ],
       "to": [
-        "AutoDNDWhilePlaying",
+        "autoDndWhilePlaying",
         "statusToSet"
       ],
       "warn": false
@@ -3809,22 +3809,22 @@
     {
       "from": [
         "TosuRPC",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "to": [
         "richPresence",
-        "lbUseTimeBar"
+        "lbUsername"
       ],
       "warn": false
     },
     {
       "from": [
         "TosuRPC",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "to": [
         "richPresence",
-        "lbUsername"
+        "lbUseTimeBar"
       ],
       "warn": false
     },
@@ -4034,6 +4034,1460 @@
       "to": [
         "platformIndicators",
         "profiles"
+      ],
+      "warn": true
+    }
+  ],
+  "identifierRenames": [
+    {
+      "from": [
+        "AutoDNDWhilePlaying",
+        "enable"
+      ],
+      "to": [
+        "autoDndWhilePlaying",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "AutoDNDWhilePlaying",
+        "excludeInvisible"
+      ],
+      "to": [
+        "autoDndWhilePlaying",
+        "excludeInvisible"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "AutoDNDWhilePlaying",
+        "statusToSet"
+      ],
+      "to": [
+        "autoDndWhilePlaying",
+        "statusToSet"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "BlurNSFW",
+        "blurAllChannels"
+      ],
+      "to": [
+        "blurNsfw",
+        "blurAllChannels"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "BlurNSFW",
+        "blurAmount"
+      ],
+      "to": [
+        "blurNsfw",
+        "blurAmount"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "BlurNSFW",
+        "enable"
+      ],
+      "to": [
+        "blurNsfw",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "channelBadges",
+        "showNSFWBadge"
+      ],
+      "to": [
+        "channelBadges",
+        "showNsfwBadge"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "ClearURLs",
+        "enable"
+      ],
+      "to": [
+        "clearUrls",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "channelListCollapsed"
+      ],
+      "to": [
+        "collapsibleUi",
+        "channelListCollapsed"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "chatButtonsCollapsed"
+      ],
+      "to": [
+        "collapsibleUi",
+        "chatButtonsCollapsed"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "collapsedSize"
+      ],
+      "to": [
+        "collapsibleUi",
+        "collapsedSize"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "enable"
+      ],
+      "to": [
+        "collapsibleUi",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "guildBarCollapsed"
+      ],
+      "to": [
+        "collapsibleUi",
+        "guildBarCollapsed"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "headerBarCollapsed"
+      ],
+      "to": [
+        "collapsibleUi",
+        "headerBarCollapsed"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "membersListCollapsed"
+      ],
+      "to": [
+        "collapsibleUi",
+        "membersListCollapsed"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "titleBarCollapsed"
+      ],
+      "to": [
+        "collapsibleUi",
+        "titleBarCollapsed"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "transitionMs"
+      ],
+      "to": [
+        "collapsibleUi",
+        "transitionMs"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CollapsibleUI",
+        "userAreaCollapsed"
+      ],
+      "to": [
+        "collapsibleUi",
+        "userAreaCollapsed"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CopyUserURLs",
+        "enable"
+      ],
+      "to": [
+        "copyUserUrls",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "CustomRPC",
+        "enable"
+      ],
+      "to": [
+        "customRpc",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "declutter",
+        "removeQuestsAboveDM"
+      ],
+      "to": [
+        "declutter",
+        "removeQuestsAboveDm"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "declutter",
+        "removeShopAboveDM"
+      ],
+      "to": [
+        "declutter",
+        "removeShopAboveDm"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "FullVCPFP",
+        "enable"
+      ],
+      "to": [
+        "fullVcpfp",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "globalBadges",
+        "showReviewDB"
+      ],
+      "to": [
+        "globalBadges",
+        "showReviewDb"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "googleThat",
+        "customEngineURL"
+      ],
+      "to": [
+        "googleThat",
+        "customEngineUrl"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "husk",
+        "emojiID"
+      ],
+      "to": [
+        "husk",
+        "emojiId"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "IRememberYou",
+        "enable"
+      ],
+      "to": [
+        "iRememberYou",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "apiKey"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "apiKey"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "clickableLinks"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "clickableLinks"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "enable"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "hideWithActivity"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "hideWithActivity"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "hideWithSpotify"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "hideWithSpotify"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "missingArt"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "missingArt"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "nameFormat"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "nameFormat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "shareUsername"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "shareUsername"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "showAlbumCover"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "showAlbumCover"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "showLastFmLogo"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "showLastFmLogo"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "statusDisplayType"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "statusDisplayType"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "statusName"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "statusName"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "useListeningStatus"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "useListeningStatus"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LastFMRichPresence",
+        "username"
+      ],
+      "to": [
+        "lastFmRichPresence",
+        "username"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "LoginWithQR",
+        "enable"
+      ],
+      "to": [
+        "loginWithQr",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "musicControls",
+        "websocketURL"
+      ],
+      "to": [
+        "musicControls",
+        "websocketUrl"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "MutualGroupDMs",
+        "enable"
+      ],
+      "to": [
+        "mutualGroupDms",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "NoRPC",
+        "enable"
+      ],
+      "to": [
+        "noRpc",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "OnePingPerDM",
+        "allowEveryone"
+      ],
+      "to": [
+        "onePingPerDm",
+        "allowEveryone"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "OnePingPerDM",
+        "allowMentions"
+      ],
+      "to": [
+        "onePingPerDm",
+        "allowMentions"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "OnePingPerDM",
+        "alwaysPlaySound"
+      ],
+      "to": [
+        "onePingPerDm",
+        "alwaysPlaySound"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "OnePingPerDM",
+        "channelToAffect"
+      ],
+      "to": [
+        "onePingPerDm",
+        "channelToAffect"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "OnePingPerDM",
+        "enable"
+      ],
+      "to": [
+        "onePingPerDm",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "OnePingPerDM",
+        "ignoreUsers"
+      ],
+      "to": [
+        "onePingPerDm",
+        "ignoreUsers"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "PinDMs",
+        "canCollapseDmSection"
+      ],
+      "to": [
+        "pinDms",
+        "canCollapseDmSection"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "PinDMs",
+        "dmSectionCollapsed"
+      ],
+      "to": [
+        "pinDms",
+        "dmSectionCollapsed"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "PinDMs",
+        "enable"
+      ],
+      "to": [
+        "pinDms",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "PinDMs",
+        "pinOrder"
+      ],
+      "to": [
+        "pinDms",
+        "pinOrder"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "PinDMs",
+        "userBasedCategoryList"
+      ],
+      "to": [
+        "pinDms",
+        "userBasedCategoryList"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "questify",
+        "ignoredQuestIDs"
+      ],
+      "to": [
+        "questify",
+        "ignoredQuestIds"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "questify",
+        "resumeQuestIDs"
+      ],
+      "to": [
+        "questify",
+        "resumeQuestIds"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RecentDMSwitcher",
+        "amountOfUsers"
+      ],
+      "to": [
+        "recentDmSwitcher",
+        "amountOfUsers"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RecentDMSwitcher",
+        "enable"
+      ],
+      "to": [
+        "recentDmSwitcher",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RecentDMSwitcher",
+        "overlayMode"
+      ],
+      "to": [
+        "recentDmSwitcher",
+        "overlayMode"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RecentDMSwitcher",
+        "overlayRowLength"
+      ],
+      "to": [
+        "recentDmSwitcher",
+        "overlayRowLength"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RecentDMSwitcher",
+        "overlayShowAvatars"
+      ],
+      "to": [
+        "recentDmSwitcher",
+        "overlayShowAvatars"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RecentDMSwitcher",
+        "toastDurationMs"
+      ],
+      "to": [
+        "recentDmSwitcher",
+        "toastDurationMs"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RecentDMSwitcher",
+        "visualStyle"
+      ],
+      "to": [
+        "recentDmSwitcher",
+        "visualStyle"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "replaceGoogleSearch",
+        "customEngineURL"
+      ],
+      "to": [
+        "replaceGoogleSearch",
+        "customEngineUrl"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "ReviewDB",
+        "enable"
+      ],
+      "to": [
+        "reviewDb",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "ReviewDB",
+        "hideBlockedUsers"
+      ],
+      "to": [
+        "reviewDb",
+        "hideBlockedUsers"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "ReviewDB",
+        "hideTimestamps"
+      ],
+      "to": [
+        "reviewDb",
+        "hideTimestamps"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "ReviewDB",
+        "notifyReviews"
+      ],
+      "to": [
+        "reviewDb",
+        "notifyReviews"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "ReviewDB",
+        "showWarning"
+      ],
+      "to": [
+        "reviewDb",
+        "showWarning"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCEditor",
+        "enable"
+      ],
+      "to": [
+        "rpcEditor",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCStats",
+        "albumCoverImage"
+      ],
+      "to": [
+        "rpcStats",
+        "albumCoverImage"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCStats",
+        "assetURL"
+      ],
+      "to": [
+        "rpcStats",
+        "assetUrl"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCStats",
+        "enable"
+      ],
+      "to": [
+        "rpcStats",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCStats",
+        "lastFMApiKey"
+      ],
+      "to": [
+        "rpcStats",
+        "lastFmApiKey"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCStats",
+        "lastFMStatFormat"
+      ],
+      "to": [
+        "rpcStats",
+        "lastFmStatFormat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCStats",
+        "lastFMUsername"
+      ],
+      "to": [
+        "rpcStats",
+        "lastFmUsername"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCStats",
+        "RPCTitle"
+      ],
+      "to": [
+        "rpcStats",
+        "rpcTitle"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "RPCStats",
+        "statDisplay"
+      ],
+      "to": [
+        "rpcStats",
+        "statDisplay"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "SaveFavoriteGIFs",
+        "enable"
+      ],
+      "to": [
+        "saveFavoriteGifs",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "SaveFavoriteGIFs",
+        "showToolboxButton"
+      ],
+      "to": [
+        "saveFavoriteGifs",
+        "showToolboxButton"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "streamingCodecDisabler",
+        "disableVP8Codec"
+      ],
+      "to": [
+        "streamingCodecDisabler",
+        "disableVp8Codec"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "streamingCodecDisabler",
+        "disableVP9Codec"
+      ],
+      "to": [
+        "streamingCodecDisabler",
+        "disableVp9Codec"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TiktokTTS",
+        "enable"
+      ],
+      "to": [
+        "tiktokTts",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TiktokTTS",
+        "volume"
+      ],
+      "to": [
+        "tiktokTts",
+        "volume"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "apiKey"
+      ],
+      "to": [
+        "triviaAi",
+        "apiKey"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "context"
+      ],
+      "to": [
+        "triviaAi",
+        "context"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "enable"
+      ],
+      "to": [
+        "triviaAi",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "endpoint"
+      ],
+      "to": [
+        "triviaAi",
+        "endpoint"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "maxTokens"
+      ],
+      "to": [
+        "triviaAi",
+        "maxTokens"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "mode"
+      ],
+      "to": [
+        "triviaAi",
+        "mode"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "model"
+      ],
+      "to": [
+        "triviaAi",
+        "model"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "passMessageAuthorName"
+      ],
+      "to": [
+        "triviaAi",
+        "passMessageAuthorName"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "supportImages"
+      ],
+      "to": [
+        "triviaAi",
+        "supportImages"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "systemPrompt"
+      ],
+      "to": [
+        "triviaAi",
+        "systemPrompt"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "TriviaAI",
+        "treatSelfAsAssistant"
+      ],
+      "to": [
+        "triviaAi",
+        "treatSelfAsAssistant"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "universalMention",
+        "onlyDMUsers"
+      ],
+      "to": [
+        "universalMention",
+        "onlyDmUsers"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "UserPFP",
+        "databaseSource"
+      ],
+      "to": [
+        "userPfp",
+        "databaseSource"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "UserPFP",
+        "enable"
+      ],
+      "to": [
+        "userPfp",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "UserPFP",
+        "overrideServerAvatars"
+      ],
+      "to": [
+        "userPfp",
+        "overrideServerAvatars"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "UserPFP",
+        "preferNitro"
+      ],
+      "to": [
+        "userPfp",
+        "preferNitro"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "USRBG",
+        "enable"
+      ],
+      "to": [
+        "usrbg",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "USRBG",
+        "nitroFirst"
+      ],
+      "to": [
+        "usrbg",
+        "nitroFirst"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "USRBG",
+        "voiceBackground"
+      ],
+      "to": [
+        "usrbg",
+        "voiceBackground"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "camera"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "camera"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "enable"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "inputDevice"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "inputDevice"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "inputVolume"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "inputVolume"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "outputDevice"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "outputDevice"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "outputVolume"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "outputVolume"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "showInputDeviceHeader"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "showInputDeviceHeader"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "showInputVolumeHeader"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "showInputVolumeHeader"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "showOutputDeviceHeader"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "showOutputDeviceHeader"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "showOutputVolumeHeader"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "showOutputVolumeHeader"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "showVideoDeviceHeader"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "showVideoDeviceHeader"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "VCPanelSettings",
+        "uncollapseSettingsByDefault"
+      ],
+      "to": [
+        "vcPanelSettings",
+        "uncollapseSettingsByDefault"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "botNotifications"
+      ],
+      "to": [
+        "xsOverlay",
+        "botNotifications"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "callNotifications"
+      ],
+      "to": [
+        "xsOverlay",
+        "callNotifications"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "channelPingColor"
+      ],
+      "to": [
+        "xsOverlay",
+        "channelPingColor"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "dmNotifications"
+      ],
+      "to": [
+        "xsOverlay",
+        "dmNotifications"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "enable"
+      ],
+      "to": [
+        "xsOverlay",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "groupDmNotifications"
+      ],
+      "to": [
+        "xsOverlay",
+        "groupDmNotifications"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "lengthBasedTimeout"
+      ],
+      "to": [
+        "xsOverlay",
+        "lengthBasedTimeout"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "opacity"
+      ],
+      "to": [
+        "xsOverlay",
+        "opacity"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "pingColor"
+      ],
+      "to": [
+        "xsOverlay",
+        "pingColor"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "preferUDP"
+      ],
+      "to": [
+        "xsOverlay",
+        "preferUdp"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "serverNotifications"
+      ],
+      "to": [
+        "xsOverlay",
+        "serverNotifications"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "soundPath"
+      ],
+      "to": [
+        "xsOverlay",
+        "soundPath"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "timeout"
+      ],
+      "to": [
+        "xsOverlay",
+        "timeout"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "volume"
+      ],
+      "to": [
+        "xsOverlay",
+        "volume"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "XSOverlay",
+        "webSocketPort"
+      ],
+      "to": [
+        "xsOverlay",
+        "webSocketPort"
       ],
       "warn": true
     }
