@@ -11,7 +11,7 @@
 }:
 let
   nodeModulesHashDarwin = "sha256-/1H8CLr7QVXecHhxOZouRUtfA6lD2vME7IFcwrZYsCM=";
-  nodeModulesHashLinux = "sha256-UFP1Hvs/PpuOuZSbFLARib82qcDNQ9HGEaO5ndZlH8E=";
+  nodeModulesHashLinux = "sha256-Gsp5ZlbsRcg6rYa+unClgxuRr2HgnwlDSc1mRYBUUv4=";
   nodeModulesHash = if stdenvNoCC.isDarwin then nodeModulesHashDarwin else nodeModulesHashLinux;
 in
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -92,6 +92,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook preConfigure
 
     cp -R ${finalAttrs.node_modules}/. .
+    chmod -R u+w ./node_modules ./docs/site/node_modules
+    patchShebangs --build node_modules docs/site/node_modules
 
     runHook postConfigure
   '';
