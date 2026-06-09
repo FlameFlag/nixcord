@@ -356,6 +356,22 @@
       }
     }
   },
+  "betterGifLoad": {
+    "description": "Change the quality of GIFs in the GIF picker. Improves performance and lowers internet usage. (Equicord-only)",
+    "settings": {
+      "gifQuality": {
+        "type": "types.enum",
+        "enumValues": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "default": 1,
+        "description": "GIF quality\n\nValues: 1 = High, 2 = Reasonable, 3 = Low, 4 = Horrible"
+      }
+    }
+  },
   "betterGifPicker": {
     "description": "Makes the gif picker open the favourite category by default (Equicord-only)",
     "settings": {

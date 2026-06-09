@@ -88,6 +88,53 @@ describe('extractSettingsFromCall()', () => {
     expect(iconSpacing.default).toBe(1);
   });
 
+  test('extracts SELECT options from const object property access values', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.ts',
+      `export const enum OptionType {
+         STRING = 0,
+         NUMBER = 1,
+         BIGINT = 2,
+         BOOLEAN = 3,
+         SELECT = 4,
+         SLIDER = 5,
+         COMPONENT = 6,
+         CUSTOM = 7
+       }
+       function definePluginSettings(settings: Record<string, unknown>) {
+         return settings;
+       }
+       const Quality = {
+         High: 1,
+         Reasonable: 2,
+         Low: 3,
+         Horrible: 4,
+       } as const;
+       definePluginSettings({
+         gifQuality: {
+           type: OptionType.SELECT,
+           description: "GIF quality",
+           options: [
+             { label: "High", value: Quality.High, default: true },
+             { label: "Reasonable", value: Quality.Reasonable },
+             { label: "Low", value: Quality.Low },
+             { label: "Horrible", value: Quality.Horrible }
+           ]
+         }
+       });`
+    );
+    const callExpr = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression)[0];
+    if (!callExpr) throw new Error('Call expression not found');
+    const checker = project.getTypeChecker();
+    const program = project.getProgram();
+    const result = extractSettingsFromCall(callExpr, checker, program);
+    const gifQuality = result.gifQuality as PluginSetting;
+    expect(gifQuality.enumValues).toEqual([1, 2, 3, 4]);
+    expect(gifQuality.default).toBe(1);
+    expect(gifQuality.description).toBe('GIF quality');
+  });
+
   test('keeps string literal enums as strings', () => {
     const project = createProject();
     const sourceFile = project.createSourceFile(

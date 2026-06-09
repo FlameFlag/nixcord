@@ -15,7 +15,7 @@
         "@typescript/native-preview": "^7.0.0-dev.20260421.2",
         "@vitest/coverage-v8": "~4.1.7",
         "@vitest/ui": "~4.1.7",
-        "equicord": "github:Equicord/Equicord#v1.14.13.0",
+        "equicord": "github:Equicord/Equicord#v1.14.13.3",
         "fallow": "^2.76.0",
         "typescript": "npm:@typescript/typescript6@^6.0.0",
         "vencord": "github:Vendicated/Vencord#v1.14.13",
@@ -494,7 +494,7 @@
 
     "enhanced-resolve": ["enhanced-resolve@5.21.6", "", { "dependencies": { "graceful-fs": "^4.2.4", "tapable": "^2.3.3" } }, "sha512-aNnGCvbJ/RIyWo1IuhNdVjnNF+EjH9wpzpNHt+ci/m9He9LJvUN8wrCcXjp9cWsGNAuvSpVFTx/vraAFQ8qGjQ=="],
 
-    "equicord": ["equicord@github:Equicord/Equicord#aa52e2a", { "dependencies": { "@ffmpeg/ffmpeg": "^0.12.10", "@ffmpeg/util": "^0.12.1", "@intrnl/xxhash64": "^0.1.2", "@song-spotlight/api": "^2.1.3", "@streamparser/json": "^0.0.22", "@types/less": "^3.0.8", "@types/stylus": "^0.48.42", "@types/tinycolor2": "^1.4.6", "@vap/core": "0.0.12", "@vap/shiki": "0.10.5", "fflate": "^0.8.2", "gifenc": "github:mattdesl/gifenc#64842fca317b112a8590f8fef2bf3825da8f6fe3", "idb": "8.0.3", "jsqr": "1.4.0", "monaco-editor": "^0.55.1", "nanoid": "^5.1.6", "native-file-system-adapter": "^3.0.1", "usercss-meta": "^0.12.0", "virtual-merge": "^1.0.1", "yaml-js": "^0.3.1" } }, "Equicord-Equicord-aa52e2a", "sha512-q8tmDi6aLbFuaXrTl2VRApLJWAGQpd76EEIxyI18qFTMdMzO90m2aK7JwVRLLZvivJdFmglW5wtNkCU5QmJw1Q=="],
+    "equicord": ["equicord@github:Equicord/Equicord#4079d74", { "dependencies": { "@ffmpeg/ffmpeg": "^0.12.10", "@ffmpeg/util": "^0.12.1", "@intrnl/xxhash64": "^0.1.2", "@song-spotlight/api": "^2.1.3", "@streamparser/json": "^0.0.22", "@types/less": "^3.0.8", "@types/stylus": "^0.48.42", "@types/tinycolor2": "^1.4.6", "@vap/core": "0.0.12", "@vap/shiki": "0.10.5", "fflate": "^0.8.2", "gifenc": "github:mattdesl/gifenc#64842fca317b112a8590f8fef2bf3825da8f6fe3", "idb": "8.0.3", "jsqr": "1.4.0", "monaco-editor": "^0.55.1", "nanoid": "^5.1.6", "native-file-system-adapter": "^3.0.1", "usercss-meta": "^0.12.0", "virtual-merge": "^1.0.1", "yaml-js": "^0.3.1" } }, "Equicord-Equicord-4079d74", "sha512-zZl1Sfrf9niJ5Rvj1kejD7kEvJWfni1P8oiMLAGOHMvKABKaevNyVqKEzsVG+0K+ri6Uxn8vWbELgk8GRhd++w=="],
 
     "es-module-lexer": ["es-module-lexer@2.0.0", "", {}, "sha512-5POEcUuZybH7IdmGsD8wlf0AI55wMecM9rVBTI/qEAy2c1kTOm3DjFYjrBdI2K3BaJjJYfYFeRtM0t9ssnRuxw=="],
 
@@ -769,6 +769,8 @@
     "nixcord-docs/vite": ["vite@7.3.3", "", { "dependencies": { "esbuild": "^0.27.0", "fdir": "^6.5.0", "picomatch": "^4.0.3", "postcss": "^8.5.6", "rollup": "^4.43.0", "tinyglobby": "^0.2.15" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^20.19.0 || >=22.12.0", "jiti": ">=1.21.0", "less": "^4.0.0", "lightningcss": "^1.21.0", "sass": "^1.70.0", "sass-embedded": "^1.70.0", "stylus": ">=0.54.8", "sugarss": "^5.0.0", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["@types/node", "jiti", "less", "lightningcss", "sass", "sass-embedded", "stylus", "sugarss", "terser", "tsx", "yaml"], "bin": { "vite": "bin/vite.js" } }, "sha512-/4XH147Ui7OGTjg3HbdWe5arnZQSbfuRzdr9Ec7TQi5I7R+ir0Rlc9GIvD4v0XZurELqA035KVXJXpR61xhiTA=="],
 
     "postcss/nanoid": ["nanoid@3.3.11", "", { "bin": { "nanoid": "bin/nanoid.cjs" } }, "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w=="],
+
+    "vencord/gifenc": ["gifenc@github:mattdesl/gifenc#64842fc", {}, "mattdesl-gifenc-64842fc", "sha512-gtl76gG6LhrCAhMjKuTkJW2LyCr/7V3BySJhA4CfBgmSAPspSrxmfFrRAvlW7fszHIThRTgv/3HYeJHkReK5oA=="],
 
     "@types/fs-extra/@types/node/undici-types": ["undici-types@7.18.2", "", {}, "sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w=="],
 

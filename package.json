@@ -39,7 +39,7 @@
     "@typescript/native-preview": "^7.0.0-dev.20260421.2",
     "@vitest/coverage-v8": "~4.1.7",
     "@vitest/ui": "~4.1.7",
-    "equicord": "github:Equicord/Equicord#v1.14.13.0",
+    "equicord": "github:Equicord/Equicord#v1.14.13.3",
     "fallow": "^2.76.0",
     "typescript": "npm:@typescript/typescript6@^6.0.0",
     "vencord": "github:Vendicated/Vencord#v1.14.13",
