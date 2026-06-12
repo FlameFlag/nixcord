@@ -21,6 +21,33 @@ import { DEFAULT_PROPERTY, GET_FUNCTION_NAME } from './constants.js';
 import type { DefaultValueResult } from './types.js';
 import { createExtractionError, ExtractionErrorKind } from './types.js';
 
+const extractArrayLiteralValue = (node: Node, checker: TypeChecker): unknown[] | undefined => {
+  const unwrapped = unwrapNode(node);
+
+  const arr = unwrapped.asKind(SyntaxKind.ArrayLiteralExpression);
+  if (arr) {
+    const values = arr.getElements().map((element) => {
+      const value = tryEvaluate(element, checker);
+      return value === undefined ? null : value;
+    });
+    return values.some((value) => value === null) ? undefined : values;
+  }
+
+  const ident = unwrapped.asKind(SyntaxKind.Identifier);
+  if (ident) {
+    const init = resolveIdentifierInitializerNode(ident, checker);
+    return init ? extractArrayLiteralValue(init, checker) : undefined;
+  }
+
+  const call = unwrapped.asKind(SyntaxKind.CallExpression);
+  if (call?.getExpression().getText() === 'Array.from') {
+    const firstArg = call.getArguments()[0];
+    return firstArg ? extractArrayLiteralValue(firstArg, checker) : undefined;
+  }
+
+  return undefined;
+};
+
 const handleEmpty = (kind: SyntaxKind): DefaultValueResult => {
   if (kind === SyntaxKind.ArrayLiteralExpression) return Ok([]);
   if (kind === SyntaxKind.ObjectLiteralExpression) return Ok({});
@@ -66,6 +93,9 @@ const handleCallExpression = (
   const objLiteral = args[0]?.asKind(SyntaxKind.ObjectLiteralExpression);
 
   if (!objLiteral) {
+    const arrayValue = extractArrayLiteralValue(callExpr, checker);
+    if (arrayValue !== undefined) return Ok(arrayValue);
+
     // Try to resolve the call return type, but fall back to conservative defaults
     const resolved = resolveCallExpressionReturn(callExpr, checker);
     if (resolved !== undefined) {

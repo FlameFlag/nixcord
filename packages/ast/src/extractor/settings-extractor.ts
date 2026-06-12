@@ -19,6 +19,7 @@ import {
   isBooleanEnumValues,
   iteratePropertyAssignments,
   resolveCallExpressionReturn,
+  resolveIdentifierInitializerNode,
   tryEvaluate,
   unwrapNode,
 } from '../foundation/index.js';
@@ -49,6 +50,31 @@ const EXTERNAL_ENUM_VALUES: Readonly<Record<string, readonly EnumLiteral[]>> = {
 
 type ParameterBindings = ReadonlyMap<string, Node>;
 
+const extractArrayFromStaticSource = (
+  node: Node | undefined,
+  checker: TypeChecker,
+  bindings?: ParameterBindings
+): unknown[] | undefined => {
+  if (!node) return undefined;
+
+  const unwrapped = unwrapNode(node);
+  const ident = unwrapped.asKind(SyntaxKind.Identifier);
+  if (ident && bindings?.has(ident.getText())) {
+    return extractArrayFromStaticSource(bindings.get(ident.getText()), checker, bindings);
+  }
+  if (ident) {
+    return extractArrayFromStaticSource(resolveIdentifierInitializerNode(ident, checker), checker);
+  }
+
+  const arr = unwrapped.asKind(SyntaxKind.ArrayLiteralExpression);
+  if (!arr) return undefined;
+
+  const values = arr
+    .getElements()
+    .map((element) => extractLiteralValue(element, checker, bindings));
+  return values.some((value) => value === undefined) ? undefined : values;
+};
+
 const extractLiteralValue = (
   node: Node | undefined,
   checker: TypeChecker,
@@ -56,21 +82,31 @@ const extractLiteralValue = (
 ): unknown => {
   if (!node) return undefined;
 
-  const ident = node.asKind(SyntaxKind.Identifier);
+  const unwrapped = unwrapNode(node);
+  if (unwrapped !== node) return extractLiteralValue(unwrapped, checker, bindings);
+
+  const ident = unwrapped.asKind(SyntaxKind.Identifier);
   if (ident && bindings?.has(ident.getText())) {
     return extractLiteralValue(bindings.get(ident.getText()), checker);
   }
 
-  const kind = node.getKind();
+  const kind = unwrapped.getKind();
   if (kind === SyntaxKind.BigIntLiteral) {
-    const raw = node.asKindOrThrow(SyntaxKind.BigIntLiteral).getText();
+    const raw = unwrapped.asKindOrThrow(SyntaxKind.BigIntLiteral).getText();
     return raw.toLowerCase().endsWith('n') ? raw.slice(0, -1) : raw;
   }
   if (kind === SyntaxKind.ArrayLiteralExpression) {
-    const arr = node.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
+    const arr = unwrapped.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
     return arr.getElements().map((el) => extractLiteralValue(el, checker, bindings));
   }
-  return tryEvaluate(node, checker);
+  if (kind === SyntaxKind.CallExpression) {
+    const call = unwrapped.asKindOrThrow(SyntaxKind.CallExpression);
+    if (call.getExpression().getText() === 'Array.from') {
+      const value = extractArrayFromStaticSource(call.getArguments()[0], checker, bindings);
+      if (value !== undefined) return value;
+    }
+  }
+  return tryEvaluate(unwrapped, checker);
 };
 
 const extractLiteralFromTypeNode = (node: Node): EnumLiteral | undefined => {

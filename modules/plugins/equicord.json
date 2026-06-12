@@ -4062,8 +4062,13 @@
         "description": "Attempt to preload the assets for the Quest tiles."
       },
       "questOrder": {
-        "type": "types.attrs",
-        "default": {},
+        "type": "types.listOf types.str",
+        "default": [
+          "UNCLAIMED",
+          "CLAIMED",
+          "IGNORED",
+          "EXPIRED"
+        ],
         "description": "Sort order for Quest status groups."
       },
       "unclaimedSubsort": {
