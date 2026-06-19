@@ -190,17 +190,22 @@ basePackage.overrideAttrs (
 
     postInstall =
       oldPostInstall
-      + lib.optionalString (stdenvNoCC.isLinux && !hasKrispModule) ''
+      + lib.optionalString (stdenvNoCC.isLinux && !hasKrispModule && !withOpenASAR) ''
         ${python3.interpreter} ${scripts.setLocalModulesRoot} \
           "$out/opt/${binaryName}/resources/build_info.json" \
           "$out/opt/${binaryName}/modules"
       ''
-      + lib.optionalString (stdenvNoCC.isLinux && hasKrispModule) ''
+      + lib.optionalString (stdenvNoCC.isLinux && hasKrispModule && !withOpenASAR) ''
         ${python3.interpreter} ${patchVoiceKrispPy} \
           "$out/opt/${binaryName}/modules/discord_voice/index.js" \
           "require('path').join(process.env.XDG_CONFIG_HOME || require('path').join(require('os').homedir(), '.config'), '${lib.toLower binaryName}', '${version}', 'modules', 'discord_krisp')" \
           "$out/opt/${binaryName}/resources/build_info.json" \
           "$out/opt/${binaryName}/modules"
+      ''
+      + lib.optionalString (stdenvNoCC.isLinux && hasKrispModule && withOpenASAR) ''
+        ${python3.interpreter} ${patchVoiceKrispPy} \
+          "$out/opt/${binaryName}/modules/discord_voice/index.js" \
+          "require('path').join(process.env.XDG_CONFIG_HOME || require('path').join(require('os').homedir(), '.config'), '${lib.toLower binaryName}', '${version}', 'modules', 'discord_krisp')"
       ''
       + lib.optionalString stdenvNoCC.isDarwin ''
         source ${scripts.deleteLargeBadges} "${resourcesDir}"

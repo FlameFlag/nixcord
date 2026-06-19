@@ -89,14 +89,17 @@ let
       variants = {
         ptb = {
           package = mkDiscord "ptb";
+          binaryName = "DiscordPTB";
           executableName = "discordptb";
         };
         canary = {
           package = mkDiscord "canary";
+          binaryName = "DiscordCanary";
           executableName = "discordcanary";
         };
         development = {
           package = mkDiscord "development";
+          binaryName = "DiscordDevelopment";
           executableName = "discorddevelopment";
         };
       };
@@ -105,6 +108,7 @@ let
         _name:
         {
           package,
+          binaryName,
           executableName,
         }:
         ''
@@ -113,6 +117,10 @@ let
           test -L "$package/bin/discord"
           test "$(readlink "$package/bin/discord")" = "${executableName}"
           test "${lib.meta.getExe package}" = "$package/bin/discord"
+          if ${lib.getExe pkgs.jq} -e 'has("localModulesRoot")' "$package/opt/${binaryName}/resources/build_info.json"; then
+            echo "OpenASAR package must not point localModulesRoot at the Nix store" >&2
+            exit 1
+          fi
         '';
     in
     pkgs.runCommand "discord-executable-alias-check" { } ''
