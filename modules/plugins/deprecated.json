@@ -1,5 +1,114 @@
 {
-  "renames": {},
+  "renames": {
+    "AudioBookShelfRichPresence": {
+      "to": "RichPresence",
+      "date": "2026-06-24"
+    },
+    "BetterQuickReact": {
+      "to": "MoreQuickReactions",
+      "date": "2026-06-24"
+    },
+    "EmoteCloner": {
+      "to": "ExpressionCloner",
+      "date": "2026-06-24"
+    },
+    "FriendCloud": {
+      "to": "MoreCommands",
+      "date": "2026-06-24"
+    },
+    "GensokyoRadioRPC": {
+      "to": "RichPresence",
+      "date": "2026-06-24"
+    },
+    "GifRoulette": {
+      "to": "MoreCommands",
+      "date": "2026-06-24"
+    },
+    "HideAttachments": {
+      "to": "HideMedia",
+      "date": "2026-06-24"
+    },
+    "ImgToGif": {
+      "to": "MoreCommands",
+      "date": "2026-06-24"
+    },
+    "JellyfinRichPresence": {
+      "to": "RichPresence",
+      "date": "2026-06-24"
+    },
+    "ListenBrainzRPC": {
+      "to": "RichPresence",
+      "date": "2026-06-24"
+    },
+    "MemberListActivities": {
+      "to": "BetterActivities",
+      "date": "2026-06-24"
+    },
+    "MessageTags": {
+      "to": "CustomCommands",
+      "date": "2026-06-24"
+    },
+    "MoreKaomoji": {
+      "to": "MoreCommands",
+      "date": "2026-06-24"
+    },
+    "oneko": {
+      "to": "CursorBuddy",
+      "date": "2026-06-24"
+    },
+    "Oneko": {
+      "to": "CursorBuddy",
+      "date": "2026-06-24"
+    },
+    "PronounDB": {
+      "to": "UserMessagesPronouns",
+      "date": "2026-06-24"
+    },
+    "RepeatMessage": {
+      "to": "RepeatMessages",
+      "date": "2026-06-24"
+    },
+    "Search": {
+      "to": "ReplaceGoogleSearch",
+      "date": "2026-06-24"
+    },
+    "SearchReply": {
+      "to": "FullSearchContext",
+      "date": "2026-06-24"
+    },
+    "ShowAllRoles": {
+      "to": "AlwaysExpandRoles",
+      "date": "2026-06-24"
+    },
+    "SortFriendRequests": {
+      "to": "SortFriends",
+      "date": "2026-06-24"
+    },
+    "StatsfmPresence": {
+      "to": "RichPresence",
+      "date": "2026-06-24"
+    },
+    "StatusWhilePlaying": {
+      "to": "AutoDNDWhilePlaying",
+      "date": "2026-06-24"
+    },
+    "TimelessClips": {
+      "to": "ClipsEnhancements",
+      "date": "2026-06-24"
+    },
+    "TosuRPC": {
+      "to": "RichPresence",
+      "date": "2026-06-24"
+    },
+    "VencordToolbox": {
+      "to": "EquicordToolbox",
+      "date": "2026-06-24"
+    },
+    "YoutubeDescription": {
+      "to": "FixYoutubeEmbeds",
+      "date": "2026-06-24"
+    }
+  },
   "removals": {},
   "settingRenames": {
     "declutter": {

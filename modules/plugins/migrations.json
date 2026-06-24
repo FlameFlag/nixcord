@@ -2,6 +2,3636 @@
   "renames": [
     {
       "from": [
+        "audioBookShelfRichPresence",
+        "absEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "absEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "absPassword"
+      ],
+      "to": [
+        "richPresence",
+        "absPassword"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "absServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "absServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "absUsername"
+      ],
+      "to": [
+        "richPresence",
+        "absUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "enable"
+      ],
+      "to": [
+        "richPresence",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "enabled"
+      ],
+      "to": [
+        "richPresence",
+        "enabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "grEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "grEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "grRefreshInterval"
+      ],
+      "to": [
+        "richPresence",
+        "grRefreshInterval"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfApiKey"
+      ],
+      "to": [
+        "richPresence",
+        "jfApiKey"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfCoverType"
+      ],
+      "to": [
+        "richPresence",
+        "jfCoverType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfCustomName"
+      ],
+      "to": [
+        "richPresence",
+        "jfCustomName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "jfEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfEpisodeFormat"
+      ],
+      "to": [
+        "richPresence",
+        "jfEpisodeFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfNameDisplay"
+      ],
+      "to": [
+        "richPresence",
+        "jfNameDisplay"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfOverrideType"
+      ],
+      "to": [
+        "richPresence",
+        "jfOverrideType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfPrivacyMode"
+      ],
+      "to": [
+        "richPresence",
+        "jfPrivacyMode"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "jfServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfShowEpisodeName"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowEpisodeName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfShowPausedState"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowPausedState"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "jfUserId"
+      ],
+      "to": [
+        "richPresence",
+        "jfUserId"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "lbEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbHideWithActivity"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithActivity"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbMbContact"
+      ],
+      "to": [
+        "richPresence",
+        "lbMbContact"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "lbMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "lbNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "lbStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbUseLogo"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "lbUseTimeBar"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseTimeBar"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "sfmEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "sfmNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmShowLogo"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShowLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "sfmStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "sfmUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "audioBookShelfRichPresence",
+        "tosuEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "tosuEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "betterQuickReact",
+        "columns"
+      ],
+      "to": [
+        "moreQuickReactions",
+        "columns"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "betterQuickReact",
+        "compactMode"
+      ],
+      "to": [
+        "moreQuickReactions",
+        "compactMode"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "betterQuickReact",
+        "enable"
+      ],
+      "to": [
+        "moreQuickReactions",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "betterQuickReact",
+        "frequentEmojis"
+      ],
+      "to": [
+        "moreQuickReactions",
+        "frequentEmojis"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "betterQuickReact",
+        "reactionCount"
+      ],
+      "to": [
+        "moreQuickReactions",
+        "reactionCount"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "betterQuickReact",
+        "rows"
+      ],
+      "to": [
+        "moreQuickReactions",
+        "rows"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "betterQuickReact",
+        "scroll"
+      ],
+      "to": [
+        "moreQuickReactions",
+        "scroll"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "emoteCloner",
+        "enable"
+      ],
+      "to": [
+        "expressionCloner",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "friendCloud",
+        "addFreakyEnding"
+      ],
+      "to": [
+        "moreCommands",
+        "addFreakyEnding"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "friendCloud",
+        "enable"
+      ],
+      "to": [
+        "moreCommands",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "friendCloud",
+        "uwuEveryMessage"
+      ],
+      "to": [
+        "moreCommands",
+        "uwuEveryMessage"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "friendCloud",
+        "uwuEverything"
+      ],
+      "to": [
+        "moreCommands",
+        "uwuEverything"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "absEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "absEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "absPassword"
+      ],
+      "to": [
+        "richPresence",
+        "absPassword"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "absServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "absServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "absUsername"
+      ],
+      "to": [
+        "richPresence",
+        "absUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "enable"
+      ],
+      "to": [
+        "richPresence",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "enabled"
+      ],
+      "to": [
+        "richPresence",
+        "enabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "grEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "grEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "grRefreshInterval"
+      ],
+      "to": [
+        "richPresence",
+        "grRefreshInterval"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfApiKey"
+      ],
+      "to": [
+        "richPresence",
+        "jfApiKey"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfCoverType"
+      ],
+      "to": [
+        "richPresence",
+        "jfCoverType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfCustomName"
+      ],
+      "to": [
+        "richPresence",
+        "jfCustomName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "jfEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfEpisodeFormat"
+      ],
+      "to": [
+        "richPresence",
+        "jfEpisodeFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfNameDisplay"
+      ],
+      "to": [
+        "richPresence",
+        "jfNameDisplay"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfOverrideType"
+      ],
+      "to": [
+        "richPresence",
+        "jfOverrideType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfPrivacyMode"
+      ],
+      "to": [
+        "richPresence",
+        "jfPrivacyMode"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "jfServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfShowEpisodeName"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowEpisodeName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfShowPausedState"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowPausedState"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "jfUserId"
+      ],
+      "to": [
+        "richPresence",
+        "jfUserId"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "lbEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbHideWithActivity"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithActivity"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbMbContact"
+      ],
+      "to": [
+        "richPresence",
+        "lbMbContact"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "lbMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "lbNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "lbStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbUseLogo"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "lbUseTimeBar"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseTimeBar"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmAlwaysHideArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "sfmEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmHideWithExternalRpc"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "sfmNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmShowLogo"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShowLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "sfmStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "sfmUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "GensokyoRadioRPC",
+        "tosuEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "tosuEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "gifRoulette",
+        "addFreakyEnding"
+      ],
+      "to": [
+        "moreCommands",
+        "addFreakyEnding"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "gifRoulette",
+        "enable"
+      ],
+      "to": [
+        "moreCommands",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "gifRoulette",
+        "uwuEveryMessage"
+      ],
+      "to": [
+        "moreCommands",
+        "uwuEveryMessage"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "gifRoulette",
+        "uwuEverything"
+      ],
+      "to": [
+        "moreCommands",
+        "uwuEverything"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "hideAttachments",
+        "enable"
+      ],
+      "to": [
+        "hideMedia",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "imgToGif",
+        "addFreakyEnding"
+      ],
+      "to": [
+        "moreCommands",
+        "addFreakyEnding"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "imgToGif",
+        "enable"
+      ],
+      "to": [
+        "moreCommands",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "imgToGif",
+        "uwuEveryMessage"
+      ],
+      "to": [
+        "moreCommands",
+        "uwuEveryMessage"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "imgToGif",
+        "uwuEverything"
+      ],
+      "to": [
+        "moreCommands",
+        "uwuEverything"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "absEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "absEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "absPassword"
+      ],
+      "to": [
+        "richPresence",
+        "absPassword"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "absServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "absServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "absUsername"
+      ],
+      "to": [
+        "richPresence",
+        "absUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "enable"
+      ],
+      "to": [
+        "richPresence",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "enabled"
+      ],
+      "to": [
+        "richPresence",
+        "enabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "grEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "grEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "grRefreshInterval"
+      ],
+      "to": [
+        "richPresence",
+        "grRefreshInterval"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfApiKey"
+      ],
+      "to": [
+        "richPresence",
+        "jfApiKey"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfCoverType"
+      ],
+      "to": [
+        "richPresence",
+        "jfCoverType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfCustomName"
+      ],
+      "to": [
+        "richPresence",
+        "jfCustomName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "jfEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfEpisodeFormat"
+      ],
+      "to": [
+        "richPresence",
+        "jfEpisodeFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfNameDisplay"
+      ],
+      "to": [
+        "richPresence",
+        "jfNameDisplay"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfOverrideType"
+      ],
+      "to": [
+        "richPresence",
+        "jfOverrideType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfPrivacyMode"
+      ],
+      "to": [
+        "richPresence",
+        "jfPrivacyMode"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "jfServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfShowEpisodeName"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowEpisodeName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfShowPausedState"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowPausedState"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "jfUserId"
+      ],
+      "to": [
+        "richPresence",
+        "jfUserId"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "lbEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbHideWithActivity"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithActivity"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbMbContact"
+      ],
+      "to": [
+        "richPresence",
+        "lbMbContact"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "lbMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "lbNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "lbStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbUseLogo"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "lbUseTimeBar"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseTimeBar"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "sfmEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "sfmNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmShowLogo"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShowLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "sfmStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "sfmUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "jellyfinRichPresence",
+        "tosuEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "tosuEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "absEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "absEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "absPassword"
+      ],
+      "to": [
+        "richPresence",
+        "absPassword"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "absServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "absServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "absUsername"
+      ],
+      "to": [
+        "richPresence",
+        "absUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "enable"
+      ],
+      "to": [
+        "richPresence",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "enabled"
+      ],
+      "to": [
+        "richPresence",
+        "enabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "grEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "grEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "grRefreshInterval"
+      ],
+      "to": [
+        "richPresence",
+        "grRefreshInterval"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfApiKey"
+      ],
+      "to": [
+        "richPresence",
+        "jfApiKey"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfCoverType"
+      ],
+      "to": [
+        "richPresence",
+        "jfCoverType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfCustomName"
+      ],
+      "to": [
+        "richPresence",
+        "jfCustomName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "jfEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfEpisodeFormat"
+      ],
+      "to": [
+        "richPresence",
+        "jfEpisodeFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfNameDisplay"
+      ],
+      "to": [
+        "richPresence",
+        "jfNameDisplay"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfOverrideType"
+      ],
+      "to": [
+        "richPresence",
+        "jfOverrideType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfPrivacyMode"
+      ],
+      "to": [
+        "richPresence",
+        "jfPrivacyMode"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "jfServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfShowEpisodeName"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowEpisodeName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfShowPausedState"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowPausedState"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "jfUserId"
+      ],
+      "to": [
+        "richPresence",
+        "jfUserId"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "lbEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbHideWithActivity"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithActivity"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbMbContact"
+      ],
+      "to": [
+        "richPresence",
+        "lbMbContact"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "lbMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "lbNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "lbStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbUseLogo"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "lbUseTimeBar"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseTimeBar"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmAlwaysHideArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "sfmEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmHideWithExternalRpc"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "sfmNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmShowLogo"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShowLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "sfmStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "sfmUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "ListenBrainzRPC",
+        "tosuEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "tosuEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "allActivitiesStyle"
+      ],
+      "to": [
+        "betterActivities",
+        "allActivitiesStyle"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "enable"
+      ],
+      "to": [
+        "betterActivities",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "hideTooltip"
+      ],
+      "to": [
+        "betterActivities",
+        "hideTooltip"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "iconSize"
+      ],
+      "to": [
+        "betterActivities",
+        "iconSize"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "memberList"
+      ],
+      "to": [
+        "betterActivities",
+        "memberList"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "removeGameActivityStatus"
+      ],
+      "to": [
+        "betterActivities",
+        "removeGameActivityStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "renderGifs"
+      ],
+      "to": [
+        "betterActivities",
+        "renderGifs"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "specialFirst"
+      ],
+      "to": [
+        "betterActivities",
+        "specialFirst"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "memberListActivities",
+        "userPopout"
+      ],
+      "to": [
+        "betterActivities",
+        "userPopout"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "messageTags",
+        "enable"
+      ],
+      "to": [
+        "customCommands",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "messageTags",
+        "tagsList"
+      ],
+      "to": [
+        "customCommands",
+        "tagsList"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "moreKaomoji",
+        "addFreakyEnding"
+      ],
+      "to": [
+        "moreCommands",
+        "addFreakyEnding"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "moreKaomoji",
+        "enable"
+      ],
+      "to": [
+        "moreCommands",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "moreKaomoji",
+        "uwuEveryMessage"
+      ],
+      "to": [
+        "moreCommands",
+        "uwuEveryMessage"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "moreKaomoji",
+        "uwuEverything"
+      ],
+      "to": [
+        "moreCommands",
+        "uwuEverything"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "PronounDB",
+        "enable"
+      ],
+      "to": [
+        "userMessagesPronouns",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "PronounDB",
+        "pronounsFormat"
+      ],
+      "to": [
+        "userMessagesPronouns",
+        "pronounsFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "PronounDB",
+        "showSelf"
+      ],
+      "to": [
+        "userMessagesPronouns",
+        "showSelf"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "repeatMessage",
+        "enable"
+      ],
+      "to": [
+        "repeatMessages",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "search",
+        "customEngineName"
+      ],
+      "to": [
+        "replaceGoogleSearch",
+        "customEngineName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "search",
+        "customEngineURL"
+      ],
+      "to": [
+        "replaceGoogleSearch",
+        "customEngineUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "search",
+        "enable"
+      ],
+      "to": [
+        "replaceGoogleSearch",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "search",
+        "replacementEngine"
+      ],
+      "to": [
+        "replaceGoogleSearch",
+        "replacementEngine"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "searchReply",
+        "enable"
+      ],
+      "to": [
+        "fullSearchContext",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "showAllRoles",
+        "enable"
+      ],
+      "to": [
+        "alwaysExpandRoles",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "showAllRoles",
+        "hideArrow"
+      ],
+      "to": [
+        "alwaysExpandRoles",
+        "hideArrow"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "absEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "absEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "absPassword"
+      ],
+      "to": [
+        "richPresence",
+        "absPassword"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "absServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "absServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "absUsername"
+      ],
+      "to": [
+        "richPresence",
+        "absUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "enable"
+      ],
+      "to": [
+        "richPresence",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "enabled"
+      ],
+      "to": [
+        "richPresence",
+        "enabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "grEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "grEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "grRefreshInterval"
+      ],
+      "to": [
+        "richPresence",
+        "grRefreshInterval"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfApiKey"
+      ],
+      "to": [
+        "richPresence",
+        "jfApiKey"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfCoverType"
+      ],
+      "to": [
+        "richPresence",
+        "jfCoverType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfCustomName"
+      ],
+      "to": [
+        "richPresence",
+        "jfCustomName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "jfEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfEpisodeFormat"
+      ],
+      "to": [
+        "richPresence",
+        "jfEpisodeFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfNameDisplay"
+      ],
+      "to": [
+        "richPresence",
+        "jfNameDisplay"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfOverrideType"
+      ],
+      "to": [
+        "richPresence",
+        "jfOverrideType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfPrivacyMode"
+      ],
+      "to": [
+        "richPresence",
+        "jfPrivacyMode"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "jfServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfShowEpisodeName"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowEpisodeName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfShowPausedState"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowPausedState"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "jfUserId"
+      ],
+      "to": [
+        "richPresence",
+        "jfUserId"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "lbEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbHideWithActivity"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithActivity"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbMbContact"
+      ],
+      "to": [
+        "richPresence",
+        "lbMbContact"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "lbMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "lbNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "lbStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbUseLogo"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "lbUseTimeBar"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseTimeBar"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "sfmEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "sfmNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmShowLogo"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShowLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "sfmStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "sfmUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statsfmPresence",
+        "tosuEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "tosuEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statusWhilePlaying",
+        "enable"
+      ],
+      "to": [
+        "autoDndWhilePlaying",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statusWhilePlaying",
+        "excludeInvisible"
+      ],
+      "to": [
+        "autoDndWhilePlaying",
+        "excludeInvisible"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "statusWhilePlaying",
+        "statusToSet"
+      ],
+      "to": [
+        "autoDndWhilePlaying",
+        "statusToSet"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "timelessClips",
+        "enable"
+      ],
+      "to": [
+        "clipsEnhancements",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "timelessClips",
+        "richPresenceTagging"
+      ],
+      "to": [
+        "clipsEnhancements",
+        "richPresenceTagging"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "absEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "absEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "absPassword"
+      ],
+      "to": [
+        "richPresence",
+        "absPassword"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "absServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "absServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "absUsername"
+      ],
+      "to": [
+        "richPresence",
+        "absUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "enable"
+      ],
+      "to": [
+        "richPresence",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "enabled"
+      ],
+      "to": [
+        "richPresence",
+        "enabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "grEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "grEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "grRefreshInterval"
+      ],
+      "to": [
+        "richPresence",
+        "grRefreshInterval"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfApiKey"
+      ],
+      "to": [
+        "richPresence",
+        "jfApiKey"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfCoverType"
+      ],
+      "to": [
+        "richPresence",
+        "jfCoverType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfCustomName"
+      ],
+      "to": [
+        "richPresence",
+        "jfCustomName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "jfEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfEpisodeFormat"
+      ],
+      "to": [
+        "richPresence",
+        "jfEpisodeFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfNameDisplay"
+      ],
+      "to": [
+        "richPresence",
+        "jfNameDisplay"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfOverrideType"
+      ],
+      "to": [
+        "richPresence",
+        "jfOverrideType"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfPrivacyMode"
+      ],
+      "to": [
+        "richPresence",
+        "jfPrivacyMode"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfServerUrl"
+      ],
+      "to": [
+        "richPresence",
+        "jfServerUrl"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfShowEpisodeName"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowEpisodeName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfShowPausedState"
+      ],
+      "to": [
+        "richPresence",
+        "jfShowPausedState"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "jfUserId"
+      ],
+      "to": [
+        "richPresence",
+        "jfUserId"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "lbEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbHideWithActivity"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithActivity"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "lbHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbMbContact"
+      ],
+      "to": [
+        "richPresence",
+        "lbMbContact"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "lbMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "lbNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "lbStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbUseLogo"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbUsername"
+      ],
+      "to": [
+        "richPresence",
+        "lbUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "lbUseTimeBar"
+      ],
+      "to": [
+        "richPresence",
+        "lbUseTimeBar"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmAlwaysHideArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmAlwaysHideArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "sfmEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmHideWithExternalRpc"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithExternalRpc"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmHideWithSpotify"
+      ],
+      "to": [
+        "richPresence",
+        "sfmHideWithSpotify"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmMissingArt"
+      ],
+      "to": [
+        "richPresence",
+        "sfmMissingArt"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmNameFormat"
+      ],
+      "to": [
+        "richPresence",
+        "sfmNameFormat"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmShareSong"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareSong"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmShareUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShareUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmShowLogo"
+      ],
+      "to": [
+        "richPresence",
+        "sfmShowLogo"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmStatusName"
+      ],
+      "to": [
+        "richPresence",
+        "sfmStatusName"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmUseListeningStatus"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUseListeningStatus"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "sfmUsername"
+      ],
+      "to": [
+        "richPresence",
+        "sfmUsername"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "TosuRPC",
+        "tosuEnabled"
+      ],
+      "to": [
+        "richPresence",
+        "tosuEnabled"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "youtubeDescription",
+        "enable"
+      ],
+      "to": [
+        "fixYoutubeEmbeds",
+        "enable"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
+        "youtubeDescription",
+        "youtubeDescription"
+      ],
+      "to": [
+        "fixYoutubeEmbeds",
+        "youtubeDescription"
+      ],
+      "warn": false
+    },
+    {
+      "from": [
         "fontLoader",
         "applyOnClodeBlocks"
       ],
