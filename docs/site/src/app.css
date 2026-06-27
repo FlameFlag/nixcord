@@ -35,15 +35,24 @@
     @apply text-nmd-teal;
   }
 
+  a:focus-visible,
+  summary:focus-visible {
+    @apply outline-3 outline-offset-3 outline-nmd-yellow;
+  }
+
   code,
   pre {
     font-family: var(--font-mono);
+  }
+
+  [id] {
+    scroll-margin-top: 1rem;
   }
 }
 
 @layer components {
   .book {
-    @apply mx-auto min-h-screen max-w-248 border-x border-neutral-300 bg-white px-5 py-8 text-[16px] sm:px-10 lg:px-16;
+    @apply mx-auto min-h-screen max-w-248 border-x border-neutral-300 bg-white px-5 py-8 text-[16px] shadow-[0_22px_70px_rgba(15,23,42,0.08)] sm:px-10 lg:px-16;
   }
 
   .titlepage hgroup {
@@ -76,6 +85,7 @@
 
   .subtitle {
     @apply mt-1 text-[1.25rem] font-normal text-neutral-600;
+    overflow-wrap: anywhere;
   }
 
   .section {
@@ -100,11 +110,11 @@
   }
 
   .toc-main {
-    @apply my-7 border-y border-neutral-300 bg-neutral-50 px-5 py-4;
+    @apply my-7 rounded-sm border border-neutral-300 border-l-4 border-l-nmd-teal bg-neutral-50 px-5 py-4 shadow-sm;
   }
 
   .toc-local {
-    @apply max-w-md border border-neutral-300 border-l-4 border-l-neutral-300 bg-neutral-50 px-4 py-3;
+    @apply max-w-md rounded-sm border border-neutral-300 border-l-4 border-l-neutral-300 bg-neutral-50 px-4 py-3 shadow-sm;
   }
 
   .toc-title {
@@ -120,7 +130,11 @@
   }
 
   .toc-list a {
-    @apply inline-block;
+    @apply inline-flex min-h-7 items-center rounded-sm px-1 no-underline;
+  }
+
+  .toc-list a:hover {
+    @apply bg-white underline;
   }
 
   ul.itemizedlist {
@@ -136,7 +150,7 @@
   }
 
   .blockquote {
-    @apply my-4 border-l-4 border-nmd-info bg-sky-50 px-4 py-3 text-neutral-900;
+    @apply my-4 rounded-r-sm border-l-4 border-nmd-info bg-sky-50 px-4 py-3 text-neutral-900;
   }
 
   .blockquote p {
@@ -147,10 +161,11 @@
   code.option,
   code.filename {
     @apply rounded bg-neutral-100 px-1 py-0.5 text-[0.92em] text-neutral-900;
+    overflow-wrap: anywhere;
   }
 
   pre {
-    @apply my-4 overflow-x-auto rounded border border-neutral-300 bg-neutral-50 p-0 text-[0.92rem] leading-6;
+    @apply my-4 overflow-x-auto rounded-md border border-neutral-200 bg-neutral-50 p-0 text-[0.92rem] leading-6 shadow-sm;
   }
 
   pre code {
@@ -174,7 +189,7 @@
   }
 
   .option-section {
-    @apply border-t border-neutral-300 py-4;
+    @apply border-t border-neutral-300 py-3;
     content-visibility: auto;
     contain-intrinsic-size: auto 1600px;
   }
@@ -184,7 +199,28 @@
   }
 
   .option-section-summary {
-    @apply cursor-pointer text-nmd-blue;
+    @apply -mx-2 flex min-h-12 cursor-pointer list-none items-center gap-2 rounded-sm px-2 py-2 text-nmd-blue transition-colors;
+  }
+
+  .option-section-summary::-webkit-details-marker,
+  .option-plugin-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .option-section-summary::before,
+  .option-plugin-summary::before {
+    @apply text-[1.05rem] leading-none text-nmd-blue transition-transform;
+    content: "›";
+  }
+
+  .option-section[open] > .option-section-summary::before,
+  .option-plugin[open] > .option-plugin-summary::before {
+    transform: rotate(90deg);
+  }
+
+  .option-section-summary:hover,
+  .option-plugin-summary:hover {
+    @apply bg-sky-50 text-nmd-teal;
   }
 
   .option-section-heading {
@@ -192,7 +228,7 @@
   }
 
   .option-section-count {
-    @apply ml-2 text-[0.95rem] text-neutral-600;
+    @apply rounded-sm border border-neutral-200 bg-white px-2 py-0.5 text-[0.85rem] text-neutral-600;
   }
 
   .option-section-description {
@@ -200,7 +236,7 @@
   }
 
   .option-definition {
-    @apply mt-5 border border-neutral-300 border-l-4 border-l-nmd-blue bg-white;
+    @apply mt-5 rounded-sm border border-neutral-300 border-l-4 border-l-nmd-blue bg-white shadow-sm;
     content-visibility: auto;
     contain-intrinsic-size: auto 240px;
   }
@@ -210,17 +246,17 @@
   }
 
   .option-plugin {
-    @apply mt-5 border border-neutral-300 border-l-4 border-l-nmd-blue bg-white;
+    @apply mt-5 rounded-sm border border-neutral-300 border-l-4 border-l-nmd-blue bg-white shadow-sm;
     content-visibility: auto;
     contain-intrinsic-size: auto 520px;
   }
 
   .option-plugin-summary {
-    @apply cursor-pointer border-b border-neutral-200 bg-neutral-50 px-4 py-3;
+    @apply flex min-h-12 cursor-pointer list-none items-center gap-2 border-b border-neutral-200 bg-neutral-50 px-4 py-3 transition-colors;
   }
 
   .option-plugin-count {
-    @apply ml-2 text-[0.9rem] text-neutral-600;
+    @apply rounded-sm border border-neutral-200 bg-white px-2 py-0.5 text-[0.82rem] text-neutral-600;
   }
 
   .option-plugin-options {
@@ -236,7 +272,7 @@
   }
 
   .option-body {
-    @apply m-0 px-4 py-3;
+    @apply m-0 px-4 py-4;
   }
 
   .option-description {
@@ -248,7 +284,7 @@
   }
 
   .option-field {
-    @apply grid gap-1 border-b border-neutral-200 py-2 sm:grid-cols-[8rem_minmax(0,1fr)];
+    @apply grid gap-1 border-b border-neutral-200 py-2.5 sm:grid-cols-[8rem_minmax(0,1fr)];
   }
 
   .option-field:last-child {
@@ -298,6 +334,29 @@
   }
 
   .options-error {
-    @apply border-l-4 border-nmd-warn bg-orange-50 px-4 py-3 text-neutral-950;
+    @apply rounded-r-sm border-l-4 border-nmd-warn bg-orange-50 px-4 py-3 text-neutral-950;
+  }
+
+  .option-definition:has(.option-heading:target),
+  .option-plugin:target {
+    @apply border-l-nmd-orange bg-orange-50 shadow-md;
+  }
+}
+
+@media (max-width: 640px) {
+  @layer components {
+    .book {
+      @apply border-x-0 px-4 shadow-none;
+    }
+
+    .option-section-summary,
+    .option-plugin-summary {
+      @apply flex-wrap items-start;
+    }
+
+    .option-section-count,
+    .option-plugin-count {
+      @apply mt-0.5;
+    }
   }
 }
