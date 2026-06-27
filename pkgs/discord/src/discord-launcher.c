@@ -1,9 +1,9 @@
 #include <errno.h>
+#include <spawn.h>
 #include <stdckdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <spawn.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -82,9 +82,8 @@ static void run_or_exit(char *const helper_argv[]) {
   size_t extra_argc = command_line_argc;
   size_t next_argc_without_null = 0;
   size_t next_argc = 0;
-  if (
-      ckd_add(&next_argc_without_null, base_argc, extra_argc) ||
-      ckd_add(&next_argc, next_argc_without_null, (size_t)1)) {
+  if (ckd_add(&next_argc_without_null, base_argc, extra_argc)
+      || ckd_add(&next_argc, next_argc_without_null, (size_t)1)) {
     fprintf(stderr, "argv is too large\n");
     return nullptr;
   }

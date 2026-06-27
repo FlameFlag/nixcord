@@ -27,17 +27,6 @@ let
       fetchurl { inherit (krispSourceMeta) url hash; }
     else
       null;
-
-  # Modules to stage at install time. Keep discord_krisp out of the generic
-  # staging path: when Krisp is enabled, the patched module is copied below;
-  # when disabled, leaving it absent avoids loading a broken native addon.
-  stagedModuleSrcs = lib.removeAttrs moduleSrcs [ "discord_krisp" ];
-
-  stagedModuleVersions =
-    if withKrisp && krispSourceMeta != null && stdenvNoCC.isLinux then
-      moduleVersions
-    else
-      lib.removeAttrs moduleVersions [ "discord_krisp" ];
 in
 {
   inherit
@@ -51,7 +40,5 @@ in
     moduleVersions
     krispSourceMeta
     krispSrc
-    stagedModuleSrcs
-    stagedModuleVersions
     ;
 }

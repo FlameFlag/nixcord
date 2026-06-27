@@ -12,15 +12,11 @@
   curl,
   jq,
   nix,
-  asar,
-  openasar ? null,
   brotli,
-  libpulseaudio,
-  # Krisp noise cancellation patching
   python3,
   runCommand,
   darwin ? null,
-  rcodesign,
+  rcodesign ? null,
 
   # Options
   branch ? "stable",
@@ -29,6 +25,7 @@
   withEquicord ? false,
   equicord ? null,
   withOpenASAR ? false,
+  openasar ? null,
   commandLineArgs ? [ ],
   withKrisp ? false,
 }:
@@ -53,7 +50,14 @@ let
     "-Werror"
   ];
 
-  withoutOpenSSL11 = lib.filter (input: !(lib.hasPrefix "openssl-1.1.1" (lib.getName input)));
+  variantPackages = {
+    stable = discord;
+    ptb = discord-ptb;
+    canary = discord-canary;
+    development = discord-development;
+  };
+
+  basePackage = variantPackages.${branch};
 
   binaryName =
     if stdenvNoCC.isLinux then
@@ -79,128 +83,207 @@ let
     else
       lib.toLower binaryName;
 
-  executableName = if stdenvNoCC.isLinux then configDirName else binaryName;
-
-  needsDiscordExecutableAlias = branch != "stable";
-
-  nodeModulesTargetPrefix = if stdenvNoCC.isLinux then "../../modules" else "../modules";
-
   resourcesDir =
     if stdenvNoCC.isLinux then
       "$out/opt/${binaryName}/resources"
     else
       "$out/Applications/${binaryName}.app/Contents/Resources";
 
-  scripts = {
-    deleteLargeBadges = ./scripts/delete-large-badges.sh;
-    extractDistro = ./scripts/extract-distro.sh;
-    installDarwinDistro = ./scripts/install-darwin-distro.sh;
-    installDarwinLauncher = ./scripts/install-darwin-launcher.sh;
-    installOpenASAR = ./scripts/install-openasar.sh;
-    installPatcherASAR = ./scripts/install-patcher-asar.sh;
-    linkNodeModules = ./scripts/link-node-modules.sh;
-    patchDiscordAppASAR = ./scripts/patch-discord-app-asar.sh;
-    restoreDarwinSymlinks = ./scripts/restore-darwin-symlinks.py;
-    setLocalModulesRoot = ./scripts/set-local-modules-root.py;
-    unpackDistroModules = ./scripts/unpack-distro-modules.sh;
-    wrapLinuxDiscord = ./scripts/wrap-linux-discord.sh;
-  };
+  modulesDir =
+    if stdenvNoCC.isLinux then
+      "$out/opt/${binaryName}/modules"
+    else
+      "${resourcesDir}/modules";
 
-  discordLib = lib.makeScope lib.callPackageWith (self: {
+  sourceSet = import ./lib/sources.nix {
     inherit
       lib
       stdenvNoCC
-      stdenv
       fetchurl
-      discord
-      discord-ptb
-      discord-canary
-      discord-development
+      branch
+      withKrisp
+      ;
+  };
+
+  inherit (sourceSet)
+    source
+    version
+    moduleSrcs
+    moduleVersions
+    krispSrc
+    ;
+
+  updateScript = import ./lib/update-script.nix {
+    inherit
       writeShellApplication
       cacert
+      nix
       curl
       jq
-      nix
-      asar
-      openasar
+      python3
+      ;
+    updateSourcesPy = ./scripts/update-sources.py;
+  };
+
+  krisp = import ./lib/krisp.nix {
+    inherit
+      lib
+      stdenvNoCC
       brotli
-      libpulseaudio
       python3
       runCommand
       darwin
-      rcodesign
-      branch
-      withVencord
-      vencord
-      withEquicord
-      equicord
-      withOpenASAR
-      commandLineArgs
       withKrisp
-      launcherCFlags
-      withoutOpenSSL11
-      binaryName
-      configDirName
-      executableName
-      needsDiscordExecutableAlias
-      nodeModulesTargetPrefix
-      resourcesDir
-      scripts
-      ;
-
-    sourceSet = self.callPackage ./lib/sources.nix { };
-
-    inherit (self.sourceSet)
-      source
       version
-      src
-      moduleSrcs
-      moduleVersions
+      binaryName
       krispSrc
-      stagedModuleSrcs
+      ;
+    installDeployKrispScript = ./scripts/install-deploy-krisp.sh;
+    patchKrispModuleScript = ./scripts/patch-krisp-module.sh;
+  };
+
+  inherit (krisp)
+    krispModule
+    deployKrisp
+    patchVoiceKrispPy
+    ;
+
+  hasKrispModule = withKrisp && krispModule != null;
+  hasDeployKrisp = withKrisp && deployKrisp != null;
+
+  stagedModuleVersions = lib.removeAttrs moduleVersions [ "discord_krisp" ];
+
+  disabledUpdateSettingsJson = builtins.toJSON {
+    SKIP_HOST_UPDATE = true;
+    SKIP_MODULE_UPDATE = true;
+    USE_NEW_UPDATER = false;
+  };
+
+  stageModules = import ./lib/stage-modules.nix {
+    inherit
+      lib
+      stdenvNoCC
+      writeShellApplication
+      jq
+      version
+      configDirName
       stagedModuleVersions
+      disabledUpdateSettingsJson
       ;
+  };
 
-    krisp = self.callPackage ./lib/krisp.nix {
-      installDeployKrispScript = ./scripts/install-deploy-krisp.sh;
-      patchKrispModuleScript = ./scripts/patch-krisp-module.sh;
-    };
+  commandLineArgsString =
+    if builtins.isList commandLineArgs then lib.escapeShellArgs commandLineArgs else commandLineArgs;
+  commandLineArgsList = if builtins.isList commandLineArgs then commandLineArgs else [ ];
 
-    inherit (self.krisp)
-      krispModule
-      deployKrisp
-      patchVoiceKrispPy
-      ;
+  indexedCommandLineArgs = lib.lists.imap0 (index: arg: {
+    inherit index arg;
+  }) commandLineArgsList;
+  commandLineArgDeclarations = lib.strings.concatMapStringsSep "\n" (
+    { index, arg }:
+    "static char command_line_arg_${toString index}[] = \"${lib.strings.escapeC (lib.strings.stringToCharacters arg) arg}\";"
+  ) indexedCommandLineArgs;
+  commandLineArgPointers = lib.strings.concatMapStringsSep ", " (
+    { index, ... }: "command_line_arg_${toString index}"
+  ) indexedCommandLineArgs;
+  commandLineArgPointersWithComma = lib.strings.optionalString (
+    commandLineArgPointers != ""
+  ) "${commandLineArgPointers},";
 
-    disabledUpdateSettings = {
-      SKIP_HOST_UPDATE = true;
-      SKIP_MODULE_UPDATE = true;
-      USE_NEW_UPDATER = false;
-    };
+  krispRuntimePath =
+    if stdenvNoCC.isLinux then
+      "require('path').join(process.env.XDG_CONFIG_HOME || require('path').join(require('os').homedir(), '.config'), '${configDirName}', '${version}', 'modules', 'discord_krisp')"
+    else
+      "require('path').join(require('os').userInfo().homedir, 'Library', 'Application Support', '${configDirName}', '${version}', 'modules', 'discord_krisp')";
 
-    disabledUpdateSettingsJson = builtins.toJSON self.disabledUpdateSettings;
+  overrideArgs =
+    {
+      inherit
+        source
+        withVencord
+        withEquicord
+        withOpenASAR
+        ;
+      commandLineArgs = if stdenvNoCC.isDarwin then "" else commandLineArgsString;
+    }
+    // lib.optionalAttrs (vencord != null) { inherit vencord; }
+    // lib.optionalAttrs (equicord != null) { inherit equicord; }
+    // lib.optionalAttrs (openasar != null) { inherit openasar; };
 
-    updateScript = self.callPackage ./lib/update-script.nix {
-      updateSourcesPy = ./scripts/update-sources.py;
-    };
+  package = basePackage.override overrideArgs;
 
-    stageModules = self.callPackage ./lib/stage-modules.nix { };
-
-    basePackage = self.callPackage ./lib/base-package.nix { };
-
-    darwinEntitlements = builtins.toFile "discord-entitlements.plist" (
-      lib.generators.toPlist { escape = true; } {
-        "com.apple.security.cs.allow-jit" = true;
-        "com.apple.security.cs.allow-unsigned-executable-memory" = true;
-        "com.apple.security.cs.disable-library-validation" = true;
-        "com.apple.security.device.audio-input" = true;
-        "com.apple.security.device.camera" = true;
-      }
-    );
-
-    package = self.callPackage ./lib/override.nix {
-      launcherC = ./src/discord-launcher.c;
-    };
-  });
+  darwinEntitlements = builtins.toFile "discord-entitlements.plist" (
+    lib.generators.toPlist { escape = true; } {
+      "com.apple.security.cs.allow-jit" = true;
+      "com.apple.security.cs.allow-unsigned-executable-memory" = true;
+      "com.apple.security.cs.disable-library-validation" = true;
+      "com.apple.security.device.audio-input" = true;
+      "com.apple.security.device.camera" = true;
+    }
+  );
 in
-discordLib.package
+package.overrideAttrs (
+  oldAttrs:
+  let
+    oldEnv = oldAttrs.env or { };
+    oldEnvHasNixCFlags = oldEnv ? NIX_CFLAGS_COMPILE;
+    oldPassthru = oldAttrs.passthru or { };
+  in
+  {
+    passthru = oldPassthru // {
+      inherit
+        updateScript
+        source
+        moduleSrcs
+        moduleVersions
+        ;
+      nixcordCommandLineArgsList = true;
+    };
+
+    env =
+      oldEnv
+      // lib.optionalAttrs (stdenvNoCC.isDarwin || oldEnvHasNixCFlags) {
+        NIX_CFLAGS_COMPILE = lib.concatStringsSep " " (
+          lib.optional oldEnvHasNixCFlags (toString oldEnv.NIX_CFLAGS_COMPILE)
+          ++ lib.optionals stdenvNoCC.isDarwin launcherCFlags
+        );
+      };
+
+    postInstall =
+      (oldAttrs.postInstall or "")
+      + lib.optionalString hasKrispModule ''
+        rm -rf "${modulesDir}/discord_krisp"
+        mkdir -p "${modulesDir}/discord_krisp"
+        cp -R "${krispModule}/." "${modulesDir}/discord_krisp/"
+        chmod -R u+w "${modulesDir}/discord_krisp"
+
+        ${python3.interpreter} ${patchVoiceKrispPy} \
+          "${modulesDir}/discord_voice/index.js" \
+          ${lib.escapeShellArg krispRuntimePath}
+      '';
+
+    postFixup =
+      (oldAttrs.postFixup or "")
+      + lib.optionalString (stdenvNoCC.isLinux && hasDeployKrisp) ''
+        wrapProgramShell "$out/opt/${binaryName}/${binaryName}" \
+          --run ${lib.escapeShellArg (lib.getExe deployKrisp)}
+      ''
+      + lib.optionalString stdenvNoCC.isDarwin ''
+        source ${./scripts/install-darwin-launcher.sh} \
+          ${lib.strings.escapeShellArg binaryName} \
+          ${./src/discord-launcher.c} \
+          ${lib.getExe oldPassthru.disableBreakingUpdates} \
+          ${lib.getExe stageModules} \
+          "${modulesDir}" \
+          ${lib.escapeShellArg (lib.optionalString hasDeployKrisp (lib.getExe deployKrisp))} \
+          "$out/Applications/${binaryName}.app/Contents/MacOS/${binaryName}.unwrapped" \
+          ${if hasDeployKrisp then "1" else "0"} \
+          ${lib.strings.escapeShellArg commandLineArgDeclarations} \
+          ${lib.strings.escapeShellArg commandLineArgPointersWithComma} \
+          ${toString (builtins.length commandLineArgsList)} \
+          ${stdenv.cc}/bin/cc \
+          ${lib.meta.getExe rcodesign} \
+          ${darwinEntitlements}
+      '';
+  }
+)
