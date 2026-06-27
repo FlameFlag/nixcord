@@ -14,17 +14,17 @@
   replaceVars,
 }:
 let
-  version = "v1.14.13.3";
-  hash = "sha256-inLli2is0GUWOZlLTGA3E8dIzCnkWWYGhu7ebXiZAl0=";
-  pnpmDepsHashDarwin = "sha256-RwppRWrEzIKZDb3QLVAMd1bHXyFwiatYNiNccVgrcWA=";
-  pnpmDepsHashLinux = "sha256-RwppRWrEzIKZDb3QLVAMd1bHXyFwiatYNiNccVgrcWA=";
+  version = "1.14.13.3-unstable-2026-06-17";
+  rev = "665e43f04818af6f66c0ce1191331e7ab34ca45a";
+  hash = "sha256-5mkPy3+F2/RXurt3auyCKRd39ZmFcs891hVjgdMX8Mk=";
+  pnpmDepsHashDarwin = "sha256-A7oOh0mqmvzG6+7ifOdKpLp8eOBX8fzXmuBdEQwYX9M=";
+  pnpmDepsHashLinux = "sha256-A7oOh0mqmvzG6+7ifOdKpLp8eOBX8fzXmuBdEQwYX9M=";
   pnpmDepsHash = if stdenvNoCC.isDarwin then pnpmDepsHashDarwin else pnpmDepsHashLinux;
   owner = equicord.src.owner;
   repo = equicord.src.repo;
   src = fetchFromGitHub {
     inherit owner repo;
-    tag = version;
-    inherit hash;
+    inherit rev hash;
   };
   updateScript = writeShellApplication {
     name = "equicord-update";
@@ -44,10 +44,10 @@ let
           nixFile = "./pkgs/equicord.nix";
           owner = equicord.src.owner;
           repo = equicord.src.repo;
-          updateKind = "stable-tag";
+          updateKind = "unstable-branch";
           versionVar = "version";
           hashVar = "hash";
-          revVar = "";
+          revVar = "rev";
           pnpmHashVar = "";
           callPackageArgs = "{ }";
           stableTagRegex = "^v[0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?$";
@@ -60,21 +60,31 @@ let
     '';
   };
 in
-(equicord.override { inherit buildWebExtension; }).overrideAttrs (oldAttrs: {
-  inherit version src;
-  patches = (oldAttrs.patches or [ ]) ++ [
-    ./patches/equicord-content-warning-settings.patch
-  ];
-  pnpmDeps = fetchPnpmDeps {
-    inherit src;
-    inherit version;
-    inherit (oldAttrs) pname;
-    inherit (oldAttrs.pnpmDeps) pnpm fetcherVersion;
-    hash = pnpmDepsHash;
-  };
-  passthru.updateScript = updateScript;
-  env = {
-    EQUICORD_REMOTE = "${owner}/${repo}";
-    EQUICORD_HASH = "${src.tag}";
-  };
-})
+(equicord.override { inherit buildWebExtension; }).overrideAttrs (
+  oldAttrs:
+  let
+    patches = (oldAttrs.patches or [ ]) ++ [
+      ./patches/equicord-pnpm-lock-pnpm10.patch
+      ./patches/equicord-content-warning-settings.patch
+    ];
+  in
+  {
+    inherit version src;
+    inherit patches;
+    pnpmDeps = fetchPnpmDeps {
+      inherit src;
+      inherit version;
+      inherit patches;
+      inherit (oldAttrs) pname;
+      inherit (oldAttrs.pnpmDeps) pnpm fetcherVersion;
+      hash = pnpmDepsHash;
+    };
+    passthru = (oldAttrs.passthru or { }) // {
+      inherit updateScript;
+    };
+    env = {
+      EQUICORD_REMOTE = "${owner}/${repo}";
+      EQUICORD_HASH = "${rev}";
+    };
+  }
+)

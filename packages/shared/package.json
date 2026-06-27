@@ -19,8 +19,8 @@
     "zod-validation-error": "^5.0.0"
   },
   "devDependencies": {
-    "equicord": "github:Equicord/Equicord#v1.14.13.3",
-    "vencord": "github:Vendicated/Vencord#v1.14.13"
+    "equicord": "github:Equicord/Equicord#665e43f04818af6f66c0ce1191331e7ab34ca45a",
+    "vencord": "github:Vendicated/Vencord#e8415d7c64d421616eb6d9081cc9ac05c6d1fb15"
   },
   "files": [
     "dist"

@@ -1,0 +1,24 @@
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 6cc3a3e..8d09e07 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -8,7 +8,9 @@ overrides:
+   '@eslint/plugin-kit@<0.3.4': '>=0.3.4'
+ 
+ patchedDependencies:
+-  '@types/less@3.0.8': 641e6c93bb737bac7fc283416857bd095cd85bcbcba63becb7a8bbcc78f73076
++  '@types/less@3.0.8':
++    hash: 641e6c93bb737bac7fc283416857bd095cd85bcbcba63becb7a8bbcc78f73076
++    path: patches/@types__less@3.0.8.patch
+ 
+ importers:
+ 
+@@ -1771,7 +1773,7 @@ packages:
+     engines: {node: '>= 14'}
+ 
+   gifenc@https://codeload.github.com/mattdesl/gifenc/tar.gz/64842fca317b112a8590f8fef2bf3825da8f6fe3:
+-    resolution: {gitHosted: true, tarball: https://codeload.github.com/mattdesl/gifenc/tar.gz/64842fca317b112a8590f8fef2bf3825da8f6fe3}
++    resolution: {gitHosted: true, integrity: sha512-xP/ugyNyXc2Go2SpipSltQx9LTL2qR/URxgRxs2VEpvKokR8xPOABiHCD1DWQVt1/gHX/6IBozamH/rgOLFLuQ==, tarball: https://codeload.github.com/mattdesl/gifenc/tar.gz/64842fca317b112a8590f8fef2bf3825da8f6fe3}
+     version: 1.0.3
+ 
+   gifuct-js@2.1.2:

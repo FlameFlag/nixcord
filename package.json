@@ -36,10 +36,10 @@
     "@typescript/native-preview": "^7.0.0-dev.20260621.1",
     "@vitest/coverage-v8": "~4.1.9",
     "@vitest/ui": "~4.1.9",
-    "equicord": "github:Equicord/Equicord#v1.14.13.3",
+    "equicord": "github:Equicord/Equicord#665e43f04818af6f66c0ce1191331e7ab34ca45a",
     "fallow": "^2.101.0",
     "typescript": "npm:@typescript/typescript6@^6.0.1",
-    "vencord": "github:Vendicated/Vencord#v1.14.13",
+    "vencord": "github:Vendicated/Vencord#e8415d7c64d421616eb6d9081cc9ac05c6d1fb15",
     "vite": "~8.0.16",
     "vitest": "~4.1.9"
   }

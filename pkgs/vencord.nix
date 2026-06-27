@@ -15,20 +15,15 @@
   replaceVars,
 }:
 let
-  stableVersion = "1.14.15";
-  stableHash = "sha256-jQeLZa1rpKDkzWSpAqOa8snGRKLpv9xf9cwJ6hUwMzA=";
+  stableVersion = "1.14.13-unstable-2026-06-14";
+  stableRev = "e8415d7c64d421616eb6d9081cc9ac05c6d1fb15";
+  stableHash = "sha256-WLhvP9kjvb6dOJfqc9eYwRMcwCjY7mAvvvU4zgTyRvQ=";
   stablePnpmDeps = "sha256-hk1rnNog5xvuIVI0M1ZJ5xrEuk0zcBiYsbROUycdi+A=";
 
-  unstableVersion = "1.14.15-unstable-2026-06-24";
-  unstableRev = "70d41b0584d8e8b094cbaa771b170dc6e7cf68b3";
-  unstableHash = "sha256-jQeLZa1rpKDkzWSpAqOa8snGRKLpv9xf9cwJ6hUwMzA=";
-  unstablePnpmDeps = "sha256-hk1rnNog5xvuIVI0M1ZJ5xrEuk0zcBiYsbROUycdi+A=";
-
-  version = if unstable then unstableVersion else stableVersion;
-  hash = if unstable then unstableHash else stableHash;
-  pnpmDepsHash = if unstable then unstablePnpmDeps else stablePnpmDeps;
-  rev = if unstable then unstableRev else "v${version}";
-  updateBool = if unstable then "true" else "false";
+  version = stableVersion;
+  hash = stableHash;
+  pnpmDepsHash = stablePnpmDeps;
+  rev = stableRev;
   src = fetchFromGitHub {
     inherit (vencord.src) owner repo;
     inherit rev hash;
@@ -43,39 +38,45 @@ in
     hash = pnpmDepsHash;
   };
   meta = oldAttrs.meta // {
-    description = "Vencord web extension" + lib.optionalString unstable " (Unstable)";
+    description =
+      if buildWebExtension then
+        "Vencord web extension"
+      else
+        oldAttrs.meta.description or "Vencord Discord client mod";
   };
-  passthru.updateScript = writeShellApplication {
-    name = "vencord-update";
-    runtimeInputs = [
-      bun
-      cacert
-      curl
-      jq
-      nix
-      nix-prefetch-github
-    ];
-    text = ''
-      # shellcheck disable=SC1091
-      source ${
-        replaceVars ./scripts/update-vencord-family.sh {
-          clientName = "Vencord";
-          nixFile = "./pkgs/vencord.nix";
-          owner = vencord.src.owner;
-          repo = vencord.src.repo;
-          updateKind = if unstable then "unstable-branch" else "stable-tag";
-          versionVar = if unstable then "unstableVersion" else "stableVersion";
-          hashVar = if unstable then "unstableHash" else "stableHash";
-          revVar = if unstable then "unstableRev" else "";
-          pnpmHashVar = if unstable then "unstablePnpmDeps" else "stablePnpmDeps";
-          callPackageArgs = "{ unstable = ${updateBool}; }";
-          stableTagRegex = "^v[0-9]+\\.[0-9]+\\.[0-9]+$";
-          branch = "main";
-          versionPrefixMode = "strip-v";
-          skipIfCurrent = "false";
-          dependencyName = "vencord";
-        }
-      } "$@"
-    '';
+  passthru = (oldAttrs.passthru or { }) // {
+    updateScript = writeShellApplication {
+      name = "vencord-update";
+      runtimeInputs = [
+        bun
+        cacert
+        curl
+        jq
+        nix
+        nix-prefetch-github
+      ];
+      text = ''
+        # shellcheck disable=SC1091
+        source ${
+          replaceVars ./scripts/update-vencord-family.sh {
+            clientName = "Vencord";
+            nixFile = "./pkgs/vencord.nix";
+            owner = vencord.src.owner;
+            repo = vencord.src.repo;
+            updateKind = "unstable-branch";
+            versionVar = "stableVersion";
+            hashVar = "stableHash";
+            revVar = "stableRev";
+            pnpmHashVar = "stablePnpmDeps";
+            callPackageArgs = "{ }";
+            stableTagRegex = "^v[0-9]+\\.[0-9]+\\.[0-9]+$";
+            branch = "main";
+            versionPrefixMode = "strip-v";
+            skipIfCurrent = "false";
+            dependencyName = "vencord";
+          }
+        } "$@"
+      '';
+    };
   };
 })
