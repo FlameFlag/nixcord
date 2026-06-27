@@ -80,6 +80,18 @@ let
   discordHasNoModClient =
     cfg.discord.enable && !cfg.discord.vencord.enable && !cfg.discord.equicord.enable;
 
+  discordOverride = cfg.discord.package.override or null;
+  discordOverrideArgs =
+    if builtins.isAttrs discordOverride && discordOverride ? __functionArgs then
+      discordOverride.__functionArgs
+    else if builtins.isFunction discordOverride then
+      builtins.functionArgs discordOverride
+    else
+      { };
+  discordPackageSupports = arg: discordOverrideArgs.${arg} or false;
+  discordKrispUnsupported =
+    cfg.discord.enable && cfg.discord.krisp.enable && !(discordPackageSupports "withKrisp");
+
   generateMigrationWarning =
     oldName:
     let
@@ -99,6 +111,9 @@ in
       ''
       ++ lib.lists.optional discordHasNoModClient ''
         programs.nixcord.discord.vencord.enable and programs.nixcord.discord.equicord.enable are both disabled. Discord will be installed without Vencord or Equicord.
+      ''
+      ++ lib.lists.optional discordKrispUnsupported ''
+        programs.nixcord.discord.krisp.enable is enabled, but the selected Discord package does not expose nixcord's withKrisp patch override. Krisp patching will be skipped for this package.
       '';
 
     assertions = mkAssertions {

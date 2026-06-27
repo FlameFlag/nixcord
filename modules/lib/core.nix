@@ -103,6 +103,26 @@ let
       vencord,
       equicord,
     }:
+    let
+      discordCommandLineArgs = lib.lists.unique (
+        cfg.discord.commandLineArgs
+        ++ lib.lists.optional cfg.discord.autoscroll.enable "--enable-blink-features=MiddleClickAutoscroll"
+      );
+      discordOverride = cfg.discord.package.override or null;
+      discordOverrideArgs =
+        if builtins.isAttrs discordOverride && discordOverride ? __functionArgs then
+          discordOverride.__functionArgs
+        else if builtins.isFunction discordOverride then
+          builtins.functionArgs discordOverride
+        else
+          { };
+      discordPackageSupports = arg: discordOverrideArgs.${arg} or false;
+      discordCommandLineArgsValue =
+        if cfg.discord.package.passthru.nixcordCommandLineArgsList or false then
+          discordCommandLineArgs
+        else
+          lib.escapeShellArgs discordCommandLineArgs;
+    in
     {
       discord = cfg.discord.package.override (
         {
@@ -112,15 +132,12 @@ let
           # TODO: Remove programs.nixcord.discord.autoscroll.enable after the
           # deprecation window; until then it is a compatibility shim for
           # programs.nixcord.discord.commandLineArgs.
-          commandLineArgs = lib.lists.unique (
-            cfg.discord.commandLineArgs
-            ++ lib.lists.optional cfg.discord.autoscroll.enable "--enable-blink-features=MiddleClickAutoscroll"
-          );
+          commandLineArgs = discordCommandLineArgsValue;
           branch = cfg.discord.branch;
           vencord = if cfg.discord.vencord.enable then vencord else null;
           equicord = if cfg.discord.equicord.enable then equicord else null;
         }
-        // lib.optionalAttrs cfg.discord.krisp.enable {
+        // lib.optionalAttrs (cfg.discord.krisp.enable && discordPackageSupports "withKrisp") {
           withKrisp = true;
         }
       );
