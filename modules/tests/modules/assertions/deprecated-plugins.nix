@@ -80,11 +80,11 @@ in
       warnings = hmWarnings {
         enable = true;
         discord.vencord.enable = true;
-        config.plugins.anammox.enable = true;
+        config.plugins.oneko.enable = true;
       };
     in
-    assert builtins.any (message: lib.hasInfix "anammox" message) warnings;
-    assert builtins.any (message: lib.hasInfix "declutter" message) warnings;
+    assert builtins.any (message: lib.hasInfix "oneko" message) warnings;
+    assert builtins.any (message: lib.hasInfix "cursorBuddy" message) warnings;
     true;
 
   "legacy acronym typed plugin name warns with replacement" =
@@ -127,11 +127,11 @@ in
       warnings = hmWarnings {
         enable = true;
         discord.vencord.enable = true;
-        extraConfig.plugins.Anammox.enable = true;
+        extraConfig.plugins.Oneko.enable = true;
       };
     in
-    assert builtins.any (message: lib.hasInfix "Anammox" message) warnings;
-    assert builtins.any (message: lib.hasInfix "declutter" message) warnings;
+    assert builtins.any (message: lib.hasInfix "Oneko" message) warnings;
+    assert builtins.any (message: lib.hasInfix "cursorBuddy" message) warnings;
     true;
 
   "deprecated vencord unstable option warns" =
