@@ -32,34 +32,41 @@
               inputs.self.dirtyRev
             else
               "main";
+          discordAvailable = pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkgs.discord;
+          discordPackages = pkgs.lib.optionalAttrs discordAvailable {
+            discord = pkgs.callPackage ./pkgs/discord { };
+            discord-ptb = pkgs.callPackage ./pkgs/discord { branch = "ptb"; };
+            discord-canary = pkgs.callPackage ./pkgs/discord { branch = "canary"; };
+            discord-development = pkgs.callPackage ./pkgs/discord { branch = "development"; };
+          };
+          docsArtifacts = import ./docs {
+            pkgs = pkgs;
+            lib = pkgs.lib;
+            inherit revision;
+          };
+          docsSystems = [
+            "x86_64-linux"
+            "aarch64-darwin"
+          ];
+          docsPackages = pkgs.lib.optionalAttrs (builtins.elem system docsSystems) {
+            docs = docsArtifacts.html;
+          };
         in
         {
           _module.args.pkgs = pkgs;
           checks = import ./modules/tests { inherit pkgs; };
 
-          packages = {
-            discord = pkgs.callPackage ./pkgs/discord { };
-            discord-ptb = pkgs.callPackage ./pkgs/discord { branch = "ptb"; };
-            discord-canary = pkgs.callPackage ./pkgs/discord { branch = "canary"; };
-            discord-development = pkgs.callPackage ./pkgs/discord { branch = "development"; };
-            vencord = pkgs.callPackage ./pkgs/vencord.nix { };
-            vencord-unstable = pkgs.callPackage ./pkgs/vencord.nix { unstable = true; };
-            equicord = pkgs.callPackage ./pkgs/equicord.nix { };
-            generate = pkgs.callPackage ./pkgs/generate-options.nix { };
+          packages =
+            discordPackages
+            // docsPackages
+            // {
+              vencord = pkgs.callPackage ./pkgs/vencord.nix { };
+              vencord-unstable = pkgs.callPackage ./pkgs/vencord.nix { unstable = true; };
+              equicord = pkgs.callPackage ./pkgs/equicord.nix { };
+              generate = pkgs.callPackage ./pkgs/generate-options.nix { };
 
-            docs =
-              (import ./docs {
-                pkgs = pkgs;
-                lib = pkgs.lib;
-                inherit revision;
-              }).html;
-            docs-json =
-              (import ./docs {
-                pkgs = pkgs;
-                lib = pkgs.lib;
-                inherit revision;
-              }).json;
-          };
+              docs-json = docsArtifacts.json;
+            };
 
           apps.generate = {
             type = "app";
@@ -79,6 +86,7 @@
                 '';
               }
             );
+            meta.description = "Regenerate nixcord plugin option files";
           };
         };
 
