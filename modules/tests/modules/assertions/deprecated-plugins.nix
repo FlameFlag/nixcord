@@ -18,6 +18,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         config.plugins.userMessagesPronouns.enable = true;
       };
     in
@@ -28,6 +29,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         config.plugins.petpet.enable = true;
       };
     in
@@ -38,6 +40,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         discord.autoscroll.enable = true;
       };
     in
@@ -51,6 +54,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         discord.autoscroll.enable = false;
       };
     in
@@ -63,6 +67,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         config.plugins.PronounDB.enable = true;
       };
     in
@@ -74,6 +79,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         config.plugins.anammox.enable = true;
       };
     in
@@ -85,6 +91,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         config.plugins.ClearURLs.enable = true;
       };
     in
@@ -97,6 +104,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         config.plugins.clearUrls.enable = true;
       };
     in
@@ -107,6 +115,7 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         extraConfig.plugins.PronounDB.enable = true;
       };
     in
@@ -117,10 +126,25 @@ in
     let
       warnings = hmWarnings {
         enable = true;
+        discord.vencord.enable = true;
         extraConfig.plugins.Anammox.enable = true;
       };
     in
     assert builtins.any (message: lib.hasInfix "Anammox" message) warnings;
     assert builtins.any (message: lib.hasInfix "declutter" message) warnings;
+    true;
+
+  "deprecated vencord unstable option warns" =
+    let
+      warnings = hmWarnings {
+        enable = true;
+        discord.vencord.enable = true;
+        discord.vencord.unstable = true;
+      };
+    in
+    assert builtins.any (
+      message: lib.hasInfix "discord.vencord.unstable is deprecated" message
+    ) warnings;
+    assert builtins.any (message: lib.hasInfix "please remove this option" message) warnings;
     true;
 }

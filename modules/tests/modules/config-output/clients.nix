@@ -50,11 +50,24 @@ let
   ) { };
 in
 {
+  "vencord is disabled by default" =
+    let
+      config = testLib.eval.hm {
+        enable = true;
+        discord.package = stubDiscordPackage;
+      };
+      overrideArgs = config.programs.nixcord.finalPackage.discord.passthru.nixcordOverrideArgs;
+    in
+    assert !config.programs.nixcord.discord.vencord.enable;
+    assert !config.programs.nixcord.discord.equicord.enable;
+    assert !overrideArgs.withVencord;
+    assert !overrideArgs.withEquicord;
+    true;
+
   "configDir defaults to Equicord when equicord is enabled" =
     let
       config = testLib.eval.hm {
         enable = true;
-        discord.vencord.enable = false;
         discord.equicord.enable = true;
       };
     in
