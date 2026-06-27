@@ -1,5 +1,3 @@
-// fallow-ignore-file code-duplication
-
 import { REMOVAL_EXPIRY_DAYS, RENAME_EXPIRY_DAYS } from '@nixcord/shared';
 import { exec } from 'child_process';
 import { promisify } from 'util';
@@ -7,7 +5,13 @@ import { promisify } from 'util';
 const execAsync = promisify(exec);
 
 const DAYS_TO_CHECK = 18;
+const COMMIT_PREFIX = 'COMMIT:';
 const PLUGIN_FILE_PATTERN = /index\.(ts|tsx)$/;
+
+type GitCommit = {
+  hash: string;
+  date: string;
+};
 
 export type DeprecationInfo = {
   plugin: string;
@@ -114,6 +118,33 @@ const buildPluginGlobs = (pluginsDirs: string[]): string => {
   return pluginsDirs.flatMap((dir) => [`"${dir}/*/index.ts"`, `"${dir}/*/index.tsx"`]).join(' ');
 };
 
+const parseCommitHeader = (line: string): GitCommit | null => {
+  if (!line.startsWith(COMMIT_PREFIX)) return null;
+
+  const [hash, date] = line.slice(COMMIT_PREFIX.length).split('|');
+  return { hash, date };
+};
+
+const forEachCommitEntry = (
+  stdout: string,
+  visit: (line: string, currentCommit: GitCommit) => void
+): void => {
+  let currentCommit: GitCommit | null = null;
+
+  for (const line of stdout.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    const commit = parseCommitHeader(trimmed);
+    if (commit) {
+      currentCommit = commit;
+      continue;
+    }
+
+    if (currentCommit) visit(trimmed, currentCommit);
+  }
+};
+
 export const extractPluginRenames = async (
   repoPath: string,
   pluginsDirs: string[],
@@ -130,21 +161,11 @@ export const extractPluginRenames = async (
     if (!renameResult.stdout.trim()) return [];
 
     const renames: PluginRename[] = [];
-    let currentCommit: { hash: string; date: string } | null = null;
 
-    for (const line of renameResult.stdout.split('\n')) {
-      const trimmed = line.trim();
-      if (!trimmed) continue;
-
-      if (trimmed.startsWith('COMMIT:')) {
-        const [hash, date] = trimmed.slice('COMMIT:'.length).split('|');
-        currentCommit = { hash, date };
-        continue;
-      }
-
-      if (currentCommit && trimmed.startsWith('R')) {
+    forEachCommitEntry(renameResult.stdout, (line, currentCommit) => {
+      if (line.startsWith('R')) {
         // R100\told/path\tnew/path  or  R095\told/path\tnew/path
-        const parts = trimmed.split('\t');
+        const parts = line.split('\t');
         if (parts.length >= 3) {
           const oldPath = parts[1];
           const newPath = parts[2];
@@ -160,7 +181,7 @@ export const extractPluginRenames = async (
           }
         }
       }
-    }
+    });
 
     // Deduplicate: keep the most recent rename per old -> new pair
     const seen = new Map<string, PluginRename>();
@@ -198,20 +219,10 @@ export const extractPluginDeletions = async (
     const renamedOldNamesLower = new Set(renames.map((r) => r.oldName.toLowerCase()));
 
     const deletions: PluginDeletion[] = [];
-    let currentCommit: { hash: string; date: string } | null = null;
 
-    for (const line of deleteResult.stdout.split('\n')) {
-      const trimmed = line.trim();
-      if (!trimmed) continue;
-
-      if (trimmed.startsWith('COMMIT:')) {
-        const [hash, date] = trimmed.slice('COMMIT:'.length).split('|');
-        currentCommit = { hash, date };
-        continue;
-      }
-
-      if (currentCommit && trimmed.startsWith('D\t')) {
-        const filePath = trimmed.slice(2);
+    forEachCommitEntry(deleteResult.stdout, (line, currentCommit) => {
+      if (line.startsWith('D\t')) {
+        const filePath = line.slice(2);
         const pluginName = extractPluginDirName(filePath, pluginsDirs);
         if (pluginName && !renamedOldNamesLower.has(pluginName.toLowerCase())) {
           deletions.push({
@@ -221,7 +232,7 @@ export const extractPluginDeletions = async (
           });
         }
       }
-    }
+    });
 
     // Deduplicate: keep the most recent deletion per plugin name
     const seen = new Map<string, PluginDeletion>();

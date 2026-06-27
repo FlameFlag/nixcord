@@ -1,4 +1,8 @@
 {
+  "alwaysAnimate": {
+    "description": "Animates anything that can be animated (Vencord-only)",
+    "settings": {}
+  },
   "alwaysExpandRoles": {
     "description": "Always expands the role list in profile popouts (Vencord-only)",
     "settings": {}
@@ -142,6 +146,16 @@
       }
     }
   },
+  "decor": {
+    "description": "Create and use your own custom avatar decorations, or pick your favorite from the presets. (Vencord-only)",
+    "settings": {
+      "agreedToGuidelines": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Agreed to guidelines"
+      }
+    }
+  },
   "devCompanion": {
     "description": "Dev Companion Plugin (Vencord-only)",
     "settings": {
@@ -162,8 +176,76 @@
       }
     }
   },
+  "fakeNitro": {
+    "description": "Allows you to send fake emojis/stickers, use nitro themes, and stream in nitro quality (Vencord-only)",
+    "settings": {
+      "enableEmojiBypass": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Allows sending fake emojis (also bypasses missing permission to use custom emojis) (restart required)"
+      },
+      "emojiSize": {
+        "type": "types.float",
+        "default": {
+          "__nixRaw": "48.0"
+        },
+        "description": "Size of the emojis when sending"
+      },
+      "transformEmojis": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Whether to transform fake emojis into real ones (restart required)"
+      },
+      "enableStickerBypass": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Allows sending fake stickers (also bypasses missing permission to use stickers) (restart required)"
+      },
+      "stickerSize": {
+        "type": "types.float",
+        "default": {
+          "__nixRaw": "160.0"
+        },
+        "description": "Size of the stickers when sending"
+      },
+      "transformStickers": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Whether to transform fake stickers into real ones (restart required)"
+      },
+      "transformCompoundSentence": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Whether to transform fake stickers and emojis in compound sentences (sentences with more content than just the fake emoji or sticker link)"
+      },
+      "enableStreamQualityBypass": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Allow streaming in nitro quality (restart required)"
+      },
+      "useHyperLinks": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Whether to use hyperlinks when sending fake emojis and stickers"
+      },
+      "hyperLinkText": {
+        "type": "types.str",
+        "default": "{{NAME}}",
+        "description": "What text the hyperlink should use. {{NAME}} will be replaced with the emoji/sticker name."
+      },
+      "disableEmbedPermissionCheck": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Whether to disable the embed permission check when sending fake emojis and stickers"
+      }
+    }
+  },
   "favoriteEmojiFirst": {
     "description": "Puts your favorite emoji first in the emoji autocomplete. (Vencord-only)",
+    "settings": {}
+  },
+  "fixYoutubeEmbeds": {
+    "description": "Bypasses youtube videos being blocked from display on Discord (for example by UMG) (Vencord-only)",
     "settings": {}
   },
   "messageClickActions": {
@@ -383,6 +465,21 @@
   "platformIndicators": {
     "description": "Adds platform indicators (Desktop, Mobile, Web...) to users (Vencord-only)",
     "settings": {
+      "list": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show indicators in the member list (restart required)"
+      },
+      "badges": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show indicators in user profiles, as badges (restart required)"
+      },
+      "messages": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show indicators inside messages (restart required)"
+      },
       "colorMobileIndicator": {
         "type": "types.bool",
         "default": true,
@@ -425,6 +522,25 @@
   },
   "serverInfo": {
     "description": "Allows you to view info about a server (Vencord-only)",
+    "settings": {}
+  },
+  "serverListIndicators": {
+    "description": "Add online friend count or server count in the server list (Vencord-only)",
+    "settings": {
+      "mode": {
+        "type": "types.enum",
+        "enumValues": [
+          2,
+          1,
+          3
+        ],
+        "default": 2,
+        "description": "mode\n\nValues: 2 = Only online friend count, 1 = Only server count, 3 = Both server and online friend counts"
+      }
+    }
+  },
+  "showAllMessageButtons": {
+    "description": "Always show all message buttons no matter if you are holding the shift key or not. (Vencord-only)",
     "settings": {}
   },
   "showHiddenChannels": {
@@ -541,11 +657,82 @@
     "settings": {
       "stringRules": {
         "type": "types.listOf types.attrs",
-        "default": []
+        "default": [
+          {
+            "find": "",
+            "replace": "",
+            "onlyIfIncludes": ""
+          }
+        ]
       },
       "regexRules": {
         "type": "types.listOf types.attrs",
-        "default": []
+        "default": [
+          {
+            "find": "",
+            "replace": "",
+            "onlyIfIncludes": ""
+          }
+        ]
+      }
+    }
+  },
+  "translate": {
+    "description": "Translate messages with Google Translate, DeepL or Kagi. (Vencord-only)",
+    "settings": {
+      "receivedInput": {
+        "type": "types.str",
+        "default": "auto",
+        "description": "Language incoming messages are translated from"
+      },
+      "receivedOutput": {
+        "type": "types.str",
+        "default": "en",
+        "description": "Language incoming messages are translated to"
+      },
+      "sentInput": {
+        "type": "types.str",
+        "default": "auto",
+        "description": "Language your messages are translated from"
+      },
+      "sentOutput": {
+        "type": "types.str",
+        "default": "en",
+        "description": "Language your messages are translated to"
+      },
+      "service": {
+        "type": "types.enum",
+        "enumValues": [
+          "google",
+          "deepl",
+          "deepl-pro",
+          "kagi"
+        ],
+        "default": "google"
+      },
+      "deeplApiKey": {
+        "type": "types.str",
+        "default": "",
+        "description": "Your DeepL API key (from deepl.com/your-account)"
+      },
+      "kagiSession": {
+        "type": "types.str",
+        "default": "",
+        "description": "Your Kagi session token (from kagi.com/settings?p=user_details)"
+      },
+      "autoTranslate": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Automatically translate your messages before sending. You can also Shift+click or right-click the translate button to toggle this"
+      },
+      "showAutoTranslateTooltip": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show a tooltip on the chat bar button when a message is auto-translated"
+      },
+      "showAutoTranslateAlert": {
+        "type": "types.bool",
+        "default": false
       }
     }
   },

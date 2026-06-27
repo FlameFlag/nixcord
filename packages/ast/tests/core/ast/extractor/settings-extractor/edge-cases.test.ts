@@ -4,7 +4,7 @@ import { expect, test } from 'vitest';
 import { extractSettingsFromCall } from '../../../../../src/extractor/settings-extractor.js';
 import { createProject } from '../../../../helpers/test-utils.js';
 
-test('CUSTOM with computed object default (Object.fromEntries) -> attrs with {}', () => {
+test('CUSTOM with static Object.fromEntries default resolves attrs default object', () => {
   const project = createProject();
   const sourceFile = project.createSourceFile(
     'test.ts',
@@ -29,7 +29,10 @@ test('CUSTOM with computed object default (Object.fromEntries) -> attrs with {}'
   const ss = result.servicesSettings as PluginSetting;
   expect(ss).toBeDefined();
   expect(ss.type).toBe('types.attrs');
-  expect(ss.default).toEqual({});
+  expect(ss.default).toEqual({
+    Spotify: { enabled: true, openInNative: true },
+    Apple: { enabled: true, openInNative: false },
+  });
 });
 
 test('STRING without explicit default -> nullOr types.str with null', () => {
@@ -98,7 +101,7 @@ test('COMPONENT bare (only component) -> filtered out', () => {
   expect(result.hotkey).toBeUndefined();
 });
 
-test('CUSTOM identifier default resolving to object literal -> attrs {}', () => {
+test('CUSTOM identifier default resolving to object literal preserves object', () => {
   const project = createProject();
   const sourceFile = project.createSourceFile(
     'test.ts',
@@ -119,10 +122,10 @@ test('CUSTOM identifier default resolving to object literal -> attrs {}', () => 
   const result = extractSettingsFromCall(callExpr, checker, program);
   const complex = result.complex as PluginSetting;
   expect(complex.type).toBe('types.attrs');
-  expect(complex.default).toEqual({});
+  expect(complex.default).toEqual({ a: 1, b: 'two' });
 });
 
-test('CUSTOM identifier default resolving to array of objects -> listOf attrs []', () => {
+test('CUSTOM identifier default resolving to array of objects preserves array', () => {
   const project = createProject();
   const sourceFile = project.createSourceFile(
     'test.ts',
@@ -143,7 +146,7 @@ test('CUSTOM identifier default resolving to array of objects -> listOf attrs []
   const result = extractSettingsFromCall(callExpr, checker, program);
   const list = result.list as PluginSetting;
   expect(list.type).toBe('types.listOf types.attrs');
-  expect(list.default).toEqual([]);
+  expect(list.default).toEqual([{ a: 1 }, { b: 2 }]);
 });
 
 test('setting helper call returning satisfies object is extracted', () => {

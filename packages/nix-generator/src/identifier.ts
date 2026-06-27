@@ -7,6 +7,7 @@ const MULTIPLE_UNDERSCORES_PATTERN = /_+/g;
 const VALID_IDENTIFIER_START_PATTERN = /^[A-Za-z_]/;
 const LEADING_UNDERSCORE_PREFIX = '_';
 const WORD_PATTERN = /[0-9]+[a-z]+|[A-Z]+(?=[A-Z][a-z]|[0-9]|$)|[A-Z]?[a-z]+|[0-9]+/g;
+const PLUS_PATTERN = /\+/g;
 
 function sanitizeIdentifierInput(name: string): {
   sanitized: string;
@@ -90,6 +91,7 @@ function normalizePluralAcronyms(segment: string): string {
  * clearUrls instead of the change-case output clearUrLs.
  */
 export function toNixIdentifier(name: string): string {
+  name = name.replace(PLUS_PATTERN, ' Plus ');
   const {
     originalStartsWithUnderscore,
     originalEndsWithUnderscore,

@@ -1,11 +1,12 @@
 {
+  config,
   lib,
   pkgs,
   nixcordPkgs ? { },
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkOption types;
+  inherit (lib) mkDefault mkEnableOption mkOption types;
   vencordPackage = pkgs.callPackage ../../pkgs/vencord.nix { unstable = false; };
   equicordPackage = pkgs.callPackage ../../pkgs/equicord.nix { };
 in
@@ -108,4 +109,8 @@ in
       };
     };
   };
+
+  config.programs.nixcord.discord.vencord.enable = mkDefault (
+    !config.programs.nixcord.discord.equicord.enable
+  );
 }

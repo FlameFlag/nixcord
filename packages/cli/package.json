@@ -20,11 +20,11 @@
     "@nixcord/nix-generator": "workspace:*",
     "@nixcord/parser": "workspace:*",
     "@nixcord/shared": "workspace:*",
-    "@stricli/core": "^1.2.6",
-    "fs-extra": "^11.3.4",
-    "ora": "^9.3.0",
+    "@stricli/core": "^1.2.8",
+    "fs-extra": "^11.3.5",
+    "ora": "^9.4.0",
     "pathe": "^2.0.3",
-    "zod": "^4.3.6",
+    "zod": "^4.4.3",
     "zod-validation-error": "^5.0.0"
   },
   "files": [

@@ -3662,17 +3662,6 @@
         "ignoreMessages"
       ],
       "warn": true
-    },
-    {
-      "from": [
-        "platformIndicators",
-        "badges"
-      ],
-      "to": [
-        "platformIndicators",
-        "profiles"
-      ],
-      "warn": true
     }
   ],
   "identifierRenames": [
@@ -4272,6 +4261,246 @@
     },
     {
       "from": [
+        "moreUserTags",
+        "tagSettings",
+        "ADMINISTRATOR",
+        "enable"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "administrator",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "ADMINISTRATOR",
+        "showInChat"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "administrator",
+        "showInChat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "ADMINISTRATOR",
+        "showInNotChat"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "administrator",
+        "showInNotChat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "ADMINISTRATOR",
+        "text"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "administrator",
+        "text"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "MODERATOR",
+        "enable"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "moderator",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "MODERATOR",
+        "showInChat"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "moderator",
+        "showInChat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "MODERATOR",
+        "showInNotChat"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "moderator",
+        "showInNotChat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "MODERATOR",
+        "text"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "moderator",
+        "text"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "OWNER",
+        "enable"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "owner",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "OWNER",
+        "showInChat"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "owner",
+        "showInChat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "OWNER",
+        "showInNotChat"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "owner",
+        "showInNotChat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "OWNER",
+        "text"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "owner",
+        "text"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "WEBHOOK",
+        "enable"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "webhook",
+        "enable"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "WEBHOOK",
+        "showInChat"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "webhook",
+        "showInChat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "WEBHOOK",
+        "showInNotChat"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "webhook",
+        "showInNotChat"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "moreUserTags",
+        "tagSettings",
+        "WEBHOOK",
+        "text"
+      ],
+      "to": [
+        "moreUserTags",
+        "tagSettings",
+        "webhook",
+        "text"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
         "musicControls",
         "websocketURL"
       ],
@@ -4685,6 +4914,50 @@
       "to": [
         "tiktokTts",
         "volume"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "translate",
+        "shavian"
+      ],
+      "to": [
+        "translatePlus",
+        "shavian"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "translate",
+        "sitelen"
+      ],
+      "to": [
+        "translatePlus",
+        "sitelen"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "translate",
+        "target"
+      ],
+      "to": [
+        "translatePlus",
+        "target"
+      ],
+      "warn": true
+    },
+    {
+      "from": [
+        "translate",
+        "toki"
+      ],
+      "to": [
+        "translatePlus",
+        "toki"
       ],
       "warn": true
     },

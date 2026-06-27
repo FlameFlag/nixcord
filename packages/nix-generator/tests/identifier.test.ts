@@ -24,6 +24,7 @@ describe('toNixIdentifier()', () => {
     ['Test Plugin!', 'testPlugin'],
     ['test-plugin', 'testPlugin'],
     ["test'plugin", 'testPlugin'],
+    ['Translate+', 'translatePlus'],
     ['24h Time', '_24hTime'],
     ['_leading', '_leading'],
   ])('preserves existing identifier edge cases: %s -> %s', (input, expected) => {

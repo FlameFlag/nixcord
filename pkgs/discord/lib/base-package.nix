@@ -2,6 +2,7 @@
   stdenvNoCC,
   runCommand,
   branch,
+  source,
   discord,
   discord-ptb,
   discord-canary,
@@ -18,15 +19,27 @@ let
   basePackageRaw = variantPackages.${branch};
   basePackageOverride = basePackageRaw.override or null;
 
+  basePackageWithSource =
+    if
+      basePackageOverride != null
+      && builtins.isFunction basePackageOverride
+      && builtins.functionArgs basePackageOverride ? source
+    then
+      basePackageOverride { inherit source; }
+    else
+      basePackageRaw;
+
+  basePackageWithSourceOverride = basePackageWithSource.override or null;
+
   emptyOpenSSL11 = runCommand "openssl-1.1.1w-ignored" { } ''
     mkdir -p "$out/lib"
   '';
   basePackageCanOverrideOpenSSL11 =
-    basePackageOverride != null
-    && builtins.isFunction basePackageOverride
-    && builtins.functionArgs basePackageOverride ? openssl_1_1;
+    basePackageWithSourceOverride != null
+    && builtins.isFunction basePackageWithSourceOverride
+    && builtins.functionArgs basePackageWithSourceOverride ? openssl_1_1;
 in
 if stdenvNoCC.isLinux && basePackageCanOverrideOpenSSL11 then
-  basePackageOverride { openssl_1_1 = emptyOpenSSL11; }
+  basePackageWithSourceOverride { openssl_1_1 = emptyOpenSSL11; }
 else
-  basePackageRaw
+  basePackageWithSource

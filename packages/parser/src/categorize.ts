@@ -3,6 +3,29 @@ import { filterNullish } from '@nixcord/shared';
 
 const PLUGIN_RENAME_MAP: Record<string, string> = { oneko: 'CursorBuddy' };
 
+const collectSettingNames = (config: PluginConfig): readonly string[] => {
+  const names: string[] = [];
+  const collect = (settings: PluginConfig['settings']) => {
+    for (const [key, setting] of Object.entries(settings)) {
+      if ('settings' in setting) {
+        collect(setting.settings);
+      } else {
+        names.push(setting.name ?? key);
+      }
+    }
+  };
+  collect(config.settings);
+  return names.sort();
+};
+
+const hasSameSettingSurface = (left: PluginConfig, right: PluginConfig): boolean => {
+  const leftNames = collectSettingNames(left);
+  const rightNames = collectSettingNames(right);
+  return (
+    leftNames.length === rightNames.length && leftNames.every((name, i) => name === rightNames[i])
+  );
+};
+
 export function categorizePlugins(
   vencordResult: Readonly<ParsedPluginsResult>,
   equicordResult?: Readonly<ParsedPluginsResult>
@@ -47,10 +70,16 @@ export function categorizePlugins(
   });
 
   const genericMatches = pluginMatches.filter(
-    ({ equicordConfig }) => equicordConfig !== undefined && !equicordConfig.isModified
+    ({ config, equicordConfig }) =>
+      equicordConfig !== undefined &&
+      !equicordConfig.isModified &&
+      hasSameSettingSurface(config, equicordConfig)
   );
   const vencordMatches = pluginMatches.filter(
-    ({ equicordConfig }) => equicordConfig === undefined || equicordConfig.isModified
+    ({ config, equicordConfig }) =>
+      equicordConfig === undefined ||
+      equicordConfig.isModified ||
+      !hasSameSettingSurface(config, equicordConfig)
   );
 
   const genericTuples = genericMatches.map(
@@ -70,7 +99,9 @@ export function categorizePlugins(
   const modifiedEquicordSharedPluginNames = new Set(
     vencordMatches
       .map(({ equicordConfig }) => equicordConfig?.name)
-      .filter((name): name is string => name !== undefined)
+      .filter(
+        (name): name is string => name !== undefined && equicordSharedPlugins[name] !== undefined
+      )
   );
 
   const filteredEquicordOnly = Object.fromEntries(

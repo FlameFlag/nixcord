@@ -64,7 +64,11 @@ export const PARSE_DIAGNOSTIC_KINDS = [
   'unsupported-select-options-pattern',
   'unresolved-select-options-identifier',
   'component-only-setting-skipped',
+  'hidden-setting-skipped',
   'custom-setting-without-default',
+  'custom-component-setting-without-static-info',
+  'skipped-plugin',
+  'failed-plugin',
 ] as const;
 
 export type ParseDiagnosticKind = (typeof PARSE_DIAGNOSTIC_KINDS)[number];

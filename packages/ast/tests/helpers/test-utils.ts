@@ -1,5 +1,3 @@
-// fallow-ignore-file duplicate-export
-
 import { ModuleKind, Project } from 'ts-morph';
 import { expect } from 'vitest';
 import type { SettingProperties } from '../../src/extractor/type-inference/types.js';

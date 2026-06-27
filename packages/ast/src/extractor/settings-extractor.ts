@@ -1,622 +1,392 @@
 import type { PluginConfig, PluginSetting } from '@nixcord/shared';
 import type {
-  ArrowFunction,
-  CallExpression,
   Node,
   ObjectLiteralExpression,
   Program,
   PropertyAssignment,
-  SourceFile,
-  Type,
   TypeChecker,
-  TypeLiteralNode,
 } from 'ts-morph';
 import { SyntaxKind } from 'ts-morph';
-import type { EnumLiteral } from '../foundation/index.js';
 import {
-  extractStringLiteralValue,
-  getPropertyInitializer,
-  isBooleanEnumValues,
   iteratePropertyAssignments,
-  resolveCallExpressionReturn,
   resolveIdentifierInitializerNode,
-  tryEvaluate,
   unwrapNode,
 } from '../foundation/index.js';
-import { findDefinePluginCall } from '../navigator/plugin-navigator.js';
 import { tsTypeToNixType } from '../parser.js';
+import type { ParameterBindings } from './bindings.js';
 import {
-  DESCRIPTION_PROPERTY,
-  NAME_PROPERTY,
-  NIX_ENUM_TYPE,
-  NIX_TYPE_ATTRS,
-  NIX_TYPE_BOOL,
-  NIX_TYPE_FLOAT,
-  NIX_TYPE_INT,
-  NIX_TYPE_LIST_OF_STR,
-  NIX_TYPE_NULL_OR_STR,
-  NIX_TYPE_STR,
-} from './constants.js';
+  buildStoreBackedComponentConfig,
+  buildStoreBackedComponentSetting,
+} from './component-settings.js';
+import {
+  createExtractionContext,
+  type ExtractionContext,
+  extractionDiagnostic,
+  mergeSettingsResults,
+  settingsResult,
+  skippedSetting,
+  skipResult,
+  unsupportedResult,
+  unsupportedSetting,
+  withBindings,
+  withSourceFile,
+} from './context.js';
 import { isBareComponentSetting, resolveDefaultValue } from './default-value-resolution.js';
+import {
+  extractGeneratedSettingsFromObjectEntriesReduce,
+  extractSettingsFromObjectFromEntries,
+} from './generated-settings.js';
+import { extractPrivateSettingsFromChainedCall } from './private-settings.js';
 import { extractSelectOptions } from './select/index.js';
+import {
+  buildPluginSetting,
+  extractProperties,
+  isSettingsGroup,
+  resolveSettingValueObject,
+} from './setting-shape.js';
+import type { ExtractedSettings, ExtractionResult } from './types.js';
 
-const BOOLEAN_NIX_TYPE = 'types.bool';
-const WITH_PRIVATE_SETTINGS_METHOD_NAME = 'withPrivateSettings';
-const EXTERNAL_ENUM_VALUES: Readonly<Record<string, readonly EnumLiteral[]>> = {
-  ActivityType: Object.freeze([0, 1, 2, 3, 4, 5, 6]),
-  ChannelType: Object.freeze([0, 1, 2]),
-  StatusType: Object.freeze([0, 1, 2, 3]),
-};
+const isHiddenSetting = (valueObj: ObjectLiteralExpression): boolean =>
+  valueObj
+    .getProperty('hidden')
+    ?.asKind(SyntaxKind.PropertyAssignment)
+    ?.getInitializer()
+    ?.getKind() === SyntaxKind.TrueKeyword;
 
-type ParameterBindings = ReadonlyMap<string, Node>;
-
-const extractArrayFromStaticSource = (
-  node: Node | undefined,
-  checker: TypeChecker,
-  bindings?: ParameterBindings
-): unknown[] | undefined => {
-  if (!node) return undefined;
-
-  const unwrapped = unwrapNode(node);
-  const ident = unwrapped.asKind(SyntaxKind.Identifier);
-  if (ident && bindings?.has(ident.getText())) {
-    return extractArrayFromStaticSource(bindings.get(ident.getText()), checker, bindings);
-  }
-  if (ident) {
-    return extractArrayFromStaticSource(resolveIdentifierInitializerNode(ident, checker), checker);
-  }
-
-  const arr = unwrapped.asKind(SyntaxKind.ArrayLiteralExpression);
-  if (!arr) return undefined;
-
-  const values = arr
-    .getElements()
-    .map((element) => extractLiteralValue(element, checker, bindings));
-  return values.some((value) => value === undefined) ? undefined : values;
-};
-
-const extractLiteralValue = (
-  node: Node | undefined,
-  checker: TypeChecker,
-  bindings?: ParameterBindings
-): unknown => {
-  if (!node) return undefined;
-
-  const unwrapped = unwrapNode(node);
-  if (unwrapped !== node) return extractLiteralValue(unwrapped, checker, bindings);
-
-  const ident = unwrapped.asKind(SyntaxKind.Identifier);
-  if (ident && bindings?.has(ident.getText())) {
-    return extractLiteralValue(bindings.get(ident.getText()), checker);
-  }
-
-  const kind = unwrapped.getKind();
-  if (kind === SyntaxKind.BigIntLiteral) {
-    const raw = unwrapped.asKindOrThrow(SyntaxKind.BigIntLiteral).getText();
-    return raw.toLowerCase().endsWith('n') ? raw.slice(0, -1) : raw;
-  }
-  if (kind === SyntaxKind.ArrayLiteralExpression) {
-    const arr = unwrapped.asKindOrThrow(SyntaxKind.ArrayLiteralExpression);
-    return arr.getElements().map((el) => extractLiteralValue(el, checker, bindings));
-  }
-  if (kind === SyntaxKind.CallExpression) {
-    const call = unwrapped.asKindOrThrow(SyntaxKind.CallExpression);
-    if (call.getExpression().getText() === 'Array.from') {
-      const value = extractArrayFromStaticSource(call.getArguments()[0], checker, bindings);
-      if (value !== undefined) return value;
-    }
-  }
-  return tryEvaluate(unwrapped, checker);
-};
-
-const extractLiteralFromTypeNode = (node: Node): EnumLiteral | undefined => {
-  const literalNode = node.asKind(SyntaxKind.LiteralType)?.getLiteral();
-  if (!literalNode) return undefined;
-  if (literalNode.getKind() === SyntaxKind.StringLiteral) {
-    return literalNode.asKindOrThrow(SyntaxKind.StringLiteral).getLiteralValue();
-  }
-  if (literalNode.getKind() === SyntaxKind.NumericLiteral) {
-    return literalNode.asKindOrThrow(SyntaxKind.NumericLiteral).getLiteralValue();
-  }
-  if (literalNode.getKind() === SyntaxKind.TrueKeyword) return true;
-  if (literalNode.getKind() === SyntaxKind.FalseKeyword) return false;
-  return undefined;
-};
-
-const extractLiteralUnionFromTypeNode = (node: Node): readonly EnumLiteral[] | undefined => {
-  const unionNode = node.asKind(SyntaxKind.UnionType);
-  if (unionNode) {
-    const values = unionNode.getTypeNodes().map(extractLiteralFromTypeNode);
-    return values.every((value): value is EnumLiteral => value !== undefined)
-      ? Object.freeze(values)
-      : undefined;
-  }
-
-  const typeRef = node.asKind(SyntaxKind.TypeReference);
-  const typeName = typeRef?.getTypeName();
-  if (typeName) {
-    const symbol = typeName.getSymbol();
-    const aliasedSymbol = symbol?.getAliasedSymbol();
-    const declaration = aliasedSymbol?.getDeclarations()[0] ?? symbol?.getDeclarations()[0];
-    const aliasTypeNode = declaration?.asKind(SyntaxKind.TypeAliasDeclaration)?.getTypeNode();
-    return aliasTypeNode ? extractLiteralUnionFromTypeNode(aliasTypeNode) : undefined;
-  }
-
-  return undefined;
-};
-
-const extractLiteralUnionFromTypes = (
-  unionTypes: readonly Type[],
-  textNode: Node
-): readonly EnumLiteral[] | undefined => {
-  if (unionTypes.length === 0) return undefined;
-
-  const values = unionTypes
-    .map((unionType) => {
-      if (unionType.isStringLiteral() || unionType.isNumberLiteral()) {
-        return unionType.getLiteralValue();
-      }
-      if (unionType.isBooleanLiteral()) {
-        const text = unionType.getText(textNode);
-        if (text === 'true') return true;
-        if (text === 'false') return false;
-      }
-      return undefined;
-    })
-    .filter((value): value is EnumLiteral =>
-      ['string', 'number', 'boolean'].includes(typeof value)
-    );
-
-  return values.length === unionTypes.length ? Object.freeze(values) : undefined;
-};
-
-const extractLiteralUnionValues = (
-  node: Node | undefined,
-  checker: TypeChecker
-): readonly EnumLiteral[] | undefined => {
-  if (!node) return undefined;
-  const typeNode = node.asKind(SyntaxKind.AsExpression)?.getTypeNode();
-  if (!typeNode) return undefined;
-
-  const staticValues = extractLiteralUnionFromTypeNode(typeNode);
-  if (staticValues) return staticValues;
-
-  try {
-    const type = checker.getTypeAtLocation(typeNode);
-    const unionTypes = type.getUnionTypes();
-    const values = extractLiteralUnionFromTypes(unionTypes, typeNode);
-    if (values) return values;
-  } catch {}
-
-  try {
-    const type = checker.getTypeAtLocation(node);
-    const unionTypes = type.getUnionTypes();
-    return extractLiteralUnionFromTypes(unionTypes, node);
-  } catch {
-    return undefined;
-  }
-};
-
-const extractStringPropertyValue = (
-  valueObj: ObjectLiteralExpression,
-  propName: string,
-  checker: TypeChecker,
-  bindings?: ParameterBindings
-): string | undefined => {
-  const literalValue = extractStringLiteralValue(valueObj, propName);
-  if (literalValue !== undefined) return literalValue;
-
-  const shorthand = valueObj.getProperty(propName)?.asKind(SyntaxKind.ShorthandPropertyAssignment);
-  const shorthandValue = extractLiteralValue(
-    bindings?.get(shorthand?.getName() ?? ''),
-    checker,
-    bindings
-  );
-  if (typeof shorthandValue === 'string') return shorthandValue;
-
-  const init = getPropertyInitializer(valueObj, propName);
-  const ident = init?.asKind(SyntaxKind.Identifier);
-  if (!ident) return undefined;
-
-  const boundValue = extractLiteralValue(bindings?.get(ident.getText()), checker, bindings);
-  return typeof boundValue === 'string' ? boundValue : undefined;
-};
-
-const getArrowFunctionForCall = (
-  call: CallExpression,
-  checker: TypeChecker
-): ArrowFunction | undefined => {
-  const ident = call.getExpression().asKind(SyntaxKind.Identifier);
-  if (!ident) return undefined;
-
-  const symbol = ident.getSymbol() ?? checker.getSymbolAtLocation(ident);
-  const valueDecl = symbol?.getValueDeclaration();
-  const arrow =
-    valueDecl?.asKind(SyntaxKind.ArrowFunction) ??
-    valueDecl
-      ?.asKind(SyntaxKind.VariableDeclaration)
-      ?.getInitializer()
-      ?.asKind(SyntaxKind.ArrowFunction) ??
-    ident
-      .getSourceFile()
-      .getVariableDeclaration(ident.getText())
-      ?.getInitializer()
-      ?.asKind(SyntaxKind.ArrowFunction);
-
-  return arrow;
-};
-
-const resolveSettingValueObject = (
-  init: Node,
-  checker: TypeChecker
-): { valueObj: ObjectLiteralExpression; bindings?: ParameterBindings } | undefined => {
-  const directObject = unwrapNode(init).asKind(SyntaxKind.ObjectLiteralExpression);
-  if (directObject) return { valueObj: directObject };
-
-  const call = init.asKind(SyntaxKind.CallExpression);
-  if (!call) return undefined;
-
-  const arrow = getArrowFunctionForCall(call, checker);
-  const bodyObject = arrow
-    ? unwrapNode(arrow.getBody()).asKind(SyntaxKind.ObjectLiteralExpression)
-    : undefined;
-  if (arrow && bodyObject) {
-    const args = call.getArguments();
-    const bindings = new Map<string, Node>();
-    for (const [index, parameter] of arrow.getParameters().entries()) {
-      const arg = args[index];
-      if (arg) bindings.set(parameter.getName(), arg);
-    }
-    return { valueObj: bodyObject, bindings };
-  }
-
-  const resolved = resolveCallExpressionReturn(call, checker);
-  const resolvedObject = resolved
-    ? unwrapNode(resolved).asKind(SyntaxKind.ObjectLiteralExpression)
-    : undefined;
-  return resolvedObject ? { valueObj: resolvedObject } : undefined;
-};
-
-const extractProperties = (
-  valueObj: ObjectLiteralExpression,
-  checker: TypeChecker,
-  bindings?: ParameterBindings
-) => {
-  const typeNode = getPropertyInitializer(valueObj, 'type');
-  const description =
-    extractStringPropertyValue(valueObj, DESCRIPTION_PROPERTY, checker, bindings) ??
-    extractStringPropertyValue(valueObj, NAME_PROPERTY, checker, bindings);
-  const placeholder = extractStringPropertyValue(valueObj, 'placeholder', checker, bindings);
-  const restartNeededInit = getPropertyInitializer(valueObj, 'restartNeeded');
-  const restartNeeded =
-    restartNeededInit !== undefined
-      ? restartNeededInit.getKind() === SyntaxKind.TrueKeyword
-      : false;
-  const hidden =
-    valueObj
-      .getProperty('hidden')
-      ?.asKind(SyntaxKind.PropertyAssignment)
-      ?.getInitializer()
-      ?.getKind() === SyntaxKind.TrueKeyword;
-  const defaultInitializer = getPropertyInitializer(valueObj, 'default');
-  const defaultLiteralValue = extractLiteralValue(defaultInitializer, checker, bindings);
-  const typeAssertionEnumValues = extractLiteralUnionValues(defaultInitializer, checker);
-  return {
-    typeNode,
-    description,
-    placeholder,
-    restartNeeded,
-    hidden,
-    defaultLiteralValue,
-    typeAssertionEnumValues,
-  };
-};
-
-const buildPluginSetting = (
+const extractNormalSetting = (
   key: string,
-  finalNixType: string,
-  description: string | undefined,
-  defaultValue: unknown,
-  selectEnumValues: readonly (string | number | boolean)[] | undefined,
-  enumLabels: unknown,
-  placeholder: string | undefined,
-  hidden: boolean,
-  restartNeeded: boolean
-): PluginSetting => ({
-  name: key,
-  type: finalNixType,
-  description: description
-    ? restartNeeded
-      ? `${description} (restart required)`
-      : description
-    : undefined,
-  default: defaultValue,
-  enumValues: selectEnumValues && selectEnumValues.length > 0 ? selectEnumValues : undefined,
-  enumLabels:
-    enumLabels && Object.keys(enumLabels as object).length > 0
-      ? (enumLabels as Record<string, string>)
-      : undefined,
-  example: placeholder ?? undefined,
-  hidden: hidden || undefined,
-  restartNeeded,
-});
+  valueObj: ObjectLiteralExpression,
+  context: ExtractionContext
+): PluginSetting => {
+  const props = extractProperties(valueObj, context.checker, context.bindings);
+  const optionsResult = extractSelectOptions(valueObj, context.checker);
+  const extractedOptions = optionsResult.ok ? optionsResult.value.values : undefined;
+  const nonEmptyExtractedOptions =
+    extractedOptions && extractedOptions.length > 0 ? extractedOptions : undefined;
+  const extractedLabels = optionsResult.ok ? optionsResult.value.labels : undefined;
 
-const getChainedCall = (
-  callExpr: CallExpression,
-  methodName: string
-): CallExpression | undefined => {
-  const parent = callExpr.getParent();
-  const propAccess = parent?.asKind(SyntaxKind.PropertyAccessExpression);
-  if (!propAccess || propAccess.getName() !== methodName) return undefined;
+  const typeResult = tsTypeToNixType(
+    {
+      type: props.typeNode,
+      default: props.defaultLiteralValue,
+      options: nonEmptyExtractedOptions ?? props.typeAssertionEnumValues,
+    },
+    context.program,
+    context.checker
+  );
+  const defaultResolution = resolveDefaultValue(
+    valueObj,
+    typeResult.nixType,
+    props.defaultLiteralValue,
+    typeResult.enumValues,
+    context.checker
+  );
 
-  const outerCall = propAccess.getParent()?.asKind(SyntaxKind.CallExpression);
-  return outerCall?.getExpression() === propAccess ? outerCall : undefined;
+  return buildPluginSetting(
+    key,
+    defaultResolution.finalNixType,
+    props.description,
+    defaultResolution.defaultValue,
+    typeResult.enumValues,
+    nonEmptyExtractedOptions ? extractedLabels : undefined,
+    props.placeholder,
+    props.hidden,
+    props.restartNeeded
+  );
 };
 
-const getPropertySignatureName = (node: Node): string | undefined => {
-  const nameNode = node.asKind(SyntaxKind.PropertySignature)?.getNameNode();
-  if (!nameNode) return undefined;
-
-  const identifier = nameNode.asKind(SyntaxKind.Identifier);
-  if (identifier) return identifier.getText();
-
-  const stringLiteral = nameNode.asKind(SyntaxKind.StringLiteral);
-  if (stringLiteral) return stringLiteral.getLiteralValue();
-
-  const numericLiteral = nameNode.asKind(SyntaxKind.NumericLiteral);
-  if (numericLiteral) return numericLiteral.getLiteralValue().toString();
-
-  return undefined;
-};
-
-const extractEnumValuesFromDeclaration = (
-  declaration: Node,
-  checker: TypeChecker
-): readonly EnumLiteral[] | undefined => {
-  const enumDecl = declaration.asKind(SyntaxKind.EnumDeclaration);
-  if (!enumDecl) return undefined;
-
-  const values = enumDecl.getMembers().map((member): EnumLiteral | undefined => {
-    try {
-      const value = member.getValue();
-      if (['string', 'number', 'boolean'].includes(typeof value)) return value as EnumLiteral;
-    } catch {}
-
-    const init = member.getInitializer();
-    if (!init) return undefined;
-    const result = tryEvaluate(init, checker);
-    return ['string', 'number', 'boolean'].includes(typeof result)
-      ? (result as EnumLiteral)
-      : undefined;
-  });
-
-  return values.every((value): value is EnumLiteral => value !== undefined)
-    ? Object.freeze(values)
-    : undefined;
-};
-
-const extractEnumValuesFromTypeNode = (
-  typeNode: Node,
-  checker: TypeChecker
-): readonly EnumLiteral[] | undefined => {
-  const externalValues = EXTERNAL_ENUM_VALUES[typeNode.getText()];
-  if (externalValues) return externalValues;
-
-  try {
-    const type = checker.getTypeAtLocation(typeNode);
-    const unionValues = extractLiteralUnionFromTypes(type.getUnionTypes(), typeNode);
-    if (unionValues) return unionValues;
-  } catch {}
-
-  const typeName =
-    typeNode.asKind(SyntaxKind.TypeReference)?.getTypeName() ??
-    typeNode.asKind(SyntaxKind.ExpressionWithTypeArguments)?.getExpression();
-  const symbol = typeName?.getSymbol();
-  const aliasedSymbol = symbol?.getAliasedSymbol();
-  const declarations = aliasedSymbol?.getDeclarations() ?? symbol?.getDeclarations() ?? [];
-
-  for (const declaration of declarations) {
-    const enumValues = extractEnumValuesFromDeclaration(declaration, checker);
-    if (enumValues) return enumValues;
-  }
-
-  return undefined;
-};
-
-const typeTextIncludesArrayOfString = (typeText: string): boolean =>
-  typeText === 'string[]' || /^Array\s*<\s*string\s*>$/.test(typeText);
-
-const typeTextIncludesRecord = (typeText: string): boolean =>
-  /^Record\s*<.+>$/.test(typeText) || typeText.includes('{ [');
-
-const inferPrivateSettingType = (
-  typeNode: Node | undefined,
-  checker: TypeChecker,
-  program: Program
-): { type: string; defaultValue: unknown; enumValues?: readonly EnumLiteral[] } => {
-  if (!typeNode) return { type: NIX_TYPE_ATTRS, defaultValue: {} };
-
-  const typeText = typeNode.getText().replace(/\s+/g, ' ');
-  if (typeTextIncludesArrayOfString(typeText)) {
-    return { type: NIX_TYPE_LIST_OF_STR, defaultValue: [] };
-  }
-  if (typeTextIncludesRecord(typeText)) {
-    return { type: NIX_TYPE_ATTRS, defaultValue: {} };
-  }
-
-  const enumValues = extractEnumValuesFromTypeNode(typeNode, checker);
-  if (enumValues && enumValues.length > 0) {
-    if (isBooleanEnumValues(enumValues)) {
-      return { type: NIX_TYPE_BOOL, defaultValue: false };
-    }
-    return { type: NIX_ENUM_TYPE, defaultValue: enumValues[0], enumValues };
-  }
-
-  const typeResult = tsTypeToNixType({ type: typeNode }, program, checker);
-  switch (typeResult.nixType) {
-    case NIX_TYPE_BOOL:
-      return { type: NIX_TYPE_BOOL, defaultValue: false };
-    case NIX_TYPE_INT:
-      return { type: NIX_TYPE_INT, defaultValue: 0 };
-    case NIX_TYPE_FLOAT:
-      return { type: NIX_TYPE_FLOAT, defaultValue: 0 };
-    case NIX_TYPE_STR:
-    case NIX_TYPE_NULL_OR_STR:
-      return { type: NIX_TYPE_NULL_OR_STR, defaultValue: null };
-    default:
-      return { type: NIX_TYPE_ATTRS, defaultValue: {} };
-  }
-};
-
-const extractPrivateSettingsFromTypeLiteral = (
-  typeLiteral: TypeLiteralNode,
-  checker: TypeChecker,
-  program: Program
-): Record<string, PluginSetting | PluginConfig> => {
-  const result: Record<string, PluginSetting | PluginConfig> = {};
-
-  for (const member of typeLiteral.getMembers()) {
-    const property = member.asKind(SyntaxKind.PropertySignature);
-    if (!property) continue;
-
-    const key = getPropertySignatureName(property);
-    if (!key) continue;
-
-    const propertyTypeNode = property.getTypeNode();
-    const nestedTypeLiteral = propertyTypeNode?.asKind(SyntaxKind.TypeLiteral);
-    if (nestedTypeLiteral) {
-      result[key] = {
-        name: key,
-        settings: extractPrivateSettingsFromTypeLiteral(
-          nestedTypeLiteral,
-          checker,
-          program
-        ) as Record<string, PluginSetting>,
-      };
-      continue;
-    }
-
-    const inferred = inferPrivateSettingType(propertyTypeNode, checker, program);
-    result[key] = buildPluginSetting(
-      key,
-      inferred.type,
-      undefined,
-      inferred.defaultValue,
-      inferred.enumValues,
-      undefined,
-      undefined,
-      false,
-      false
+const extractSettingFromValueObjectDetailed = (
+  key: string,
+  valueObj: ObjectLiteralExpression,
+  context: ExtractionContext,
+  skipHiddenCheck: boolean
+): ExtractionResult<ExtractedSettings> => {
+  if (!skipHiddenCheck && isHiddenSetting(valueObj)) {
+    return skipResult(
+      skippedSetting(
+        'hidden-setting-skipped',
+        key,
+        `Skipped hidden setting "${key}"`,
+        valueObj,
+        'object-literal-settings'
+      )
     );
   }
 
-  return result;
+  const nestedProperties = Array.from(iteratePropertyAssignments(valueObj));
+  if (isSettingsGroup(nestedProperties)) {
+    const nestedResult = extractSettingsFromPropertyIterableDetailed(
+      nestedProperties,
+      context.checker,
+      context.program,
+      skipHiddenCheck,
+      context.bindings
+    );
+    return settingsResult(
+      {
+        [key]: {
+          name: key,
+          settings: nestedResult.items as Record<string, PluginSetting>,
+        },
+      },
+      nestedResult.diagnostics,
+      nestedResult.skipped,
+      nestedResult.unsupported
+    );
+  }
+
+  const props = extractProperties(valueObj, context.checker, context.bindings);
+  if (!skipHiddenCheck && props.hidden) {
+    return skipResult(
+      skippedSetting(
+        'hidden-setting-skipped',
+        key,
+        `Skipped hidden setting "${key}"`,
+        valueObj,
+        'object-literal-settings'
+      )
+    );
+  }
+
+  const componentConfig = buildStoreBackedComponentConfig(key, valueObj, context.checker);
+  if (componentConfig) return settingsResult({ [key]: componentConfig });
+
+  const componentSetting = buildStoreBackedComponentSetting(
+    key,
+    valueObj,
+    context.checker,
+    context.bindings
+  );
+  if (componentSetting) return settingsResult({ [key]: componentSetting });
+
+  if (isBareComponentSetting(valueObj)) {
+    return skipResult(
+      skippedSetting(
+        'component-only-setting-skipped',
+        key,
+        `Skipped component-only setting "${key}" because no persistent store-backed value could be resolved`,
+        valueObj,
+        'component-settings'
+      )
+    );
+  }
+
+  return settingsResult({ [key]: extractNormalSetting(key, valueObj, context) });
 };
 
-const extractPrivateSettingsFromChainedCall = (
-  callExpr: CallExpression,
+const extractSettingsFromResolvedValueDetailed = (
+  key: string,
+  value: Node,
+  context: ExtractionContext,
+  skipHiddenCheck: boolean
+): ExtractionResult<ExtractedSettings> => {
+  const source = resolveSettingValueObject(value, context.checker, context.bindings);
+  if (!source) {
+    return unsupportedResult(
+      unsupportedSetting(
+        'unsupported-settings-argument',
+        `Could not resolve setting "${key}" to a static object literal`,
+        value,
+        key,
+        'object-literal-settings'
+      )
+    );
+  }
+
+  return extractSettingFromValueObjectDetailed(
+    key,
+    source.valueObj,
+    withBindings(context, source.bindings),
+    skipHiddenCheck
+  );
+};
+
+interface SettingsPatternExtractor {
+  readonly name: string;
+  readonly canHandle: (node: Node) => boolean;
+  readonly extract: (
+    node: Node,
+    context: ExtractionContext,
+    skipHiddenCheck: boolean
+  ) => ExtractionResult<ExtractedSettings>;
+}
+
+const isObjectLiteralNode = (node: Node): boolean =>
+  node.getKind() === SyntaxKind.ObjectLiteralExpression;
+
+const isObjectFromEntriesCall = (node: Node): boolean => {
+  const call = node.asKind(SyntaxKind.CallExpression);
+  const propAccess = call?.getExpression().asKind(SyntaxKind.PropertyAccessExpression);
+  return (
+    propAccess?.getExpression().getText() === 'Object' && propAccess.getName() === 'fromEntries'
+  );
+};
+
+const isObjectEntriesReduceCall = (node: Node): boolean => {
+  const call = node.asKind(SyntaxKind.CallExpression);
+  const propAccess = call?.getExpression().asKind(SyntaxKind.PropertyAccessExpression);
+  return propAccess?.getName() === 'reduce';
+};
+
+const spreadExtractors: readonly SettingsPatternExtractor[] = [
+  {
+    name: 'object-literal-settings',
+    canHandle: isObjectLiteralNode,
+    extract: (node, context, skipHiddenCheck) =>
+      extractSettingsFromObjectDetailed(
+        node.asKindOrThrow(SyntaxKind.ObjectLiteralExpression),
+        context.checker,
+        context.program,
+        skipHiddenCheck
+      ),
+  },
+  {
+    name: 'Object.fromEntries(...map(...))',
+    canHandle: isObjectFromEntriesCall,
+    extract: (node, context, skipHiddenCheck) =>
+      extractSettingsFromObjectFromEntries(
+        node.asKindOrThrow(SyntaxKind.CallExpression),
+        context,
+        skipHiddenCheck,
+        (pair, pairSkipHiddenCheck) =>
+          extractSettingsFromResolvedValueDetailed(
+            pair.key,
+            pair.value,
+            pair.context,
+            pairSkipHiddenCheck
+          )
+      ),
+  },
+];
+
+const settingsArgumentExtractors: readonly SettingsPatternExtractor[] = [
+  spreadExtractors[0],
+  spreadExtractors[1],
+  {
+    name: 'Object.entries(...).reduce(...)',
+    canHandle: isObjectEntriesReduceCall,
+    extract: extractGeneratedSettingsFromObjectEntriesReduce,
+  },
+];
+
+const extractSettingsFromSpreadExpression = (
+  node: Node,
+  context: ExtractionContext,
+  skipHiddenCheck: boolean
+): ExtractionResult<ExtractedSettings> => {
+  const unwrapped = unwrapNode(node);
+
+  const ident = unwrapped.asKind(SyntaxKind.Identifier);
+  if (ident) {
+    const init = resolveIdentifierInitializerNode(ident, context.checker);
+    return init
+      ? extractSettingsFromSpreadExpression(init, context, skipHiddenCheck)
+      : settingsResult({}, [
+          extractionDiagnostic(
+            'unresolved-settings-identifier',
+            `Could not resolve spread settings identifier "${ident.getText()}"`,
+            ident,
+            undefined,
+            'object-spread-settings'
+          ),
+        ]);
+  }
+
+  const binExpr = unwrapped.asKind(SyntaxKind.BinaryExpression);
+  if (
+    binExpr &&
+    [SyntaxKind.BarBarToken, SyntaxKind.QuestionQuestionToken].includes(
+      binExpr.getOperatorToken().getKind()
+    )
+  ) {
+    return mergeSettingsResults(
+      extractSettingsFromSpreadExpression(binExpr.getRight(), context, skipHiddenCheck),
+      extractSettingsFromSpreadExpression(binExpr.getLeft(), context, skipHiddenCheck)
+    );
+  }
+
+  const extractor = spreadExtractors.find((candidate) => candidate.canHandle(unwrapped));
+  return extractor
+    ? extractor.extract(unwrapped, context, skipHiddenCheck)
+    : unsupportedResult(
+        unsupportedSetting(
+          'unsupported-settings-argument',
+          `Unsupported spread settings expression: ${unwrapped.getText()}`,
+          unwrapped,
+          undefined,
+          'object-spread-settings'
+        )
+      );
+};
+
+export function extractSettingsFromPropertyIterableDetailed(
+  properties: Iterable<PropertyAssignment>,
   checker: TypeChecker,
-  program: Program
-): Record<string, PluginSetting | PluginConfig> => {
-  const privateSettingsCall = getChainedCall(callExpr, WITH_PRIVATE_SETTINGS_METHOD_NAME);
-  const typeArg = privateSettingsCall?.getTypeArguments()[0]?.asKind(SyntaxKind.TypeLiteral);
-  return typeArg ? extractPrivateSettingsFromTypeLiteral(typeArg, checker, program) : {};
-};
+  program: Program,
+  skipHiddenCheck = false,
+  baseBindings?: ParameterBindings
+): ExtractionResult<ExtractedSettings> {
+  const context = createExtractionContext(checker, program, baseBindings);
+  const results: ExtractionResult<ExtractedSettings>[] = [];
 
-const isSettingsGroup = (nestedProperties: readonly PropertyAssignment[]): boolean => {
-  const hasTypeProperty = nestedProperties.some(
-    (p) => p.getName() === 'type' || p.getName() === 'description'
-  );
-  const hasNestedSettings = nestedProperties.some(
-    (p) => p.getInitializer()?.getKind() === SyntaxKind.ObjectLiteralExpression
-  );
-  return hasNestedSettings && !hasTypeProperty;
-};
+  for (const propAssignment of properties) {
+    const key = propAssignment.getName();
+    const init = propAssignment.getInitializer();
+    if (!key || !init) continue;
+
+    results.push(extractSettingsFromResolvedValueDetailed(key, init, context, skipHiddenCheck));
+  }
+
+  return mergeSettingsResults(...results);
+}
 
 export function extractSettingsFromPropertyIterable(
   properties: Iterable<PropertyAssignment>,
   checker: TypeChecker,
   program: Program,
-  skipHiddenCheck = false
+  skipHiddenCheck = false,
+  baseBindings?: ParameterBindings
 ): Record<string, PluginSetting | PluginConfig> {
-  return Array.from(properties).reduce(
-    (acc, propAssignment) => {
-      const key = propAssignment.getName();
-      const init = propAssignment.getInitializer();
-      if (!key || !init) return acc;
+  return extractSettingsFromPropertyIterableDetailed(
+    properties,
+    checker,
+    program,
+    skipHiddenCheck,
+    baseBindings
+  ).items;
+}
 
-      const resolvedSetting = resolveSettingValueObject(init, checker);
-      if (!resolvedSetting) return acc;
-
-      const { valueObj, bindings } = resolvedSetting;
-      if (
-        !skipHiddenCheck &&
-        valueObj
-          .getProperty('hidden')
-          ?.asKind(SyntaxKind.PropertyAssignment)
-          ?.getInitializer()
-          ?.getKind() === SyntaxKind.TrueKeyword
-      ) {
-        return acc;
-      }
-      const nestedProperties = Array.from(iteratePropertyAssignments(valueObj));
-
-      if (isSettingsGroup(nestedProperties)) {
-        acc[key] = {
-          name: key,
-          settings: extractSettingsFromPropertyIterable(
-            nestedProperties,
-            checker,
-            program,
-            skipHiddenCheck
-          ) as Record<string, PluginSetting>,
-        };
-        return acc;
-      }
-
-      const props = extractProperties(valueObj, checker, bindings);
-      if (!skipHiddenCheck && props.hidden) return acc;
-      if (isBareComponentSetting(valueObj)) return acc;
-
-      const optionsResult = extractSelectOptions(valueObj, checker);
-      const extractedOptions = optionsResult.ok ? optionsResult.value.values : undefined;
-      const nonEmptyExtractedOptions =
-        extractedOptions && extractedOptions.length > 0 ? extractedOptions : undefined;
-      const extractedLabels = optionsResult.ok ? optionsResult.value.labels : undefined;
-
-      const rawSetting = {
-        type: props.typeNode,
-        description: props.description,
-        default: props.defaultLiteralValue,
-        placeholder: props.placeholder,
-        restartNeeded: props.restartNeeded,
-        hidden: props.hidden,
-        options: nonEmptyExtractedOptions ?? props.typeAssertionEnumValues,
-      };
-      const typeResult = tsTypeToNixType(rawSetting, program, checker);
-      const defaultResolution = resolveDefaultValue(
-        valueObj,
-        typeResult.nixType,
-        props.defaultLiteralValue,
-        typeResult.enumValues,
-        checker
-      );
-
-      acc[key] = buildPluginSetting(
-        key,
-        defaultResolution.finalNixType,
-        props.description,
-        defaultResolution.defaultValue,
-        typeResult.enumValues,
-        nonEmptyExtractedOptions ? extractedLabels : undefined,
-        props.placeholder,
-        props.hidden,
-        props.restartNeeded
-      );
-      return acc;
-    },
-    {} as Record<string, PluginSetting | PluginConfig>
+export function extractSettingsFromObjectDetailed(
+  objExpr: ObjectLiteralExpression,
+  checker: TypeChecker,
+  program: Program,
+  skipHiddenCheck = false
+): ExtractionResult<ExtractedSettings> {
+  const context = withSourceFile(
+    createExtractionContext(checker, program),
+    objExpr.getSourceFile()
   );
+  const results: ExtractionResult<ExtractedSettings>[] = [];
+  for (const prop of objExpr.getProperties()) {
+    if (prop.getKind() === SyntaxKind.PropertyAssignment) {
+      results.push(
+        extractSettingsFromPropertyIterableDetailed(
+          [prop.asKindOrThrow(SyntaxKind.PropertyAssignment)],
+          checker,
+          program,
+          skipHiddenCheck
+        )
+      );
+      continue;
+    }
+
+    const spread = prop.asKind(SyntaxKind.SpreadAssignment);
+    if (!spread) continue;
+    results.push(
+      extractSettingsFromSpreadExpression(spread.getExpression(), context, skipHiddenCheck)
+    );
+  }
+  return mergeSettingsResults(...results);
 }
 
 export function extractSettingsFromObject(
@@ -625,91 +395,86 @@ export function extractSettingsFromObject(
   program: Program,
   skipHiddenCheck = false
 ): Record<string, PluginSetting | PluginConfig> {
-  return extractSettingsFromPropertyIterable(
-    iteratePropertyAssignments(objExpr),
-    checker,
-    program,
-    skipHiddenCheck
-  );
+  return extractSettingsFromObjectDetailed(objExpr, checker, program, skipHiddenCheck).items;
 }
 
-const extractGeneratedSettingsFromObjectEntriesReduce = (
-  arg: Node,
+export function extractSettingsFromCallDetailed(
+  callExpr: Node | undefined,
   checker: TypeChecker,
   program: Program,
-  skipHiddenCheck: boolean
-): Record<string, PluginSetting | PluginConfig> => {
-  const call = arg.asKind(SyntaxKind.CallExpression);
-  const propAccess = call?.getExpression().asKind(SyntaxKind.PropertyAccessExpression);
-  if (!call || !propAccess || propAccess.getName() !== 'reduce') return {};
-
-  const objectEntriesCall = propAccess.getExpression().asKind(SyntaxKind.CallExpression);
-  const objectEntriesAccess = objectEntriesCall
-    ?.getExpression()
-    .asKind(SyntaxKind.PropertyAccessExpression);
-  if (
-    !objectEntriesCall ||
-    !objectEntriesAccess ||
-    objectEntriesAccess.getExpression().getText() !== 'Object' ||
-    objectEntriesAccess.getName() !== 'entries'
-  ) {
-    return {};
+  skipHiddenCheck = false
+): ExtractionResult<ExtractedSettings> {
+  const context = createExtractionContext(checker, program);
+  if (!callExpr || callExpr.getKind() !== SyntaxKind.CallExpression) {
+    return unsupportedResult(
+      unsupportedSetting(
+        'unsupported-settings-argument',
+        'Expected a definePluginSettings call expression',
+        callExpr,
+        undefined,
+        'definePluginSettings'
+      )
+    );
+  }
+  const expr = callExpr.asKindOrThrow(SyntaxKind.CallExpression);
+  const callContext = withSourceFile(context, expr.getSourceFile());
+  const privateSettings = extractPrivateSettingsFromChainedCall(expr, checker, program);
+  const args = expr.getArguments();
+  const privateResult = settingsResult(privateSettings);
+  if (args.length === 0) {
+    return Object.keys(privateSettings).length > 0
+      ? privateResult
+      : unsupportedResult(
+          unsupportedSetting(
+            'unsupported-settings-argument',
+            'definePluginSettings() has no settings argument',
+            expr,
+            undefined,
+            'definePluginSettings'
+          )
+        );
   }
 
-  const sourceObj = objectEntriesCall.getArguments()[0]?.asKind(SyntaxKind.Identifier);
-  if (!sourceObj) return {};
-  const sourceInit = sourceObj
-    .getSymbol()
-    ?.getValueDeclaration()
-    ?.asKind(SyntaxKind.VariableDeclaration)
-    ?.getInitializer()
-    ?.asKind(SyntaxKind.ObjectLiteralExpression);
-  if (!sourceInit) return {};
-
-  const reducer = call.getArguments()[0]?.asKind(SyntaxKind.ArrowFunction);
-  const assignment = reducer
-    ?.getDescendantsOfKind(SyntaxKind.BinaryExpression)
-    .find((expr) => expr.getOperatorToken().getKind() === SyntaxKind.EqualsToken);
-  const settingTemplate = assignment?.getRight().asKind(SyntaxKind.ObjectLiteralExpression);
-  if (!settingTemplate) return {};
-
-  const typeInit = getPropertyInitializer(settingTemplate, 'type');
-  const defaultInit = getPropertyInitializer(settingTemplate, 'default');
-  const defaultValue = extractLiteralValue(defaultInit, checker);
-  const templateType = typeInit
-    ? tsTypeToNixType({ type: typeInit, default: defaultValue }, program, checker).nixType
+  const arg = args[0];
+  const identifier = arg.asKind(SyntaxKind.Identifier);
+  const resolvedIdentifierArg = identifier
+    ? resolveIdentifierInitializerNode(identifier, callContext.checker)
     : undefined;
 
-  const result: Record<string, PluginSetting | PluginConfig> = {};
-  for (const prop of iteratePropertyAssignments(sourceInit)) {
-    const key = prop.getName();
-    const sourceValue = prop.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
-    const description = sourceValue
-      ? extractStringLiteralValue(sourceValue, DESCRIPTION_PROPERTY)
-      : undefined;
-    const finalType = templateType ?? BOOLEAN_NIX_TYPE;
-    const defaultResolution = resolveDefaultValue(
-      settingTemplate,
-      finalType,
-      defaultValue,
-      undefined,
-      checker
-    );
-    result[key] = buildPluginSetting(
-      key,
-      defaultResolution.finalNixType,
-      description,
-      defaultResolution.defaultValue,
-      undefined,
-      undefined,
-      undefined,
-      false,
-      false
+  if (identifier && !resolvedIdentifierArg) {
+    return mergeSettingsResults(
+      settingsResult({}, [
+        extractionDiagnostic(
+          'unresolved-settings-identifier',
+          `Could not resolve settings identifier "${identifier.getText()}"`,
+          identifier,
+          undefined,
+          'definePluginSettings'
+        ),
+      ]),
+      privateResult
     );
   }
 
-  return skipHiddenCheck ? result : result;
-};
+  const settingsArg = resolvedIdentifierArg ?? arg;
+  const extractor = settingsArgumentExtractors.find((candidate) =>
+    candidate.canHandle(settingsArg)
+  );
+
+  const publicSettings = extractor
+    ? extractor.extract(settingsArg, callContext, skipHiddenCheck)
+    : unsupportedResult(
+        unsupportedSetting(
+          'unsupported-settings-argument',
+          `Unsupported definePluginSettings argument: ${settingsArg.getText()}`,
+          settingsArg,
+          undefined,
+          'definePluginSettings'
+        )
+      );
+
+  return mergeSettingsResults(publicSettings, privateResult);
+}
 
 export function extractSettingsFromCall(
   callExpr: Node | undefined,
@@ -717,28 +482,5 @@ export function extractSettingsFromCall(
   program: Program,
   skipHiddenCheck = false
 ): Record<string, PluginSetting | PluginConfig> {
-  if (!callExpr || callExpr.getKind() !== SyntaxKind.CallExpression) return {};
-  const expr = callExpr.asKindOrThrow(SyntaxKind.CallExpression);
-  const privateSettings = extractPrivateSettingsFromChainedCall(expr, checker, program);
-  const args = expr.getArguments();
-  if (args.length === 0) return privateSettings;
-  const arg = args[0];
-  let publicSettings: Record<string, PluginSetting | PluginConfig>;
-  if (arg.getKind() === SyntaxKind.ObjectLiteralExpression) {
-    publicSettings = extractSettingsFromObject(
-      arg.asKindOrThrow(SyntaxKind.ObjectLiteralExpression),
-      checker,
-      program,
-      skipHiddenCheck
-    );
-  } else {
-    publicSettings = extractGeneratedSettingsFromObjectEntriesReduce(
-      arg,
-      checker,
-      program,
-      skipHiddenCheck
-    );
-  }
-
-  return { ...publicSettings, ...privateSettings };
+  return extractSettingsFromCallDetailed(callExpr, checker, program, skipHiddenCheck).items;
 }

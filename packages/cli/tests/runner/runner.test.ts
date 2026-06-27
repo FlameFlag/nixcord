@@ -37,7 +37,7 @@ vi.mock('@nixcord/nix-generator', () => ({
   toNixIdentifier: (name: string) => name,
 }));
 
-vi.mock('ora', () => ({
+vi.mock('../../src/runner/spinner.js', () => ({
   oraPromise: mocks.oraPromise,
 }));
 
@@ -182,6 +182,66 @@ describe('runGeneratePluginOptions', () => {
       expect.stringContaining('Found 1 plugins in Vencord src/plugins')
     );
     expect(mocks.oraPromise).not.toHaveBeenCalled();
+  });
+
+  test('returns parser diagnostic summary when parsed sources report diagnostics', async () => {
+    const logger = createLogger();
+    const vencordRepo = await createRepo(tempDir, 'vencord');
+    mocks.parsePlugins.mockResolvedValue({
+      vencordPlugins: { Only: basePlugin },
+      equicordPlugins: {},
+      diagnostics: [
+        {
+          pluginName: 'Only',
+          filePath: '/tmp/only/index.ts',
+          kind: 'component-only-setting-skipped',
+          message: 'Skipped component-only setting',
+        },
+        {
+          pluginName: 'Only',
+          filePath: '/tmp/only/index.ts',
+          kind: 'component-only-setting-skipped',
+          message: 'Skipped component-only setting',
+        },
+        {
+          pluginName: 'Other',
+          filePath: '/tmp/other/index.ts',
+          kind: 'unsupported-generated-settings-pattern',
+          message: 'Unsupported generated settings pattern',
+        },
+      ],
+    });
+    mocks.categorizePlugins.mockReturnValue({
+      generic: {},
+      vencordOnly: { Only: basePlugin },
+      equicordOnly: {},
+    });
+
+    const result = await runGeneratePluginOptions({
+      vencordPath: vencordRepo,
+      vencordPluginsDir: CLI_CONFIG.directories.vencordPlugins,
+      equicordPluginsDir: CLI_CONFIG.directories.equicordPlugins,
+      outputPath: join(tempDir, 'out.nix'),
+      logger,
+    });
+
+    expect(result.ok).toBe(true);
+    const summary = unwrapOk<GeneratePluginOptionsSummary, Error>(result);
+    expect(summary.diagnosticSummary).toEqual({
+      total: 3,
+      byKind: [
+        { name: 'component-only-setting-skipped', count: 2 },
+        { name: 'unsupported-generated-settings-pattern', count: 1 },
+      ],
+      topPlugins: [
+        { name: 'Only', count: 2 },
+        { name: 'Other', count: 1 },
+      ],
+      topFiles: [
+        { name: '/tmp/only/index.ts', count: 2 },
+        { name: '/tmp/other/index.ts', count: 1 },
+      ],
+    });
   });
 
   test('returns error result when validation fails', async () => {

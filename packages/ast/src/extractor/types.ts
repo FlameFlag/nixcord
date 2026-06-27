@@ -2,7 +2,7 @@
  * Types for extractor return values and intermediate results.
  */
 
-import type { ReadonlyDeep } from '@nixcord/shared';
+import type { PluginConfig, PluginSetting, ReadonlyDeep } from '@nixcord/shared';
 import { Err, Ok, type Result } from '@nixcord/shared';
 import type { Node } from 'ts-morph';
 import { z } from 'zod';
@@ -64,6 +64,62 @@ export interface ExtractionError {
   readonly message: string;
   readonly node?: Node | undefined;
   readonly context?: Record<string, unknown> | undefined;
+}
+
+export type ExtractedSettings = Record<string, PluginSetting | PluginConfig>;
+
+export const SETTINGS_EXTRACTION_DIAGNOSTIC_KINDS = [
+  'empty-settings-extraction',
+  'unsupported-settings-argument',
+  'unsupported-generated-settings-pattern',
+  'unresolved-settings-identifier',
+  'component-only-setting-skipped',
+  'hidden-setting-skipped',
+  'custom-component-setting-without-static-info',
+] as const;
+
+export type SettingsExtractionDiagnosticKind =
+  (typeof SETTINGS_EXTRACTION_DIAGNOSTIC_KINDS)[number];
+
+export interface SettingsExtractionDiagnostic {
+  readonly kind: SettingsExtractionDiagnosticKind;
+  readonly message: string;
+  readonly node?: Node | undefined;
+  readonly key?: string | undefined;
+  readonly extractor?: string | undefined;
+}
+
+export interface SettingsExtractionSkip extends SettingsExtractionDiagnostic {
+  readonly kind:
+    | 'component-only-setting-skipped'
+    | 'hidden-setting-skipped'
+    | 'custom-component-setting-without-static-info';
+  readonly key: string;
+}
+
+export interface SettingsExtractionUnsupported extends SettingsExtractionDiagnostic {
+  readonly kind: 'unsupported-settings-argument' | 'unsupported-generated-settings-pattern';
+}
+
+export interface ExtractionResult<T> {
+  readonly items: T;
+  readonly diagnostics: readonly SettingsExtractionDiagnostic[];
+  readonly skipped: readonly SettingsExtractionSkip[];
+  readonly unsupported: readonly SettingsExtractionUnsupported[];
+}
+
+export function createExtractionResult<T>(
+  items: T,
+  diagnostics: readonly SettingsExtractionDiagnostic[] = [],
+  skipped: readonly SettingsExtractionSkip[] = [],
+  unsupported: readonly SettingsExtractionUnsupported[] = []
+): ExtractionResult<T> {
+  return {
+    items,
+    diagnostics,
+    skipped,
+    unsupported,
+  };
 }
 
 /**

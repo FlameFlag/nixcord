@@ -17,7 +17,7 @@
     "@nixcord/git-analyzer": "workspace:*",
     "@nixcord/shared": "workspace:*",
     "change-case": "^5.4.4",
-    "fs-extra": "^11.3.4",
+    "fs-extra": "^11.3.5",
     "pathe": "^2.0.3"
   },
   "files": [

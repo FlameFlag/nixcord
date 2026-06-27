@@ -15,8 +15,12 @@
   "types": "./src/index.ts",
   "dependencies": {
     "consola": "^3.4.2",
-    "zod": "^4.3.6",
+    "zod": "^4.4.3",
     "zod-validation-error": "^5.0.0"
+  },
+  "devDependencies": {
+    "equicord": "github:Equicord/Equicord#v1.14.13.3",
+    "vencord": "github:Vendicated/Vencord#v1.14.13"
   },
   "files": [
     "dist"

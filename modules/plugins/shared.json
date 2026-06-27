@@ -9,36 +9,6 @@
       }
     }
   },
-  "alwaysAnimate": {
-    "description": "Animates anything that can be animated (Shared between Vencord and Equicord)",
-    "settings": {
-      "icons": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Always animate server icons, avatars, decor and more"
-      },
-      "statusEmojis": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Always animate status emojis"
-      },
-      "serverBanners": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Always animate server banners"
-      },
-      "nameplates": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Always animate nameplates"
-      },
-      "roleGradients": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Always animate role gradients"
-      }
-    }
-  },
   "appleMusicRichPresence": {
     "description": "Discord rich presence for your Apple Music! (Shared between Vencord and Equicord)",
     "settings": {
@@ -464,21 +434,6 @@
       }
     }
   },
-  "decor": {
-    "description": "Create and use your own custom avatar decorations, or pick your favorite from the presets. (Shared between Vencord and Equicord)",
-    "settings": {
-      "baseUrl": {
-        "type": "types.str",
-        "default": "https://decor.fieryflames.dev",
-        "description": "Decor api url"
-      },
-      "agreedToGuidelines": {
-        "type": "types.bool",
-        "default": false,
-        "description": "Agreed to guidelines"
-      }
-    }
-  },
   "disableCallIdle": {
     "description": "Disables automatically getting kicked from a DM voice call after 3 minutes and being moved to an AFK voice channel. (Shared between Vencord and Equicord)",
     "settings": {}
@@ -498,75 +453,6 @@
   "f8Break": {
     "description": "Pause the client when you press F8 with DevTools (+ breakpoints) open. (Shared between Vencord and Equicord)",
     "settings": {}
-  },
-  "fakeNitro": {
-    "description": "Allows you to send fake emojis/stickers, use nitro themes, and stream in nitro quality (Shared between Vencord and Equicord)",
-    "settings": {
-      "enableEmojiBypass": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Allows sending fake emojis (also bypasses missing permission to use custom emojis) (restart required)"
-      },
-      "emojiSize": {
-        "type": "types.float",
-        "default": {
-          "__nixRaw": "48.0"
-        },
-        "description": "Size of the emojis when sending"
-      },
-      "transformEmojis": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Whether to transform fake emojis into real ones (restart required)"
-      },
-      "enableStickerBypass": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Allows sending fake stickers (also bypasses missing permission to use stickers) (restart required)"
-      },
-      "stickerSize": {
-        "type": "types.float",
-        "default": {
-          "__nixRaw": "160.0"
-        },
-        "description": "Size of the stickers when sending"
-      },
-      "transformStickers": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Whether to transform fake stickers into real ones (restart required)"
-      },
-      "transformCompoundSentence": {
-        "type": "types.bool",
-        "default": false,
-        "description": "Whether to transform fake stickers and emojis in compound sentences (sentences with more content than just the fake emoji or sticker link)"
-      },
-      "enableStreamQualityBypass": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Allow streaming in nitro quality (restart required)"
-      },
-      "useStickerHyperLinks": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Whether to use hyperlinks when sending fake stickers"
-      },
-      "useEmojiHyperLinks": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Whether to use hyperlinks when sending fake emojis"
-      },
-      "hyperLinkText": {
-        "type": "types.str",
-        "default": "{{NAME}}",
-        "description": "What text the hyperlink should use. {{NAME}} will be replaced with the emoji/sticker name."
-      },
-      "disableEmbedPermissionCheck": {
-        "type": "types.bool",
-        "default": false,
-        "description": "Whether to disable the embed permission check when sending fake emojis and stickers"
-      }
-    }
   },
   "fakeProfileThemes": {
     "description": "Allows profile theming by hiding the colors in your bio thanks to invisible 3y3 encoding (Shared between Vencord and Equicord)",
@@ -616,16 +502,6 @@
           "__nixRaw": "10.0"
         },
         "description": "The volume % to set for spotify embeds. Anything above 10% is veeeery loud"
-      }
-    }
-  },
-  "fixYoutubeEmbeds": {
-    "description": "Bypasses youtube videos being blocked from display on Discord (for example by UMG) (Shared between Vencord and Equicord)",
-    "settings": {
-      "youtubeDescription": {
-        "type": "types.bool",
-        "default": false,
-        "description": "Adds descriptions to youtube video embeds (restart required)"
       }
     }
   },
@@ -740,7 +616,7 @@
         "description": "Ignore all competing activities (These are normally special game activities)"
       },
       "ignoredActivities": {
-        "type": "types.listOf types.attrs",
+        "type": "types.listOf types.str",
         "default": []
       }
     }
@@ -1447,26 +1323,6 @@
       }
     }
   },
-  "serverListIndicators": {
-    "description": "Add online friend count or server count in the server list (Shared between Vencord and Equicord)",
-    "settings": {
-      "mode": {
-        "type": "types.enum",
-        "enumValues": [
-          2,
-          1,
-          3
-        ],
-        "default": 2,
-        "description": "Mode (restart required)\n\nValues: 2 = Only online friend count, 1 = Only server count, 3 = Both server and online friend counts"
-      },
-      "useCompact": {
-        "type": "types.bool",
-        "default": false,
-        "description": "Makes the indicator appear with only text (restart required)"
-      }
-    }
-  },
   "shikiCodeblocks": {
     "description": "Brings vscode-style codeblocks into Discord, powered by Shiki (Shared between Vencord and Equicord)",
     "settings": {
@@ -1541,7 +1397,8 @@
       "customTheme": {
         "type": "types.nullOr types.str",
         "default": null,
-        "description": "A link to a custom vscode theme"
+        "description": "A link to a custom vscode theme",
+        "example": "https://raw.githubusercontent.com/millsp/material-candy/master/material-candy.json"
       },
       "tryHljs": {
         "type": "types.enum",
@@ -1570,26 +1427,6 @@
           "__nixRaw": "100.0"
         },
         "description": "Background opacity"
-      }
-    }
-  },
-  "showAllMessageButtons": {
-    "description": "Always show all message buttons no matter if you are holding the shift key or not. (Shared between Vencord and Equicord)",
-    "settings": {
-      "noShiftDelete": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Remove requirement to hold shift for deleting a message."
-      },
-      "noShiftPin": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Remove requirement to hold shift for pinning a message."
-      },
-      "noQuickReacts": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Hide quick reacts. By default, showing the full menu hides quick react buttons. (restart required)"
       }
     }
   },
@@ -1735,65 +1572,6 @@
   "themeAttributes": {
     "description": "Adds data attributes to various elements for theming purposes (Shared between Vencord and Equicord)",
     "settings": {}
-  },
-  "translate": {
-    "description": "Translate messages with Google Translate, DeepL or Kagi. (Shared between Vencord and Equicord)",
-    "settings": {
-      "receivedInput": {
-        "type": "types.str",
-        "default": "auto",
-        "description": "Language incoming messages are translated from"
-      },
-      "receivedOutput": {
-        "type": "types.str",
-        "default": "en",
-        "description": "Language incoming messages are translated to"
-      },
-      "sentInput": {
-        "type": "types.str",
-        "default": "auto",
-        "description": "Language your messages are translated from"
-      },
-      "sentOutput": {
-        "type": "types.str",
-        "default": "en",
-        "description": "Language your messages are translated to"
-      },
-      "service": {
-        "type": "types.enum",
-        "enumValues": [
-          "google",
-          "deepl",
-          "deepl-pro",
-          "kagi"
-        ],
-        "default": "google"
-      },
-      "deeplApiKey": {
-        "type": "types.str",
-        "default": "",
-        "description": "Your DeepL API key (from deepl.com/your-account)"
-      },
-      "kagiSession": {
-        "type": "types.str",
-        "default": "",
-        "description": "Your Kagi session token (from kagi.com/settings?p=user_details)"
-      },
-      "autoTranslate": {
-        "type": "types.bool",
-        "default": false,
-        "description": "Automatically translate your messages before sending. You can also Shift+click or right-click the translate button to toggle this"
-      },
-      "showAutoTranslateTooltip": {
-        "type": "types.bool",
-        "default": true,
-        "description": "Show a tooltip on the chat bar button when a message is auto-translated"
-      },
-      "dismissedAutoTranslateAlert": {
-        "type": "types.bool",
-        "default": false
-      }
-    }
   },
   "unindent": {
     "description": "Trims leading indentation from codeblocks (Shared between Vencord and Equicord)",

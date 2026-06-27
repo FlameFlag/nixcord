@@ -1,5 +1,12 @@
+import type equicordPackage from 'equicord/package.json';
+import type vencordPackage from 'vencord/package.json';
 import { z } from 'zod';
 import type { Simplify } from './type-utils.js';
+
+type PackageName<T extends { name: string }> = T['name'];
+
+const VENCORD_PACKAGE: PackageName<typeof vencordPackage> = 'vencord';
+const EQUICORD_PACKAGE: PackageName<typeof equicordPackage> = 'equicord';
 
 const CliConfigSchema = z.object({
   version: z.string().min(1),
@@ -34,8 +41,8 @@ export const CLI_CONFIG = {
     equicordPlugins: 'src/equicordplugins',
   },
   sources: {
-    vencord: 'node_modules/vencord',
-    equicord: 'node_modules/equicord',
+    vencord: `node_modules/${VENCORD_PACKAGE}`,
+    equicord: `node_modules/${EQUICORD_PACKAGE}`,
   },
   filenames: {
     packageJson: 'package.json',

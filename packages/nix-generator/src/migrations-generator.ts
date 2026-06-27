@@ -34,15 +34,14 @@ function normalizePathParts(
   path: string,
   normalizer: (name: string) => string = toNixIdentifier
 ): string[] {
-  return normalizeSettingPath(path, normalizer).split('.');
+  return path.split('.').map(normalizer);
 }
 
 function collectSettingNames(
   config: ReadonlyDeep<PluginConfig>,
   normalizer: (name: string) => string = toNixIdentifier
 ): string[] {
-  const names = new Set<string>();
-  names.add('enable');
+  const names = new Set<string>(['enable']);
 
   for (const [key, setting] of Object.entries(config.settings)) {
     const settingName = normalizer(
@@ -57,7 +56,7 @@ function collectSettingNames(
     }
   }
 
-  return Array.from(names);
+  return [...names];
 }
 
 function collectSettingNamePairs(config: ReadonlyDeep<PluginConfig>): SettingNamePair[] {

@@ -18,20 +18,33 @@ import { COMPONENT_PROPERTY, STRING_ARRAY_TYPE_PATTERN } from '../constants.js';
 const isStringArray = (arr: ArrayLiteralExpression): boolean =>
   arr.getElements().every((el) => el.getKind() === SyntaxKind.StringLiteral);
 
-const isStringArrayAsExpr = (asExpr: AsExpression): boolean =>
-  !!asExpr.getTypeNode() &&
-  STRING_ARRAY_TYPE_PATTERN.test(asExpr.getTypeNode()!.getText()) &&
-  asExpr.getExpression().asKind(SyntaxKind.ArrayLiteralExpression) !== undefined;
+const isStringArrayAsExpr = (asExpr: AsExpression): boolean => {
+  const typeNode = asExpr.getTypeNode();
+  const typeText = typeNode?.getText();
+  return (
+    !!typeText &&
+    (typeText === 'const' || STRING_ARRAY_TYPE_PATTERN.test(typeText)) &&
+    checkStringArrayInit(asExpr.getExpression())
+  );
+};
 
 const checkStringArrayInit = (init: Node): boolean => {
-  switch (init.getKind()) {
+  const unwrapped = unwrapNode(init);
+  switch (unwrapped.getKind()) {
     case SyntaxKind.ArrayLiteralExpression: {
-      const arr = init.asKind(SyntaxKind.ArrayLiteralExpression);
+      const arr = unwrapped.asKind(SyntaxKind.ArrayLiteralExpression);
       return arr ? isStringArray(arr) : false;
     }
     case SyntaxKind.AsExpression: {
-      const expr = init.asKind(SyntaxKind.AsExpression);
+      const expr = unwrapped.asKind(SyntaxKind.AsExpression);
       return expr ? isStringArrayAsExpr(expr) : false;
+    }
+    case SyntaxKind.ConditionalExpression: {
+      const conditional = unwrapped.asKindOrThrow(SyntaxKind.ConditionalExpression);
+      return (
+        checkStringArrayInit(conditional.getWhenTrue()) &&
+        checkStringArrayInit(conditional.getWhenFalse())
+      );
     }
     default:
       return false;
@@ -60,22 +73,7 @@ export function resolveIdentifierArrayDefault(obj: ObjectLiteralExpression): boo
   if (!ident) return false;
   const valueInit = getIdentifierInit(ident);
   if (!valueInit) return false;
-
-  switch (valueInit.getKind()) {
-    case SyntaxKind.ArrayLiteralExpression: {
-      const arr = valueInit.asKind(SyntaxKind.ArrayLiteralExpression);
-      return arr ? isStringArray(arr) : false;
-    }
-    case SyntaxKind.AsExpression: {
-      const arr = valueInit
-        .asKindOrThrow(SyntaxKind.AsExpression)
-        .getExpression()
-        .asKind(SyntaxKind.ArrayLiteralExpression);
-      return arr ? isStringArray(arr) : false;
-    }
-    default:
-      return false;
-  }
+  return checkStringArrayInit(valueInit);
 }
 
 const isArrayExprWithObjects = (node: Node): boolean => {

@@ -102,6 +102,15 @@ export function resolveDefaultValue(
     return { finalNixType: NIX_TYPE_LIST_OF_STR, defaultValue: [] };
   }
 
+  if (
+    finalNixType === NIX_TYPE_LIST_OF_ATTRS &&
+    Array.isArray(defaultLiteralValue) &&
+    defaultLiteralValue.length === 0 &&
+    hasStringArrayDefault(valueObj)
+  ) {
+    return { finalNixType: NIX_TYPE_LIST_OF_STR, defaultValue: [] };
+  }
+
   if (finalNixType === NIX_TYPE_BOOL && defaultLiteralValue === undefined) {
     const result = extractSelectDefault(valueObj, checker);
     defaultValue = result.ok && result.value !== undefined ? result.value : false;

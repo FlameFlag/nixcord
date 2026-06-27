@@ -12,15 +12,15 @@
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
-    "@sveltejs/vite-plugin-svelte": "^6.2.1",
-    "@tailwindcss/vite": "^4.1.18",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@tailwindcss/vite": "^4.3.1",
     "highlight.js": "^11.11.1",
-    "svelte": "^5.45.0",
-    "tailwindcss": "^4.1.18",
-    "vite": "^7.2.7"
+    "svelte": "^5.56.3",
+    "tailwindcss": "^4.3.1",
+    "vite": "^8.0.16"
   },
   "devDependencies": {
-    "@typescript/native-preview": "^7.0.0-dev.20260421.2",
-    "typescript": "npm:@typescript/typescript6@^6.0.0"
+    "@typescript/native-preview": "^7.0.0-dev.20260621.1",
+    "typescript": "npm:@typescript/typescript6@^6.0.1"
   }
 }

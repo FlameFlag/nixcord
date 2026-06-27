@@ -10,7 +10,7 @@
   skipGitMigrations ? true,
 }:
 let
-  nodeModulesHashDarwin = "sha256-/1H8CLr7QVXecHhxOZouRUtfA6lD2vME7IFcwrZYsCM=";
+  nodeModulesHashDarwin = "sha256-SFFw0r1J5vGJ91xwZGos0+lqq9mKmxYEwHbY+EOSjIo=";
   nodeModulesHashLinux = "sha256-rowjSP7oaHxkelA+9m2x/NAqUkL5mTZL6sQo0pI9+gg=";
   nodeModulesHash = if stdenvNoCC.isDarwin then nodeModulesHashDarwin else nodeModulesHashLinux;
 in
@@ -26,7 +26,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       ../docs/site/package.json
       ../tsconfig.base.json
       ../vitest.workspace.ts
-      ../vitest.projects.ts
       ../vite.config.shared.ts
       ../modules/plugins/overrides.json
       ../modules/plugins/deprecated.nix
@@ -113,7 +112,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   checkPhase = ''
     runHook preCheck
-    ./node_modules/.bin/vitest run
+    ./node_modules/.bin/vitest run --no-isolate --experimental.fsModuleCache --maxWorkers=4 --testTimeout=30000
     runHook postCheck
   '';
 

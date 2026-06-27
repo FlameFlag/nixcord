@@ -23,3 +23,10 @@ export const getArrowFunctionBody = (node: Node): Node | undefined => {
   const body = arrow.getBody();
   return body ? unwrapNode(body) : undefined;
 };
+
+export const getReturnedExpression = (node: Node): Node | undefined => {
+  const unwrapped = unwrapNode(node);
+  const block = unwrapped.asKind(SyntaxKind.Block);
+  if (!block) return unwrapped;
+  return block.getDescendantsOfKind(SyntaxKind.ReturnStatement)[0]?.getExpression();
+};

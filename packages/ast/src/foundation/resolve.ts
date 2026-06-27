@@ -27,6 +27,9 @@ const resolveSymbol = (
   return { symbol, valueDecl };
 };
 
+export const resolveValueDeclaration = (node: Node, checker?: TypeChecker): Node | undefined =>
+  resolveSymbol(node, checker).valueDecl;
+
 const getInitializerFromDecl = (valueDecl?: Node): Node | undefined =>
   valueDecl && 'getInitializer' in valueDecl
     ? (valueDecl as { getInitializer: () => Node | undefined }).getInitializer()

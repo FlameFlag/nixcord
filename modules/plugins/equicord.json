@@ -3,6 +3,36 @@
     "description": "Makes the Noise Suppression Popout switch between None and Krisp instead of Krisp and Standard (Equicord-only)",
     "settings": {}
   },
+  "alwaysAnimate": {
+    "description": "Animates anything that can be animated (Equicord-only)",
+    "settings": {
+      "icons": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Always animate server icons, avatars, decor and more"
+      },
+      "statusEmojis": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Always animate status emojis"
+      },
+      "serverBanners": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Always animate server banners"
+      },
+      "nameplates": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Always animate nameplates"
+      },
+      "roleGradients": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Always animate role gradients"
+      }
+    }
+  },
   "alwaysExpandProfiles": {
     "description": "Always expands profile popouts to the full modal (Equicord-only)",
     "settings": {}
@@ -268,7 +298,7 @@
     "description": "Create custom reasons to use in the Discord ban modal, and/or show a text input by default instead of the options. (Equicord-only)",
     "settings": {
       "reasons": {
-        "type": "types.listOf types.attrs",
+        "type": "types.listOf types.str",
         "default": [],
         "description": "Your custom reasons"
       },
@@ -1137,8 +1167,8 @@
     "description": "Quickly run actions through a searchable command palette (Equicord-only)",
     "settings": {
       "hotkey": {
-        "type": "types.attrs",
-        "default": {}
+        "type": "types.listOf types.str",
+        "default": []
       },
       "closeAfterExecute": {
         "type": "types.bool",
@@ -1154,11 +1184,6 @@
         "type": "types.bool",
         "default": false,
         "description": "Only show trigger content on click instead of hover"
-      },
-      "triggerWords": {
-        "type": "types.nullOr (types.listOf types.str)",
-        "default": null,
-        "description": "Words to blur in messages (restart required)"
       }
     }
   },
@@ -1174,6 +1199,60 @@
     "description": "Adds a button to copy user's mention on the user context menu, works best with ValidUser. (Equicord-only)",
     "settings": {}
   },
+  "cursorBuddy": {
+    "description": "Adds a sprite that follows your cursor. (Equicord-only)",
+    "settings": {
+      "buddy": {
+        "type": "types.enum",
+        "enumValues": [
+          "oneko",
+          "fathorse"
+        ],
+        "default": "oneko",
+        "description": "Pick a cursor buddy"
+      },
+      "speed": {
+        "type": "types.int",
+        "default": 10,
+        "description": "Speed of your buddy"
+      },
+      "fps": {
+        "type": "types.int",
+        "default": 24,
+        "description": "Framerate of your buddy"
+      },
+      "furColor": {
+        "type": "types.str",
+        "default": "#FFFFFF",
+        "description": "Fur hex color for Oneko"
+      },
+      "outlineColor": {
+        "type": "types.str",
+        "default": "#000000",
+        "description": "Outline hex color for Oneko"
+      },
+      "size": {
+        "type": "types.int",
+        "default": 120,
+        "description": "Size of the fatass horse"
+      },
+      "fade": {
+        "type": "types.bool",
+        "default": true,
+        "description": "If the horse should fade when the cursor is near"
+      },
+      "freeroam": {
+        "type": "types.bool",
+        "default": true,
+        "description": "If the horse should roam freely when idle"
+      },
+      "shake": {
+        "type": "types.bool",
+        "default": false,
+        "description": "If the horse should shake the window when it's walking"
+      }
+    }
+  },
   "customFolderIcons": {
     "description": "Customize folder icons with any png (Equicord-only)",
     "settings": {
@@ -1186,7 +1265,268 @@
   },
   "customSounds": {
     "description": "Customize Discord's sounds. (Equicord-only)",
-    "settings": {}
+    "settings": {
+      "activityEnd": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Activity End"
+      },
+      "activityLaunch": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Activity Launch"
+      },
+      "activityUserJoin": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Activity User Join"
+      },
+      "activityUserLeft": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Activity User Left"
+      },
+      "asmrMessage1": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for ASMR Message"
+      },
+      "bitMessage1": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Bit Message"
+      },
+      "bopMessage1": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Bop Message"
+      },
+      "callCalling": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Call Calling"
+      },
+      "callRinging": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Call Ringing"
+      },
+      "clipError": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Clip Error"
+      },
+      "clipSave": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Clip Save"
+      },
+      "ddrDown": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for DDR Down"
+      },
+      "ddrLeft": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for DDR Left"
+      },
+      "ddrRight": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for DDR Right"
+      },
+      "ddrUp": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for DDR Up"
+      },
+      "deafen": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Deafen"
+      },
+      "discodo": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Discodo"
+      },
+      "disconnect": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Disconnect"
+      },
+      "duckyMessage1": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Ducky Message"
+      },
+      "hangStatusSelect": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Hang Status Select"
+      },
+      "highfiveClap": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Highfive Clap"
+      },
+      "highfiveWhistle": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Highfive Whistle"
+      },
+      "humanMan": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Human Man"
+      },
+      "lofiMessage1": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for LoFi Message"
+      },
+      "mention1": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Mention 1 (@role)"
+      },
+      "mention2": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Mention 2 (@everyone)"
+      },
+      "mention3": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Mention 3 (@here)"
+      },
+      "message1": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Message 1 (Generic)"
+      },
+      "message2": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Message 2 (Reply in Server)"
+      },
+      "message3": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Message 3 (DMs and Group DMs)"
+      },
+      "mute": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Mute"
+      },
+      "overlayunlock": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Overlay Unlock"
+      },
+      "poggermodeAchievementUnlock": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Poggermode Achievement"
+      },
+      "poggermodeApplause": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Poggermode Applause"
+      },
+      "poggermodeEnabled": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Poggermode Enabled"
+      },
+      "poggermodeMessageSend": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Poggermode Message"
+      },
+      "pttStart": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for PTT Start"
+      },
+      "pttStop": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for PTT Stop"
+      },
+      "reconnect": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Reconnect"
+      },
+      "robotMan": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Robot Man"
+      },
+      "stageWaiting": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Stage Waiting"
+      },
+      "streamEnded": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Stream Ended"
+      },
+      "streamStarted": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Stream Started"
+      },
+      "streamUserJoined": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Stream User Joined"
+      },
+      "streamUserLeft": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Stream User Left"
+      },
+      "success": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Success"
+      },
+      "undeafen": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Undeafen"
+      },
+      "unmute": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Unmute"
+      },
+      "userJoin": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for User Join"
+      },
+      "userLeave": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for User Leave"
+      },
+      "userMoved": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for User Moved"
+      },
+      "vibingWumpus": {
+        "type": "types.str",
+        "default": "{\"enabled\":false,\"selectedSound\":\"default\",\"volume\":100,\"useFile\":false}",
+        "description": "Override for Vibing Wumpus"
+      }
+    }
   },
   "customStatusTimeouts": {
     "description": "Adds configurable timeout presets to the status (presence) menu. (Equicord-only)",
@@ -1359,6 +1699,21 @@
       }
     }
   },
+  "decor": {
+    "description": "Create and use your own custom avatar decorations, or pick your favorite from the presets. (Equicord-only)",
+    "settings": {
+      "baseUrl": {
+        "type": "types.str",
+        "default": "https://decor.fieryflames.dev",
+        "description": "Decor api url"
+      },
+      "agreedToGuidelines": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Agreed to guidelines"
+      }
+    }
+  },
   "devCompanion": {
     "description": "Dev Companion Plugin. Please report anything not working or being weird (most likely its a bug) to sadan, either ping or dm, thanks! (Equicord-only)",
     "settings": {
@@ -1471,7 +1826,11 @@
     "settings": {
       "keybind": {
         "type": "types.listOf types.str",
-        "default": [],
+        "default": [
+          "mod",
+          "shift",
+          "y"
+        ],
         "description": "Toggle Highlighter"
       },
       "showClasses": {
@@ -1653,7 +2012,18 @@
   },
   "exitSounds": {
     "description": "Play soundboard sounds when you disconnect from voice. (Equicord-only)",
-    "settings": {}
+    "settings": {
+      "soundGuildId": {
+        "type": "types.nullOr types.str",
+        "default": null,
+        "description": "Select the server containing the sound."
+      },
+      "soundId": {
+        "type": "types.nullOr types.str",
+        "default": null,
+        "description": "Enter the ID of the sound you want to play."
+      }
+    }
   },
   "experiments": {
     "description": "Enable Access to Experiments & other dev-only features in Discord! (Equicord-only)",
@@ -1677,6 +2047,75 @@
         "type": "types.bool",
         "default": false,
         "description": "Export a list of friends to your clipboard. Adds a new button to the menu bar for the friends tab."
+      }
+    }
+  },
+  "fakeNitro": {
+    "description": "Allows you to send fake emojis/stickers, use nitro themes, and stream in nitro quality (Equicord-only)",
+    "settings": {
+      "enableEmojiBypass": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Allows sending fake emojis (also bypasses missing permission to use custom emojis) (restart required)"
+      },
+      "emojiSize": {
+        "type": "types.float",
+        "default": {
+          "__nixRaw": "48.0"
+        },
+        "description": "Size of the emojis when sending"
+      },
+      "transformEmojis": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Whether to transform fake emojis into real ones (restart required)"
+      },
+      "enableStickerBypass": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Allows sending fake stickers (also bypasses missing permission to use stickers) (restart required)"
+      },
+      "stickerSize": {
+        "type": "types.float",
+        "default": {
+          "__nixRaw": "160.0"
+        },
+        "description": "Size of the stickers when sending"
+      },
+      "transformStickers": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Whether to transform fake stickers into real ones (restart required)"
+      },
+      "transformCompoundSentence": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Whether to transform fake stickers and emojis in compound sentences (sentences with more content than just the fake emoji or sticker link)"
+      },
+      "enableStreamQualityBypass": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Allow streaming in nitro quality (restart required)"
+      },
+      "useStickerHyperLinks": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Whether to use hyperlinks when sending fake stickers"
+      },
+      "useEmojiHyperLinks": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Whether to use hyperlinks when sending fake emojis"
+      },
+      "hyperLinkText": {
+        "type": "types.str",
+        "default": "{{NAME}}",
+        "description": "What text the hyperlink should use. {{NAME}} will be replaced with the emoji/sticker name."
+      },
+      "disableEmbedPermissionCheck": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Whether to disable the embed permission check when sending fake emojis and stickers"
       }
     }
   },
@@ -1984,6 +2423,16 @@
   "fixFileExtensions": {
     "description": "Fixes file extensions by renaming them to a compatible supported format if possible (Equicord-only)",
     "settings": {}
+  },
+  "fixYoutubeEmbeds": {
+    "description": "Bypasses youtube videos being blocked from display on Discord (for example by UMG) (Equicord-only)",
+    "settings": {
+      "youtubeDescription": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Adds descriptions to youtube video embeds (restart required)"
+      }
+    }
   },
   "followVoiceUser": {
     "description": "Follow a friend in voice chat. (Equicord-only)",
@@ -2391,6 +2840,10 @@
   "instantScreenshare": {
     "description": "Instantly screenshare when joining a voice channel with support for desktop sources, windows, and video input devices (cameras, capture cards) (Equicord-only)",
     "settings": {
+      "streamMedia": {
+        "type": "types.nullOr types.str",
+        "default": null
+      },
       "includeVideoDevices": {
         "type": "types.bool",
         "default": false,
@@ -2790,7 +3243,8 @@
       },
       "additionalReactEmojis": {
         "type": "types.str",
-        "default": ""
+        "default": "",
+        "description": "Additional emojis to add when using React action (comma/newline separated, max 8)"
       },
       "disableInDms": {
         "type": "types.bool",
@@ -3121,6 +3575,16 @@
         "default": "",
         "description": "Blacklisted server, channel, or user IDs."
       },
+      "imageCacheDir": {
+        "type": "types.nullOr types.str",
+        "default": null,
+        "description": "Select saved images directory"
+      },
+      "logsDir": {
+        "type": "types.nullOr types.str",
+        "default": null,
+        "description": "Select logs directory"
+      },
       "clearLogsOnRestart": {
         "type": "types.bool",
         "default": false,
@@ -3318,6 +3782,151 @@
         "type": "types.bool",
         "default": false,
         "description": "Show Webhook tag in followed channels like announcements"
+      },
+      "tagSettings": {
+        "description": " (Equicord-only)",
+        "settings": {
+          "webhook": {
+            "description": "Webhook tag (Equicord-only)",
+            "settings": {
+              "text": {
+                "type": "types.str",
+                "default": "Webhook",
+                "description": "Text for Webhook tag"
+              },
+              "showInChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Webhook tag in messages"
+              },
+              "showInNotChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Webhook tag in member list and profiles"
+              }
+            }
+          },
+          "owner": {
+            "description": "Owner tag (Equicord-only)",
+            "settings": {
+              "text": {
+                "type": "types.str",
+                "default": "Owner",
+                "description": "Text for Owner tag"
+              },
+              "showInChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Owner tag in messages"
+              },
+              "showInNotChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Owner tag in member list and profiles"
+              }
+            }
+          },
+          "administrator": {
+            "description": "Admin tag (Equicord-only)",
+            "settings": {
+              "text": {
+                "type": "types.str",
+                "default": "Admin",
+                "description": "Text for Admin tag"
+              },
+              "showInChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Admin tag in messages"
+              },
+              "showInNotChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Admin tag in member list and profiles"
+              }
+            }
+          },
+          "moderatorStaff": {
+            "description": "Staff tag (Equicord-only)",
+            "settings": {
+              "text": {
+                "type": "types.str",
+                "default": "Staff",
+                "description": "Text for Staff tag"
+              },
+              "showInChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Staff tag in messages"
+              },
+              "showInNotChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Staff tag in member list and profiles"
+              }
+            }
+          },
+          "moderator": {
+            "description": "Mod tag (Equicord-only)",
+            "settings": {
+              "text": {
+                "type": "types.str",
+                "default": "Mod",
+                "description": "Text for Mod tag"
+              },
+              "showInChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Mod tag in messages"
+              },
+              "showInNotChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Mod tag in member list and profiles"
+              }
+            }
+          },
+          "voiceModerator": {
+            "description": "VC Mod tag (Equicord-only)",
+            "settings": {
+              "text": {
+                "type": "types.str",
+                "default": "VC Mod",
+                "description": "Text for VC Mod tag"
+              },
+              "showInChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show VC Mod tag in messages"
+              },
+              "showInNotChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show VC Mod tag in member list and profiles"
+              }
+            }
+          },
+          "chatModerator": {
+            "description": "Chat Mod tag (Equicord-only)",
+            "settings": {
+              "text": {
+                "type": "types.str",
+                "default": "Chat Mod",
+                "description": "Text for Chat Mod tag"
+              },
+              "showInChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Chat Mod tag in messages"
+              },
+              "showInNotChat": {
+                "type": "types.bool",
+                "default": true,
+                "description": "Show Chat Mod tag in member list and profiles"
+              }
+            }
+          }
+        }
       },
       "noAppsAllowed": {
         "type": "types.bool",
@@ -3974,7 +4583,15 @@
       },
       "autoCompleteQuestTypes": {
         "type": "types.attrs",
-        "default": {},
+        "default": {
+          "PLAY_ON_DESKTOP": false,
+          "PLAY_ON_XBOX": false,
+          "PLAY_ON_PLAYSTATION": false,
+          "PLAY_ACTIVITY": false,
+          "WATCH_VIDEO": false,
+          "WATCH_VIDEO_ON_MOBILE": false,
+          "ACHIEVEMENT_IN_ACTIVITY": false
+        },
         "description": "Which types of Quests to auto-complete in the background. (restart required)"
       },
       "questButtonDisplay": {
@@ -3989,7 +4606,23 @@
       },
       "questButtonIncludedTypes": {
         "type": "types.attrs",
-        "default": {},
+        "default": {
+          "1": true,
+          "2": true,
+          "3": true,
+          "4": true,
+          "5": true,
+          "WATCH_VIDEO": true,
+          "WATCH_VIDEO_ON_MOBILE": true,
+          "ACHIEVEMENT_IN_ACTIVITY": true,
+          "ACHIEVEMENT_IN_GAME": true,
+          "PLAY_ACTIVITY": true,
+          "PLAY_ON_DESKTOP": true,
+          "PLAY_ON_DESKTOP_V2": true,
+          "STREAM_ON_DESKTOP": true,
+          "PLAY_ON_PLAYSTATION": true,
+          "PLAY_ON_XBOX": true
+        },
         "description": "Which reward types and Quest types to include when displaying Quest counts on the Quest button."
       },
       "questButtonIndicator": {
@@ -4098,22 +4731,34 @@
       },
       "questTileUnclaimedColor": {
         "type": "types.attrs",
-        "default": {},
+        "default": {
+          "enabled": true,
+          "color": 2842239
+        },
         "description": "The color of unclaimed Quest tiles in the Quests page."
       },
       "questTileClaimedColor": {
         "type": "types.attrs",
-        "default": {},
+        "default": {
+          "enabled": true,
+          "color": 6105983
+        },
         "description": "The color of claimed Quest tiles in the Quests page."
       },
       "questTileIgnoredColor": {
         "type": "types.attrs",
-        "default": {},
+        "default": {
+          "enabled": true,
+          "color": 8334124
+        },
         "description": "The color of ignored Quest tiles in the Quests page."
       },
       "questTileExpiredColor": {
         "type": "types.attrs",
-        "default": {},
+        "default": {
+          "enabled": true,
+          "color": 2368553
+        },
         "description": "The color of expired Quest tiles in the Quests page."
       },
       "questTileGradient": {
@@ -4183,7 +4828,9 @@
       },
       "ignoredQuestIds": {
         "type": "types.attrs",
-        "default": {},
+        "default": {
+          "questIDs": []
+        },
         "description": "An array of Quest IDs that are ignored."
       },
       "resumeQuestIds": {
@@ -4269,8 +4916,8 @@
     "description": "Adds a button near mute to join a random voice channel. (Equicord-only)",
     "settings": {
       "keybind": {
-        "type": "types.attrs",
-        "default": {}
+        "type": "types.listOf types.str",
+        "default": []
       },
       "keybindEnabled": {
         "type": "types.bool",
@@ -4882,9 +5529,49 @@
       }
     }
   },
+  "serverListIndicators": {
+    "description": "Add online friend count or server count in the server list (Equicord-only)",
+    "settings": {
+      "mode": {
+        "type": "types.enum",
+        "enumValues": [
+          2,
+          1,
+          3
+        ],
+        "default": 2,
+        "description": "Mode (restart required)\n\nValues: 2 = Only online friend count, 1 = Only server count, 3 = Both server and online friend counts"
+      },
+      "useCompact": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Makes the indicator appear with only text (restart required)"
+      }
+    }
+  },
   "serverSearch": {
     "description": "Navigate your servers better with a quick search button (Equicord-only)",
     "settings": {}
+  },
+  "showAllMessageButtons": {
+    "description": "Always show all message buttons no matter if you are holding the shift key or not. (Equicord-only)",
+    "settings": {
+      "noShiftDelete": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Remove requirement to hold shift for deleting a message."
+      },
+      "noShiftPin": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Remove requirement to hold shift for pinning a message."
+      },
+      "noQuickReacts": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Hide quick reacts. By default, showing the full menu hides quick react buttons. (restart required)"
+      }
+    }
   },
   "showBadgesInChat": {
     "description": "Shows the message author's badges beside their name in chat. (Equicord-only)",
@@ -5338,7 +6025,92 @@
     "settings": {
       "servicesSettings": {
         "type": "types.attrs",
-        "default": {},
+        "default": {
+          "amazonMusic": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "spotify": {
+            "enabled": true,
+            "openInNative": true
+          },
+          "itunes": {
+            "enabled": true,
+            "openInNative": true
+          },
+          "appleMusic": {
+            "enabled": true,
+            "openInNative": true
+          },
+          "youtube": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "youtubeMusic": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "google": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "googleMusic": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "pandora": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "deezer": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "tidal": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "amazonStore": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "soundcloud": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "napster": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "yandex": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "spinrilla": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "audius": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "audiomack": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "anghami": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "boomplay": {
+            "enabled": true,
+            "openInNative": false
+          },
+          "bandcamp": {
+            "enabled": true,
+            "openInNative": false
+          }
+        },
         "description": "settings for services"
       },
       "userCountry": {
@@ -5619,12 +6391,28 @@
     "settings": {
       "stringRules": {
         "type": "types.listOf types.attrs",
-        "default": [],
+        "default": [
+          {
+            "name": "",
+            "find": "",
+            "replace": "",
+            "onlyIfIncludes": "",
+            "scope": "myMessages"
+          }
+        ],
         "description": "Rules for replacing text using string matching."
       },
       "regexRules": {
         "type": "types.listOf types.attrs",
-        "default": [],
+        "default": [
+          {
+            "name": "",
+            "find": "",
+            "replace": "",
+            "onlyIfIncludes": "",
+            "scope": "myMessages"
+          }
+        ],
         "description": "Rules for replacing text using regular expressions."
       }
     }
@@ -5830,6 +6618,65 @@
     }
   },
   "translate": {
+    "description": "Translate messages with Google Translate, DeepL or Kagi. (Equicord-only)",
+    "settings": {
+      "receivedInput": {
+        "type": "types.str",
+        "default": "auto",
+        "description": "Language incoming messages are translated from"
+      },
+      "receivedOutput": {
+        "type": "types.str",
+        "default": "en",
+        "description": "Language incoming messages are translated to"
+      },
+      "sentInput": {
+        "type": "types.str",
+        "default": "auto",
+        "description": "Language your messages are translated from"
+      },
+      "sentOutput": {
+        "type": "types.str",
+        "default": "en",
+        "description": "Language your messages are translated to"
+      },
+      "service": {
+        "type": "types.enum",
+        "enumValues": [
+          "google",
+          "deepl",
+          "deepl-pro",
+          "kagi"
+        ],
+        "default": "google"
+      },
+      "deeplApiKey": {
+        "type": "types.str",
+        "default": "",
+        "description": "Your DeepL API key (from deepl.com/your-account)"
+      },
+      "kagiSession": {
+        "type": "types.str",
+        "default": "",
+        "description": "Your Kagi session token (from kagi.com/settings?p=user_details)"
+      },
+      "autoTranslate": {
+        "type": "types.bool",
+        "default": false,
+        "description": "Automatically translate your messages before sending. You can also Shift+click or right-click the translate button to toggle this"
+      },
+      "showAutoTranslateTooltip": {
+        "type": "types.bool",
+        "default": true,
+        "description": "Show a tooltip on the chat bar button when a message is auto-translated"
+      },
+      "dismissedAutoTranslateAlert": {
+        "type": "types.bool",
+        "default": false
+      }
+    }
+  },
+  "translatePlus": {
     "description": "Vencord's translate plugin but with support for artistic languages! (Equicord-only)",
     "settings": {
       "target": {
@@ -6036,7 +6883,7 @@
     "description": "Highlights URLs in messages that match your patterns. (Equicord-only)",
     "settings": {
       "patterns": {
-        "type": "types.listOf types.attrs",
+        "type": "types.listOf types.str",
         "default": [],
         "description": "URL patterns to highlight using glob patterns."
       },

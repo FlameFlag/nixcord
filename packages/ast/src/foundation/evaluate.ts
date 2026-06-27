@@ -28,7 +28,7 @@ const evaluateLiteral = (node: Node): EvaluationResult => {
   );
 };
 
-const EXTERNAL_ENUMS: Record<string, Record<string, number>> = {
+const EXTERNAL_ENUMS: Record<string, Record<string, number | string>> = {
   ActivityType: {
     PLAYING: 0,
     STREAMING: 1,
@@ -41,9 +41,28 @@ const EXTERNAL_ENUMS: Record<string, Record<string, number>> = {
   },
   StatusType: { ONLINE: 0, IDLE: 1, DND: 2, INVISIBLE: 3 },
   ChannelType: { GUILD_TEXT: 0, DM: 1, GUILD_VOICE: 2 },
+  QuestRewardType: {
+    REWARD_CODE: 1,
+    IN_GAME: 2,
+    COLLECTIBLE: 3,
+    VIRTUAL_CURRENCY: 4,
+    FRACTIONAL_PREMIUM: 5,
+  },
+  QuestTaskType: {
+    STREAM_ON_DESKTOP: 'STREAM_ON_DESKTOP',
+    PLAY_ON_DESKTOP: 'PLAY_ON_DESKTOP',
+    PLAY_ON_XBOX: 'PLAY_ON_XBOX',
+    PLAY_ON_PLAYSTATION: 'PLAY_ON_PLAYSTATION',
+    PLAY_ON_DESKTOP_V2: 'PLAY_ON_DESKTOP_V2',
+    WATCH_VIDEO: 'WATCH_VIDEO',
+    WATCH_VIDEO_ON_MOBILE: 'WATCH_VIDEO_ON_MOBILE',
+    PLAY_ACTIVITY: 'PLAY_ACTIVITY',
+    ACHIEVEMENT_IN_GAME: 'ACHIEVEMENT_IN_GAME',
+    ACHIEVEMENT_IN_ACTIVITY: 'ACHIEVEMENT_IN_ACTIVITY',
+  },
 };
 
-const getExternalEnumValue = (enumName: string, member: string): number | undefined =>
+const getExternalEnumValue = (enumName: string, member: string): number | string | undefined =>
   EXTERNAL_ENUMS[enumName]?.[member];
 
 const evaluatePropertyAccess = (

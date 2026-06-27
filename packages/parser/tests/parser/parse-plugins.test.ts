@@ -244,9 +244,9 @@ describe('parsePlugins()', () => {
       const list = plugin?.settings.list as PluginSetting;
       expect(reasons.type).toBe('types.listOf types.str');
       expect(reasons.default).toEqual([]);
-      // identifier array of objects now correctly inferred as listOf attrs
+      // identifier array of objects is inferred as listOf attrs with its static default preserved
       expect(list.type).toBe('types.listOf types.attrs');
-      expect(list.default).toEqual([]);
+      expect(list.default).toEqual([{ a: 1 }]);
     } finally {
       await fse.remove(tempDir);
     }
@@ -412,6 +412,107 @@ describe('parsePlugins()', () => {
       expect((plugin?.settings.questButtonBadgeColor as PluginSetting).default).toBe(2842239);
       expect((plugin?.settings.questCompletedAlertVolume as PluginSetting).default).toBe(100);
       expect((plugin?.settings.questFetchInterval as PluginSetting).default).toBe(2700);
+    } finally {
+      await fse.remove(tempDir);
+    }
+  });
+
+  test('reports current real-world component-only settings diagnostics', async () => {
+    const tempDir = await fse.mkdtemp(join(__dirname, 'test-'));
+    try {
+      const fixtures = [
+        { dir: 'favoriteEmojiFirst', name: 'FavoriteEmojiFirst', keys: ['aliases', 'clearAll'] },
+        { dir: 'rpcEditor', name: 'RPCEditor', keys: ['replacedAppIds'] },
+        { dir: 'loginWithQr', name: 'LoginWithQR', keys: ['scanQr'] },
+        { dir: 'friendTags', name: 'FriendTags', keys: ['tagConfiguration'] },
+      ];
+
+      for (const fixture of fixtures) {
+        const settingsEntries = fixture.keys
+          .map(
+            (key) => `${key}: {
+              type: OptionType.COMPONENT,
+              component: () => null
+            }`
+          )
+          .join(',');
+
+        await createPlugin(tempDir, fixture.dir, {
+          indexContent: `import definePlugin from "@utils/types";
+          import settings from "./settings";
+          export default definePlugin({
+            name: "${fixture.name}",
+            description: "${fixture.name}",
+            settings
+          });`,
+          settingsContent: `import { definePluginSettings, OptionType } from "@utils/types";
+          export default definePluginSettings({ ${settingsEntries} });`,
+          settingsFilename: 'settings.tsx',
+        });
+      }
+
+      await createTsConfig(tempDir);
+
+      const result = await parsePlugins(tempDir);
+      for (const fixture of fixtures) {
+        for (const key of fixture.keys) {
+          expect(result.diagnostics).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                pluginName: fixture.name,
+                kind: 'component-only-setting-skipped',
+                message: expect.stringContaining(`setting "${key}"`),
+              }),
+            ])
+          );
+        }
+      }
+    } finally {
+      await fse.remove(tempDir);
+    }
+  });
+
+  test('reports skipped setting diagnostics when other settings extract successfully', async () => {
+    const tempDir = await fse.mkdtemp(join(__dirname, 'test-'));
+    try {
+      await createPlugin(tempDir, 'mixedDiagnostics', {
+        indexContent: `import definePlugin from "@utils/types";
+        import settings from "./settings";
+        export default definePlugin({
+          name: "MixedDiagnostics",
+          description: "Mixed diagnostics",
+          settings
+        });`,
+        settingsContent: `import { definePluginSettings, OptionType } from "@utils/types";
+        export default definePluginSettings({
+          enabled: {
+            type: OptionType.BOOLEAN,
+            description: "Enable it",
+            default: true
+          },
+          preview: {
+            type: OptionType.COMPONENT,
+            component: () => null
+          }
+        });`,
+        settingsFilename: 'settings.tsx',
+      });
+
+      await createTsConfig(tempDir);
+
+      const result = await parsePlugins(tempDir);
+      const plugin =
+        result.vencordPlugins['MixedDiagnostics'] ?? result.equicordPlugins['MixedDiagnostics'];
+      expect(plugin?.settings.enabled).toBeDefined();
+      expect(result.diagnostics).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            pluginName: 'MixedDiagnostics',
+            kind: 'component-only-setting-skipped',
+            message: expect.stringContaining('setting "preview"'),
+          }),
+        ])
+      );
     } finally {
       await fse.remove(tempDir);
     }

@@ -61,6 +61,21 @@ in
     assert lib.hasSuffix "Equicord" (toString config.programs.nixcord.configDir);
     true;
 
+  "equicord enables without explicit vencord disable" =
+    let
+      config = testLib.eval.hm {
+        enable = true;
+        discord.package = stubDiscordPackage;
+        discord.equicord.enable = true;
+      };
+      overrideArgs = config.programs.nixcord.finalPackage.discord.passthru.nixcordOverrideArgs;
+    in
+    assert !config.programs.nixcord.discord.vencord.enable;
+    assert !overrideArgs.withVencord;
+    assert overrideArgs.withEquicord == true;
+    assert lib.hasSuffix "Equicord" (toString config.programs.nixcord.configDir);
+    true;
+
   "configDir defaults to Vencord when vencord is enabled" =
     let
       config = testLib.eval.hm {

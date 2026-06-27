@@ -121,9 +121,12 @@ basePackage.overrideAttrs (
     # revisions that still take openssl_1_1 as a package argument, basePackage
     # overrides it with an empty placeholder before oldAttrs.buildInputs is
     # evaluated; then the placeholder is filtered out here.
-    nativeBuildInputs =
-      oldNativeBuildInputs ++ [ brotli ] ++ lib.optional stdenvNoCC.isDarwin rcodesign;
-    buildInputs = withoutOpenSSL11 oldBuildInputs ++ lib.optional stdenvNoCC.isLinux libpulseaudio;
+    nativeBuildInputs = lib.unique (
+      oldNativeBuildInputs ++ [ brotli ] ++ lib.optional stdenvNoCC.isDarwin rcodesign
+    );
+    buildInputs = lib.unique (
+      withoutOpenSSL11 oldBuildInputs ++ lib.optional stdenvNoCC.isLinux libpulseaudio
+    );
 
     dontUnpack = oldDontUnpack || stdenvNoCC.isDarwin;
 
@@ -146,12 +149,13 @@ basePackage.overrideAttrs (
         );
       };
 
-    autoPatchelfIgnoreMissingDeps =
+    autoPatchelfIgnoreMissingDeps = lib.unique (
       oldAutoPatchelfIgnoreMissingDeps
       ++ lib.optionals stdenvNoCC.isLinux [
         "libssl.so.1.1"
         "libcrypto.so.1.1"
-      ];
+      ]
+    );
 
     unpackPhase = ''
       runHook preUnpack

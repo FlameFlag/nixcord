@@ -172,6 +172,87 @@ describe('categorizePlugins()', () => {
     expect(result.equicordOnly.CharacterCounter).toBeUndefined();
   });
 
+  test('keeps renamed equicord-only plugin targets when the old Vencord plugin still exists', () => {
+    const vencordResult: ParsedPluginsResult = {
+      vencordPlugins: {
+        oneko: {
+          name: 'oneko',
+          description: 'cat follow mouse',
+          settings: {},
+          directoryName: 'oneko',
+        },
+      },
+      equicordPlugins: {},
+    };
+
+    const equicordResult: ParsedPluginsResult = {
+      vencordPlugins: {},
+      equicordPlugins: {
+        CursorBuddy: {
+          name: 'CursorBuddy',
+          description: 'Pick a cursor buddy',
+          settings: {
+            buddy: {
+              name: 'buddy',
+              type: 'types.enum',
+              default: 'oneko',
+            },
+          },
+          directoryName: 'cursorBuddy',
+          isModified: true,
+        },
+      },
+    };
+
+    const result = categorizePlugins(vencordResult, equicordResult);
+    expect(result.vencordOnly.oneko).toBeDefined();
+    expect(result.equicordOnly.CursorBuddy).toBeDefined();
+  });
+
+  test('splits same-name plugins when their setting keys differ', () => {
+    const vencordResult: ParsedPluginsResult = {
+      vencordPlugins: {
+        FakeNitro: {
+          name: 'FakeNitro',
+          settings: {
+            useHyperLinks: {
+              name: 'useHyperLinks',
+              type: 'types.bool',
+              default: true,
+            },
+          },
+        },
+      },
+      equicordPlugins: {},
+    };
+
+    const equicordResult: ParsedPluginsResult = {
+      vencordPlugins: {
+        FakeNitro: {
+          name: 'FakeNitro',
+          settings: {
+            useStickerHyperLinks: {
+              name: 'useStickerHyperLinks',
+              type: 'types.bool',
+              default: true,
+            },
+            useEmojiHyperLinks: {
+              name: 'useEmojiHyperLinks',
+              type: 'types.bool',
+              default: true,
+            },
+          },
+        },
+      },
+      equicordPlugins: {},
+    };
+
+    const result = categorizePlugins(vencordResult, equicordResult);
+    expect(result.generic.FakeNitro).toBeUndefined();
+    expect(result.vencordOnly.FakeNitro).toBeDefined();
+    expect(result.equicordOnly.FakeNitro).toBeDefined();
+  });
+
   test('uses equicord config for shared plugins', () => {
     const vencordResult: ParsedPluginsResult = {
       vencordPlugins: {

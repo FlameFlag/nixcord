@@ -1,7 +1,10 @@
 import type { PluginConfig, PluginSetting } from '@nixcord/shared';
 import { SyntaxKind } from 'ts-morph';
 import { describe, expect, test } from 'vitest';
-import { extractSettingsFromCall } from '../../../../../src/extractor/settings-extractor.js';
+import {
+  extractSettingsFromCall,
+  extractSettingsFromCallDetailed,
+} from '../../../../../src/extractor/settings-extractor.js';
 import { findDefinePluginSettings } from '../../../../../src/navigator/plugin-navigator.js';
 import { createProject } from '../../../../helpers/test-utils.js';
 
@@ -409,6 +412,113 @@ describe('extractSettingsFromCall()', () => {
     expect(Object.keys(result)).toHaveLength(0);
   });
 
+  test('treats empty settings object as a valid empty detailed result', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile('test.ts', `definePluginSettings({});`);
+    const callExpr = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression)[0];
+    if (!callExpr) {
+      throw new Error('Call expression not found');
+    }
+
+    const result = extractSettingsFromCallDetailed(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+
+    expect(result.items).toEqual({});
+    expect(result.diagnostics).toEqual([]);
+    expect(result.skipped).toEqual([]);
+    expect(result.unsupported).toEqual([]);
+  });
+
+  test('reports unsupported generated settings patterns in detailed results', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.ts',
+      `const pairs = [["enabled", { type: OptionType.BOOLEAN, default: true }]];
+       definePluginSettings(Object.fromEntries(pairs));`
+    );
+    const callExpr = sourceFile
+      .getDescendantsOfKind(SyntaxKind.CallExpression)
+      .find((call) => call.getExpression().getText() === 'definePluginSettings');
+    if (!callExpr) {
+      throw new Error('Call expression not found');
+    }
+
+    const result = extractSettingsFromCallDetailed(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+
+    expect(result.items).toEqual({});
+    expect(result.unsupported).toMatchObject([{ kind: 'unsupported-generated-settings-pattern' }]);
+    expect(result.diagnostics).toMatchObject([{ kind: 'unsupported-generated-settings-pattern' }]);
+  });
+
+  test('reports hidden settings as skipped detailed results', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.ts',
+      `definePluginSettings({
+        hiddenSetting: {
+          type: OptionType.STRING,
+          hidden: true,
+        }
+      });`
+    );
+    const callExpr = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression)[0];
+    if (!callExpr) {
+      throw new Error('Call expression not found');
+    }
+
+    const result = extractSettingsFromCallDetailed(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+
+    expect(result.items).toEqual({});
+    expect(result.skipped).toMatchObject([
+      { kind: 'hidden-setting-skipped', key: 'hiddenSetting' },
+    ]);
+    expect(result.diagnostics).toMatchObject([
+      { kind: 'hidden-setting-skipped', key: 'hiddenSetting' },
+    ]);
+  });
+
+  test('reports component-only settings as skipped detailed results', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.tsx',
+      `definePluginSettings({
+        preview: {
+          type: OptionType.COMPONENT,
+          component: PreviewComponent,
+        }
+      });`
+    );
+    const callExpr = sourceFile.getDescendantsOfKind(SyntaxKind.CallExpression)[0];
+    if (!callExpr) {
+      throw new Error('Call expression not found');
+    }
+
+    const result = extractSettingsFromCallDetailed(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+
+    expect(result.items).toEqual({});
+    expect(result.skipped).toMatchObject([
+      { kind: 'component-only-setting-skipped', key: 'preview' },
+    ]);
+    expect(result.diagnostics).toMatchObject([
+      { kind: 'component-only-setting-skipped', key: 'preview' },
+    ]);
+  });
+
   test('extracts private settings from withPrivateSettings type literals', () => {
     const project = createProject();
     const sourceFile = project.createSourceFile(
@@ -667,5 +777,513 @@ describe('extractSettingsFromCall()', () => {
     if (volume && 'type' in volume) {
       expect(volume.type).toBe('types.float');
     }
+  });
+
+  test('extracts settings from Object.entries().map() spreads', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.ts',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      const indicatorLocations = {
+        list: { description: "In the member list" },
+        badges: { description: "In user profiles, as badges" },
+        messages: { description: "Inside messages" }
+      };
+      definePluginSettings({
+        ...Object.fromEntries(
+          Object.entries(indicatorLocations).map(([key, value]) => {
+            return [key, {
+              type: OptionType.BOOLEAN,
+              description: \`Show indicators \${value.description.toLowerCase()}\`,
+              restartNeeded: true,
+              default: true
+            }];
+          })
+        ),
+        colorMobileIndicator: {
+          type: OptionType.BOOLEAN,
+          description: "Whether to make the mobile indicator match the color of the user status.",
+          default: true
+        }
+      });`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    const result = extractSettingsFromCall(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+    expect(result.list).toMatchObject({
+      name: 'list',
+      type: 'types.bool',
+      default: true,
+      description: 'Show indicators in the member list (restart required)',
+    });
+    expect(result.badges).toBeDefined();
+    expect(result.messages).toBeDefined();
+    expect(result.colorMobileIndicator).toBeDefined();
+  });
+
+  test('extracts reducer-generated settings from direct object literals', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.ts',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      definePluginSettings(
+        Object.entries({
+          spotify: { description: "Open Spotify links in app" },
+          steam: { description: "Open Steam links in app" }
+        }).reduce((acc, [key, rule]) => {
+          acc[key] = {
+            type: OptionType.BOOLEAN,
+            description: rule.description,
+            default: true
+          };
+          return acc;
+        }, {} as Record<string, unknown>)
+      );`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    const result = extractSettingsFromCall(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+    expect(result.spotify).toMatchObject({
+      name: 'spotify',
+      type: 'types.bool',
+      default: true,
+      description: 'Open Spotify links in app',
+    });
+    expect(result.steam).toBeDefined();
+  });
+
+  test('filters hidden reducer-generated settings unless explicitly skipped', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.ts',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      const generated = Object.entries({
+        spotify: { description: "Open Spotify links in app" }
+      }).reduce((acc, [key, rule]) => {
+        acc[key] = {
+          type: OptionType.BOOLEAN,
+          description: rule.description,
+          default: true,
+          hidden: true
+        };
+        return acc;
+      }, {} as Record<string, unknown>);
+      definePluginSettings(generated);`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    expect(
+      extractSettingsFromCall(callExpr, project.getTypeChecker(), project.getProgram()).spotify
+    ).toBeUndefined();
+    expect(
+      extractSettingsFromCall(callExpr, project.getTypeChecker(), project.getProgram(), true)
+        .spotify
+    ).toBeDefined();
+  });
+
+  test('extracts settings from array map spreads with JSON.stringify defaults', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.ts',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      const soundTypes = [
+        { name: "Call Calling", id: "call_calling" },
+        { name: "Mute", id: "mute" }
+      ] as const;
+      const allSoundTypes = soundTypes || [];
+      function makeEmptyOverride() {
+        return {
+          enabled: false,
+          selectedSound: "default",
+          volume: 100,
+          useFile: false,
+          selectedFileId: undefined
+        };
+      }
+      const soundSettings = Object.fromEntries(
+        allSoundTypes.map(type => [
+          type.id,
+          {
+            type: OptionType.STRING,
+            description: \`Override for \${type.name}\`,
+            default: JSON.stringify(makeEmptyOverride()),
+            hidden: true
+          }
+        ])
+      );
+      definePluginSettings({
+        ...soundSettings,
+        overrides: {
+          type: OptionType.COMPONENT,
+          component: () => null
+        }
+      });`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    const result = extractSettingsFromCall(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram(),
+      true
+    );
+    expect(result.call_calling).toMatchObject({
+      name: 'call_calling',
+      type: 'types.str',
+      description: 'Override for Call Calling',
+      default: '{"enabled":false,"selectedSound":"default","volume":100,"useFile":false}',
+    });
+    expect(result.mute).toBeDefined();
+    expect(result.overrides).toBeUndefined();
+  });
+
+  test('classifies component defaults from conditional string-array constants', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.tsx',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      const IS_MAC = false;
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      const DEFAULT_KEYS = IS_MAC ? ["Meta", "Shift", "P"] : ["Control", "Shift", "P"];
+      definePluginSettings({
+        hotkey: {
+          type: OptionType.COMPONENT,
+          default: DEFAULT_KEYS,
+          component: () => null
+        }
+      });`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    const result = extractSettingsFromCall(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+    expect(result.hotkey).toMatchObject({
+      name: 'hotkey',
+      type: 'types.listOf types.str',
+      default: [],
+    });
+  });
+
+  test('extracts store-backed bare component settings', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.tsx',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      function SoundIdInput() {
+        const { soundId } = settings.use(["soundId"]);
+        return <TextInput value={soundId} onChange={v => settings.store.soundId = v} />;
+      }
+      const settings = definePluginSettings({
+        soundId: {
+          type: OptionType.COMPONENT,
+          description: "Enter the ID of the sound you want to play.",
+          component: SoundIdInput
+        },
+        scanQr: {
+          type: OptionType.COMPONENT,
+          description: "Scan a QR code",
+          component: () => <Button />
+        }
+      });`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    const result = extractSettingsFromCall(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+    expect(result.soundId).toMatchObject({
+      name: 'soundId',
+      type: 'types.nullOr types.str',
+      default: null,
+      description: 'Enter the ID of the sound you want to play.',
+    });
+    expect(result.scanQr).toBeUndefined();
+  });
+
+  test('extracts structured settings from array-backed component stores', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.tsx',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      const tags = [
+        {
+          name: "WEBHOOK",
+          displayName: "Webhook",
+          description: "Messages sent by webhooks"
+        },
+        {
+          name: "MODERATOR_STAFF",
+          displayName: "Staff",
+          description: "Can manage the server, channels or roles"
+        }
+      ] as const;
+      function SettingsComponent() {
+        const tagSettings = (settings.store.tagSettings ??= {});
+        tags.forEach(t => {
+          if (!tagSettings[t.name]) {
+            tagSettings[t.name] = {
+              text: t.displayName,
+              showInChat: true,
+              showInNotChat: true
+            };
+          }
+        });
+        return <div />;
+      }
+      const settings = definePluginSettings({
+        tagSettings: {
+          type: OptionType.COMPONENT,
+          component: SettingsComponent,
+          description: "fill me"
+        }
+      });`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    const result = extractSettingsFromCall(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+    expect(result.tagSettings).toMatchObject({
+      name: 'tagSettings',
+      settings: {
+        WEBHOOK: {
+          name: 'WEBHOOK',
+          settings: {
+            text: {
+              name: 'text',
+              type: 'types.str',
+              default: 'Webhook',
+              description: 'Text for Webhook tag',
+            },
+            showInChat: {
+              name: 'showInChat',
+              type: 'types.bool',
+              default: true,
+              description: 'Show Webhook tag in messages',
+            },
+            showInNotChat: {
+              name: 'showInNotChat',
+              type: 'types.bool',
+              default: true,
+              description: 'Show Webhook tag in member list and profiles',
+            },
+          },
+        },
+        MODERATOR_STAFF: {
+          name: 'MODERATOR_STAFF',
+          settings: {
+            text: {
+              name: 'text',
+              type: 'types.str',
+              default: 'Staff',
+              description: 'Text for Staff tag',
+            },
+          },
+        },
+      },
+    });
+  });
+
+  test('extracts store-backed component settings through rendered child components', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.tsx',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      function Picker() {
+        const { streamMedia } = settings.use(["streamMedia"]);
+        return <SearchableSelect value={streamMedia} onChange={v => settings.store.streamMedia = v} />;
+      }
+      function SettingSection() {
+        return <Picker />;
+      }
+      const settings = definePluginSettings({
+        streamMedia: {
+          type: OptionType.COMPONENT,
+          component: SettingSection,
+        }
+      });`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    const result = extractSettingsFromCall(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+    expect(result.streamMedia).toMatchObject({
+      name: 'streamMedia',
+      type: 'types.nullOr types.str',
+      default: null,
+    });
+  });
+
+  test('extracts store-backed component settings through wrapped factory components', () => {
+    const project = createProject();
+    const sourceFile = project.createSourceFile(
+      'test.tsx',
+      `export const enum OptionType {
+        STRING = 0,
+        NUMBER = 1,
+        BIGINT = 2,
+        BOOLEAN = 3,
+        SELECT = 4,
+        SLIDER = 5,
+        COMPONENT = 6,
+        CUSTOM = 7
+      }
+      function definePluginSettings(settings: Record<string, unknown>) {
+        return settings;
+      }
+      const ErrorBoundary = { wrap: component => component };
+      function createDirSelector(settingKey: "logsDir" | "imageCacheDir", successMessage: string) {
+        return function DirSelector() {
+          return <FolderInput settingsKey={settingKey} successMessage={successMessage} />;
+        };
+      }
+      const ImageCacheDir = createDirSelector("imageCacheDir", "Successfully updated Image Cache Dir");
+      function FolderInput({ settingsKey, successMessage }) {
+        const path = settings.store[settingsKey];
+        return <Button onClick={() => { settings.store[settingsKey] = successMessage; }}>{path}</Button>;
+      }
+      const settings = definePluginSettings({
+        imageCacheDir: {
+          type: OptionType.COMPONENT,
+          description: "Select saved images directory",
+          component: ErrorBoundary.wrap(ImageCacheDir) as any
+        }
+      });`
+    );
+    const callExpr = findDefinePluginSettings(sourceFile);
+    if (!callExpr) throw new Error('Call expression not found');
+
+    const result = extractSettingsFromCall(
+      callExpr,
+      project.getTypeChecker(),
+      project.getProgram()
+    );
+    expect(result.imageCacheDir).toMatchObject({
+      name: 'imageCacheDir',
+      type: 'types.nullOr types.str',
+      default: null,
+      description: 'Select saved images directory',
+    });
   });
 });

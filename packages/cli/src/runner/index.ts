@@ -7,7 +7,7 @@ import {
 } from '@nixcord/nix-generator';
 import type { ParsePluginsOptions } from '@nixcord/parser';
 import { categorizePlugins, extractMigrations, parsePlugins } from '@nixcord/parser';
-import type { Logger, Simplify } from '@nixcord/shared';
+import type { Logger, ParseDiagnostic, Simplify } from '@nixcord/shared';
 import {
   CLI_CONFIG,
   Err,
@@ -18,9 +18,9 @@ import {
   type Result,
 } from '@nixcord/shared';
 import fse from 'fs-extra';
-import { oraPromise } from 'ora';
 import { dirname, join, normalize, resolve } from 'pathe';
 import { z } from 'zod';
+import { oraPromise } from './spinner.js';
 
 type SourceLabel = 'Vencord' | 'Equicord';
 
@@ -59,6 +59,19 @@ export interface GeneratePluginOptionsSummary {
   sharedCount: number;
   vencordOnlyCount: number;
   equicordOnlyCount: number;
+  diagnosticSummary?: GeneratePluginOptionsDiagnosticSummary;
+}
+
+export interface DiagnosticBucket {
+  name: string;
+  count: number;
+}
+
+export interface GeneratePluginOptionsDiagnosticSummary {
+  total: number;
+  byKind: DiagnosticBucket[];
+  topPlugins: DiagnosticBucket[];
+  topFiles: DiagnosticBucket[];
 }
 
 class GeneratePluginOptionsError extends Error {
@@ -115,8 +128,7 @@ const parseSource = async ({
 };
 
 const getPluginsDir = (outputPath: string): string => {
-  const outputDir = dirname(outputPath);
-  return normalize(join(outputDir, CLI_CONFIG.directories.output));
+  return normalize(join(dirname(outputPath), CLI_CONFIG.directories.output));
 };
 
 const writeOutputs = async ({
@@ -153,6 +165,43 @@ const writeOutputs = async ({
     sharedCount: Object.keys(generic).length,
     vencordOnlyCount: Object.keys(vencordOnly).length,
     equicordOnlyCount: Object.keys(equicordOnly).length,
+  };
+};
+
+const summarizeCounts = (values: readonly string[], limit: number): DiagnosticBucket[] =>
+  Array.from(
+    values.reduce(
+      (counts, value) => counts.set(value, (counts.get(value) ?? 0) + 1),
+      new Map<string, number>()
+    ),
+    ([name, count]) => ({ name, count })
+  )
+    .sort((left, right) => right.count - left.count || left.name.localeCompare(right.name))
+    .slice(0, limit);
+
+const summarizeDiagnostics = (
+  diagnostics: readonly ParseDiagnostic[]
+): GeneratePluginOptionsDiagnosticSummary | undefined => {
+  if (diagnostics.length === 0) return undefined;
+
+  return {
+    total: diagnostics.length,
+    byKind: summarizeCounts(
+      diagnostics.map((diagnostic) => diagnostic.kind),
+      Number.POSITIVE_INFINITY
+    ),
+    topPlugins: summarizeCounts(
+      diagnostics.flatMap((diagnostic) =>
+        diagnostic.pluginName === undefined ? [] : [diagnostic.pluginName]
+      ),
+      10
+    ),
+    topFiles: summarizeCounts(
+      diagnostics.flatMap((diagnostic) =>
+        diagnostic.filePath === undefined ? [] : [diagnostic.filePath]
+      ),
+      10
+    ),
   };
 };
 
@@ -221,6 +270,7 @@ export const runGeneratePluginOptions = async (
       ...(vencordResult.diagnostics ?? []),
       ...(equicordResult?.diagnostics ?? []),
     ];
+    const diagnosticSummary = summarizeDiagnostics(diagnostics);
     if (verbose && diagnostics.length > 0) {
       parsedParams.logger.warn(`Parser reported ${diagnostics.length} diagnostics`);
       for (const diagnostic of diagnostics.slice(0, 20)) {
@@ -251,12 +301,13 @@ export const runGeneratePluginOptions = async (
       );
     }
 
-    const summary = await writeOutputs({
+    const outputSummary = await writeOutputs({
       generic: categorized.generic,
       vencordOnly: categorized.vencordOnly,
       equicordOnly: categorized.equicordOnly,
       outputPath: parsedParams.outputPath,
     });
+    const summary = diagnosticSummary ? { ...outputSummary, diagnosticSummary } : outputSummary;
 
     // Extract migrations and update deprecated.json + migrations.json
     try {

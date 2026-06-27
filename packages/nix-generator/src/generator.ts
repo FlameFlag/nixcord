@@ -83,7 +83,7 @@ const resolveDefault = (setting: Readonly<PluginSetting>): unknown | undefined =
     isBoolean(val) ||
     isNull(val) ||
     isArray(val) ||
-    (isObject(val) && !isNull(val))
+    isObject(val)
   )
     return val;
 
@@ -142,9 +142,7 @@ export const generatePluginJson = (
     }
   }
 
-  const description = category
-    ? (config.description ?? '') + categoryLabel(category)
-    : (config.description ?? '');
+  const description = `${config.description ?? ''}${category ? categoryLabel(category) : ''}`;
 
   return { description, settings };
 };

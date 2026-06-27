@@ -1,4 +1,3 @@
-// fallow-ignore-file code-duplication
 import type {
   ArrayLiteralExpression,
   CallExpression,
@@ -60,7 +59,10 @@ export const isObjectValuesCall = (call: CallExpression): boolean =>
   call.getExpression().asKindOrThrow(SyntaxKind.PropertyAccessExpression).getName() ===
     METHOD_NAME_VALUES;
 
-export const isObjectKeysMapCall = (call: CallExpression): boolean => {
+const isObjectMethodMapCall = (
+  call: CallExpression,
+  isObjectMethodCall: (call: CallExpression) => boolean
+): boolean => {
   if (!isMapCall(call)) return false;
   const target = call
     .getExpression()
@@ -68,21 +70,15 @@ export const isObjectKeysMapCall = (call: CallExpression): boolean => {
     .getExpression();
   return (
     target.getKind() === SyntaxKind.CallExpression &&
-    isObjectKeysCall(target.asKindOrThrow(SyntaxKind.CallExpression))
+    isObjectMethodCall(target.asKindOrThrow(SyntaxKind.CallExpression))
   );
 };
 
-export const isObjectValuesMapCall = (call: CallExpression): boolean => {
-  if (!isMapCall(call)) return false;
-  const target = call
-    .getExpression()
-    .asKindOrThrow(SyntaxKind.PropertyAccessExpression)
-    .getExpression();
-  return (
-    target.getKind() === SyntaxKind.CallExpression &&
-    isObjectValuesCall(target.asKindOrThrow(SyntaxKind.CallExpression))
-  );
-};
+export const isObjectKeysMapCall = (call: CallExpression): boolean =>
+  isObjectMethodMapCall(call, isObjectKeysCall);
+
+export const isObjectValuesMapCall = (call: CallExpression): boolean =>
+  isObjectMethodMapCall(call, isObjectValuesCall);
 
 export const getObjectMethodTargetIdentifier = (call: CallExpression): Identifier | undefined =>
   getFirstArgumentOfKind<Identifier>(call, SyntaxKind.Identifier);

@@ -15,8 +15,8 @@
   "types": "./src/index.ts",
   "dependencies": {
     "@nixcord/shared": "workspace:*",
-    "zod": "^4.3.6",
-    "ts-morph": "^27.0.2"
+    "ts-morph": "^28.0.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "fast-check": "^4.8.0"
